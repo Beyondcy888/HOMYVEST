@@ -205,14 +205,14 @@ export default {
     body: 'Arena olahraga, kafe, atau kantor. Jika itu lebih cocok untuk lahan dan lingkungan Anda, itulah yang kami sarankan.',
     padel: {
       stages: [
-        'Lantai dasar: delapan lapangan, kafe, dan ruang ganti.',
+        'Lantai dasar: lapangan, kafe, dan ruang ganti.',
         'Lantai atas: lounge di atas kafe, dan strukturnya mulai berdiri.',
         'Selesai: satu arena, siap dipesan.',
       ],
       tag: 'Arena padel · Desain oleh HomyEight',
       skip: 'Lewati arena padel',
       sceneAlt:
-        'Model animasi arena padel yang tersusun dalam tiga tahap: lantai dasar dengan delapan lapangan, lantai atas dan strukturnya, lalu arena yang selesai dengan atap melengkung.',
+        'Model animasi arena padel yang tersusun dalam tiga tahap: lantai dasar dengan lapangannya, lantai atas dan strukturnya, lalu arena yang selesai dengan atap melengkung.',
     },
     ways: {
       label: 'Tiga cara lain untuk menghasilkan',
@@ -591,7 +591,7 @@ export default {
     'others/athero-2': 'Kafe kontainer dan tribun di samping lapangan mini soccer.',
     'others/athero-3': 'Pintu masuk arena dengan mobil terparkir dan pagar tinggi di sekeliling lapangan.',
     'others/athero-4': 'Pemandangan lapangan mini soccer dengan lampu sorot dan jaring.',
-    'padel-clean/padel-1': 'Model potongan lantai dasar arena padel dengan delapan lapangan dan kafe.',
+    'padel-clean/padel-1': 'Model potongan lantai dasar arena padel dengan empat lapangan dan kafe.',
     'padel-clean/padel-2': 'Model potongan arena padel dengan lantai atas, pepohonan, dan strukturnya.',
     'padel-clean/padel-3': 'Model arena padel yang selesai dengan atap melengkung.',
   },

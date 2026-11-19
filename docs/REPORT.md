@@ -72,6 +72,7 @@ Full list with reasons and how to undo each: [DECISIONS.md](DECISIONS.md).
 10. **Render-led walkthrough uses a slow drift instead of depth parallax** on its full-bleed renders: seven stacked depth views would compete with the scroll.
 
 ## Needs you
+0. **Confirm the number of padel courts.** Your copy said "Ground floor: eight courts, a café and changing rooms." The padel renders show four courts (three side by side and one turned), so the 3D model has four. To avoid a visible contradiction the line now reads "Ground floor: the courts, a café and changing rooms." (ID: "Lantai dasar: lapangan, kafe, dan ruang ganti."). If the real hall has eight, tell me or edit `beyond.padel.stages` in `src/i18n/en.js` and `id.js`.
 1. **Project captions.** Every image shows the placeholder "Project Name / City, Province / Type · Year". Fill them in one file: `src/content/projects.js`.
 2. **Confirm the project categories** (Kost / Guesthouse / Homestay / Villa) in the same file. They are provisional.
 3. **Domain.** Replace `homyvest.example` in `index.html` (6 places), `public/robots.txt` and `public/sitemap.xml`.

@@ -196,14 +196,14 @@ export default {
     body: "A sports hall, a café, an office. If that suits your land and your area better, that's what we'll suggest.",
     padel: {
       stages: [
-        'Ground floor: eight courts, a café and changing rooms.',
+        'Ground floor: the courts, a café and changing rooms.',
         'Upper floor: a lounge above the café, and the structure rises.',
         'Finished: one hall, ready to book.',
       ],
       tag: 'Padel hall · Design by HomyEight',
       skip: 'Skip the padel hall',
       sceneAlt:
-        'Animated model of a padel hall assembling in three stages: the ground floor with eight courts, the upper floor and structure, then the finished hall with its vaulted roof.',
+        'Animated model of a padel hall assembling in three stages: the ground floor with its courts, the upper floor and structure, then the finished hall with its vaulted roof.',
     },
     ways: {
       label: 'Three more ways to earn',
@@ -567,7 +567,7 @@ export default {
     'others/athero-2': 'Container café and stands beside a mini soccer pitch.',
     'others/athero-3': 'Arena entrance with parked cars and a tall fence around the pitch.',
     'others/athero-4': 'View across a mini soccer pitch with floodlights and nets.',
-    'padel-clean/padel-1': 'Cut-away model view of a padel hall ground floor with eight courts and a café.',
+    'padel-clean/padel-1': 'Cut-away model view of a padel hall ground floor with four courts and a café.',
     'padel-clean/padel-2': 'Cut-away model view of the padel hall with its upper floor, trees and structure.',
     'padel-clean/padel-3': 'Model view of the finished padel hall with its vaulted roof.',
   },

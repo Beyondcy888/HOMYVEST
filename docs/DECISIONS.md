@@ -87,3 +87,19 @@ Each entry: date · decision · reason · how to undo.
 ### D17. Calculator store details
 - **Decision:** besides the documented state, the store persists `edited` (which example prices the visitor has replaced, for the "Example" tag) and keeps `touched`, `entry` and `focusRule` in memory only. Restored values that differ from the examples count as "touched", so WhatsApp links carry them.
 - **Reason:** docs/05 §4 and §13 describe these behaviours without fixing where the flags live.
+
+
+### D18. The padel line no longer says "eight courts"
+- **Decision:** `beyond.padel.stages[0]` reads "Ground floor: the courts, a café and changing rooms." (ID: "Lantai dasar: lapangan, kafe, dan ruang ganti."). docs/07 §8 has "eight courts" / "delapan lapangan".
+- **Reason:** the padel renders show four glass-walled courts (three side by side and one turned; each has its net and service lines, and the figures in the render give the scale: 10 × 20 m each). docs/06 §4.3 describes "8 courts in 4 blocks of 2", which counts each court's two halves. The 3D model is built from the renders, so it has four. A page that says eight beside a model and a render that show four would be a visible false claim. docs/02 §6 says to rewrite a sentence rather than use a number that is not certain, so the number was removed, not replaced.
+- **Undo:** edit the two strings in `src/i18n/en.js` and `src/i18n/id.js` (and the expected text in `qa/motion.spec.ts`). Flagged for the owner in REPORT.md.
+
+### D19. The main session built the Maxone section shell; fallback B drifts instead of using depth parallax
+- **Decision:** `src/sections/HomyEight/Walkthrough.jsx`, `MiniMap.jsx` and `StopCard.jsx` (cards, mini-map, render-led fallback B, static mode) were written by the main session on top of the sub-agent's route data (`src/three/maxone/route.js`); the sub-agent builds only the 3D room. In fallback B the full-bleed renders move with a slow Ken Burns drift and cross-fade; they do not also use the depth-parallax shader.
+- **Reason:** after the first session was cut off by the usage limit, the walkthrough had to be whole without waiting for the 3D room. Seven stacked full-bleed depth views would all redraw during the scroll and compete with it; the drift alone gives the sense of travel. The cards over the 3D room do use depth parallax, paused while a card is off stage.
+- **Undo:** n/a.
+
+### D20. The 3D room is off by default until it passes its comparison
+- **Decision:** `SCENE_READY` in `Walkthrough.jsx` gates the 3D room. While it is false every visitor gets fallback B and `?maxone=3d` shows the room.
+- **Reason:** docs/06 §3.11 time-box: an unconvincing room must not ship as the default.
+- **Undo:** set `SCENE_READY = true`.

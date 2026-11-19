@@ -48,7 +48,6 @@ export function fitDistance(box, az, polar, aspect) {
 }
 
 const ease = (u) => (u < 0.5 ? 2 * u * u : 1 - (-2 * u + 2) ** 2 / 2); // power2.inOut
-const _v = new THREE.Vector3();
 
 /**
  *  - scene:   the current description (kits/calcModels.js)

@@ -28,7 +28,7 @@ test.describe('prefers-reduced-motion: reduce', () => {
       // walkthrough and padel stages
       'Step inside one of our projects.',
       'The dining hall',
-      'Ground floor: eight courts, a café and changing rooms.',
+      'Ground floor: the courts, a café and changing rooms.',
       'Finished: one hall, ready to book.',
       // the rest of the story
       'We help idle land and buildings start earning.',

@@ -3,7 +3,7 @@
 // model stands between it and the camera, or when it would overlap a more important one.
 import { useMemo, useRef } from 'react';
 import * as THREE from 'three';
-import { useFrame } from '@react-three/fiber';
+import { useFrame, useThree } from '@react-three/fiber';
 import { Html } from '@react-three/drei';
 import { useT } from '../../i18n/useT.js';
 import { fmtArea, fmtMetres, fmtNum } from '../../i18n/format.js';
@@ -67,6 +67,7 @@ function blocked(p, cam, bx, y0, y1) {
 
 export default function Labels({ engine, scene }) {
   const { t, lang } = useT();
+  const invalidate = useThree((s) => s.invalidate);
   const items = useMemo(
     () =>
       scene.labels
@@ -131,7 +132,9 @@ export default function Labels({ engine, scene }) {
         <span
           ref={(el) => {
             els.current[it.key] = el;
+            // <Html> renders its content a moment later: measure and place it on the next frame
             if (el && state.current[it.key]) { state.current[it.key].shown = null; state.current[it.key].text = null; }
+            if (el) invalidate();
           }}
           className="calc-label"
           data-type={it.type}
