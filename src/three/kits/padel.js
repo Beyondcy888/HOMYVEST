@@ -137,7 +137,7 @@ const RAIL = 0.1;
 function courtStage1(court) {
   const b = courtFrame(court);
   const h = SITE.cut;
-  const surface = [b(-HALF_L, HALF_L, -HALF_W, HALF_W, 0, 0.06, { tone: 'deep' })];
+  const surface = [b(-HALF_L, HALF_L, -HALF_W, HALF_W, 0, 0.06, {}, 'turf')]; // its own kind: a grey plate, so a court reads at a glance
   const lines = [
     b(-6.95 - 0.04, -6.95 + 0.04, -HALF_W, HALF_W, 0.06, 0.075, { tone: 'wall' }),
     b(6.95 - 0.04, 6.95 + 0.04, -HALF_W, HALF_W, 0.06, 0.075, { tone: 'wall' }),

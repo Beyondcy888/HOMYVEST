@@ -50,8 +50,8 @@
 }
 
 /* ---------- Asymmetric gallery ----------
-   A 12-column grid. Each size takes a span; a repeating offset pattern staggers images left and
-   right and drops alternate ones down, so no two rows line up like a uniform grid. */
+   A 12-column grid composed row by row in src/content/projects.js: each image has a size (its span),
+   a start column and a drop, so rows alternate left and right and no two line up like a uniform grid. */
 .pj-grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -65,41 +65,27 @@
   gap: 14px;
   margin: 0;
   min-width: 0;
+  grid-column: var(--start, auto) / span var(--span, 6);
+  margin-top: calc(var(--drop, 0) * clamp(20px, 5vh, 64px));
 }
 .pj--xl {
-  grid-column: span 8;
+  --span: 8;
 }
 .pj--l {
-  grid-column: span 6;
+  --span: 6;
 }
 .pj--m {
-  grid-column: span 5;
+  --span: 5;
 }
 .pj--s {
-  grid-column: span 3;
+  --span: 3;
   /* low-res sources never render wider than 420 CSS px */
   max-width: 420px;
 }
-/* stagger: every other item drops; wide ones alternate sides */
-.pj:nth-child(4n + 2) {
-  margin-top: clamp(40px, 12vh, 150px);
-}
-.pj:nth-child(6n + 4) {
-  margin-top: clamp(20px, 6vh, 80px);
-}
-.pj--xl:nth-child(even) {
-  grid-column: 5 / span 8;
-}
-.pj--l:nth-child(3n) {
-  grid-column: 7 / span 6;
-}
-.pj--m:nth-child(4n + 3) {
-  grid-column-end: -1;
-}
 /* A filtered view is a calmer, regular arrangement: fewer images, so no orphaned gaps. */
 .pj-grid[data-filtered='true'] .pj {
-  margin-top: 0;
   grid-column: span 6;
+  margin-top: 0;
 }
 .pj-grid[data-filtered='true'] .pj--s {
   grid-column: span 3;

@@ -39,7 +39,7 @@ export function buildCafe({ origin = [0, 0, 0], stage = 0, seed = 5, height = 4.
   const walls = [
     box([W, H, T], at(0, y + H / 2, -hz + T / 2), { tone: 'wall' }),
     box([T, H, D - T], at(hx - T / 2, y + H / 2, T / 2), { tone: 'wall' }),
-    box([T, H, hz - T], at(-hx + T / 2, y + H / 2, -(hz - T) / 2 - T / 2 + T / 2), { tone: 'wall' }),
+    box([T, H, hz - T], at(-hx + T / 2, y + H / 2, -(hz - T) / 2), { tone: 'wall' }),
     box([T, HEAD, hz - T], at(-hx + T / 2, y + H - HEAD / 2, (hz - T) / 2), { tone: 'wall' }),
     box([W, HEAD, T], at(0, y + H - HEAD / 2, hz - T / 2), { tone: 'wall' }),
   ];

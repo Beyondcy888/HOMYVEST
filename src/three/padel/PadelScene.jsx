@@ -22,7 +22,7 @@ import { VIEW, unproject, imageBounds, unionBounds } from './alignment.js';
 import { REVEALS, stageProgress, stageAt, zoomFactor, slabOpacity } from './timeline.js';
 import alignment from '../../content/padel-alignment.json';
 import { media } from '../../components/media/Img.jsx';
-import { useTheme } from '../../lib/theme.js';
+import { useTheme, cssVar } from '../../lib/theme.js';
 import { query } from '../../lib/storage.js';
 import { span, easeInOut, easeOutQuart } from '../../lib/scroll/progress.js';
 import './PadelScene.css';
@@ -185,7 +185,7 @@ function place(geometry, p0) {
 }
 
 /** The vault comes down from above the frame as rigid bodies and settles. */
-function Roof({ stages, materials }) {
+function Roof({ stages, materials, extra }) {
   const refs = useRef({});
   const geo = useMemo(() => {
     const { p0, p1, centreQ, half, glassHalf, strip } = ROOF;
@@ -220,11 +220,11 @@ function Roof({ stages, materials }) {
   };
   return (
     <group>
-      <mesh ref={hold('strip')} geometry={geo.strip} material={materials.dark} castShadow receiveShadow visible={false} />
-      <mesh ref={hold('front')} geometry={geo.front} material={materials.dark} castShadow receiveShadow visible={false} />
-      <mesh ref={hold('back')} geometry={geo.back} material={materials.dark} castShadow receiveShadow visible={false} />
-      <mesh ref={hold('glass')} geometry={geo.glass} material={materials.glass} visible={false} />
-      <mesh ref={hold('gable')} geometry={geo.gable} material={materials.glass} visible={false} />
+      <mesh ref={hold('strip')} geometry={geo.strip} material={extra.roof} castShadow receiveShadow visible={false} />
+      <mesh ref={hold('front')} geometry={geo.front} material={extra.roof} castShadow receiveShadow visible={false} />
+      <mesh ref={hold('back')} geometry={geo.back} material={extra.roof} castShadow receiveShadow visible={false} />
+      <mesh ref={hold('glass')} geometry={geo.glass} material={extra.glass} visible={false} />
+      <mesh ref={hold('gable')} geometry={geo.gable} material={extra.glass} visible={false} />
     </group>
   );
 }
@@ -233,11 +233,26 @@ function Model({ stages }) {
   const theme = useTheme();
   const materials = useMemo(() => createClayMaterials(theme), [theme]);
   useEffect(() => () => materials.dispose(), [materials]);
+  // Three tones of its own, all colourless: grey court plates so the courts read at a glance, glass
+  // strong enough to show the court walls, and a roof dark that still shows the vault's facets.
+  const extra = useMemo(() => {
+    const clay = new THREE.Color(cssVar('--clay') || '#eeece6');
+    const turf = new THREE.MeshStandardMaterial({ color: clay.clone().multiplyScalar(0.7), roughness: 0.95, metalness: 0 });
+    const glass = materials.glass.clone();
+    glass.color.multiplyScalar(0.8);
+    glass.opacity = theme === 'dark' ? 0.36 : 0.3;
+    const roof = materials.dark.clone();
+    roof.color.set('#2d2c29');
+    roof.roughness = 0.72;
+    return { turf, glass, roof };
+  }, [materials, theme]);
+  useEffect(() => () => Object.values(extra).forEach((m) => m.dispose()), [extra]);
   const kit = useMemo(() => prepare(buildPadel(), { seed: 31, spread: 0.8 }), []);
+  const materialFor = useMemo(() => (kind) => (kind === 'turf' ? extra.turf : kind === 'glass' ? extra.glass : null), [extra]);
   return (
     <>
-      <AssemblyMesh kit={kit} stages={stages} materials={materials} />
-      <Roof stages={stages} materials={materials} />
+      <AssemblyMesh kit={kit} stages={stages} materials={materials} materialFor={materialFor} />
+      <Roof stages={stages} materials={materials} extra={extra} />
     </>
   );
 }

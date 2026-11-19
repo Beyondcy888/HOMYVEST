@@ -49,21 +49,26 @@ export const captions = {
   'office/office-3': { name: null, place: null, type: null, status: null },
 };
 
-/** Order and size of images in the Projects gallery. `size` is a layout hint, not a crop. */
+/**
+ * The Projects gallery, composed row by row on a 12-column grid.
+ *   size   xl = 8 columns · l = 6 · m = 5 · s = 3 (low-resolution sources are always s)
+ *   start  the column the image starts at; an image whose start is left of the previous one begins a new row
+ *   drop   0–2: how far the image hangs below the top of its row, for the staggered rhythm
+ */
 export const gallery = [
-  { id: 'facades/facade-1', size: 'xl' },
-  { id: 'interiors/interior-5', size: 'l' },
-  { id: 'interiors/interior-2', size: 'm' },
-  { id: 'facades/benhil-1', size: 's' },
-  { id: 'facades/benhil-2', size: 's' },
-  { id: 'interiors/interior-1', size: 'l' },
-  { id: 'interiors/interior-4', size: 'm' },
-  { id: 'facades/best', size: 'xl' },
-  { id: 'interiors/interior-6', size: 'l' },
-  { id: 'interiors/interior-3', size: 'm' },
-  { id: 'facades/facade-2', size: 's' },
-  { id: 'interiors/interior-7', size: 'l' },
-  { id: 'interiors/interior-8', size: 'm' },
+  { id: 'facades/facade-1', size: 'xl', start: 1 },
+  { id: 'interiors/interior-5', size: 'l', start: 1, drop: 2 },
+  { id: 'interiors/interior-2', size: 'm', start: 8 },
+  { id: 'facades/benhil-1', size: 's', start: 1, drop: 1 },
+  { id: 'facades/benhil-2', size: 's', start: 4 },
+  { id: 'interiors/interior-1', size: 'l', start: 7, drop: 2 },
+  { id: 'facades/best', size: 'xl', start: 5 },
+  { id: 'interiors/interior-4', size: 'm', start: 1 },
+  { id: 'interiors/interior-6', size: 'l', start: 7, drop: 2 },
+  { id: 'interiors/interior-3', size: 'm', start: 3, drop: 1 },
+  { id: 'facades/facade-2', size: 's', start: 10 },
+  { id: 'interiors/interior-7', size: 'l', start: 1 },
+  { id: 'interiors/interior-8', size: 'm', start: 8, drop: 2 },
 ];
 
 export const CATEGORIES = ['kost', 'guesthouse', 'homestay', 'villa'];

@@ -113,7 +113,7 @@ export default function Projects() {
             // Low-res sources are only ever shown small (docs/08 §2).
             const size = entry.lowRes ? 's' : item.size;
             return (
-              <figure key={item.id} className={`pj pj--${size}`} data-flip-id={item.id} data-id={item.id}>
+              <figure key={item.id} className={`pj pj--${size}`} data-flip-id={item.id} data-id={item.id} style={{ '--start': item.start, '--drop': item.drop ?? 0 }}>
                 <button
                   type="button"
                   className="pj__open"
