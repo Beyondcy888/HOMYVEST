@@ -1,0 +1,148 @@
+{
+  "available": true,
+  "model": "depth-anything/Depth-Anything-V2-Small-hf",
+  "note": "28 depth maps",
+  "generatedAt": "2026-11-20T01:17:14",
+  "items": {
+    "cafe/cafe": {
+      "url": "/media/depth/cafe/cafe.webp",
+      "width": 1280,
+      "height": 720
+    },
+    "facades/benhil-1": {
+      "url": "/media/depth/facades/benhil-1.webp",
+      "width": 810,
+      "height": 607
+    },
+    "facades/benhil-2": {
+      "url": "/media/depth/facades/benhil-2.webp",
+      "width": 810,
+      "height": 537
+    },
+    "facades/best": {
+      "url": "/media/depth/facades/best.webp",
+      "width": 1280,
+      "height": 720
+    },
+    "facades/facade-1": {
+      "url": "/media/depth/facades/facade-1.webp",
+      "width": 1280,
+      "height": 853
+    },
+    "facades/facade-2": {
+      "url": "/media/depth/facades/facade-2.webp",
+      "width": 1123,
+      "height": 632
+    },
+    "interiors/interior-1": {
+      "url": "/media/depth/interiors/interior-1.webp",
+      "width": 1280,
+      "height": 720
+    },
+    "interiors/interior-2": {
+      "url": "/media/depth/interiors/interior-2.webp",
+      "width": 1280,
+      "height": 658
+    },
+    "interiors/interior-3": {
+      "url": "/media/depth/interiors/interior-3.webp",
+      "width": 1280,
+      "height": 720
+    },
+    "interiors/interior-4": {
+      "url": "/media/depth/interiors/interior-4.webp",
+      "width": 1280,
+      "height": 854
+    },
+    "interiors/interior-5": {
+      "url": "/media/depth/interiors/interior-5.webp",
+      "width": 1280,
+      "height": 720
+    },
+    "interiors/interior-6": {
+      "url": "/media/depth/interiors/interior-6.webp",
+      "width": 1280,
+      "height": 720
+    },
+    "interiors/interior-7": {
+      "url": "/media/depth/interiors/interior-7.webp",
+      "width": 1280,
+      "height": 720
+    },
+    "interiors/interior-8": {
+      "url": "/media/depth/interiors/interior-8.webp",
+      "width": 1280,
+      "height": 720
+    },
+    "maxone/1": {
+      "url": "/media/depth/maxone/1.webp",
+      "width": 1280,
+      "height": 825
+    },
+    "maxone/2": {
+      "url": "/media/depth/maxone/2.webp",
+      "width": 1280,
+      "height": 825
+    },
+    "maxone/3": {
+      "url": "/media/depth/maxone/3.webp",
+      "width": 1280,
+      "height": 825
+    },
+    "maxone/4": {
+      "url": "/media/depth/maxone/4.webp",
+      "width": 1280,
+      "height": 894
+    },
+    "maxone/5": {
+      "url": "/media/depth/maxone/5.webp",
+      "width": 1280,
+      "height": 825
+    },
+    "maxone/6": {
+      "url": "/media/depth/maxone/6.webp",
+      "width": 1280,
+      "height": 825
+    },
+    "maxone/7": {
+      "url": "/media/depth/maxone/7.webp",
+      "width": 1280,
+      "height": 825
+    },
+    "office/office-1": {
+      "url": "/media/depth/office/office-1.webp",
+      "width": 1280,
+      "height": 722
+    },
+    "office/office-2": {
+      "url": "/media/depth/office/office-2.webp",
+      "width": 1280,
+      "height": 722
+    },
+    "office/office-3": {
+      "url": "/media/depth/office/office-3.webp",
+      "width": 1280,
+      "height": 722
+    },
+    "others/athero-1": {
+      "url": "/media/depth/others/athero-1.webp",
+      "width": 1280,
+      "height": 719
+    },
+    "others/athero-2": {
+      "url": "/media/depth/others/athero-2.webp",
+      "width": 1280,
+      "height": 719
+    },
+    "others/athero-3": {
+      "url": "/media/depth/others/athero-3.webp",
+      "width": 1280,
+      "height": 719
+    },
+    "others/athero-4": {
+      "url": "/media/depth/others/athero-4.webp",
+      "width": 1280,
+      "height": 719
+    }
+  }
+}

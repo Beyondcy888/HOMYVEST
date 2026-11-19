@@ -1,0 +1,601 @@
+{
+  "generatedAt": "2026-11-19T18:13:26.496Z",
+  "renderRoot": "renders",
+  "images": {
+    "cafe/cafe": {
+      "id": "cafe/cafe",
+      "group": "cafe",
+      "source": "renders/cafe/cafe.png",
+      "width": 1920,
+      "height": 1080,
+      "aspect": 1.7778,
+      "hasAlpha": false,
+      "largestUrl": "/media/cafe/cafe-1920.webp",
+      "srcset": {
+        "avif": "/media/cafe/cafe-480.avif 480w, /media/cafe/cafe-800.avif 800w, /media/cafe/cafe-1200.avif 1200w, /media/cafe/cafe-1600.avif 1600w, /media/cafe/cafe-1920.avif 1920w",
+        "webp": "/media/cafe/cafe-480.webp 480w, /media/cafe/cafe-800.webp 800w, /media/cafe/cafe-1200.webp 1200w, /media/cafe/cafe-1600.webp 1600w, /media/cafe/cafe-1920.webp 1920w"
+      },
+      "lqip": "data:image/webp;base64,UklGRrgAAABXRUJQVlA4IKwAAABwBACdASoYAA4APu1iqU2ppaOiMAgBMB2JQBOgMYiZ1gzsWuM3fzMxN4JzAAD9/Ah/LtUKWGud8geeglPOxZKZARKV6oNaXkVjrisHtWZO+Sq1vZlAJv28oX0ubYR3Pxz3ydArha5Nk/Y3e23IT87/3vz/ywjwMpfBjGiPGwn0ZE1Ff/uqOlU3qtl56b2lelt+HCf/iaGBj0DMDw7Pe+cc1zr0LR5kqS9kwAAA",
+      "dominant": "#c8b8b8",
+      "lowRes": false
+    },
+    "facades/benhil-1": {
+      "id": "facades/benhil-1",
+      "group": "facades",
+      "source": "renders/facades/Benhil-1.png",
+      "width": 810,
+      "height": 607,
+      "aspect": 1.3344,
+      "hasAlpha": false,
+      "largestUrl": "/media/facades/benhil-1-810.webp",
+      "srcset": {
+        "avif": "/media/facades/benhil-1-480.avif 480w, /media/facades/benhil-1-800.avif 800w, /media/facades/benhil-1-810.avif 810w",
+        "webp": "/media/facades/benhil-1-480.webp 480w, /media/facades/benhil-1-800.webp 800w, /media/facades/benhil-1-810.webp 810w"
+      },
+      "lqip": "data:image/webp;base64,UklGRvQAAABXRUJQVlA4WAoAAAAQAAAAFwAAEQAAQUxQSBoAAAABFyAQSPwdY3mNiIgDIQFhvOeyHtH/CaBeAFZQOCC0AAAAUAUAnQEqGAASAD7tbq9SKaYkIqgIATAdiUAWI+Yt/8BA4vBV8kLGAs8Dcq1B4Te1/DCgAP5NKvUPcULM02YOfezfTHtNFzy/3IDSr8NkQpEsoIdCimrxV34SnCnTTpbFE3SiT06D5pe1lZqi1Z1u79SqHJitHgLHabgdAZfqGnZH5tMBHUAGd7lVtlKIcKq7u9uOAgwRcGd7+OOeiFoSij2r4JpefL7qwAEmU0gGlEV1JgAA",
+      "dominant": "#88a8d8",
+      "lowRes": true
+    },
+    "facades/benhil-2": {
+      "id": "facades/benhil-2",
+      "group": "facades",
+      "source": "renders/facades/Benhil-2.png",
+      "width": 810,
+      "height": 537,
+      "aspect": 1.5084,
+      "hasAlpha": false,
+      "largestUrl": "/media/facades/benhil-2-810.webp",
+      "srcset": {
+        "avif": "/media/facades/benhil-2-480.avif 480w, /media/facades/benhil-2-800.avif 800w, /media/facades/benhil-2-810.avif 810w",
+        "webp": "/media/facades/benhil-2-480.webp 480w, /media/facades/benhil-2-800.webp 800w, /media/facades/benhil-2-810.webp 810w"
+      },
+      "lqip": "data:image/webp;base64,UklGRuoAAABXRUJQVlA4WAoAAAAQAAAAFwAADwAAQUxQSBoAAAABFyAQSPwdY3mNiIgDIQFhvOeqARH9nwDqGVZQOCCqAAAAkAQAnQEqGAAQAD7tYqlNqaWjojAIATAdiWgAnTKAJcATnWH2lYOvMQYBxxIIAP5NF4WlWwqRPTdx9brxcFQsJoVpR7K9dpKHf15Jm5nqwL4gc3Piw9TehNUqGlzGGYAsK9TL7K1eYFv2x4odMnUZZjM62zVqSEhODtSMcdJzZyQv2GatX/cxiW3gjtGpG6q4UpaNOW3nMJHdm3kQMvWGiVhRQ82KBywAAAA=",
+      "dominant": "#a8c8f8",
+      "lowRes": true
+    },
+    "facades/best": {
+      "id": "facades/best",
+      "group": "facades",
+      "source": "renders/facades/best.jpeg",
+      "width": 1600,
+      "height": 900,
+      "aspect": 1.7778,
+      "hasAlpha": false,
+      "largestUrl": "/media/facades/best-1600.webp",
+      "srcset": {
+        "avif": "/media/facades/best-480.avif 480w, /media/facades/best-800.avif 800w, /media/facades/best-1200.avif 1200w, /media/facades/best-1600.avif 1600w",
+        "webp": "/media/facades/best-480.webp 480w, /media/facades/best-800.webp 800w, /media/facades/best-1200.webp 1200w, /media/facades/best-1600.webp 1600w"
+      },
+      "lqip": "data:image/webp;base64,UklGRp4AAABXRUJQVlA4IJIAAAAQBACdASoYAA0APu1iqU2ppaOiMAgBMB2JQBOgBF5ofSZ6kh1F9xy49AD+QA2z7qDX5NEeitnu5M96421+EX5bGiN/rzP2RghoPdcc/w4AaPumOOg7xeqd6+sZMVbZDuqA8f9tFa991P72/KI/AaQMbkd5x/rt3s5FsgjY7e4XSoGAvtoTyFmrZ5mx5pOZHfIAAA==",
+      "dominant": "#8898b8",
+      "lowRes": false
+    },
+    "facades/facade-1": {
+      "id": "facades/facade-1",
+      "group": "facades",
+      "source": "renders/facades/facade (1).png",
+      "width": 1536,
+      "height": 1024,
+      "aspect": 1.5,
+      "hasAlpha": false,
+      "largestUrl": "/media/facades/facade-1-1536.webp",
+      "srcset": {
+        "avif": "/media/facades/facade-1-480.avif 480w, /media/facades/facade-1-800.avif 800w, /media/facades/facade-1-1200.avif 1200w, /media/facades/facade-1-1536.avif 1536w",
+        "webp": "/media/facades/facade-1-480.webp 480w, /media/facades/facade-1-800.webp 800w, /media/facades/facade-1-1200.webp 1200w, /media/facades/facade-1-1536.webp 1536w"
+      },
+      "lqip": "data:image/webp;base64,UklGRqwAAABXRUJQVlA4IKAAAABQBACdASoYABAAPu1iqU2ppaOiMAgBMB2JYgCdAYvCxfGkDA8kqhqHhNoAAP5aAvWdaNLer3qy23ndmmJzL8HRA8oWUeLlTS10WxTXAZNK4GDE24ZoPoTTSBTs63xTovL0wd35B43X0d4Re0e03G8AaLKkQdxHsaL224yf9TUxFw2Os40rnvL62CSLjv8FMksy4QuOTTgTGuRm6ZwugAAA",
+      "dominant": "#b8c8e8",
+      "lowRes": false
+    },
+    "facades/facade-2": {
+      "id": "facades/facade-2",
+      "group": "facades",
+      "source": "renders/facades/facade (2).png",
+      "width": 1123,
+      "height": 632,
+      "aspect": 1.7769,
+      "hasAlpha": false,
+      "largestUrl": "/media/facades/facade-2-1123.webp",
+      "srcset": {
+        "avif": "/media/facades/facade-2-480.avif 480w, /media/facades/facade-2-800.avif 800w, /media/facades/facade-2-1123.avif 1123w",
+        "webp": "/media/facades/facade-2-480.webp 480w, /media/facades/facade-2-800.webp 800w, /media/facades/facade-2-1123.webp 1123w"
+      },
+      "lqip": "data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAAAQBACdASoYAA4APu1kqk4ppaQiMAgBMB2JYgCdH8ACdLlr9KPHsLMBAAD+5z7jnIFRbeGIWM5gqeWvNEQZcDR8yMc1nkgY3DrO/j1IgDgGR+hfQL9rlrJ21UBePh097mGcEUn0Ys+ZH2BL4vOmVf7whbog2VZbPnoVIAAA",
+      "dominant": "#c8d8f8",
+      "lowRes": true
+    },
+    "interiors/interior-1": {
+      "id": "interiors/interior-1",
+      "group": "interiors",
+      "source": "renders/interiors/interior (1).png",
+      "width": 1920,
+      "height": 1080,
+      "aspect": 1.7778,
+      "hasAlpha": false,
+      "largestUrl": "/media/interiors/interior-1-1920.webp",
+      "srcset": {
+        "avif": "/media/interiors/interior-1-480.avif 480w, /media/interiors/interior-1-800.avif 800w, /media/interiors/interior-1-1200.avif 1200w, /media/interiors/interior-1-1600.avif 1600w, /media/interiors/interior-1-1920.avif 1920w",
+        "webp": "/media/interiors/interior-1-480.webp 480w, /media/interiors/interior-1-800.webp 800w, /media/interiors/interior-1-1200.webp 1200w, /media/interiors/interior-1-1600.webp 1600w, /media/interiors/interior-1-1920.webp 1920w"
+      },
+      "lqip": "data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAADwAwCdASoYAA4APu1kqU4ppaOiMAgBMB2JQBOgBBzdQAXJbyFApuwAAP1GbxbtGxWHKp5uDZ3CJolR7ranAxHH9RXnIB3CuK4VgtjhPIuh3dk8WG2ISivQ0jA19WiZ4if5p7oF5qLhzZZ9lRIyVJEnnURnhmoXQAA=",
+      "dominant": "#887878",
+      "lowRes": false
+    },
+    "interiors/interior-2": {
+      "id": "interiors/interior-2",
+      "group": "interiors",
+      "source": "renders/interiors/interior (2).png",
+      "width": 1483,
+      "height": 762,
+      "aspect": 1.9462,
+      "hasAlpha": false,
+      "largestUrl": "/media/interiors/interior-2-1483.webp",
+      "srcset": {
+        "avif": "/media/interiors/interior-2-480.avif 480w, /media/interiors/interior-2-800.avif 800w, /media/interiors/interior-2-1200.avif 1200w, /media/interiors/interior-2-1483.avif 1483w",
+        "webp": "/media/interiors/interior-2-480.webp 480w, /media/interiors/interior-2-800.webp 800w, /media/interiors/interior-2-1200.webp 1200w, /media/interiors/interior-2-1483.webp 1483w"
+      },
+      "lqip": "data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAAAQBACdASoYAAwAPu1iqU2ppaOiMAgBMB2JZACdAYxOo0m0VDJmAiQAAAD+mtOs1ym0BjebC9nnxGbgwpTaYbU/DPfGHa2W1tS5enexmESZpwxkKdYLDzvA2OkP449LZ/BbWtfVvJiN9V8oq7ulLrQkpIKCDsOWs3KqDtBrzNavsyb28Eh+2i4aKWvv8hL/PKhSvt4wAAA=",
+      "dominant": "#d8d8d8",
+      "lowRes": false
+    },
+    "interiors/interior-3": {
+      "id": "interiors/interior-3",
+      "group": "interiors",
+      "source": "renders/interiors/interior (3).png",
+      "width": 1672,
+      "height": 941,
+      "aspect": 1.7768,
+      "hasAlpha": false,
+      "largestUrl": "/media/interiors/interior-3-1672.webp",
+      "srcset": {
+        "avif": "/media/interiors/interior-3-480.avif 480w, /media/interiors/interior-3-800.avif 800w, /media/interiors/interior-3-1200.avif 1200w, /media/interiors/interior-3-1600.avif 1600w, /media/interiors/interior-3-1672.avif 1672w",
+        "webp": "/media/interiors/interior-3-480.webp 480w, /media/interiors/interior-3-800.webp 800w, /media/interiors/interior-3-1200.webp 1200w, /media/interiors/interior-3-1600.webp 1600w, /media/interiors/interior-3-1672.webp 1672w"
+      },
+      "lqip": "data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAAAQBACdASoYAA4APu1iqU2ppaOiMAgBMB2JQBOgAw54ZtgdEF+Si/CGYADztqTub9GT9D+5HIlVcanpEkRkRnmOPBEowzvrpste9sH0bu+x77sJTUCh+0ORLryNsPD8tX2EP0N4RbzXhUPpqpzTX+aXNBrsryyn3AA=",
+      "dominant": "#a88878",
+      "lowRes": false
+    },
+    "interiors/interior-4": {
+      "id": "interiors/interior-4",
+      "group": "interiors",
+      "source": "renders/interiors/interior (4).png",
+      "width": 1535,
+      "height": 1024,
+      "aspect": 1.499,
+      "hasAlpha": false,
+      "largestUrl": "/media/interiors/interior-4-1535.webp",
+      "srcset": {
+        "avif": "/media/interiors/interior-4-480.avif 480w, /media/interiors/interior-4-800.avif 800w, /media/interiors/interior-4-1200.avif 1200w, /media/interiors/interior-4-1535.avif 1535w",
+        "webp": "/media/interiors/interior-4-480.webp 480w, /media/interiors/interior-4-800.webp 800w, /media/interiors/interior-4-1200.webp 1200w, /media/interiors/interior-4-1535.webp 1535w"
+      },
+      "lqip": "data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAADQAwCdASoYABAAPu1iqU2ppaOiMAgBMB2JQBadAxr6jUeChL0wC8AA/mAkwKviiYQ4Tw7uEPBCWdxVAl/Iu5BnVPOJZqSU/jOR0t2psL+KYKjwpU5P1gGqfnxPRc6ASm+sXN1oTFCizi6+pUfcrfkr7g3qtiOrCYB7q4S6cAA=",
+      "dominant": "#c8b8a8",
+      "lowRes": false
+    },
+    "interiors/interior-5": {
+      "id": "interiors/interior-5",
+      "group": "interiors",
+      "source": "renders/interiors/interior (5).png",
+      "width": 1920,
+      "height": 1080,
+      "aspect": 1.7778,
+      "hasAlpha": false,
+      "largestUrl": "/media/interiors/interior-5-1920.webp",
+      "srcset": {
+        "avif": "/media/interiors/interior-5-480.avif 480w, /media/interiors/interior-5-800.avif 800w, /media/interiors/interior-5-1200.avif 1200w, /media/interiors/interior-5-1600.avif 1600w, /media/interiors/interior-5-1920.avif 1920w",
+        "webp": "/media/interiors/interior-5-480.webp 480w, /media/interiors/interior-5-800.webp 800w, /media/interiors/interior-5-1200.webp 1200w, /media/interiors/interior-5-1600.webp 1600w, /media/interiors/interior-5-1920.webp 1920w"
+      },
+      "lqip": "data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAABwBACdASoYAA4APu1iqU2ppaQiMAgBMB2JQBOmUAS4onKCN0PVZxppqrD1vAD+wUf+c7VMjkezisnMWc6xlz6OWIVVnK3Yndh2NcPULCu8tXgUuqoe99HrX9tuNXa/mueTR1vRZjPAlTkrYpLlFRRJ3hJlMQhjWMlSLZXBPuTFRQeIMe/QUuMtRpedoSaaX99O9OIUWqICC2n5+MAAAA==",
+      "dominant": "#b8b8b8",
+      "lowRes": false
+    },
+    "interiors/interior-6": {
+      "id": "interiors/interior-6",
+      "group": "interiors",
+      "source": "renders/interiors/interior (6).png",
+      "width": 1920,
+      "height": 1080,
+      "aspect": 1.7778,
+      "hasAlpha": false,
+      "largestUrl": "/media/interiors/interior-6-1920.webp",
+      "srcset": {
+        "avif": "/media/interiors/interior-6-480.avif 480w, /media/interiors/interior-6-800.avif 800w, /media/interiors/interior-6-1200.avif 1200w, /media/interiors/interior-6-1600.avif 1600w, /media/interiors/interior-6-1920.avif 1920w",
+        "webp": "/media/interiors/interior-6-480.webp 480w, /media/interiors/interior-6-800.webp 800w, /media/interiors/interior-6-1200.webp 1200w, /media/interiors/interior-6-1600.webp 1600w, /media/interiors/interior-6-1920.webp 1920w"
+      },
+      "lqip": "data:image/webp;base64,UklGRqYAAABXRUJQVlA4IJoAAAAwBACdASoYAA4APu1iqU2ppaQiMAgBMB2JYgCdMoABqBVJOrerUhe8mAAA/tDlJr2dDDEB67WghRBZZTc7qzlZRjdHavS9KK5yVWvauw07q1ptvo6Z8zLs9ffTooFvjtssGgfD7nzkBCr2HW6U/urMKPxz5X8UateUx7dms4bp1kPY/+vqv882jjatsWNhc8upIHShbc4wcAAA",
+      "dominant": "#e8e8f8",
+      "lowRes": false
+    },
+    "interiors/interior-7": {
+      "id": "interiors/interior-7",
+      "group": "interiors",
+      "source": "renders/interiors/interior (7).png",
+      "width": 1920,
+      "height": 1080,
+      "aspect": 1.7778,
+      "hasAlpha": false,
+      "largestUrl": "/media/interiors/interior-7-1920.webp",
+      "srcset": {
+        "avif": "/media/interiors/interior-7-480.avif 480w, /media/interiors/interior-7-800.avif 800w, /media/interiors/interior-7-1200.avif 1200w, /media/interiors/interior-7-1600.avif 1600w, /media/interiors/interior-7-1920.avif 1920w",
+        "webp": "/media/interiors/interior-7-480.webp 480w, /media/interiors/interior-7-800.webp 800w, /media/interiors/interior-7-1200.webp 1200w, /media/interiors/interior-7-1600.webp 1600w, /media/interiors/interior-7-1920.webp 1920w"
+      },
+      "lqip": "data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAACQAwCdASoYAA4APu1iqU2ppaOiMAgBMB2JZwDG9AoLLGF7o6AgAP6zvHpHMBZEmlFk7Qe6SknatnLLLbGAiQUEnJcXiBQWqmAKu0XOlJWb8N8WXxP78EQXVN+DsRXFIYPRDjIMNzTiEUtJ4ynW0ARlSCmM8pv4MNwpWGwoAAA=",
+      "dominant": "#c8c8c8",
+      "lowRes": false
+    },
+    "interiors/interior-8": {
+      "id": "interiors/interior-8",
+      "group": "interiors",
+      "source": "renders/interiors/interior (8).png",
+      "width": 1920,
+      "height": 1080,
+      "aspect": 1.7778,
+      "hasAlpha": false,
+      "largestUrl": "/media/interiors/interior-8-1920.webp",
+      "srcset": {
+        "avif": "/media/interiors/interior-8-480.avif 480w, /media/interiors/interior-8-800.avif 800w, /media/interiors/interior-8-1200.avif 1200w, /media/interiors/interior-8-1600.avif 1600w, /media/interiors/interior-8-1920.avif 1920w",
+        "webp": "/media/interiors/interior-8-480.webp 480w, /media/interiors/interior-8-800.webp 800w, /media/interiors/interior-8-1200.webp 1200w, /media/interiors/interior-8-1600.webp 1600w, /media/interiors/interior-8-1920.webp 1920w"
+      },
+      "lqip": "data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAAAQBACdASoYAA4APu1iqU2ppaOiMAgBMB2JQBWAA+VoFBPFs7SJZ4j5AADKzIudzGOedfAoRddyWoRS/1UYYPMO2loc/WCeww0yAMXmCZ9bupV34xhLAoaBfqrmhsGK7LJ8L7vGs9fqNpwBqaqxcTr3PEmgrF8AAAA=",
+      "dominant": "#988888",
+      "lowRes": false
+    },
+    "maxone/1": {
+      "id": "maxone/1",
+      "group": "maxone",
+      "source": "renders/maxone/1.png",
+      "width": 1976,
+      "height": 1274,
+      "aspect": 1.551,
+      "hasAlpha": false,
+      "largestUrl": "/media/maxone/1-1976.webp",
+      "srcset": {
+        "avif": "/media/maxone/1-480.avif 480w, /media/maxone/1-800.avif 800w, /media/maxone/1-1200.avif 1200w, /media/maxone/1-1600.avif 1600w, /media/maxone/1-1976.avif 1976w",
+        "webp": "/media/maxone/1-480.webp 480w, /media/maxone/1-800.webp 800w, /media/maxone/1-1200.webp 1200w, /media/maxone/1-1600.webp 1600w, /media/maxone/1-1976.webp 1976w"
+      },
+      "lqip": "data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAAAQBACdASoYAA8APu1iqU2ppaQiMAgBMB2JYwDCgBtDoCtjL/B6ajtZAAD9K/w9b68e0APg7Q5uoRwB/LEI1hlTOtuX6d+55oMcoaz8pwpsQsYV5pt+FxxYiIGLhhHfG/Ih0HWVBOkPjtAGVUtUmWY9NiM6GMa5Ikh0Jgmai8l3a6564Kb65ongAAA=",
+      "dominant": "#c8c8c8",
+      "lowRes": false
+    },
+    "maxone/2": {
+      "id": "maxone/2",
+      "group": "maxone",
+      "source": "renders/maxone/2.png",
+      "width": 1976,
+      "height": 1274,
+      "aspect": 1.551,
+      "hasAlpha": false,
+      "largestUrl": "/media/maxone/2-1976.webp",
+      "srcset": {
+        "avif": "/media/maxone/2-480.avif 480w, /media/maxone/2-800.avif 800w, /media/maxone/2-1200.avif 1200w, /media/maxone/2-1600.avif 1600w, /media/maxone/2-1976.avif 1976w",
+        "webp": "/media/maxone/2-480.webp 480w, /media/maxone/2-800.webp 800w, /media/maxone/2-1200.webp 1200w, /media/maxone/2-1600.webp 1600w, /media/maxone/2-1976.webp 1976w"
+      },
+      "lqip": "data:image/webp;base64,UklGRqAAAABXRUJQVlA4IJQAAABQBACdASoYAA8APu1iqU2ppaOiMAgBMB2JZQC7AywBrMu4KNHu+4yzgsIAAP6FMuY+FOrxoqYZQkx4c1C1zm5CSlFTSkHYzjOaUq4Sa55w7JYooBDr7uJJUJfVny9dvO+LLlvWuoYgB7xc/YYIUAMbgHhPNpJ5Yy9k1MO2yYjlSsNQ2NCulgSvsVQzH4ulxlhqAAAA",
+      "dominant": "#585858",
+      "lowRes": false
+    },
+    "maxone/3": {
+      "id": "maxone/3",
+      "group": "maxone",
+      "source": "renders/maxone/3.png",
+      "width": 1976,
+      "height": 1274,
+      "aspect": 1.551,
+      "hasAlpha": false,
+      "largestUrl": "/media/maxone/3-1976.webp",
+      "srcset": {
+        "avif": "/media/maxone/3-480.avif 480w, /media/maxone/3-800.avif 800w, /media/maxone/3-1200.avif 1200w, /media/maxone/3-1600.avif 1600w, /media/maxone/3-1976.avif 1976w",
+        "webp": "/media/maxone/3-480.webp 480w, /media/maxone/3-800.webp 800w, /media/maxone/3-1200.webp 1200w, /media/maxone/3-1600.webp 1600w, /media/maxone/3-1976.webp 1976w"
+      },
+      "lqip": "data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAACQAwCdASoYAA8APu1iqU2ppaOiMAgBMB2JYwAAJXGiz/wpH9eAAPgh6aYrGTLdPmQJBEp6BAMLd5X8owM4Q1dFlsEJ6bI8AnoTvq6wvQJs+q7Raxz8c1aLIkLYRsKzMc2TGWcAorMCCc8zjPDMhyyhsHnZejp94BcMSNszuAJQAAAA",
+      "dominant": "#686868",
+      "lowRes": false
+    },
+    "maxone/4": {
+      "id": "maxone/4",
+      "group": "maxone",
+      "source": "renders/maxone/4.png",
+      "width": 1976,
+      "height": 1380,
+      "aspect": 1.4319,
+      "hasAlpha": false,
+      "largestUrl": "/media/maxone/4-1976.webp",
+      "srcset": {
+        "avif": "/media/maxone/4-480.avif 480w, /media/maxone/4-800.avif 800w, /media/maxone/4-1200.avif 1200w, /media/maxone/4-1600.avif 1600w, /media/maxone/4-1976.avif 1976w",
+        "webp": "/media/maxone/4-480.webp 480w, /media/maxone/4-800.webp 800w, /media/maxone/4-1200.webp 1200w, /media/maxone/4-1600.webp 1600w, /media/maxone/4-1976.webp 1976w"
+      },
+      "lqip": "data:image/webp;base64,UklGRqYAAABXRUJQVlA4IJoAAABwBACdASoYABEAPu1srVCppiQiqAqpMB2JaQDM1agAy+MZIXDNpD9YDre7QADrOts8ug8lDadjyK1/EqZj4E+tW7rxpEem60FBku/gqznG9TLDEOy7I0eYYGZgs+uLx6w9xX20BP8+/Fktu4uiwjrsBk6Oh8vkZeGdfK7nOQizY+M0kh416L35sdDM4Gqo8ewmZx/uIVXh+AAA",
+      "dominant": "#080808",
+      "lowRes": false
+    },
+    "maxone/5": {
+      "id": "maxone/5",
+      "group": "maxone",
+      "source": "renders/maxone/5.png",
+      "width": 1976,
+      "height": 1274,
+      "aspect": 1.551,
+      "hasAlpha": false,
+      "largestUrl": "/media/maxone/5-1976.webp",
+      "srcset": {
+        "avif": "/media/maxone/5-480.avif 480w, /media/maxone/5-800.avif 800w, /media/maxone/5-1200.avif 1200w, /media/maxone/5-1600.avif 1600w, /media/maxone/5-1976.avif 1976w",
+        "webp": "/media/maxone/5-480.webp 480w, /media/maxone/5-800.webp 800w, /media/maxone/5-1200.webp 1200w, /media/maxone/5-1600.webp 1600w, /media/maxone/5-1976.webp 1976w"
+      },
+      "lqip": "data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAADQAwCdASoYAA8APu1iqU2ppaOiMAgBMB2JYwC7ABPDoM2F++f4XwAA/VPvht3jVEE7XMsoavtAbr2l3AClHBr/JEA7ZI7eOxrPo3KNXHchNJN2YEqIKJ0ZGTSMRF1UbNILgEudnCv8+UfJw02AVtNB7si/AG2z/g8DQAAA",
+      "dominant": "#787868",
+      "lowRes": false
+    },
+    "maxone/6": {
+      "id": "maxone/6",
+      "group": "maxone",
+      "source": "renders/maxone/6.png",
+      "width": 1976,
+      "height": 1274,
+      "aspect": 1.551,
+      "hasAlpha": false,
+      "largestUrl": "/media/maxone/6-1976.webp",
+      "srcset": {
+        "avif": "/media/maxone/6-480.avif 480w, /media/maxone/6-800.avif 800w, /media/maxone/6-1200.avif 1200w, /media/maxone/6-1600.avif 1600w, /media/maxone/6-1976.avif 1976w",
+        "webp": "/media/maxone/6-480.webp 480w, /media/maxone/6-800.webp 800w, /media/maxone/6-1200.webp 1200w, /media/maxone/6-1600.webp 1600w, /media/maxone/6-1976.webp 1976w"
+      },
+      "lqip": "data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAADQAwCdASoYAA8APu1iqU2ppaOiMAgBMB2JZwDCgCHes6mIrbKStsAA/s3aitRiXm9NW7ygS7CeuujbAcan7Wm2cwfHKmEEl4l0kq05bvshHFaalIlgFwPWP5iJP/jIAz5C2NP3+fJPeTHTpmdiGyQiKD1Hga84/wyKc8JfzUyQQAAA",
+      "dominant": "#484848",
+      "lowRes": false
+    },
+    "maxone/7": {
+      "id": "maxone/7",
+      "group": "maxone",
+      "source": "renders/maxone/7.png",
+      "width": 1976,
+      "height": 1274,
+      "aspect": 1.551,
+      "hasAlpha": false,
+      "largestUrl": "/media/maxone/7-1976.webp",
+      "srcset": {
+        "avif": "/media/maxone/7-480.avif 480w, /media/maxone/7-800.avif 800w, /media/maxone/7-1200.avif 1200w, /media/maxone/7-1600.avif 1600w, /media/maxone/7-1976.avif 1976w",
+        "webp": "/media/maxone/7-480.webp 480w, /media/maxone/7-800.webp 800w, /media/maxone/7-1200.webp 1200w, /media/maxone/7-1600.webp 1600w, /media/maxone/7-1976.webp 1976w"
+      },
+      "lqip": "data:image/webp;base64,UklGRq4AAABXRUJQVlA4IKIAAABQBACdASoYAA8APu1iqU2ppaOiMAgBMB2JZQAD5aIOHNOLmpAhZQWYrRuAAP2h2LWgOYrIpFcRwGH1szm6Ngs7sSnBts0WjhLEYL2LG22tt05Bl39icx8wgpHaXS1hasjfkCWzpTVUWdAvK/Sb9q/J93Vgl1B+8Q//fY82OVB5riZ2Em6CPIv99l4RIP2mF2D7uAoKfkIWjI56HNxCR7AAAAA=",
+      "dominant": "#a8a898",
+      "lowRes": false
+    },
+    "maxone/layout": {
+      "id": "maxone/layout",
+      "group": "maxone",
+      "source": "renders/maxone/layout.png",
+      "width": 1976,
+      "height": 1274,
+      "aspect": 1.551,
+      "hasAlpha": false,
+      "largestUrl": "/media/maxone/layout-1976.webp",
+      "srcset": {
+        "avif": "/media/maxone/layout-480.avif 480w, /media/maxone/layout-800.avif 800w, /media/maxone/layout-1200.avif 1200w, /media/maxone/layout-1600.avif 1600w, /media/maxone/layout-1976.avif 1976w",
+        "webp": "/media/maxone/layout-480.webp 480w, /media/maxone/layout-800.webp 800w, /media/maxone/layout-1200.webp 1200w, /media/maxone/layout-1600.webp 1600w, /media/maxone/layout-1976.webp 1976w"
+      },
+      "lqip": "data:image/webp;base64,UklGRpAAAABXRUJQVlA4IIQAAADQAwCdASoYAA8APu1iqU2ppaOiMAgBMB2JZwAAXBihqDbhcXhOq4AA/vHemlEssU66epZrvi3nOYKk9sivtpwcouzbCwt9LaXjpFIg4/2HSiQ9V5Kv3DOth2VTwBLe2KOI4Omqj6fLvRAvBp7thUfrBGO6GzqOyS4qMTnoe8ZEywQPAAA=",
+      "dominant": "#f8f8f8",
+      "lowRes": false
+    },
+    "office/office-1": {
+      "id": "office/office-1",
+      "group": "office",
+      "source": "renders/office/office (1).png",
+      "width": 2008,
+      "height": 1133,
+      "aspect": 1.7723,
+      "hasAlpha": false,
+      "largestUrl": "/media/office/office-1-2008.webp",
+      "srcset": {
+        "avif": "/media/office/office-1-480.avif 480w, /media/office/office-1-800.avif 800w, /media/office/office-1-1200.avif 1200w, /media/office/office-1-1600.avif 1600w, /media/office/office-1-2000.avif 2000w, /media/office/office-1-2008.avif 2008w",
+        "webp": "/media/office/office-1-480.webp 480w, /media/office/office-1-800.webp 800w, /media/office/office-1-1200.webp 1200w, /media/office/office-1-1600.webp 1600w, /media/office/office-1-2000.webp 2000w, /media/office/office-1-2008.webp 2008w"
+      },
+      "lqip": "data:image/webp;base64,UklGRrgAAABXRUJQVlA4IKwAAABQBACdASoYAA4APu1iqU2ppaOiMAgBMB2JbACdAdwLgnVdQBs1z+wyjPOAAPhatcgxAf2L14rlxDLthKGJ2neu6fFcWxKqJ6nKdtSPN3IFtkuioWJa/w7c2h9P8LRfhzf50fjmLZHOFMBbI8JnLA9HKCHmbdE5MYLIf8bZEaIXNcCrcFhcjmp0khoF8knMWVt+YgOkM9qwFRGaTc3su5Fr7TwREzKw0/BB1AAA",
+      "dominant": "#c8a898",
+      "lowRes": false
+    },
+    "office/office-2": {
+      "id": "office/office-2",
+      "group": "office",
+      "source": "renders/office/office (2).png",
+      "width": 2008,
+      "height": 1133,
+      "aspect": 1.7723,
+      "hasAlpha": false,
+      "largestUrl": "/media/office/office-2-2008.webp",
+      "srcset": {
+        "avif": "/media/office/office-2-480.avif 480w, /media/office/office-2-800.avif 800w, /media/office/office-2-1200.avif 1200w, /media/office/office-2-1600.avif 1600w, /media/office/office-2-2000.avif 2000w, /media/office/office-2-2008.avif 2008w",
+        "webp": "/media/office/office-2-480.webp 480w, /media/office/office-2-800.webp 800w, /media/office/office-2-1200.webp 1200w, /media/office/office-2-1600.webp 1600w, /media/office/office-2-2000.webp 2000w, /media/office/office-2-2008.webp 2008w"
+      },
+      "lqip": "data:image/webp;base64,UklGRqYAAABXRUJQVlA4IJoAAABQBACdASoYAA4APu1iqU2ppaOiMAgBMB2JQBOmUAS4AeJA6B4tvlKPeewgAP3qhgOUpxeL8zgfpECk2WPo/JAcKYOQyavuImyPDjwW38WTq3uh2vUSAmGuUEDW1wA/rw1Eq2nqy/EHxr31RpgiR0PM/ECGCvQPQFl8DR6E6cjjPknqY7o51Wn83e+8e7/tnuttMvjBMCItWAAA",
+      "dominant": "#887868",
+      "lowRes": false
+    },
+    "office/office-3": {
+      "id": "office/office-3",
+      "group": "office",
+      "source": "renders/office/office (3).png",
+      "width": 2008,
+      "height": 1133,
+      "aspect": 1.7723,
+      "hasAlpha": false,
+      "largestUrl": "/media/office/office-3-2008.webp",
+      "srcset": {
+        "avif": "/media/office/office-3-480.avif 480w, /media/office/office-3-800.avif 800w, /media/office/office-3-1200.avif 1200w, /media/office/office-3-1600.avif 1600w, /media/office/office-3-2000.avif 2000w, /media/office/office-3-2008.avif 2008w",
+        "webp": "/media/office/office-3-480.webp 480w, /media/office/office-3-800.webp 800w, /media/office/office-3-1200.webp 1200w, /media/office/office-3-1600.webp 1600w, /media/office/office-3-2000.webp 2000w, /media/office/office-3-2008.webp 2008w"
+      },
+      "lqip": "data:image/webp;base64,UklGRrgAAABXRUJQVlA4IKwAAAAQBACdASoYAA4APu1iqU2ppaOiMAgBMB2JQBOnKAAM7uOSiXIt5qfcRAD80SUOUJkUMb28a8dj69fP02ZsO4sRxpGBTplgY5zTaL7UWf93EWmAb3I7gOlPyq2u2eaD9lZHJwNs6s3tDLfZwdmSfYDQS47ACEDDfkFf586rK9nbRCvI6RjnsYwy/eta7+JDObTVmqau9NGD2eSBxXmtC03a6wX29xZtAEzZH3AA",
+      "dominant": "#080808",
+      "lowRes": false
+    },
+    "others/athero-1": {
+      "id": "others/athero-1",
+      "group": "others",
+      "source": "renders/others/athero (1).png",
+      "width": 2820,
+      "height": 1585,
+      "aspect": 1.7792,
+      "hasAlpha": false,
+      "largestUrl": "/media/others/athero-1-2820.webp",
+      "srcset": {
+        "avif": "/media/others/athero-1-480.avif 480w, /media/others/athero-1-800.avif 800w, /media/others/athero-1-1200.avif 1200w, /media/others/athero-1-1600.avif 1600w, /media/others/athero-1-2000.avif 2000w, /media/others/athero-1-2560.avif 2560w, /media/others/athero-1-2820.avif 2820w",
+        "webp": "/media/others/athero-1-480.webp 480w, /media/others/athero-1-800.webp 800w, /media/others/athero-1-1200.webp 1200w, /media/others/athero-1-1600.webp 1600w, /media/others/athero-1-2000.webp 2000w, /media/others/athero-1-2560.webp 2560w, /media/others/athero-1-2820.webp 2820w"
+      },
+      "lqip": "data:image/webp;base64,UklGRswAAABXRUJQVlA4WAoAAAAQAAAAFwAADAAAQUxQSB4AAAABF6AQQADE37nRiIh4QJhtNMlJHud+JxDR/+RqyAJWUDggiAAAABAEAJ0BKhgADQA+7WKpTamlo6IwCAEwHYllAAPkadp3T+pdRYWHZ9YAAP6VC8H883pbKOOYTAFqJxmrp5GT/GuK5KvDwRX4Hm/Y/mDJIJH3iqkTxNiGYfNQu1SYyNu/F70sNaMx5y+UUi03DSXIJCMXwdEpRr6K7eTv2BE4rKhbyXMsaSDgAAA=",
+      "dominant": "#f8f8f8",
+      "lowRes": false
+    },
+    "others/athero-2": {
+      "id": "others/athero-2",
+      "group": "others",
+      "source": "renders/others/athero (2).png",
+      "width": 2820,
+      "height": 1585,
+      "aspect": 1.7792,
+      "hasAlpha": false,
+      "largestUrl": "/media/others/athero-2-2820.webp",
+      "srcset": {
+        "avif": "/media/others/athero-2-480.avif 480w, /media/others/athero-2-800.avif 800w, /media/others/athero-2-1200.avif 1200w, /media/others/athero-2-1600.avif 1600w, /media/others/athero-2-2000.avif 2000w, /media/others/athero-2-2560.avif 2560w, /media/others/athero-2-2820.avif 2820w",
+        "webp": "/media/others/athero-2-480.webp 480w, /media/others/athero-2-800.webp 800w, /media/others/athero-2-1200.webp 1200w, /media/others/athero-2-1600.webp 1600w, /media/others/athero-2-2000.webp 2000w, /media/others/athero-2-2560.webp 2560w, /media/others/athero-2-2820.webp 2820w"
+      },
+      "lqip": "data:image/webp;base64,UklGRr4AAABXRUJQVlA4WAoAAAAQAAAAFwAADAAAQUxQSB4AAAABF6AQQADE37nRiIh4QJhtNMlJHud+JxDR/+RqyAJWUDggegAAAPADAJ0BKhgADQA+7WKpTamlo6IwCAEwHYlkALsAGSo+qF/oc61rsuAA/Ss2T3HFU5DWVNF5GPv13n0G+2bi+vJxt+3m5wfgaztW0REcO0UlEMIO3KnR3eDvtq/c6JQzaHDyz2Lwd+1z727BbjSSFU4fTtR7Lqd7tAAA",
+      "dominant": "#c8d8e8",
+      "lowRes": false
+    },
+    "others/athero-3": {
+      "id": "others/athero-3",
+      "group": "others",
+      "source": "renders/others/athero (3).png",
+      "width": 2820,
+      "height": 1585,
+      "aspect": 1.7792,
+      "hasAlpha": false,
+      "largestUrl": "/media/others/athero-3-2820.webp",
+      "srcset": {
+        "avif": "/media/others/athero-3-480.avif 480w, /media/others/athero-3-800.avif 800w, /media/others/athero-3-1200.avif 1200w, /media/others/athero-3-1600.avif 1600w, /media/others/athero-3-2000.avif 2000w, /media/others/athero-3-2560.avif 2560w, /media/others/athero-3-2820.avif 2820w",
+        "webp": "/media/others/athero-3-480.webp 480w, /media/others/athero-3-800.webp 800w, /media/others/athero-3-1200.webp 1200w, /media/others/athero-3-1600.webp 1600w, /media/others/athero-3-2000.webp 2000w, /media/others/athero-3-2560.webp 2560w, /media/others/athero-3-2820.webp 2820w"
+      },
+      "lqip": "data:image/webp;base64,UklGRswAAABXRUJQVlA4WAoAAAAQAAAAFwAADAAAQUxQSB4AAAABF6AQQADE37nRiIh4QJhtNMlJHud+JxDR/+RqyAJWUDggiAAAABAEAJ0BKhgADQA+7WKpTamlo6IwCAEwHYljALDsI+2iVZd9yhowQk0EAP3ZrGWouSlVdibPUUnS93PYf80C/CPgQm7INlF7585+P2zLhxemeY7ElELEZjiXALRyKURCQSp1w9t/5UbxdnuBQq/ZczMJDrc3hdnpaOGPPRdLOzgUoSFpMBkAAAA=",
+      "dominant": "#c8d8e8",
+      "lowRes": false
+    },
+    "others/athero-4": {
+      "id": "others/athero-4",
+      "group": "others",
+      "source": "renders/others/athero (4).png",
+      "width": 2820,
+      "height": 1585,
+      "aspect": 1.7792,
+      "hasAlpha": false,
+      "largestUrl": "/media/others/athero-4-2820.webp",
+      "srcset": {
+        "avif": "/media/others/athero-4-480.avif 480w, /media/others/athero-4-800.avif 800w, /media/others/athero-4-1200.avif 1200w, /media/others/athero-4-1600.avif 1600w, /media/others/athero-4-2000.avif 2000w, /media/others/athero-4-2560.avif 2560w, /media/others/athero-4-2820.avif 2820w",
+        "webp": "/media/others/athero-4-480.webp 480w, /media/others/athero-4-800.webp 800w, /media/others/athero-4-1200.webp 1200w, /media/others/athero-4-1600.webp 1600w, /media/others/athero-4-2000.webp 2000w, /media/others/athero-4-2560.webp 2560w, /media/others/athero-4-2820.webp 2820w"
+      },
+      "lqip": "data:image/webp;base64,UklGRqwAAABXRUJQVlA4WAoAAAAQAAAAFwAADAAAQUxQSB4AAAABF6AQQADE37nRiIh4QJhtNMlJHud+JxDR/+RqyAJWUDggaAAAAPADAJ0BKhgADQA+7WSqTimlpCIwCAEwHYlAFYAD6KpcXhp5h+KUo+AA+SrHzlfXABo5TL1HH37t2NiQmeQa4+JoZr+sf4lnmcdvAwbR8VxwSQjvjWB8mYeHEdooRWUF9NfGghi8nKAA",
+      "dominant": "#a8b8d8",
+      "lowRes": false
+    },
+    "padel-court/1": {
+      "id": "padel-court/1",
+      "group": "padel-court",
+      "source": "renders/padel-court/1.png",
+      "width": 1917,
+      "height": 1367,
+      "aspect": 1.4023,
+      "hasAlpha": false,
+      "largestUrl": "/media/padel-court/1-1917.webp",
+      "srcset": {
+        "avif": "/media/padel-court/1-480.avif 480w, /media/padel-court/1-800.avif 800w, /media/padel-court/1-1200.avif 1200w, /media/padel-court/1-1600.avif 1600w, /media/padel-court/1-1917.avif 1917w",
+        "webp": "/media/padel-court/1-480.webp 480w, /media/padel-court/1-800.webp 800w, /media/padel-court/1-1200.webp 1200w, /media/padel-court/1-1600.webp 1600w, /media/padel-court/1-1917.webp 1917w"
+      },
+      "lqip": "data:image/webp;base64,UklGRpgAAABXRUJQVlA4IIwAAAAwBQCdASoYABEAPu1eqk4ppKOiMBgMATAdiUAYH5kEFOF/sCRqtxt8NYeQibBRLOtwAAD+8AMB53urTTcYQWs29qdJJvRjNZvO2SKkYbUVX4F8bxShA79AlIAbdbwHk4LLDqfqAAQSji9a0/jDp7iFmKe86lXMR8wA/QaPikzEYZOhZ6UxWAUDL2EAAA==",
+      "dominant": "#f8f8f8",
+      "lowRes": false
+    },
+    "padel-court/2": {
+      "id": "padel-court/2",
+      "group": "padel-court",
+      "source": "renders/padel-court/2.png",
+      "width": 1397,
+      "height": 982,
+      "aspect": 1.4226,
+      "hasAlpha": false,
+      "largestUrl": "/media/padel-court/2-1397.webp",
+      "srcset": {
+        "avif": "/media/padel-court/2-480.avif 480w, /media/padel-court/2-800.avif 800w, /media/padel-court/2-1200.avif 1200w, /media/padel-court/2-1397.avif 1397w",
+        "webp": "/media/padel-court/2-480.webp 480w, /media/padel-court/2-800.webp 800w, /media/padel-court/2-1200.webp 1200w, /media/padel-court/2-1397.webp 1397w"
+      },
+      "lqip": "data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAACwBACdASoYABEAPu1eqE4ppKOiMBgMATAdiWMAxzARUwP97hLiPP9GezOcEEAAAP7wEqji/FxnsXmko3+sXXcwk0OMf+8la1oesKFibkZPXMWfEMtvSivj2iJGI7gFFhHvK6tRrlrRETwqZJtkmePBBo/gTNXk6/OAaIQ25sdDO2vWC0ykerB4qVBmM2+jP4pQRzqAAAA=",
+      "dominant": "#f8f8f8",
+      "lowRes": false
+    },
+    "padel-court/3": {
+      "id": "padel-court/3",
+      "group": "padel-court",
+      "source": "renders/padel-court/3.png",
+      "width": 1370,
+      "height": 982,
+      "aspect": 1.3951,
+      "hasAlpha": false,
+      "largestUrl": "/media/padel-court/3-1370.webp",
+      "srcset": {
+        "avif": "/media/padel-court/3-480.avif 480w, /media/padel-court/3-800.avif 800w, /media/padel-court/3-1200.avif 1200w, /media/padel-court/3-1370.avif 1370w",
+        "webp": "/media/padel-court/3-480.webp 480w, /media/padel-court/3-800.webp 800w, /media/padel-court/3-1200.webp 1200w, /media/padel-court/3-1370.webp 1370w"
+      },
+      "lqip": "data:image/webp;base64,UklGRqwAAABXRUJQVlA4IKAAAAAwBQCdASoYABEAPu1eqE4ppKOiMBgMATAdiWMAxvWMHG23utSPf5n9cInVOvRkMBIgAAD+8BIuLVZV1SLYn8cTGpBDp556teYEzgXiLpuQZ7hHfIqgTLoeaYXxWTJT2tuNsdgwNxy9z08/WI4zWTVuVm6eqSI4t946a6X6APPNd0hVDetIk7/nSdenv22381lJn9MJyWnfu8X+bPzgCjQA",
+      "dominant": "#f8f8f8",
+      "lowRes": false
+    },
+    "padel-clean/padel-1": {
+      "id": "padel-clean/padel-1",
+      "group": "padel-clean",
+      "source": ".cache/padel-clean/padel-1.png",
+      "width": 1830,
+      "height": 1119,
+      "aspect": 1.6354,
+      "hasAlpha": true,
+      "largestUrl": "/media/padel-clean/padel-1-1830.webp",
+      "srcset": {
+        "avif": "/media/padel-clean/padel-1-480.avif 480w, /media/padel-clean/padel-1-800.avif 800w, /media/padel-clean/padel-1-1200.avif 1200w, /media/padel-clean/padel-1-1600.avif 1600w, /media/padel-clean/padel-1-1830.avif 1830w",
+        "webp": "/media/padel-clean/padel-1-480.webp 480w, /media/padel-clean/padel-1-800.webp 800w, /media/padel-clean/padel-1-1200.webp 1200w, /media/padel-clean/padel-1-1600.webp 1600w, /media/padel-clean/padel-1-1830.webp 1830w"
+      },
+      "lqip": "data:image/webp;base64,UklGRsYBAABXRUJQVlA4WAoAAAAQAAAAFwAADgAAQUxQSNIAAAABgGrbtrJln3NxSCS3qFHfgEFn0LRDdUua3aI1Bo/gVTPV3e3cu8v332eIiAlAagcZbYM4QbwKirf5v1EJdTEqisEXmufLZB5Uk1QFHRchGGmel+0KVUBUUXds9J4kvQXuNUMUgpLFO5oxpTf+rJcB2YNX9BYYa56v/RO3xn/PeDOGiZ5HemN0MIadKiB/9pNmEWY8aYGoCqp3A80n+H/e92ZBFRAHtJ7SW2CwwPN6OEWiOmT33dCb501vFpwgtVMUzn/ze64AqogWJ2hcboQ4QTJWUDggzgAAABAFAJ0BKhgADwA+7WKpTamlo6IwCAEwHYlsAJ0yhHcV/HZGZEZCgrPbUqzvx4eJ3AAA+bWn5f645//HFodMutSdfSOfVSvKOcuGmoAscK5K6MgiSChiGJUWGlhDMaYKxG+Ax2QcOPZKPdiV7IAh9cAl49CkC2twGJlPJgruP+l3CXg9SyTEWgK5bP6+V2mNEiCVLfotXBkQf0tCImRs+H3pBODg7ZOeeTGoV7fkXa76CHxfbP+iPP0NOnIbw2lihixziUPBVmxO7YuJAAAA",
+      "dominant": "#f8f8f8",
+      "lowRes": false
+    },
+    "padel-clean/padel-2": {
+      "id": "padel-clean/padel-2",
+      "group": "padel-clean",
+      "source": ".cache/padel-clean/padel-2.png",
+      "width": 1342,
+      "height": 895,
+      "aspect": 1.4994,
+      "hasAlpha": true,
+      "largestUrl": "/media/padel-clean/padel-2-1342.webp",
+      "srcset": {
+        "avif": "/media/padel-clean/padel-2-480.avif 480w, /media/padel-clean/padel-2-800.avif 800w, /media/padel-clean/padel-2-1200.avif 1200w, /media/padel-clean/padel-2-1342.avif 1342w",
+        "webp": "/media/padel-clean/padel-2-480.webp 480w, /media/padel-clean/padel-2-800.webp 800w, /media/padel-clean/padel-2-1200.webp 1200w, /media/padel-clean/padel-2-1342.webp 1342w"
+      },
+      "lqip": "data:image/webp;base64,UklGRsQBAABXRUJQVlA4WAoAAAAQAAAAFwAADwAAQUxQSOoAAAABkCPbtmpV6+yDWwPcJXJ3Ys28BWQWQQQ9oIh4MRZr5mSELt/d3eWefdaXJ12IiAlARCsoWOyGsQZRi0XazAd9v1QCsVGIhRm4Rf/786uHsxkQCWOsQe0OvVPy23N/PSywAlhBZugXnZL09O5NcNQKIwbJE6+ojuE9nfv4LJQD9J1RnWfUwdO3H2fGqU4Zq//GhXl+Z8wa8FfXNOk0OnXkdgXQfEjvNApVXvQDRiCj96iBD6MB30wlQwSwFhlzn+kc6Z3ypBxi8b+xgsI1pQuUryeTYA0iGmvQdUz+CmVCBFGLhYyt18NYg/BWUDggtAAAAPADAJ0BKhgAEAA+7WKpTamlo6IwCAEwHYlmAJ0BirSMw5ubf4qIv1gA/h+6BamRThTbeBtQq+6218PWcB5wzZOQXapHDzSmzoKhPuNlnUV3c+PpXaIiPf9HerjFyDidJYu8uIgNDQEqaIBX63weVDfBEnz3CXPtjSnzvPZtNmo2YQut/SUl/WYSoOyqtCkgXNIXeSi9tIxHSYVgV4rCn0B78p33tRC19LWtAFmpocQAZKAAAA==",
+      "dominant": "#f8f8f8",
+      "lowRes": false
+    },
+    "padel-clean/padel-3": {
+      "id": "padel-clean/padel-3",
+      "group": "padel-clean",
+      "source": ".cache/padel-clean/padel-3.png",
+      "width": 1341,
+      "height": 928,
+      "aspect": 1.445,
+      "hasAlpha": true,
+      "largestUrl": "/media/padel-clean/padel-3-1341.webp",
+      "srcset": {
+        "avif": "/media/padel-clean/padel-3-480.avif 480w, /media/padel-clean/padel-3-800.avif 800w, /media/padel-clean/padel-3-1200.avif 1200w, /media/padel-clean/padel-3-1341.avif 1341w",
+        "webp": "/media/padel-clean/padel-3-480.webp 480w, /media/padel-clean/padel-3-800.webp 800w, /media/padel-clean/padel-3-1200.webp 1200w, /media/padel-clean/padel-3-1341.webp 1341w"
+      },
+      "lqip": "data:image/webp;base64,UklGRvIBAABXRUJQVlA4WAoAAAAQAAAAFwAAEAAAQUxQSO0AAAABkFvbtmo3+9wrZmZmpgaYMqVSSgVIDUhmCBlS5szDLTC7AVuRhyPGc842vfdbiIgJQHIIyN26d7QVEpBWIrD0jMaPJxsQJUFiQP8ddzU17q0iyH9iQMXxz1Ql3dR5sRgChIistbe0X07SjPaT10QkCqbu09WZ7D+5D4KOq041pnZ+HC7Z+UBTZvqLV/fzpzoz9e/cPc1vzgxdjW8mVt7RNJ0pPx4sA2pPfKNakivtRi+ChIDRu6T6f1T5eBYSBZAILL+mqdOUfqUcMeC/IaJg+z1NnQ+mESJSxoCmCz+4t5mDKEgtUTC5vwYhIhEAVlA4IN4AAACwBACdASoYABEAPu1mqU+ppSOiMBgIATAdiWoAgABk5pGbRuOuG/mCnrxrmzAAAP6e9bKqvv3WgnshWGBbd7N+ASWBTVypWIi6Qv4i11YcK4JfTAJjbQV9D2wEzxqj58MPdfGyJ4nJpjR5x7JEGG6Xyf74I2G1usxaHK2SRsoN1rOltz0ZdIglCF4MibW9HCZGRldOUocLc+TI/9HJn9l2ANuTOnM/q/Xv1vyFmsObhFTFRTBsGQrsn/x637//JhK8N/8et+//yZyOp0uYVrbFnmrQbs/GIn3y2chKVgA=",
+      "dominant": "#f8f8f8",
+      "lowRes": false
+    }
+  }
+}

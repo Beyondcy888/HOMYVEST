@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.cache/
+.venv-depth/
+test-results/
+playwright-report/
+qa/tmp/
+*.log
+.DS_Store
+# Original renders stay on disk but out of git (large). public/media holds the web copies.
+render/
+renders/
+# Not part of the website
+HOMYVEST-DEV-PACK/
+Template-Analisis-Tapak-Zoning-Site-Planning-mindelevate/
