@@ -72,7 +72,9 @@ export default function SceneMount({ load, sceneProps, poster, label, active = t
 
   const live = active && mounted && !failed;
   return (
-    <div ref={ref} className={`scene-mount ${className}`} role="img" aria-label={label} data-ready={ready && live}>
+    // With a label the mount is one image to assistive tech. Interactive scenes (the calculator) pass no
+    // label and provide their own text alternative beside the canvas.
+    <div ref={ref} className={`scene-mount ${className}`} {...(label ? { role: 'img', 'aria-label': label } : {})} data-ready={ready && live}>
       <div className="scene-mount__poster" aria-hidden="true">
         {poster}
       </div>

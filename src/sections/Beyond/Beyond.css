@@ -1,0 +1,179 @@
+.beyond__intro {
+  padding-top: calc(var(--section) * 0.7);
+  padding-bottom: calc(var(--section) * 0.5);
+}
+.beyond__head {
+  row-gap: clamp(24px, 4vh, 44px);
+  align-items: end;
+}
+.beyond__headline {
+  grid-column: 1 / span 8;
+}
+.beyond__title {
+  max-width: 15ch;
+}
+.beyond__body {
+  grid-column: 8 / -1;
+  color: var(--ink-2);
+  max-width: 30em;
+}
+
+/* ---------- Three more ways to earn ---------- */
+.ways__track {
+  --p: 0;
+  display: flex;
+  align-items: stretch;
+  gap: clamp(32px, 6vw, 110px);
+  width: max-content;
+  height: 100%;
+  padding-inline: var(--gutter);
+}
+.ways--pinned .ways__track {
+  /* travels from its start to its end as --p goes 0 → 1; resize-proof because it is pure CSS */
+  transform: translate3d(calc((100vw - 100%) * var(--p)), 0, 0);
+  will-change: transform;
+  padding-block: clamp(56px, 9vh, 96px) clamp(40px, 7vh, 72px);
+}
+.ways__intro {
+  width: clamp(200px, 20vw, 320px);
+  display: flex;
+  align-items: flex-end;
+  flex: none;
+  padding-bottom: 8px;
+}
+.ways__intro h3 {
+  max-width: 9ch;
+}
+
+.way {
+  flex: none;
+  width: min(88vw, 1320px);
+  display: grid;
+  grid-template-columns: minmax(240px, 0.8fr) minmax(0, 1.7fr) minmax(0, 0.62fr);
+  grid-template-rows: minmax(0, 1fr);
+  column-gap: var(--col-gap);
+  align-items: end;
+  border-top: 1px solid var(--ink);
+  padding-top: clamp(20px, 3vh, 32px);
+}
+.way--single {
+  grid-template-columns: minmax(240px, 0.8fr) minmax(0, 2.3fr);
+  width: min(78vw, 1180px);
+}
+.way__text {
+  display: grid;
+  gap: 16px;
+  align-content: space-between;
+  height: 100%;
+  padding-right: clamp(8px, 2vw, 32px);
+}
+.way__title {
+  font-size: clamp(2.6rem, 5.6vw, 6.25rem);
+  font-weight: 800;
+  font-stretch: 104%;
+  letter-spacing: -0.035em;
+  line-height: 0.94;
+  align-self: start;
+  margin-top: 0.1em;
+}
+.way__body {
+  color: var(--ink-2);
+  max-width: 22ch;
+  text-wrap: balance;
+}
+.way__lead {
+  margin: 0;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 12px;
+  height: 100%;
+  min-height: 0;
+}
+.way__lead-img {
+  min-height: 0;
+}
+.way__more {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: var(--col-gap);
+  height: 100%;
+  min-height: 0;
+  padding-bottom: 62px; /* lines up with the lead image, above its caption */
+}
+.way__small {
+  margin: 0;
+  min-height: 0;
+}
+
+/* ---------- Touch and reduced motion: native swipe ---------- */
+.ways--swipe {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding-block: 8px 28px;
+}
+.ways--swipe::-webkit-scrollbar {
+  display: none;
+}
+.ways--swipe .ways__track {
+  gap: 20px;
+}
+.ways--swipe .ways__intro {
+  display: none;
+}
+.ways--swipe .way,
+.ways--swipe .way--single {
+  width: min(86vw, 620px);
+  scroll-snap-align: center;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  row-gap: 18px;
+  align-items: start;
+}
+.ways--swipe .way__text {
+  height: auto;
+  padding-right: 0;
+}
+.ways--swipe .way__lead {
+  height: auto;
+}
+.ways--swipe .way__lead-img {
+  aspect-ratio: 16 / 10;
+}
+.ways--swipe .way__more {
+  grid-template-rows: none;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  height: auto;
+  padding-bottom: 0;
+}
+.ways--swipe .way__small-img {
+  aspect-ratio: 4 / 3;
+}
+
+/* ---------- The line that hands over to the calculator ---------- */
+.beyond__bridge {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--col-gap);
+  padding-block: var(--section) calc(var(--section) * 0.4);
+}
+.beyond__bridge-line {
+  max-width: 12ch;
+}
+.beyond__bridge svg {
+  width: clamp(40px, 5vw, 72px);
+  height: clamp(40px, 5vw, 72px);
+  flex: none;
+  stroke-width: 1;
+}
+
+@media (max-width: 820px) {
+  .beyond__headline,
+  .beyond__body {
+    grid-column: 1 / -1;
+  }
+}

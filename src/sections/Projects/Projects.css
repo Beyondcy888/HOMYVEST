@@ -1,0 +1,154 @@
+.projects {
+  padding-top: calc(var(--section) * 0.7);
+}
+.projects__head {
+  display: grid;
+  gap: clamp(28px, 5vh, 56px);
+}
+.projects__title {
+  max-width: 12ch;
+}
+.projects__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px var(--col-gap);
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--ink);
+}
+
+/* ---------- Typographic filter tabs ---------- */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 clamp(18px, 2.4vw, 36px);
+}
+.filters__tab {
+  position: relative;
+  min-height: 44px;
+  font-weight: 600;
+  color: var(--muted);
+  transition: color var(--dur-1) linear;
+}
+.filters__tab::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 6px 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-2) var(--ease-out);
+}
+.filters__tab:hover,
+.filters__tab[aria-selected='true'] {
+  color: var(--ink);
+}
+.filters__tab[aria-selected='true']::after {
+  transform: scaleX(1);
+}
+
+/* ---------- Asymmetric gallery ----------
+   A 12-column grid. Each size takes a span; a repeating offset pattern staggers images left and
+   right and drops alternate ones down, so no two rows line up like a uniform grid. */
+.pj-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--col-gap);
+  row-gap: clamp(48px, 9vh, 120px);
+  align-items: start;
+  margin-top: clamp(40px, 7vh, 88px);
+}
+.pj {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  min-width: 0;
+}
+.pj--xl {
+  grid-column: span 8;
+}
+.pj--l {
+  grid-column: span 6;
+}
+.pj--m {
+  grid-column: span 5;
+}
+.pj--s {
+  grid-column: span 3;
+  /* low-res sources never render wider than 420 CSS px */
+  max-width: 420px;
+}
+/* stagger: every other item drops; wide ones alternate sides */
+.pj:nth-child(4n + 2) {
+  margin-top: clamp(40px, 12vh, 150px);
+}
+.pj:nth-child(6n + 4) {
+  margin-top: clamp(20px, 6vh, 80px);
+}
+.pj--xl:nth-child(even) {
+  grid-column: 5 / span 8;
+}
+.pj--l:nth-child(3n) {
+  grid-column: 7 / span 6;
+}
+.pj--m:nth-child(4n + 3) {
+  grid-column-end: -1;
+}
+/* A filtered view is a calmer, regular arrangement: fewer images, so no orphaned gaps. */
+.pj-grid[data-filtered='true'] .pj {
+  margin-top: 0;
+  grid-column: span 6;
+}
+.pj-grid[data-filtered='true'] .pj--s {
+  grid-column: span 3;
+}
+.pj-grid[data-filtered='true'] .pj:nth-child(4n + 2) {
+  margin-top: clamp(24px, 6vh, 72px);
+}
+
+.pj__open {
+  display: block;
+  width: 100%;
+  cursor: zoom-in;
+  overflow: hidden;
+}
+.pj__open:focus-visible {
+  outline-offset: 4px;
+}
+/* a photograph answers the pointer by easing 3% closer inside its frame */
+.pj__img {
+  transition: transform 0.9s var(--ease-out);
+}
+@media (hover: hover) {
+  .pj__open:hover .pj__img {
+    transform: scale(1.03);
+  }
+}
+
+@media (max-width: 820px) {
+  .projects__meta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .pj-grid {
+    row-gap: 44px;
+  }
+  .pj-grid .pj,
+  .pj-grid[data-filtered='true'] .pj {
+    grid-column: 1 / -1;
+    margin-top: 0;
+  }
+  /* small (low-res) images sit to one side at a modest width */
+  .pj-grid .pj--s,
+  .pj-grid[data-filtered='true'] .pj--s {
+    grid-column: 1 / span 8;
+  }
+  .pj-grid .pj--s:nth-of-type(even) {
+    grid-column: 5 / -1;
+  }
+  .pj-grid .pj--m {
+    grid-column: 3 / -1;
+  }
+}

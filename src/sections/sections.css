@@ -1,0 +1,55 @@
+/* Shared section furniture. Sections are editorial and asymmetric: big type against big images,
+   hairlines instead of boxes, generous air (docs/03 §6). */
+.sec-head {
+  display: grid;
+  gap: clamp(20px, 3vh, 36px);
+}
+.sec-head__title {
+  max-width: 18ch;
+}
+.sec-head__title--wide {
+  max-width: 22ch;
+}
+
+/* The sentence that hands the reader to the next section. */
+.sec-bridge {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--col-gap);
+  margin-top: var(--section);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--ink);
+}
+.sec-bridge .bridge {
+  max-width: 22ch;
+}
+.sec-bridge svg {
+  width: clamp(28px, 3vw, 44px);
+  height: clamp(28px, 3vw, 44px);
+  flex: none;
+  stroke-width: 1.25;
+}
+
+/* Images inside figures */
+.fig {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+}
+
+/* A hairline that draws itself (scaleX / scaleY from 0). JS sets --draw 0..1; without JS it is complete. */
+.draw-x {
+  transform: scaleX(var(--draw, 1));
+  transform-origin: left center;
+}
+.draw-y {
+  transform: scaleY(var(--draw, 1));
+  transform-origin: center top;
+}
+
+@media (max-width: 820px) {
+  .sec-bridge {
+    align-items: flex-start;
+  }
+}

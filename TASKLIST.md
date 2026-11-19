@@ -32,21 +32,23 @@ Detailed log per milestone: [docs/PROGRESS.md](docs/PROGRESS.md) · decisions: [
 - [x] Commit `M1`
 
 ## M2 — Foundations
-- [ ] Design tokens, base styles, typography (Archivo variable)
-- [ ] i18n (EN/ID), formatters, safe storage
-- [ ] Lenis + GSAP ScrollTrigger wiring, QA trigger registry
-- [ ] Header, mobile menu, footer, floating WhatsApp, skip link
-- [ ] Wordmark + hover animation (HOMYVEST → HOMY INVESTASI)
-- [ ] Intro (logo → story)
-- [ ] Light / dark theme
-- [ ] Commit `M2`
+- [x] Design tokens, base styles, typography (Archivo variable)
+- [x] i18n (EN/ID), formatters, safe storage
+- [x] Lenis + GSAP ScrollTrigger wiring, QA trigger registry
+- [x] Header, mobile menu, footer, floating WhatsApp, skip link
+- [x] Wordmark + hover animation (HOMYVEST → HOMY INVESTASI)
+- [x] Intro (logo → story)
+- [x] Light / dark theme
+- [x] Commit `M2`
 
 ## M3 — Calculator engine
-- [ ] calc.ts, whatsapp.ts, calc.test.ts in src/lib/calc (verbatim from reference/)
-- [ ] geometry.ts + geometry.test.ts
-- [ ] store.ts (zustand + safe localStorage)
-- [ ] `npm run test` all green
-- [ ] Commit `M3`
+- [x] calc.ts, whatsapp.ts, calc.test.ts in src/lib/calc (verbatim from reference/)
+- [x] geometry.ts + geometry.test.ts
+- [x] store.ts (zustand + safe localStorage)
+- [x] `npm run test` all green
+- [x] Commit `M3`
+
+> **Note for a resumed session:** the scene work in M5–M8 was handed to four parallel sub-agents (see docs/DECISIONS.md D12 and docs/SCENE_GUIDE.md). Items marked `[~]` there were in their hands. If their folders (`src/three/hero`, `maxone`, `padel`, `calc`, `src/sections/Story`, `src/sections/HomyEight/Walkthrough.jsx`, `src/sections/Beyond/PadelSection.jsx`) are missing or incomplete, finish them following docs/06 and docs/SCENE_GUIDE.md, then mount them in `src/sections/Sections.jsx`.
 
 ## M4 — All sections, static (no 3D)
 - [ ] Hero story (static/poster version)
@@ -63,15 +65,15 @@ Detailed log per milestone: [docs/PROGRESS.md](docs/PROGRESS.md) · decisions: [
 - [ ] Commit `M4`
 
 ## M5 — 3D foundation + hero story
-- [ ] Shared: SceneCanvas, clay materials, lights, ground, tiers, error boundary
-- [ ] Assembly engine (instanced pieces, seeded start transforms)
-- [ ] Building kits: stay, office, café, sports
+- [x] Shared: SceneCanvas, clay materials, lights, ground, tiers, error boundary
+- [x] Assembly engine (instanced pieces, seeded start transforms)
+- [~] Building kits: stay, office, café, sports
 - [ ] Hero choreography (5 beats) + text overlays + dissolve to photo
 - [ ] Reduced-motion / no-WebGL fallback
 - [ ] Commit `M5`
 
 ## M6 — Maxone walkthrough
-- [ ] Debug trace mode (`?debug=maxone`)
+- [~] Debug trace mode (`?debug=maxone`)
 - [ ] Room shell, floors, ceiling, void, mezzanine
 - [ ] Counters, furniture, plants, mural, lights
 - [ ] Camera route + dwell stops + collision check
@@ -80,13 +82,13 @@ Detailed log per milestone: [docs/PROGRESS.md](docs/PROGRESS.md) · decisions: [
 - [ ] Commit `M6`
 
 ## M7 — Padel assembly
-- [ ] Camera calibration + model
+- [~] Camera calibration + model
 - [ ] Three-stage choreography
 - [ ] Render alignment + reveals
 - [ ] Commit `M7`
 
 ## M8 — Calculator live 3D
-- [ ] CalcScene: land plate, zones, road, orbit, auto-frame
+- [~] CalcScene: land plate, zones, road, orbit, auto-frame
 - [ ] Models: max building, kos, ruko, houses, warehouse, existing + ghost floors
 - [ ] Labels + text alternative
 - [ ] Commit `M8`
