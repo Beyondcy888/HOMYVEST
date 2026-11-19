@@ -5,11 +5,12 @@ import { chromium } from '@playwright/test';
 import sharp from 'sharp';
 import fs from 'node:fs';
 import path from 'node:path';
-import { pathToFileURL } from 'node:url';
 
 const ROOT = process.cwd();
-const font = pathToFileURL(path.join(ROOT, 'node_modules/@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2')).href;
-const photo = pathToFileURL(path.join(ROOT, 'public/media/facades/best-1600.webp')).href;
+// Embedded as data URIs: a page created with setContent may not load file:// resources.
+const dataUri = (file, mime) => 'data:' + mime + ';base64,' + fs.readFileSync(path.join(ROOT, file)).toString('base64');
+const font = dataUri('node_modules/@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2', 'font/woff2');
+const photo = dataUri('public/media/facades/best-1600.webp', 'image/webp');
 const out = (f) => path.join(ROOT, 'public', f);
 
 const css = `
@@ -22,24 +23,13 @@ const css = `
 const browser = await chromium.launch();
 
 // ---- Favicons: a bold H in paper on an ink square ----
-async function icon(size, file) {
-  const page = await browser.newPage({ viewport: { width: size, height: size }, deviceScaleFactor: 1 });
-  await page.setContent(`<style>${css}
-    body { display: grid; place-items: center; background: #0b0b0a; color: #fafaf7; }
-    span { font-weight: 900; font-variation-settings: 'wdth' 125; font-size: ${Math.round(size * 0.74)}px; line-height: 1; transform: translateY(${size * 0.02}px); }
-  </style><span>H</span>`);
-  await page.evaluate(() => document.fonts.ready);
-  await page.screenshot({ path: out(file) });
-  await page.close();
-}
-await icon(32, 'favicon-32.png');
-await icon(180, 'apple-touch-icon.png');
-
-// The SVG favicon uses a drawn H with the same proportions (an SVG icon cannot load a web font).
-fs.writeFileSync(
-  out('favicon.svg'),
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#0b0b0a"/><path fill="#fafaf7" d="M11 14h15v12h12V14h15v36H38V37H26v13H11z"/></svg>\n`,
-);
+// The H is drawn (an SVG icon cannot load a web font) with the proportions of Archivo at weight 900,
+// width 125%. The PNG sizes are rendered from the same SVG with sharp, so all three match and stay crisp.
+const iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#0b0b0a"/><path fill="#fafaf7" d="M11 14h15v12h12V14h15v36H38V37H26v13H11z"/></svg>
+';
+fs.writeFileSync(out('favicon.svg'), iconSvg);
+await sharp(Buffer.from(iconSvg), { density: 384 }).resize(32, 32).png().toFile(out('favicon-32.png'));
+await sharp(Buffer.from(iconSvg), { density: 768 }).resize(180, 180).png().toFile(out('apple-touch-icon.png'));
 
 // ---- Open Graph image 1200 × 630: the dusk render darkened, wordmark centred, tagline below ----
 const page = await browser.newPage({ viewport: { width: 1200, height: 630 }, deviceScaleFactor: 1 });

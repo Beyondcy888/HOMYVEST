@@ -51,18 +51,18 @@ Detailed log per milestone: [docs/PROGRESS.md](docs/PROGRESS.md) · decisions: [
 > **Note for a resumed session:** the scene work in M5–M8 was handed to four parallel sub-agents (see docs/DECISIONS.md D12 and docs/SCENE_GUIDE.md). Items marked `[~]` there were in their hands. If their folders (`src/three/hero`, `maxone`, `padel`, `calc`, `src/sections/Story`, `src/sections/HomyEight/Walkthrough.jsx`, `src/sections/Beyond/PadelSection.jsx`) are missing or incomplete, finish them following docs/06 and docs/SCENE_GUIDE.md, then mount them in `src/sections/Sections.jsx`.
 
 ## M4 — All sections, static (no 3D)
-- [ ] Hero story (static/poster version)
-- [ ] About + two doors
-- [ ] Team
-- [ ] HomyEight intro + walkthrough fallback B (render-led)
-- [ ] Behomy (hybrid diagram, stats, handles)
-- [ ] Projects gallery + filters + lightbox
-- [ ] Beyond stays (padel fallback + ways strip)
-- [ ] Calculator UI: steps 1–3, results, warnings, SVG fallback, WhatsApp CTA
-- [ ] What happens next
-- [ ] FAQ
-- [ ] Reviewed at 390 px and 1440 px, EN + ID
-- [ ] Commit `M4`
+- [x] Hero story (static/poster version)
+- [x] About + two doors
+- [x] Team
+- [x] HomyEight intro + walkthrough fallback B (render-led)
+- [x] Behomy (hybrid diagram, stats, handles)
+- [x] Projects gallery + filters + lightbox
+- [x] Beyond stays (padel fallback + ways strip)
+- [x] Calculator UI: steps 1–3, results, warnings, SVG fallback, WhatsApp CTA
+- [x] What happens next
+- [x] FAQ
+- [x] Reviewed at 390 px and 1440 px, EN + ID
+- [x] Commit `M4`
 
 ## M5 — 3D foundation + hero story
 - [x] Shared: SceneCanvas, clay materials, lights, ground, tiers, error boundary
@@ -94,9 +94,9 @@ Detailed log per milestone: [docs/PROGRESS.md](docs/PROGRESS.md) · decisions: [
 - [ ] Commit `M8`
 
 ## M9 — Depth parallax
-- [ ] DepthImage + shared view canvas + shader
-- [ ] Applied to photographic renders; clean fallback
-- [ ] Commit `M9`
+- [x] DepthImage + shared view canvas + shader
+- [x] Applied to photographic renders; clean fallback
+- [x] Commit `M9`
 
 ## M10 — Design polish
 - [ ] Impeccable critique / audit / polish
@@ -108,7 +108,7 @@ Detailed log per milestone: [docs/PROGRESS.md](docs/PROGRESS.md) · decisions: [
 - [ ] Playwright specs (smoke, i18n, wordmark, calculator, calc3d, doors, whatsapp, motion, a11y, placeholders, screenshots)
 - [ ] Posters generated for 3D scenes
 - [ ] Performance numbers measured
-- [ ] Favicon, OG image, robots, sitemap, deploy configs
+- [x] Favicon, OG image, robots, sitemap, deploy configs
 - [ ] `npm run test`, `typecheck`, `build`, `e2e` all pass
 - [ ] Originals in renders/ verified untouched
 - [ ] docs/REPORT.md written, finish time recorded
