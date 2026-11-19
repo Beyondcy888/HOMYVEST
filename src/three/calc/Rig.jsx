@@ -6,6 +6,7 @@ import * as THREE from 'three';
 import { useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { ROAD_DEPTH } from '../../lib/calc/geometry.ts';
+import { roadReach } from '../kits/calcModels.js';
 
 const DEG = Math.PI / 180;
 export const FOV = 30;
@@ -23,6 +24,7 @@ export function fitPoints(scene, height) {
   const pts = [
     [-P / 2 - 1.5 * u, 0, 0], [-P / 2 - 1.5 * u, 0, -L], [P / 2, 0, -L],
     [-P / 2, 0, ROAD_DEPTH + 1.5 * u], [P / 2, 0, ROAD_DEPTH + 1.5 * u],
+    [-P / 2 - roadReach(P), 0, ROAD_DEPTH], [P / 2 + roadReach(P), 0, ROAD_DEPTH], [P / 2 + roadReach(P), 0, 0],
   ];
   let x0 = -P / 2, x1 = P / 2, z0 = 0, z1 = L;
   if (scene.boxes.length) {

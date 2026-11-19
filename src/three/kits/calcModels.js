@@ -28,7 +28,7 @@ import {
 } from '../../lib/calc/geometry.ts';
 
 // ---------- visual-only constants (they never change an area or a count) ----------
-export const GAP_H = 0.16; // recessed shadow gap under every storey, so floors can be counted
+export const GAP_H = 0.2; // recessed shadow gap under every storey, so floors can be counted
 export const GAP_IN = 0.1;
 export const PAD_H = 0.05; // the building band: a clay slab, slightly raised (docs/06 §5.2)
 export const ZONE_H = 0.03;
@@ -48,6 +48,8 @@ const R = (cx, z0, w, d) => ({ x: cx, z: z0 + d / 2, w, d });
 /** Plate thickness and dimension-line offset scale with the plot so they read the same at any size. */
 export const plateThickness = (P, L) => clamp(Math.hypot(P, L) * 0.012, 0.18, 1.2);
 export const dimOffset = (P, L) => clamp(Math.hypot(P, L + ROAD_DEPTH) * 0.045, 0.7, 9);
+/** The road runs past the plot on both sides, so it reads as a road and not as a doormat. */
+export const roadReach = (P) => clamp(P * 0.12, 3, 10);
 
 const ground = (key, kind, rect, y0, h, extra = {}) => ({ key, kind, tone: 'base', level: -1, ...rect, y0, h, ...extra });
 
@@ -74,6 +76,7 @@ function baseParts(P, L, roadP, th) {
   // so "open" is always exactly the land minus what is drawn on it.
   out.push(ground('plate', 'plate', R(0, 0, P, L), -th, th, { role: 'land' }));
   if (roadP > 0) {
+    roadP += 2 * roadReach(roadP);
     const roadD = ROAD_DEPTH - KERB_W;
     out.push(ground('road', 'dark', R(0, -ROAD_DEPTH, roadP, roadD), -th, th - ROAD_DROP, { role: 'road' }));
     out.push(ground('kerb', 'box', R(0, -KERB_W, roadP, KERB_W), -th, th, { tone: 'base' }));

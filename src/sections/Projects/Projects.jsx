@@ -69,11 +69,19 @@ export default function Projects() {
       refreshTriggers();
       return;
     }
+    // When the two views share no image (e.g. Kost → Villa) there is nothing to glide: just fade the new set in.
+    const targets = [...gridRef.current.querySelectorAll('.pj')];
+    const before = new Set(state.targets.map((el) => el.dataset.flipId));
+    if (!targets.some((el) => before.has(el.dataset.flipId))) {
+      if (targets.length) gsap.fromTo(targets, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' });
+      refreshTriggers();
+      return;
+    }
     flipRef.current.from(state, {
       duration: 0.7,
       ease: 'expo.out',
       absolute: false,
-      targets: gridRef.current.querySelectorAll('.pj'),
+      targets,
       onEnter: (els) => (els.length ? gsap.fromTo(els, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }) : null),
       onComplete: refreshTriggers,
     });

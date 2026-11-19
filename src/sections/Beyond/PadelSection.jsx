@@ -51,12 +51,13 @@ function PadelStatic() {
 /** The pinned scene. Text and credits are real DOM text, scrubbed by the same scroll as the model. */
 function PadelLive({ onFail }) {
   const { t } = useT();
-  const root = useRef(null);
+  // The ref sits inside PinnedScene: its timeline is built in a layout effect, before an outer ref exists.
+  const text = useRef(null);
   const progress = useMemo(() => createProgress(0), []);
   const sceneProps = useMemo(() => ({ progress }), [progress]);
 
   const timeline = useCallback((tl) => {
-    const q = (sel) => root.current?.querySelector(sel);
+    const q = (sel) => text.current.querySelector(sel);
     const swap = 0.02;
     for (let i = 1; i < STAGES.length; i++) {
       tl.to(q(`.padel-live__stage--${i - 1}`), { opacity: 0, y: -14, duration: swap }, TEXT_AT[i] - swap);
@@ -85,12 +86,12 @@ function PadelLive({ onFail }) {
   const poster = posterStage < 0 ? null : <img src={POSTERS[posterStage]} alt="" decoding="async" />;
 
   return (
-    <div className="padel padel--live" ref={root}>
+    <div className="padel padel--live">
       <PinnedScene id="beyond" lengthVh={360} progress={progress} timeline={timeline} className="padel-live">
         <div className="padel-live__scene">
           <SceneMount load={loadScene} sceneProps={sceneProps} label={t('beyond.padel.sceneAlt')} onFail={onFail} poster={poster} />
         </div>
-        <div className="wrap padel-live__text">
+        <div className="wrap padel-live__text" ref={text}>
           <ol className="padel-live__stages">
             {STAGES.map((i) => (
               <li key={i} className={`padel-live__stage padel-live__stage--${i}`}>
