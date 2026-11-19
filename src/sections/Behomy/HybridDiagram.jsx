@@ -58,18 +58,22 @@ export default function HybridDiagram() {
   return (
     <figure className="hybrid" ref={ref}>
       <div className="hybrid__frame">
-        <svg className="hybrid__svg" viewBox={`-14 -30 ${W + 28} ${H + 62}`} role="img" aria-label={t('behomy.hybrid.alt')}>
-          {/* roof line, ground line */}
-          <path d={`M-14 -14H${W + 14}`} stroke="currentColor" strokeWidth="1.5" fill="none" />
-          <path d={`M-14 ${H + 14}H${W + 14}`} stroke="currentColor" strokeWidth="1.5" fill="none" />
-          <path d={`M-14 -14V${H + 14}M${W + 14} -14V${H + 14}`} stroke="currentColor" strokeWidth="1" fill="none" />
+        <svg className="hybrid__svg" viewBox={`-72 -34 ${W + 144} ${H + 62}`} role="img" aria-label={t('behomy.hybrid.alt')}>
+          {/* An elevation, not a chart: a roof slab that overhangs, two side walls, and a ground line
+              that runs on past the building. */}
+          <path d={`M-26 -18H${W + 26}`} stroke="currentColor" strokeWidth="3" fill="none" />
+          <path d={`M-14 -18V${H + 14}M${W + 14} -18V${H + 14}`} stroke="currentColor" strokeWidth="1" fill="none" />
+          <path d={`M-72 ${H + 14}H${W + 72}`} stroke="currentColor" strokeWidth="1.5" fill="none" />
           {rooms.map((r) => {
             const x = r.b * (cell + gap);
             const y = r.f * (cell + gap);
             if (r.lobby) {
-              // ground-floor lobby: one wide opening
+              // ground-floor lobby: one wide glazed opening with a door, running down to the ground line
               return r.b === 3 ? (
-                <rect key="lobby" x={x} y={y} width={cell * 3 + gap * 2} height={cell} fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="2 5" />
+                <g key="lobby" fill="none" stroke="currentColor" strokeWidth="1">
+                  <rect x={x} y={y} width={cell * 3 + gap * 2} height={cell + 14} />
+                  <path d={`M${x + cell + gap / 2} ${y}V${y + cell + 14}M${x + cell * 2 + gap * 1.5} ${y}V${y + cell + 14}M${x + cell * 1.5 + gap} ${y + 10}V${y + cell + 14}`} />
+                </g>
               ) : null;
             }
             const daily = r.rank < share;

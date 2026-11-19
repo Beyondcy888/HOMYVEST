@@ -11,7 +11,7 @@ import './ui.css';
  * stat: { n, digits?, suffix?, label, note? }  or  { text, label } for non-numeric values ("In-house").
  */
 export default function Stat({ stat, className = '', size = 'stat', start }) {
-  const { lang } = useT();
+  const { lang, t } = useT();
   const numRef = useRef(null);
   const isNumber = typeof stat.n === 'number';
   const final = isNumber ? fmtNum(stat.n, lang, stat.digits ?? 0) : stat.text;
@@ -69,7 +69,7 @@ export default function Stat({ stat, className = '', size = 'stat', start }) {
         {stat.label}
         {stat.note ? (
           <sup className="fn">
-            <a href={`#note-${stat.note}`} aria-label={`${stat.note}`}>
+            <a href={`#note-${stat.note}`} aria-label={`${t('notes.label')} ${stat.note}`}>
               {stat.note}
             </a>
           </sup>

@@ -13,8 +13,10 @@
     "assets:padel": "node scripts/clean-padel.mjs",
     "assets:images": "node scripts/optimize-images.mjs",
     "assets": "npm run assets:padel && npm run assets:images",
-    "e2e": "playwright test",
-    "shots": "playwright test qa/screenshots.spec.ts"
+    "e2e": "playwright test --project=desktop --project=mobile",
+    "shots": "playwright test --project=shots",
+    "assets:brand": "node scripts/make-brand-assets.mjs",
+    "assets:depth": ".venv-depth\\Scripts\\python.exe scripts/depth-maps.py"
   },
   "dependencies": {
     "@fontsource-variable/archivo": "^5.3.0",

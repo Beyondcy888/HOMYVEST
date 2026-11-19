@@ -28,8 +28,6 @@
   grid-template-rows: auto auto 1fr auto;
   gap: 10px;
   align-content: start;
-  /* each step surfaces as the line reaches it */
-  opacity: clamp(0.18, calc((var(--draw, 1) - var(--i) * 0.155) * 9), 1);
 }
 .step::before {
   content: '';
@@ -39,6 +37,9 @@
   width: 1px;
   height: 9px;
   background: var(--ink);
+  /* each tick drops from the line as the line reaches it; the text itself is never dimmed */
+  transform: scaleY(clamp(0, calc((var(--draw, 1) - var(--i) * 0.165) * 12), 1));
+  transform-origin: top;
 }
 .step__n {
   font-size: var(--t-small);
@@ -137,13 +138,13 @@
   }
   .step {
     grid-template-rows: auto;
-    opacity: 1;
   }
   .step::before {
     top: 8px;
     left: -28px;
     width: 9px;
     height: 1px;
+    transform: none;
   }
   .closing__title,
   .closing__side {

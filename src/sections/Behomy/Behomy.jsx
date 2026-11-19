@@ -52,7 +52,9 @@ export default function Behomy() {
           <p className="behomy__uplift t-small">
             {t('behomy.uplift')}
             <sup className="fn">
-              <a href="#note-3">3</a>
+              <a href="#note-3" aria-label={`${t('notes.label')} 3`}>
+                3
+              </a>
             </sup>
           </p>
         </div>

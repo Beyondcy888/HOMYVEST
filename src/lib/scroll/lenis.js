@@ -56,6 +56,14 @@ export function scrollToTarget(target, { offset, focus, onArrive } = {}) {
     if (focus) {
       const node = typeof focus === 'string' ? document.querySelector(focus) : focus;
       node?.focus?.({ preventScroll: true });
+      // If the focused field is off screen (on phones the inputs sit below the sticky 3D), bring it to
+      // just below the middle of the viewport, clear of anything sticky at the top.
+      const rect = node?.getBoundingClientRect?.();
+      if (rect && (rect.top < 90 || rect.bottom > window.innerHeight - 40)) {
+        const y = Math.max(0, Math.round(window.scrollY + rect.top - window.innerHeight * 0.58));
+        if (lenis) lenis.scrollTo(y, { immediate: true, force: true });
+        else window.scrollTo({ top: y, behavior: 'auto' });
+      }
     }
     onArrive?.();
   };
