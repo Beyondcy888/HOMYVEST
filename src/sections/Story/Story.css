@@ -1,0 +1,337 @@
+/* #story: the hero. Layers inside the pinned stage, bottom to top:
+   clay canvas (0) → colour photo (2) → text (3). Only transforms and opacity are animated;
+   the one exception is the photo's mask radius during the dissolve. */
+.story {
+  position: relative;
+  --story-title: clamp(2rem, min(4.2vw, 9.5vh), 5.25rem);
+  --story-col: clamp(260px, 27vw, 460px);
+}
+
+.story__scene {
+  z-index: 0;
+}
+.story__poster {
+  display: block;
+}
+.story[data-phase='earn'] .story__scene {
+  visibility: hidden;
+}
+
+/* ---------- The colour photo and its wipe ---------- */
+.story__photo {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  visibility: hidden;
+  pointer-events: none;
+  /* --r: 0..1 from the timeline · --ax/--ay: where the stay sits on screen, from the scene */
+  --r: 0;
+  --ax: 58%;
+  --ay: 64%;
+}
+.story[data-phase='wipe'] .story__photo {
+  visibility: visible;
+  -webkit-mask-image: radial-gradient(
+    circle at var(--ax) var(--ay),
+    #000 calc(var(--r) * 190vmax - 36vmax),
+    transparent calc(var(--r) * 190vmax)
+  );
+  mask-image: radial-gradient(
+    circle at var(--ax) var(--ay),
+    #000 calc(var(--r) * 190vmax - 36vmax),
+    transparent calc(var(--r) * 190vmax)
+  );
+}
+.story[data-phase='earn'] .story__photo {
+  visibility: visible;
+}
+.story__zoom {
+  position: absolute;
+  inset: 0;
+  transform-origin: var(--ax) var(--ay);
+  will-change: transform;
+}
+/* A scrim on the text side keeps the copy readable over the render (AA). */
+.story__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgb(var(--scrim) / 0.82) 0%, rgb(var(--scrim) / 0.62) 30%, rgb(var(--scrim) / 0) 66%);
+}
+
+/* ---------- Text layer ---------- */
+.story__ui {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+.story__col {
+  position: absolute;
+  left: var(--gutter);
+  top: 0;
+  bottom: 0;
+  width: var(--story-col);
+  display: grid;
+  align-content: center;
+}
+.story__beat {
+  grid-area: 1 / 1;
+  align-self: center;
+  display: grid;
+  gap: clamp(16px, 2.4vh, 28px);
+  will-change: transform, opacity;
+}
+.story--live .story__beat:not(.story__b1),
+.story--live .story__labels,
+.story--live .story__earn {
+  opacity: 0;
+}
+.story__title {
+  font-size: var(--story-title);
+  font-weight: 800;
+  font-stretch: 106%;
+  letter-spacing: -0.035em;
+  line-height: 0.95;
+  text-wrap: balance;
+}
+.story__body {
+  font-size: clamp(1rem, 1.15vw, 1.1875rem);
+  line-height: 1.5;
+  color: var(--ink-2);
+  max-width: 34ch;
+}
+.story__cue {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: clamp(12px, 3vh, 36px);
+  color: var(--muted);
+}
+.story__cue svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Slide labels: the four options, and a hairline with a thumb on the current one. */
+.story__labels {
+  position: absolute;
+  left: 66.75%;
+  bottom: clamp(20px, 4.2vh, 44px);
+  width: min(520px, 56vw);
+  margin-left: calc(min(520px, 56vw) / -2);
+  display: grid;
+  gap: 12px;
+  color: var(--ink);
+}
+.story__labels ol {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.story__label {
+  text-align: center;
+  white-space: nowrap;
+  opacity: 0.4;
+}
+.story__label:first-child {
+  opacity: 1;
+}
+.story__track {
+  position: relative;
+  display: block;
+  height: 1px;
+  background: var(--line);
+}
+.story__thumb {
+  position: absolute;
+  left: 0;
+  top: -0.5px;
+  width: 25%;
+  height: 2px;
+  background: var(--ink);
+}
+
+.story__skip {
+  pointer-events: auto;
+}
+.story:not([data-phase='clay']) .story__skip {
+  pointer-events: none;
+  visibility: hidden;
+}
+
+/* ---------- Beat 5: over the photo ---------- */
+.story__earn {
+  position: absolute;
+  left: var(--gutter);
+  top: 0;
+  bottom: 0;
+  width: min(50vw, 760px);
+  display: grid;
+  align-content: center;
+  gap: clamp(24px, 5vh, 56px);
+  color: var(--on-photo);
+}
+.story__title--earn {
+  font-size: clamp(2.4rem, min(5.6vw, 12vh), 6.5rem);
+  max-width: 11ch;
+}
+.story__stats {
+  display: flex;
+  gap: clamp(28px, 4vw, 72px);
+}
+.story__earn .stat__value {
+  font-size: clamp(2.6rem, min(5vw, 11vh), 5.5rem);
+}
+.story__earn .stat__label {
+  color: var(--on-photo);
+  font-size: clamp(0.9375rem, 1.05vw, 1.0625rem);
+}
+.story__ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.story[data-phase='earn'] .story__ctas,
+.story[data-phase='earn'] .story__stats {
+  pointer-events: auto;
+}
+
+/* ---------- Portrait: copy on top, the model in the lower part ---------- */
+@media (max-aspect-ratio: 9/10) {
+  .story {
+    --story-title: clamp(2rem, 9.4vw, 3.5rem);
+  }
+  .story__col {
+    right: var(--gutter);
+    width: auto;
+    top: calc(var(--header-h) + clamp(14px, 3.4vh, 40px));
+    bottom: auto;
+    align-content: start;
+  }
+  .story__beat {
+    align-self: start;
+    gap: 14px;
+  }
+  .story__body {
+    font-size: 1rem;
+    line-height: 1.45;
+    max-width: 38ch;
+  }
+  .story__cue {
+    margin-top: 6px;
+  }
+  .story__labels {
+    left: 50%;
+    width: min(92vw, 420px);
+    margin-left: calc(min(92vw, 420px) / -2);
+    bottom: calc(64px + env(safe-area-inset-bottom));
+  }
+  .story__label {
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+  }
+  .story__scrim {
+    background:
+      linear-gradient(180deg, rgb(var(--scrim) / 0.78) 0%, rgb(var(--scrim) / 0.5) 22%, rgb(var(--scrim) / 0) 44%),
+      linear-gradient(0deg, rgb(var(--scrim) / 0.88) 0%, rgb(var(--scrim) / 0.66) 34%, rgb(var(--scrim) / 0) 62%);
+  }
+  .story__earn {
+    right: var(--gutter);
+    width: auto;
+    top: calc(var(--header-h) + clamp(14px, 3.4vh, 40px));
+    bottom: calc(28px + env(safe-area-inset-bottom));
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  .story__title--earn {
+    font-size: clamp(2.4rem, 11.5vw, 4.5rem);
+  }
+  .story__stats {
+    margin-top: auto;
+    gap: 24px;
+  }
+  .story__stats > .stat {
+    flex: 1;
+  }
+  .story__earn .stat__value {
+    font-size: clamp(2.6rem, 13vw, 4.5rem);
+  }
+  .story__ctas .btn {
+    flex: 1 1 100%;
+  }
+  .story__photo .depth__picture img {
+    object-position: 48% 50%;
+  }
+}
+
+/* ---------- Static mode: no pin, everything visible ---------- */
+.story--static {
+  padding-top: calc(var(--header-h) + clamp(24px, 6vh, 72px));
+  --story-title: clamp(2.1rem, 4.6vw, 4.75rem);
+}
+.story-static__beats {
+  display: grid;
+  gap: clamp(56px, 10vh, 128px);
+  padding-bottom: clamp(56px, 10vh, 128px);
+}
+.story-static__beat {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: var(--col-gap);
+  align-items: center;
+}
+.story-static__text {
+  display: grid;
+  gap: clamp(16px, 2.4vh, 28px);
+}
+.story-static__poster {
+  width: 100%;
+  aspect-ratio: 5 / 4;
+  object-fit: cover;
+  object-position: 80% 50%;
+}
+.story-static__earn {
+  position: relative;
+  min-height: min(100vh, 900px);
+  display: grid;
+}
+.story-static__earn > .depth {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+}
+.story-static__earn .story__earn {
+  position: relative;
+  top: auto;
+  bottom: auto;
+  padding-block: clamp(64px, 12vh, 140px);
+}
+.story-static__earn .story__ctas,
+.story-static__earn .story__stats {
+  pointer-events: auto;
+}
+@media (max-width: 820px) {
+  .story-static__beat {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .story-static__poster {
+    aspect-ratio: 4 / 3;
+    object-position: 84% 50%;
+  }
+  .story-static__earn .story__earn {
+    left: var(--gutter);
+    right: var(--gutter);
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    justify-content: flex-end;
+  }
+  .story-static__earn .story__scrim {
+    background: linear-gradient(0deg, rgb(var(--scrim) / 0.9) 0%, rgb(var(--scrim) / 0.72) 45%, rgb(var(--scrim) / 0.2) 100%);
+  }
+  .story-static__earn .story__stats {
+    margin-top: 0;
+  }
+}
