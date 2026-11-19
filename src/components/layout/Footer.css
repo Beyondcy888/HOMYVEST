@@ -19,11 +19,10 @@
   padding-block: clamp(32px, 6vh, 72px) clamp(28px, 4vh, 48px);
 }
 .footer__powered {
+  display: grid;
   font-size: var(--t-h3);
   font-weight: 600;
   letter-spacing: -0.01em;
-  max-width: 22ch;
-  text-wrap: balance;
 }
 .footer__contact,
 .footer__settings {

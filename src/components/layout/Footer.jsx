@@ -17,7 +17,14 @@ export default function Footer() {
       <div className="wrap">
         <Wordmark href="#top" className="footer__mark" playOnView onClick={(e) => goTo(e, '#top', { offset: 0 })} />
         <div className="footer__grid">
-          <p className="footer__powered">{t('footer.powered')}</p>
+          <p className="footer__powered">
+            {/* two short lines instead of one that wraps with a dangling separator */}
+            {t('footer.powered')
+              .split(' · ')
+              .map((part) => (
+                <span key={part}>{part}</span>
+              ))}
+          </p>
           <div className="footer__contact">
             <span className="t-eyebrow muted">{t('footer.contact')}</span>
             <a className="link link--underlined nums" href={href} target="_blank" rel="noopener" data-wa>

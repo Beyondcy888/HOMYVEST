@@ -43,8 +43,10 @@ function invariants(s: Scene, land: Land, { greenOverlap = false } = {}) {
   for (let i = 0; i < pads.length; i++) for (let j = i + 1; j < pads.length; j++) expect(overlap(pads[i], pads[j])).toBeLessThan(1e-6);
   for (let i = 0; i < greens.length; i++) for (let j = i + 1; j < greens.length; j++) expect(overlap(greens[i], greens[j])).toBeLessThan(1e-6);
   if (!greenOverlap) for (const g of greens) for (const p of pads) expect(overlap(g, p)).toBeLessThan(1e-6);
-  // the clay pad is exactly the ground-floor footprint
-  expect(area(pads)).toBeCloseTo(area(floorsAt(s, 0)) || area(pads), 6);
+  // the clay pad is the footprint: the ground floor never reaches past it, and fills it when the
+  // building has at least one full floor
+  expect(area(floorsAt(s, 0))).toBeLessThanOrEqual(area(pads) + 1e-6);
+  if (s.info.full > 0) expect(area(floorsAt(s, 0))).toBeCloseTo(area(pads), 6);
   // open = land − building − green, never negative
   if (!greenOverlap) expect(r.A - area(pads) - area(greens)).toBeGreaterThanOrEqual(-1e-6);
   return r;

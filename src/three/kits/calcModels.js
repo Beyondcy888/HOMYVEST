@@ -109,7 +109,8 @@ const noModel = (id, r, extra = {}) => ({
 function stackRects({ cx, z0, width, depth, partialDepth }, df) {
   const rects = [];
   for (let k = 0; k < df.full; k++) rects.push(R(cx, z0, width, depth));
-  if (df.partial > 0) rects.push(R(cx, z0 + depth - partialDepth, width, partialDepth));
+  // a lone smaller floor is centred on the footprint; a top floor is set back from the road
+  if (df.partial > 0) rects.push(R(cx, z0 + (depth - partialDepth) * (df.full === 0 ? 0.5 : 1), width, partialDepth));
   return rects;
 }
 
