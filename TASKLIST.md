@@ -113,3 +113,8 @@ Detailed log per milestone: [docs/PROGRESS.md](docs/PROGRESS.md) · decisions: [
 - [ ] Originals in renders/ verified untouched
 - [ ] docs/REPORT.md written, finish time recorded
 - [ ] Commit `M11`
+
+---
+## Session log
+- Session 1: 2026-11-20 01:08 → 02:17 WIB. Stopped by the account's usage limit while four scene agents were mid-build.
+- Session 2: resumed 2026-11-20 04:53 WIB. Scene agents resumed with their saved context; the Maxone section shell (cards, mini-map, render-led fallback, static mode) is built by the main session so the page is whole even if a scene is not finished.

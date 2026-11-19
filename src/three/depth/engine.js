@@ -232,6 +232,8 @@ function frame(now) {
   let again = false;
   for (const it of items) {
     if (!it.visible || !it.image || !it.depth) continue;
+    // a host can pause its depth views while they are off stage (e.g. walkthrough cards that are not showing)
+    if (it.host && it.host.dataset.depthOff === "true") { it.dirty = true; continue; }
     if (draw(it, dt)) again = true;
   }
   if (again) raf = requestAnimationFrame(frame);
@@ -255,7 +257,7 @@ export function register({ el, canvas, id, strength = 1 }) {
     el, canvas, id, strength,
     ctx: canvas.getContext('2d'),
     aspect: entry.width / entry.height,
-    ox: 0, oy: 0, visible: false, dirty: true, image: null, depth: null, loading: false, broken: false, io: null, far: null,
+    ox: 0, oy: 0, visible: false, dirty: true, image: null, depth: null, loading: false, broken: false, io: null, far: null, host: el.closest("[data-depth-host]"),
   };
   // Near the viewport: load and draw. Far away: free the textures again.
   it.io = new IntersectionObserver(

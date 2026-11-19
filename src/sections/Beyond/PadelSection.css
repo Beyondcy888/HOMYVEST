@@ -1,0 +1,66 @@
+/* ---------- Padel hall: the sequence of renders (static mode) ---------- */
+.padel-steps {
+  list-style: none;
+  margin: 0;
+  padding-block: 0;
+}
+.padel-step {
+  align-items: end;
+  row-gap: clamp(20px, 4vh, 36px);
+  padding-block: clamp(36px, 7vh, 88px);
+  border-top: 1px solid var(--line);
+}
+.padel-step:last-child {
+  padding-bottom: clamp(48px, 9vh, 112px);
+}
+.padel-step__text {
+  grid-column: 1 / span 4;
+  display: grid;
+  gap: clamp(12px, 2vh, 20px);
+  align-self: start;
+}
+.padel-step__line {
+  max-width: 15ch;
+  text-wrap: balance;
+}
+.padel-step__fig {
+  grid-column: 5 / -1;
+  margin: 0;
+  display: grid;
+  gap: clamp(14px, 2.4vh, 24px);
+}
+.padel-step__fig picture {
+  display: block;
+}
+.padel-step__img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.padel-step__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: var(--col-gap);
+}
+.padel-step__tag {
+  text-align: right;
+}
+
+@media (max-width: 820px) {
+  .padel-step__text,
+  .padel-step__fig {
+    grid-column: 1 / -1;
+  }
+  .padel-step__line {
+    max-width: 18ch;
+  }
+  .padel-step__meta {
+    flex-direction: column;
+    align-items: start;
+    gap: 8px;
+  }
+  .padel-step__tag {
+    text-align: left;
+  }
+}
