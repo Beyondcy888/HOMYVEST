@@ -22,7 +22,7 @@ import { createCalcMaterials, dotPitch } from './materials.js';
 import Zones from './Zones.jsx';
 import Model from './Model.jsx';
 import Lines from './Lines.jsx';
-import Labels from './Labels.jsx';
+import Labels, { LabelLayer, createLabelStore } from './Labels.jsx';
 import Rig, { FOV } from './Rig.jsx';
 import './calc-scene.css';
 
@@ -70,7 +70,7 @@ function Driver({ engine, scene, reduced }) {
   return null;
 }
 
-function World({ engine, scene, reduced, zoom, api, onOrbit }) {
+function World({ engine, scene, labels, lang, reduced, zoom, api, onOrbit }) {
   const theme = useTheme();
   const materials = useMemo(() => createCalcMaterials(theme), [theme]);
   useEffect(() => () => materials.dispose(), [materials]);
@@ -80,7 +80,7 @@ function World({ engine, scene, reduced, zoom, api, onOrbit }) {
   useEffect(() => {
     materials.setScale(dotPitch(Math.hypot(P, L)));
     invalidate();
-  }, [materials, P, L, invalidate]);
+  }, [materials, P, L, lang, invalidate]); // a new language re-places the labels too
 
   // Light and shadow box fitted to the plot and the model (rounded up, so small edits do not re-fit it).
   const stage = useMemo(() => {
@@ -98,19 +98,21 @@ function World({ engine, scene, reduced, zoom, api, onOrbit }) {
       <Zones engine={engine} scene={scene} materials={materials} />
       <Model engine={engine} materials={materials} />
       <Lines engine={engine} materials={materials} reduced={reduced} />
-      <Labels engine={engine} scene={scene} />
+      <Labels engine={engine} store={labels} />
       <Rig scene={scene} reduced={reduced} zoom={zoom} api={api} onStart={onOrbit} />
     </>
   );
 }
 
 export default function CalcScene({ onReady }) {
-  const { t } = useT();
+  const { t, lang } = useT();
   const reduced = useReducedMotion();
   const input = useSceneInput();
   const engine = useRef(null);
   if (!engine.current) engine.current = createEngine();
   const api = useRef(null);
+  const labels = useRef(null);
+  if (!labels.current) labels.current = createLabelStore();
 
   // The empty state keeps the last valid plot's size for its faint outline, so nothing jumps when a
   // field is cleared and typed again.
@@ -156,8 +158,9 @@ export default function CalcScene({ onReady }) {
       }}
     >
       <SceneCanvas name="calc" onReady={onReady} camera={{ fov: FOV, position: [-40, 45, 50], near: 0.5, far: 2000 }}>
-        <World engine={engine} scene={scene} reduced={reduced} zoom={zoom} api={api} onOrbit={dismissHint} />
+        <World engine={engine} scene={scene} labels={labels} lang={lang} reduced={reduced} zoom={zoom} api={api} onOrbit={dismissHint} />
       </SceneCanvas>
+      <LabelLayer scene={scene} store={labels} />
       <p className="calc-scene__hint" data-show={hint} aria-hidden={!hint}>
         {t('calc.view.hint')}
       </p>

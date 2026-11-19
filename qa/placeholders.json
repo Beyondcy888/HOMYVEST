@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-11-19T19:08:06.587Z",
-  "captionsOnPage": 16,
-  "placeholders": 16,
+  "generatedAt": "2026-11-19T22:08:41.375Z",
+  "captionsOnPage": 26,
+  "placeholders": 26,
   "images": [
     "cafe/cafe",
     "facades/benhil-1",
@@ -17,7 +17,17 @@
     "interiors/interior-6",
     "interiors/interior-7",
     "interiors/interior-8",
+    "maxone/1",
+    "maxone/2",
+    "maxone/3",
+    "maxone/4",
+    "maxone/5",
+    "maxone/6",
+    "maxone/7",
     "office/office-1",
-    "others/athero-3"
+    "others/athero-3",
+    "padel-clean/padel-1",
+    "padel-clean/padel-2",
+    "padel-clean/padel-3"
   ]
 }

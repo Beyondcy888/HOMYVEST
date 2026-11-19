@@ -1,10 +1,14 @@
-// Labels (docs/06 §5.3): drei <Html> tags on the dimension lines. Paper background, ink text, small
-// type; every value goes through the formatters in the active language. A label is hidden when the
-// model stands between it and the camera, or when it would overlap a more important one.
-import { useMemo, useRef } from 'react';
+// Labels (docs/06 §5.3): HTML tags on the dimension lines. Paper background, ink text, small type;
+// every value goes through the formatters in the active language. A label is hidden when the model
+// stands between it and the camera, or when it would overlap a more important one.
+//
+// Two halves share one ref: <LabelLayer> is plain DOM beside the canvas (real text, always sharp), and
+// <Labels> runs inside the canvas and moves those elements to their projected anchors each frame.
+// (drei <Html> was tried first: with React 19 StrictMode it logs "synchronously unmount a root" and
+// drops a label, so the scene keeps the same idea without the extra React roots.)
+import { useMemo } from 'react';
 import * as THREE from 'three';
-import { useFrame, useThree } from '@react-three/fiber';
-import { Html } from '@react-three/drei';
+import { useFrame } from '@react-three/fiber';
 import { useT } from '../../i18n/useT.js';
 import { fmtArea, fmtMetres, fmtNum } from '../../i18n/format.js';
 import { labelPoint, liveInstance } from './engine.js';
@@ -39,6 +43,41 @@ function labelText(l, t, lang) {
   }
 }
 
+/** Shared between the two halves: { items, els: { key: element }, state: { key: { w, h, text, shown } } }. */
+export const createLabelStore = () => ({ items: [], els: {}, state: {} });
+
+/** The DOM half: render it beside the canvas, inside the scene's root. */
+export function LabelLayer({ scene, store }) {
+  const { t, lang } = useT();
+  const items = useMemo(
+    () =>
+      scene.labels
+        .map((l) => ({ key: l.key, group: l.group ?? l.key, type: l.type, lift: TAG_LIFT[l.type] ?? 0, text: labelText(l, t, lang) }))
+        .sort((a, b) => ORDER.indexOf(a.type) - ORDER.indexOf(b.type)),
+    [scene, t, lang],
+  );
+  if (store?.current) store.current.items = items;
+  return (
+    <div className="calc-labels" aria-hidden="true">
+      {items.map((it) => (
+        <span
+          key={it.key}
+          ref={(el) => {
+            const S = store?.current;
+            if (!S) return;
+            if (el) S.els[it.key] = el;
+            else { delete S.els[it.key]; delete S.state[it.key]; }
+          }}
+          className="calc-label"
+          data-type={it.type}
+        >
+          {it.text}
+        </span>
+      ))}
+    </div>
+  );
+}
+
 const _pt = { x: 0, y: 0, z: 0 };
 const _v = new THREE.Vector3();
 
@@ -65,84 +104,54 @@ function blocked(p, cam, bx, y0, y1) {
   return true;
 }
 
-export default function Labels({ engine, scene }) {
-  const { t, lang } = useT();
-  const invalidate = useThree((s) => s.invalidate);
-  const items = useMemo(
-    () =>
-      scene.labels
-        .map((l) => ({ key: l.key, group: l.group ?? l.key, type: l.type, lift: TAG_LIFT[l.type] ?? 0, text: labelText(l, t, lang) }))
-        .sort((a, b) => ORDER.indexOf(a.type) - ORDER.indexOf(b.type)),
-    [scene, t, lang],
-  );
-  const groups = useRef({});
-  const els = useRef({});
-  const state = useRef({}); // key → { w, h, text, shown }
-
+/** The canvas half: projects every anchor and decides which labels show. Runs after the camera has moved. */
+export default function Labels({ engine, store }) {
   useFrame(({ camera, size }) => {
     const E = engine.current;
-    if (!E?.scene) return;
+    const S = store?.current;
+    if (!E?.scene || !S) return; // frames can run before the DOM half exists, or after it has gone
     const inst = liveInstance(E);
     const base = inst?.base ?? [0];
     const at = (i) => base[Math.min(i, base.length - 1)] ?? 0;
     const u = E.u.v;
     const taken = [];
     const groupsShown = new Set();
-    for (const it of items) {
-      const g = groups.current[it.key];
-      const el = els.current[it.key];
-      if (!g || !labelPoint(E, it.key, _pt)) continue;
+    for (const it of S.items) {
+      const el = S.els[it.key];
+      if (!el || !labelPoint(E, it.key, _pt)) continue;
       _pt.y += it.lift * u;
-      g.position.set(_pt.x, _pt.y, _pt.z);
-      if (!el) continue;
-      const st = (state.current[it.key] ??= { w: 0, h: 0, text: null, shown: null });
+      const st = (S.state[it.key] ??= { w: 0, h: 0, text: null, shown: null, x: null, y: null });
       if (st.text !== it.text) {
         st.text = it.text;
         st.w = el.offsetWidth;
         st.h = el.offsetHeight;
       }
       let show = !groupsShown.has(it.group);
-      // hidden behind the model?
       if (show) {
         for (const bx of E.scene.boxes) {
           if (blocked(_pt, camera.position, bx, at(bx.from), at(bx.to))) { show = false; break; }
         }
       }
-      // overlapping a label that matters more? (a shown label needs a little more room to stay: no flicker)
+      _v.set(_pt.x, _pt.y, _pt.z).project(camera);
+      const cx = Math.round((_v.x * 0.5 + 0.5) * size.width);
+      const cy = Math.round((-_v.y * 0.5 + 0.5) * size.height);
       if (show) {
-        _v.set(_pt.x, _pt.y, _pt.z).project(camera);
-        const cx = (_v.x * 0.5 + 0.5) * size.width;
-        const cy = (-_v.y * 0.5 + 0.5) * size.height;
+        // a label that is already showing needs a little less room to stay, so nothing flickers at the limit
         const pad = st.shown ? 2 : 8;
         const box = [cx - st.w / 2 - pad, cy - st.h / 2 - pad, cx + st.w / 2 + pad, cy + st.h / 2 + pad];
         if (_v.z > 1 || taken.some((o) => box[0] < o[2] && box[2] > o[0] && box[1] < o[3] && box[3] > o[1])) show = false;
         else taken.push(box);
       }
       if (show) groupsShown.add(it.group);
+      if (st.x !== cx || st.y !== cy) {
+        st.x = cx; st.y = cy;
+        el.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+      }
       if (st.shown !== show) {
         st.shown = show;
         el.style.opacity = show ? '1' : '0';
       }
     }
-  }, -1);
-
-  return items.map((it) => (
-    <group key={it.key} ref={(g) => { groups.current[it.key] = g; }}>
-      <Html center zIndexRange={[20, 0]} pointerEvents="none" wrapperClass="calc-label-wrap">
-        <span
-          ref={(el) => {
-            els.current[it.key] = el;
-            // <Html> renders its content a moment later: measure and place it on the next frame
-            if (el && state.current[it.key]) { state.current[it.key].shown = null; state.current[it.key].text = null; }
-            if (el) invalidate();
-          }}
-          className="calc-label"
-          data-type={it.type}
-          style={{ opacity: 0 }}
-        >
-          {it.text}
-        </span>
-      </Html>
-    </group>
-  ));
+  });
+  return null;
 }

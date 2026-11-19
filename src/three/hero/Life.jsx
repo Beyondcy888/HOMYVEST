@@ -19,7 +19,7 @@ const window01 = (v, a, len) => (v <= a ? 0 : v >= a + len ? 1 : (v - a) / len);
 function personGeometry() {
   const body = new THREE.CylinderGeometry(0.15, 0.25, 1.26, 10, 1).translate(0, 0.63, 0);
   const head = new THREE.SphereGeometry(0.2, 12, 8).translate(0, 1.5, 0);
-  const merged = mergeGeometries([body.toNonIndexed(), head.toNonIndexed()]);
+  const merged = mergeGeometries([body, head]);
   body.dispose();
   head.dispose();
   return merged;
@@ -31,7 +31,7 @@ function carGeometry() {
   for (const x of [-1.35, 1.35]) {
     for (const z of [-0.82, 0.82]) parts.push(new THREE.CylinderGeometry(0.34, 0.34, 0.24, 14).rotateX(Math.PI / 2).translate(x, 0.34, z));
   }
-  const merged = mergeGeometries(parts.map((g) => g.toNonIndexed()));
+  const merged = mergeGeometries(parts);
   parts.forEach((g) => g.dispose());
   return merged;
 }
@@ -41,9 +41,11 @@ export function People({ anim, material, density = 1 }) {
   const last = useRef(-1);
   const people = useMemo(() => {
     const all = buildPeople();
-    const n = Math.max(8, Math.round(all.length * density));
-    // keep the characteristic ones, then thin the walkers evenly
-    return n >= all.length ? all : [...all.slice(0, 8), ...all.slice(8).filter((_, i, rest) => Math.floor((i * (n - 8)) / rest.length) !== Math.floor(((i - 1) * (n - 8)) / rest.length))];
+    const n = Math.max(10, Math.round(all.length * density));
+    if (n >= all.length) return all;
+    // keep the characteristic ones (players, café guests), then thin the rest evenly
+    const rest = all.slice(8);
+    return [...all.slice(0, 8), ...Array.from({ length: n - 8 }, (_, i) => rest[Math.floor((i * rest.length) / (n - 8))])];
   }, [density]);
   const geometry = useMemo(() => personGeometry(), []);
   useLayoutEffect(() => () => geometry.dispose(), [geometry]);
@@ -60,7 +62,7 @@ export function People({ anim, material, density = 1 }) {
     if (!mesh.visible) return;
     for (let i = 0; i < people.length; i++) {
       const o = people[i];
-      const t = window01(life, o.delay * 0.6, 0.3);
+      const t = window01(life, o.delay * 0.4, 0.25);
       if (t <= 0) {
         mesh.setMatrixAt(i, _zero);
         continue;
@@ -95,7 +97,7 @@ export function Cars({ anim, material }) {
     if (!mesh.visible) return;
     for (let i = 0; i < CARS.length; i++) {
       const c = CARS[i];
-      const t = window01(life, c.delay, 0.62);
+      const t = window01(life, c.delay * 0.6, 0.42);
       if (t <= 0) {
         mesh.setMatrixAt(i, _zero);
         continue;

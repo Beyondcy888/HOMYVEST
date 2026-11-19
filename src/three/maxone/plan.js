@@ -274,8 +274,8 @@ export const STOOLS = [
   [17.57, 4.86],
 ];
 export const ARMCHAIRS = [
-  { x: 21.75, z: 4.9, rot: 2.3 },
-  { x: 21.0, z: 5.72, rot: 0.25 },
+  { x: 21.75, z: 4.9, rot: -0.9 }, // both face the counter, backs to the entrance (render 1)
+  { x: 21.0, z: 5.72, rot: -0.3 },
 ];
 export const SIDE_TABLE = { x: 21.72, z: 5.62, r: 0.26 };
 

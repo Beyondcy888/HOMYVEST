@@ -9,7 +9,7 @@ import { useFrame, useThree } from '@react-three/fiber';
 import { easing } from 'maath';
 import SceneCanvas from '../shared/SceneCanvas.jsx';
 import { Environment, Lights, KEY_DIRECTION } from '../shared/Stage.jsx';
-import { createClayMaterials } from '../shared/ClayMaterials.js';
+import { ACCENT_DARK, createClayMaterials } from '../shared/ClayMaterials.js';
 import AssemblyMesh from '../assembly/AssemblyMesh.jsx';
 import { prepare } from '../assembly/pieces.js';
 import { cssVar, useTheme } from '../../lib/theme.js';
@@ -23,6 +23,7 @@ import { BEATS, BUILD_Z, FOV, PLATE_TOP, PLOT, ROW_CENTRE, cameraAt, createRig }
 import { buildStakes, buildStreet } from './world.js';
 import { createStreetUniform, withStreetFog } from './streetFog.js';
 import { Bushes, Grass } from './Dressing.jsx';
+import { Cars, People } from './Life.jsx';
 
 const CAMERA = { fov: FOV, near: 30, far: 600, position: [-60, 66, 70] };
 const SHADOW_BOUNDS = 80;
@@ -80,6 +81,11 @@ function Scene({ progress, onAnchor }) {
   const materials = useMemo(() => {
     const set = createClayMaterials(theme);
     Object.values(set).forEach((m) => m?.isMaterial && withStreetFog(m, uStreet));
+    // Windows read as quiet grey panes against the white walls (and have somewhere to go when they warm up).
+    const clayColour = new THREE.Color(cssVar('--clay') || '#eeece6');
+    const ink = new THREE.Color(ACCENT_DARK);
+    set.glass.color.copy(clayColour).lerp(ink, 0.5);
+    set.glass.opacity = 0.5;
     const extra = {
       // office curtain wall: warms gently, stays see-through
       curtain: withStreetFog(set.glass.clone(), uStreet),
@@ -89,10 +95,11 @@ function Scene({ progress, onAnchor }) {
       grass: withStreetFog(new THREE.MeshStandardMaterial({ color: new THREE.Color(cssVar('--clay') || '#eeece6').multiplyScalar(0.94), roughness: 0.95 }), uStreet, sway ? uSway : null),
       shadow: withStreetFog(new THREE.ShadowMaterial({ transparent: true, opacity: theme === 'dark' ? 0.3 : 0.13 }), uStreet),
     };
-    extra.court.emissiveIntensity = 0;
-    extra.mesh.emissiveIntensity = 0;
-    extra.mesh.opacity *= 0.6;
-    const base = { opacity: set.glass.opacity };
+    for (const m of [extra.curtain, extra.court, extra.mesh]) m.color.copy(clayColour).lerp(ink, 0.32);
+    extra.curtain.opacity = 0.24;
+    extra.court.opacity = 0.2;
+    extra.mesh.opacity = 0.1;
+    const base = { glass: set.glass.opacity, curtain: extra.curtain.opacity };
     const dispose = () => {
       set.dispose();
       Object.values(extra).forEach((m) => m.dispose());
@@ -117,7 +124,7 @@ function Scene({ progress, onAnchor }) {
   const fixed = useRef(new Float32Array([1]));
   const stakeStage = useRef(new Float32Array([1]));
   const follow = useRef({ x: 0, z: LIGHT_TARGET[2] });
-  const anim = useRef({ p: progress.current, pc: progress.current, sink: 0 });
+  const anim = useRef({ p: progress.current, pc: progress.current, sink: 0, life: 0 });
   const rig = useMemo(() => createRig(size.width / size.height), [size.width, size.height]);
   const view = useRef({ w: 0, h: 0, rig: null });
   const anchor = useRef({ x: -1, y: -1 });
@@ -147,6 +154,7 @@ function Scene({ progress, onAnchor }) {
     for (let i = 0; i < 3; i++) stages.current[i + 1] = span(p, BEATS.assemble[i][0], BEATS.assemble[i][1]);
     a.sink = span(p, BEATS.sink[0], BEATS.sink[1]);
     stakeStage.current[0] = 1 - span(p, BEATS.sink[0], BEATS.sink[0] + 0.045);
+    a.life = span(p, BEATS.life[0], BEATS.dissolve[1]);
 
     // camera
     cameraAt(a.pc, rig, _cam);
@@ -179,9 +187,9 @@ function Scene({ progress, onAnchor }) {
     // windows warm up only in the "alive" beat
     const warm = smooth(span(p, BEATS.warm[0], BEATS.warm[1]));
     materials.glass.emissiveIntensity = warm * 1.15;
-    materials.glass.opacity = materials.base.opacity + (0.92 - materials.base.opacity) * warm;
+    materials.glass.opacity = materials.base.glass + (0.92 - materials.base.glass) * warm;
     materials.curtain.emissiveIntensity = warm * 0.9;
-    materials.curtain.opacity = materials.base.opacity + (0.42 - materials.base.opacity) * warm;
+    materials.curtain.opacity = materials.base.curtain + (0.46 - materials.base.curtain) * warm;
 
     // grass sway: the only time-driven motion, on the high tier and only while the plot is idle
     const idle = sway && a.pc < BEATS.idle[1] && !document.hidden;
@@ -225,23 +233,64 @@ function Scene({ progress, onAnchor }) {
   return (
     <>
       <Environment />
-      <Lights target={LIGHT_TARGET} bounds={SHADOW_BOUNDS} distance={LIGHT_DISTANCE} softness={3} follow={follow} />
+      <Lights target={LIGHT_TARGET} bounds={SHADOW_BOUNDS} distance={LIGHT_DISTANCE} follow={follow} />
       <group ref={root}>
         {tier.shadows ? (
           <mesh rotation-x={-Math.PI / 2} position={[ROW_CENTRE[0], 0, ROW_CENTRE[2]]} receiveShadow>
             <planeGeometry args={[520, 240]} />
             <primitive object={materials.shadow} attach="material" />
           </mesh>
-        ) : null}
+        ) : (
+          <BlobShadows stages={stages} uStreet={uStreet} dark={theme === 'dark'} />
+        )}
         <AssemblyMesh kit={street} stages={fixed} materials={materials} castShadow={false} />
         <AssemblyMesh kit={stakes} stages={stakeStage} materials={materials} />
         <Grass anim={anim} material={materials.grass} count={Math.round(620 * tier.density)} />
         <Bushes anim={anim} material={materials.solid} />
         <AssemblyMesh kit={kits.solid} stages={stages} materials={materials} />
-        {kits.soft.count ? <AssemblyMesh kit={kits.soft} stages={stages} materials={materials} materialFor={materialFor} castShadow={false} receiveShadow={false} /> : null}
+        <AssemblyMesh kit={kits.soft} stages={stages} materials={materials} materialFor={materialFor} castShadow={false} receiveShadow={false} />
+        <People anim={anim} material={materials.solid} density={tier.density} />
+        <Cars anim={anim} material={materials.solid} />
       </group>
     </>
   );
+}
+
+// Low tier has no shadow maps: one soft blob under each building grounds it instead.
+const BLOBS = [
+  [PLOT.xs[0] + 5, BUILD_Z + 2, 40, 24],
+  [PLOT.xs[1] + 5, BUILD_Z + 2, 38, 24],
+  [PLOT.xs[2] + 2, BUILD_Z + 2, 24, 18],
+  [PLOT.xs[3] + 3, BUILD_Z + 1, 34, 18],
+];
+
+function BlobShadows({ stages, uStreet, dark }) {
+  const texture = useMemo(() => {
+    const c = document.createElement('canvas');
+    c.width = c.height = 64;
+    const g = c.getContext('2d');
+    const grad = g.createRadialGradient(32, 32, 6, 32, 32, 32);
+    grad.addColorStop(0, 'rgba(255,255,255,1)');
+    grad.addColorStop(1, 'rgba(255,255,255,0)');
+    g.fillStyle = grad;
+    g.fillRect(0, 0, 64, 64);
+    return new THREE.CanvasTexture(c);
+  }, []);
+  const mats = useMemo(
+    () => BLOBS.map(() => withStreetFog(new THREE.MeshBasicMaterial({ color: '#1a1814', alphaMap: texture, transparent: true, depthWrite: false, opacity: 0 }), uStreet)),
+    [texture, uStreet],
+  );
+  useEffect(() => () => mats.forEach((m) => m.dispose()), [mats]);
+  useEffect(() => () => texture.dispose(), [texture]);
+  useFrame(() => {
+    for (let i = 0; i < mats.length; i++) mats[i].opacity = (dark ? 0.5 : 0.2) * stages.current[i];
+  });
+  return BLOBS.map(([x, z, w, d], i) => (
+    <mesh key={i} rotation-x={-Math.PI / 2} position={[x, PLATE_TOP + 0.02 + i * 0.001, z]} scale={[w, d, 1]}>
+      <planeGeometry args={[1, 1]} />
+      <primitive object={mats[i]} attach="material" />
+    </mesh>
+  ));
 }
 
 function HeroScene({ progress, onReady, onAnchor }) {

@@ -64,3 +64,75 @@
     text-align: left;
   }
 }
+
+/* ---------- Padel hall: the pinned scene (live mode) ---------- */
+.padel-live__scene {
+  position: absolute;
+  inset: 0 0 0 34%;
+}
+.padel-live__text {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(28px, 6vh, 64px);
+  pointer-events: none;
+}
+.padel-live__stages,
+.padel-live__credits {
+  display: grid;
+  width: min(30%, 26rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.padel-live__stage,
+.padel-live__credit {
+  grid-area: 1 / 1;
+  margin: 0;
+}
+.padel-live__stage {
+  display: grid;
+  align-content: start;
+  gap: clamp(12px, 2vh, 20px);
+  will-change: transform, opacity;
+}
+/* Before the timeline takes over (and if it never does), the first sentence shows and the rest wait. */
+.padel-live__stage:not(.padel-live__stage--0),
+.padel-live__credit {
+  opacity: 0;
+}
+.padel-live__line {
+  max-width: 13ch;
+  text-wrap: balance;
+}
+.padel-live__credit {
+  display: grid;
+  gap: 10px;
+}
+
+@media (max-width: 820px) {
+  .padel-live__scene {
+    inset: 27% 0 19% 0;
+    /* the roof comes down from above the model: let it arrive out of the paper, not from under a hard edge */
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 13%);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 13%);
+  }
+  .padel-live__text {
+    justify-content: space-between;
+    gap: 0;
+    padding-block: clamp(56px, 9vh, 84px) clamp(70px, 10.5vh, 92px);
+  }
+  .padel-live__stages,
+  .padel-live__credits {
+    width: 100%;
+  }
+  .padel-live__line {
+    max-width: 20ch;
+  }
+  .padel-live__credit {
+    gap: 4px;
+  }
+}

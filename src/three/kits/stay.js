@@ -1,6 +1,6 @@
 // The hybrid stay (docs/06 §2.3): 24 × 12 m, four floors at 3.2 m. Perimeter walls with real window
 // openings on a 3 m bay, a central corridor with rooms on both sides, a glazed lobby on the ground
-// floor and a dark stair core at the east end. The top floor is cut at 1.4 m with no roof, so the
+// floor and a dark stair core at the east end (garden side, so the street front stays regular). The top floor is cut at 1.4 m with no roof, so the
 // rooms (bathroom pods, beds) read as a plan.
 //
 // Pure: (params) → Piece[] in metres. `origin` is the centre of the footprint at its base; the front
@@ -105,8 +105,12 @@ export function buildStay({
     if (!top) {
       // lower floors are hidden under the next slab: corridor walls only (they close the view through the windows)
       const frontStart = ground && lobbyBays > 0 ? -hx + lobbyBays * BAY : -hx + T;
-      parts.push(box([W - 2 * T, h, PART], at(0, y + h / 2, -zc), { tone: 'soft' }));
-      parts.push(box([coreX0 - frontStart, h, PART], at((coreX0 + frontStart) / 2, y + h / 2, zc), { tone: 'soft' }));
+      const run = (x0, x1, z) => {
+        const n = Math.max(1, Math.round((x1 - x0) / 6));
+        for (let k = 0; k < n; k++) parts.push(box([(x1 - x0) / n, h, PART], at(x0 + ((k + 0.5) * (x1 - x0)) / n, y + h / 2, z), { tone: 'soft' }));
+      };
+      run(-hx + T, coreX0, -zc);
+      run(frontStart, hx - T, zc);
       if (ground && lobbyBays > 0) {
         const lx = -hx + lobbyBays * BAY;
         parts.push(box([PART, h, inner - roomZ], at(lx + PART / 2, y + h / 2, (inner + roomZ) / 2), { tone: 'soft' }));
@@ -118,11 +122,11 @@ export function buildStay({
       // top floor: rooms 3 m wide on both sides of the corridor, each with a bathroom pod and a bed
       const hp = Math.min(1.25, h - 0.15);
       const rooms = [];
-      for (let i = 0; i < bays; i++) rooms.push({ xa: -hx + i * BAY, xb: -hx + (i + 1) * BAY, s: -1, limit: hx - T });
+      for (let i = 0; i < bays; i++) rooms.push({ xa: -hx + i * BAY, xb: -hx + (i + 1) * BAY, s: 1, limit: hx - T });
       for (let i = 0; i < bays; i++) {
         const xa = -hx + i * BAY;
         const xb = Math.min(xa + BAY, coreX0);
-        if (xb - xa > 2.2) rooms.push({ xa, xb, s: 1, limit: coreX0 });
+        if (xb - xa > 2.2) rooms.push({ xa, xb, s: -1, limit: coreX0 });
       }
       for (const r of rooms) {
         const last = r.xb >= r.limit - 0.01;
@@ -146,7 +150,7 @@ export function buildStay({
 
     // ---- stair core: the one dark element. It lands last on each floor and rises above the cut.
     const ch = top ? h + 1.2 : h;
-    groups.push([{ kind: 'dark', size: [core.w - 0.02, ch, core.d - 0.02], pos: at(coreX0 + core.w / 2 - 0.01, y + ch / 2, inner - core.d / 2 - 0.01) }]);
+    groups.push([{ kind: 'dark', size: [core.w - 0.02, ch, core.d - 0.02], pos: at(coreX0 + core.w / 2 - 0.01, y + ch / 2, -(inner - core.d / 2 - 0.01)) }]);
   }
   return sequence(groups, { seed, stage });
 }

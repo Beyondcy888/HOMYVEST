@@ -3,18 +3,24 @@
 // focus. While the camera is on one plot, its neighbours and the far road are simply paper; when the
 // camera pulls back, the window opens and the whole street appears.
 //
-// It reuses three's own fog (so the colour is exactly the page colour, applied after tone mapping):
-// only the value fed to it changes. scene.fog.near / .far are then metres from the focus.
+// It reuses three's own fog uniforms (so the colour is exactly the page colour, applied after tone
+// mapping): scene.fog.near / .far are metres from the focus. The distance is evaluated per fragment,
+// because the road is one 266 m piece and per-vertex fog cannot describe a window in its middle.
 import * as THREE from 'three';
 
 const VERTEX = /* glsl */ `
+#include <fog_vertex>
+vec4 streetPos = vec4( transformed, 1.0 );
+#ifdef USE_INSTANCING
+  streetPos = instanceMatrix * streetPos;
+#endif
+vStreet = ( modelMatrix * streetPos ).xz;
+`;
+
+const FRAGMENT = /* glsl */ `
 #ifdef USE_FOG
-  vec4 streetPos = vec4( transformed, 1.0 );
-  #ifdef USE_INSTANCING
-    streetPos = instanceMatrix * streetPos;
-  #endif
-  streetPos = modelMatrix * streetPos;
-  vFogDepth = max( abs( streetPos.x - uStreet.x ), abs( streetPos.z - uStreet.y ) * uStreet.z );
+  float streetDist = max( abs( vStreet.x - uStreet.x ), abs( vStreet.y - uStreet.y ) * uStreet.z );
+  gl_FragColor.rgb = mix( gl_FragColor.rgb, fogColor, smoothstep( fogNear, fogFar, streetDist ) );
 #endif
 `;
 
@@ -38,12 +44,13 @@ export const createStreetUniform = () => ({ value: new THREE.Vector3(0, -5, 0.8)
 export function withStreetFog(material, uStreet, sway) {
   material.onBeforeCompile = (shader) => {
     shader.uniforms.uStreet = uStreet;
-    let vs = `uniform vec3 uStreet;\n${shader.vertexShader}`.replace('#include <fog_vertex>', VERTEX);
+    let vs = `varying vec2 vStreet;\n${shader.vertexShader}`.replace('#include <fog_vertex>', VERTEX);
     if (sway) {
       shader.uniforms.uSway = sway;
       vs = `uniform float uSway;\n${vs}`.replace('#include <begin_vertex>', SWAY);
     }
     shader.vertexShader = vs;
+    shader.fragmentShader = `uniform vec3 uStreet;\nvarying vec2 vStreet;\n${shader.fragmentShader}`.replace('#include <fog_fragment>', FRAGMENT);
   };
   material.customProgramCacheKey = () => (sway ? 'street-fog-sway' : 'street-fog');
   material.needsUpdate = true;

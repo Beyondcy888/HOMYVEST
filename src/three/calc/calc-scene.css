@@ -15,10 +15,19 @@
 }
 
 /* Dimension labels: paper background, ink text, small type */
-.calc-label-wrap {
+.calc-labels {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  overflow: hidden;
   pointer-events: none;
 }
 .calc-label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0; /* placed and shown by the scene on its next frame */
+  will-change: transform;
   display: block;
   padding: 3px 7px 2px;
   background: var(--paper);

@@ -28,7 +28,7 @@ import {
 } from '../../lib/calc/geometry.ts';
 
 // ---------- visual-only constants (they never change an area or a count) ----------
-export const GAP_H = 0.14; // recessed shadow gap under every storey, so floors can be counted
+export const GAP_H = 0.16; // recessed shadow gap under every storey, so floors can be counted
 export const GAP_IN = 0.1;
 export const PAD_H = 0.05; // the building band: a clay slab, slightly raised (docs/06 §5.2)
 export const ZONE_H = 0.03;
@@ -59,7 +59,7 @@ function storey(out, id, level, rect, h, { gap = true, kind = 'box', tone = 'wal
 }
 function gapPart(out, id, level, rect) {
   if (!(rect.w > 4 * GAP_IN && rect.d > 4 * GAP_IN)) return 0;
-  out.push({ key: `${id}:g${level}`, kind: 'box', tone: 'deep', level, x: rect.x, z: rect.z, w: rect.w - 2 * GAP_IN, d: rect.d - 2 * GAP_IN, y0: 0, h: GAP_H });
+  out.push({ key: `${id}:g${level}`, kind: 'box', tone: 'gap', level, x: rect.x, z: rect.z, w: rect.w - 2 * GAP_IN, d: rect.d - 2 * GAP_IN, y0: 0, h: GAP_H });
   return GAP_H;
 }
 /** A flat panel on a facade that faces the road (`front`) or the back. `zFace` is the wall plane. */
@@ -99,7 +99,7 @@ function bandGround(r, footprints, { bays = true } = {}) {
 
 const greenLabel = (r, area, depth) => {
   if (!(depth > 0.8)) return [];
-  const end = r.P / 2 - Math.min(r.P * 0.14, 2.2);
+  const end = r.P / 2; // on the band's end, where it shows past a building that hides the middle
   return [['green', 0], ['green:l', -end], ['green:r', end]].map(([key, x]) => ({ key, group: 'green', type: 'green', x, z: r.L - depth / 2, lv: [0, 0], dy: 0.1, area }));
 };
 

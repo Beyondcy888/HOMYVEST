@@ -58,7 +58,11 @@
       ],
       "fitRmsPx": 0.19,
       "fitMaxPx": 0.26,
-      "fitMaxPct": 0.014
+      "fitMaxPct": 0.014,
+      "wipe": [
+        -525,
+        489
+      ]
     },
     "padel-clean/padel-2": {
       "size": [
@@ -90,7 +94,11 @@
       ],
       "fitRmsPx": 0.53,
       "fitMaxPx": 0.74,
-      "fitMaxPct": 0.055
+      "fitMaxPct": 0.055,
+      "wipe": [
+        -452,
+        355
+      ]
     },
     "padel-clean/padel-3": {
       "size": [
@@ -122,7 +130,12 @@
       ],
       "fitRmsPx": 0.38,
       "fitMaxPx": 0.46,
-      "fitMaxPct": 0.035
+      "fitMaxPct": 0.035,
+      "wipe": [
+        -481,
+        433
+      ]
     }
-  }
+  },
+  "wipeNote": "wipe: extent of the cut-out along the wipe axis s = 0.5u - 0.866v in image px (the wipe edge is parallel to the slab's front-left edge and travels toward R)."
 }

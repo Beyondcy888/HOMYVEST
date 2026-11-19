@@ -63,6 +63,7 @@ export function createCalcMaterials(theme = 'light') {
 
   const tones = clayTones(clayHex);
   tones.glass = new THREE.Color(clayHex).multiplyScalar(0.6); // glazing: windows, shop fronts, doors
+  tones.gap = new THREE.Color(clayHex).multiplyScalar(0.55); // the shadow gap between storeys
 
   const plate = patterned(new THREE.MeshStandardMaterial({ color: paper2, roughness: 0.95, metalness: 0 }), 'dots', DOTS, {
     uCalcInk: { value: new THREE.Color(ink) }, uCalcScale: scale, uCalcAlpha: { value: 0.45 },

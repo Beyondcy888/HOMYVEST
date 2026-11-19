@@ -14,37 +14,59 @@ export const FOV = 30;
 const HOME_AZ = -42 * DEG;
 const HOME_POLAR = 52 * DEG;
 const FRAME = 0.6; // seconds
-const MARGIN = 0.86; // the scene fills this share of the panel, leaving room for labels
+const MARGIN = 0.9; // the scene fills this share of the panel, leaving room for labels
 
-/** World-space box that must stay in view: land, road, dimension lines and the model with its top label. */
-export function sceneBox(scene, height) {
+/** World points that must stay in view: land, road, dimension lines, and the model with its top label. */
+export function fitPoints(scene, height) {
   const { P, L } = scene.land;
   const u = scene.u;
-  return {
-    min: [-P / 2 - 1.7 * u, -scene.th, -L - 0.3 * u],
-    max: [P / 2 + 1.6 * u, height + 0.9 * u, ROAD_DEPTH + 1.6 * u],
-  };
+  const pts = [
+    [-P / 2 - 1.5 * u, 0, 0], [-P / 2 - 1.5 * u, 0, -L], [P / 2, 0, -L],
+    [-P / 2, 0, ROAD_DEPTH + 1.5 * u], [P / 2, 0, ROAD_DEPTH + 1.5 * u],
+  ];
+  let x0 = -P / 2, x1 = P / 2, z0 = 0, z1 = L;
+  if (scene.boxes.length) {
+    x0 = Math.min(...scene.boxes.map((b) => b.x - b.w / 2));
+    x1 = Math.max(...scene.boxes.map((b) => b.x + b.w / 2));
+    z0 = Math.min(...scene.boxes.map((b) => b.z - b.d / 2));
+    z1 = Math.max(...scene.boxes.map((b) => b.z + b.d / 2));
+  }
+  const top = height + 0.8 * u;
+  pts.push([x0, top, -z0], [x1 + 1.6 * u, top, -z0], [x0, top, -z1], [x1, top, -z1]);
+  return pts;
 }
 
-/** Smallest camera distance from the box centre at which every corner is inside the frustum. */
-export function fitDistance(box, az, polar, aspect) {
+/**
+ * Camera target and distance that put the points in the middle of the panel, as large as the margins
+ * allow. "bottom" is the share of the panel's height kept free at the bottom (hint and reset button).
+ */
+export function frameView(points, az, polar, aspect, bottom = 0) {
   const sp = Math.sin(polar), cp = Math.cos(polar), sa = Math.sin(az), ca = Math.cos(az);
   const d = [sp * sa, cp, sp * ca]; // from the target toward the camera
   const r = [ca, 0, -sa];
   const up = [-sa * cp, sp, -ca * cp];
-  const tv = Math.tan((FOV * DEG) / 2) * MARGIN;
+  const tv = Math.tan((FOV * DEG) / 2);
   const th = tv * aspect;
-  const c = [0, 1, 2].map((i) => (box.min[i] + box.max[i]) / 2);
-  let dist = 0;
-  for (let i = 0; i < 8; i++) {
-    const p = [i & 1 ? box.max[0] : box.min[0], i & 2 ? box.max[1] : box.min[1], i & 4 ? box.max[2] : box.min[2]];
-    const rel = [p[0] - c[0], p[1] - c[1], p[2] - c[2]];
-    const along = rel[0] * d[0] + rel[1] * d[1] + rel[2] * d[2];
-    const x = Math.abs(rel[0] * r[0] + rel[1] * r[1] + rel[2] * r[2]);
-    const y = Math.abs(rel[0] * up[0] + rel[1] * up[1] + rel[2] * up[2]);
-    dist = Math.max(dist, along + x / th, along + y / tv);
+  const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+  const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
+  for (const p of points) for (let i = 0; i < 3; i++) { lo[i] = Math.min(lo[i], p[i]); hi[i] = Math.max(hi[i], p[i]); }
+  const target = [0, 1, 2].map((i) => (lo[i] + hi[i]) / 2);
+  let dist = Math.hypot(hi[0] - lo[0], hi[1] - lo[1], hi[2] - lo[2]) * 3;
+  const halfY = MARGIN - bottom; // usable area in NDC: x ±MARGIN, y from −MARGIN + 2·bottom to MARGIN
+  for (let n = 0; n < 8; n++) {
+    let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+    for (const p of points) {
+      const rel = [p[0] - target[0], p[1] - target[1], p[2] - target[2]];
+      const depth = Math.max(1e-3, dist - dot(rel, d));
+      const x = dot(rel, r) / (depth * th), y = dot(rel, up) / (depth * tv);
+      x0 = Math.min(x0, x); x1 = Math.max(x1, x); y0 = Math.min(y0, y); y1 = Math.max(y1, y);
+    }
+    const mx = ((x0 + x1) / 2) * dist * th, my = ((y0 + y1) / 2 - bottom) * dist * tv;
+    for (let i = 0; i < 3; i++) target[i] += r[i] * mx + up[i] * my;
+    dist *= Math.max((x1 - x0) / (2 * MARGIN), (y1 - y0) / (2 * halfY));
   }
-  return { dist, center: c };
+  target[1] = Math.max(0, target[1]);
+  return { dist, center: target };
 }
 
 const ease = (u) => (u < 0.5 ? 2 * u * u : 1 - (-2 * u + 2) ** 2 / 2); // power2.inOut
@@ -100,10 +122,9 @@ export default function Rig({ scene, reduced, zoom, api, onStart }) {
   const frame = (home, instant) => {
     const c = controls.current;
     if (!c || !(size.width > 0)) return;
-    const box = sceneBox(scene, height);
     const az = home ? HOME_AZ : c.getAzimuthalAngle();
     const polar = home ? HOME_POLAR : c.getPolarAngle();
-    const fit = fitDistance(box, az, polar, aspect);
+    const fit = frameView(fitPoints(scene, height), az, polar, aspect, Math.min(0.2, 50 / Math.max(1, size.height)));
     framed.current = { P, L, h: height, aspect, ready: true, dist: fit.dist };
     if (instant) {
       move.current = null;

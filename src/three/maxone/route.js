@@ -23,9 +23,9 @@ export const KEYS = [
   { pos: [23.0, 1.6, 14.3], look: [22.6, 1.9, 7.5] }, // top of the steps
   { pos: [23.0, 1.6, 12.3], look: [22.3, 1.8, 7.3] }, // walkway between the core and the planter beds
   { pos: [23.4, 1.6, 10.2], look: [20.8, 1.7, 6.0] },
-  { pos: [23.3, 1.6, 8.75], look: [19.6, 1.65, 4.8] }, // swinging in toward the doors
-  { pos: [22.4, 1.6, 7.72], look: [18.4, 1.55, 3.8] }, // through the entrance
-  { pos: [21.75, 1.56, 7.95], look: [18.0, 1.45, 3.9], stop: 1 }, // S1 the welcome (render 1)
+  { pos: [23.35, 1.6, 8.5], look: [19.6, 1.65, 4.8] }, // swinging in toward the doors
+  { pos: [22.4, 1.6, 7.38], look: [18.4, 1.55, 3.8] }, // through the entrance
+  { pos: [21.5, 1.56, 7.7], look: [17.9, 1.45, 3.8], stop: 1 }, // S1 the welcome (render 1)
   { pos: [19.0, 1.5, 7.05], look: [9.0, 1.32, 7.0], stop: 2 }, // S2 the dining hall (render 2)
   { pos: [17.3, 1.52, 6.15], look: [9.0, 1.35, 5.4] }, // north lane, past the planters
   { pos: [15.8, 1.55, 5.42], look: [8.0, 1.4, 5.2] }, // north of the marble column
@@ -382,8 +382,15 @@ export function routeAt(p, view = {}, out = {}) {
   let stopIndex = 0;
   for (const st of STOPS) if (q >= st.a - 0.03) stopIndex = st.index;
 
-  out.position = [x, y, z];
-  out.lookAt = [x + dx * 5, y + dy * 5, z + dz * 5];
+  // Reuse the caller's arrays: the 3D camera calls this every frame and must not allocate.
+  const pos = out.position || (out.position = [0, 0, 0]);
+  const look = out.lookAt || (out.lookAt = [0, 0, 0]);
+  pos[0] = x;
+  pos[1] = y;
+  pos[2] = z;
+  look[0] = x + dx * 5;
+  look[1] = y + dy * 5;
+  look[2] = z + dz * 5;
   out.yaw = yaw;
   out.pitch = pitch;
   out.heading = (((yaw / D2R) % 360) + 360) % 360;

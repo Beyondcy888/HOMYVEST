@@ -45,6 +45,8 @@ const IMG_Y1 = IMAGES.map((t) => t.origin[1] / t.scale);
 const WIPE_N = [0.5, -Math.sqrt(3) / 2]; // direction of travel, in CSS px (y down)
 const WIPE_D = [Math.sqrt(3) / 2, 0.5]; // along the edge
 const FAR = 6000;
+// How far the clay model's shadow reaches past the building along the wipe, as a share of the image width.
+const SHADOW_REACH = [0.04, 0.09, 0.2];
 const wipeS = (x, y) => WIPE_N[0] * x + WIPE_N[1] * y;
 
 const DROP = 62; // metres the roof falls: it starts above the frame
@@ -119,8 +121,6 @@ function Driver({ progress, stages, layers, model, onProject }) {
       const k = zoom / IMAGES[i].scale;
       const left = size.width / 2 + (IMG_X0[i] - CENTRE[0]) * zoom;
       const top = size.height / 2 - (IMG_Y1[i] - CENTRE[1]) * zoom;
-      const w = IMAGES[i].size[0] * k;
-      const h = IMAGES[i].size[1] * k;
       let clip = 'none';
       let visible;
       if (DEBUG) {
@@ -131,9 +131,10 @@ function Driver({ progress, stages, layers, model, onProject }) {
         const trail = r.out ? easeInOut(span(p, r.out[0], r.out[1])) : 0;
         visible = lead > 0 && trail < 1;
         if (visible && (lead < 1 || trail > 0)) {
-          // the band crosses the model and its shadow, never the whole empty stage
-          const a = Math.max(wipeS(0, size.height), wipeS(left, top + h) - 0.03 * w);
-          const b = Math.min(wipeS(size.width, 0), wipeS(left + w, top) + 0.3 * w);
+          // the band crosses the building and the clay model's shadow, not the empty paper around them
+          const origin = wipeS(left, top);
+          const a = origin + k * (IMAGES[i].wipe[0] - 0.012 * IMAGES[i].size[0]);
+          const b = origin + k * (IMAGES[i].wipe[1] + SHADOW_REACH[i] * IMAGES[i].size[0]);
           const s0 = lead >= 1 ? FAR * 2 : a + (b - a) * lead;
           const s1 = trail <= 0 ? -FAR * 2 : a + (b - a) * trail;
           const ax = WIPE_N[0] * s0, ay = WIPE_N[1] * s0, bx = WIPE_N[0] * s1, by = WIPE_N[1] * s1;

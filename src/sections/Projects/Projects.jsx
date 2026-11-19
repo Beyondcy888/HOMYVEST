@@ -1,6 +1,5 @@
 import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import { Flip } from 'gsap/Flip';
 import { useT } from '../../i18n/useT.js';
 import { captions, gallery, CATEGORIES } from '../../content/projects.js';
 import { prefersReducedMotion } from '../../lib/device/useReducedMotion.js';
@@ -15,7 +14,13 @@ import { ArrowDown } from '../../components/ui/Icons.jsx';
 import '../sections.css';
 import './Projects.css';
 
-gsap.registerPlugin(Flip);
+// The FLIP plugin is only needed when a filter is used, so it is fetched then (and warmed on hover).
+let flipPromise = null;
+const loadFlip = () =>
+  (flipPromise ??= import('gsap/Flip').then((m) => {
+    gsap.registerPlugin(m.Flip);
+    return m.Flip;
+  }));
 
 // How wide each size renders, for an accurate `sizes` attribute (the browser then picks the right file).
 const SIZES = {
@@ -32,6 +37,7 @@ export default function Projects() {
   const [open, setOpen] = useState(null);
   const gridRef = useRef(null);
   const flipState = useRef(null);
+  const flipRef = useRef(null);
   const sectionRef = useInViewClass();
 
   const visible = useMemo(
@@ -42,8 +48,17 @@ export default function Projects() {
 
   const choose = (next) => {
     if (next === filter) return;
-    if (!prefersReducedMotion() && gridRef.current) flipState.current = Flip.getState(gridRef.current.querySelectorAll('.pj'));
-    setFilter(next);
+    if (prefersReducedMotion() || !gridRef.current) {
+      setFilter(next);
+      return;
+    }
+    loadFlip()
+      .then((Flip) => {
+        flipRef.current = Flip;
+        flipState.current = Flip.getState(gridRef.current.querySelectorAll('.pj'));
+      })
+      .catch(() => undefined)
+      .then(() => setFilter(next));
   };
 
   // FLIP: items glide to their new places; leaving items fade, entering items fade in.
@@ -54,12 +69,12 @@ export default function Projects() {
       refreshTriggers();
       return;
     }
-    Flip.from(state, {
+    flipRef.current.from(state, {
       duration: 0.7,
       ease: 'expo.out',
       absolute: false,
       targets: gridRef.current.querySelectorAll('.pj'),
-      onEnter: (els) => gsap.fromTo(els, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }),
+      onEnter: (els) => (els.length ? gsap.fromTo(els, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }) : null),
       onComplete: refreshTriggers,
     });
   }, [filter]);
@@ -86,7 +101,7 @@ export default function Projects() {
           </div>
           <div className="projects__meta">
             <p className="t-lead ink-2">{t('projects.body')}</p>
-            <div className="filters" role="tablist" aria-label={t('projects.filterLabel')} onKeyDown={onTabKey}>
+            <div className="filters" role="tablist" aria-label={t('projects.filterLabel')} onKeyDown={onTabKey} onPointerEnter={() => loadFlip().catch(() => undefined)} onFocus={() => loadFlip().catch(() => undefined)}>
               {tabs.map((key) => (
                 <button
                   key={key}
