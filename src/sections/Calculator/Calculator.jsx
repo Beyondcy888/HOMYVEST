@@ -148,8 +148,12 @@ export default function Calculator() {
                 <>
                   <p className="calc__big">
                     <span className="calc__big-pre">{pre.trim()}</span>
-                    <RollingArea value={r.floorArea} className="t-stat calc__big-n" />
-                    <span className="calc__big-post">{post.trim()}</span>
+                    <span className="t-stat calc__big-n">
+                      <RollingArea value={r.floorArea} />
+                      {/* a lone full stop (Indonesian) closes the number instead of floating after it */}
+                      {/^[.!?]$/.test(post.trim()) ? post.trim() : null}
+                    </span>
+                    {/^[.!?]$/.test(post.trim()) ? null : <span className="calc__big-post">{post.trim()}</span>}
                   </p>
                   <p className="calc__floors">{floorsText(r, t, lang)}</p>
                   <SplitBar r={r} />
