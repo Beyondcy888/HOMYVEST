@@ -12,24 +12,24 @@ Detailed log per milestone: [docs/PROGRESS.md](docs/PROGRESS.md) · decisions: [
 ---
 
 ## M0 — Setup
-- [~] Lay out the kit in the project root (CLAUDE.md, docs/, scripts/, reference/, .claude/settings.json)
-- [ ] Snapshot hashes of the original renders (qa/renders-originals.sha256.txt)
-- [ ] git init + .gitignore
-- [ ] Project scaffold (package.json, vite, tsconfig, index.html, src/)
-- [ ] npm packages installed
-- [ ] **Impeccable** installed + initialised (PRODUCT.md, DESIGN.md)
-- [ ] **Taste Skill** (design-taste-frontend) installed
-- [ ] **Playwright** test runner + Chromium installed, smoke test passes
-- [ ] Playwright Claude Code plugin (nice to have)
-- [ ] Python depth environment (.venv-depth)
-- [ ] Commit `M0`
+- [x] Lay out the kit in the project root (CLAUDE.md, docs/, scripts/, reference/, .claude/settings.json)
+- [x] Snapshot hashes of the original renders (qa/renders-originals.sha256.txt)
+- [x] git init + .gitignore
+- [x] Project scaffold (package.json, vite, tsconfig, index.html, src/)
+- [x] npm packages installed
+- [x] **Impeccable** installed + initialised (PRODUCT.md, DESIGN.md)
+- [x] **Taste Skill** (design-taste-frontend) installed
+- [x] **Playwright** test runner + Chromium installed, smoke test passes
+- [!] Playwright Claude Code plugin (nice to have) — the `claude` CLI is not on PATH on this machine; needs one command from you, see REPORT
+- [x] Python depth environment (.venv-depth)
+- [x] Commit `M0`
 
 ## M1 — Asset pipeline
-- [ ] Clean padel images (captions removed, transparent)
-- [ ] Optimise all renders → public/media + media-manifest.json (35 images)
-- [ ] Depth maps → public/media/depth + depth-status.json
-- [ ] Looked at the outputs (padel cut-outs, two depth maps)
-- [ ] Commit `M1`
+- [x] Clean padel images (captions removed, transparent)
+- [x] Optimise all renders → public/media + media-manifest.json (35 images)
+- [x] Depth maps → public/media/depth + depth-status.json
+- [x] Looked at the outputs (padel cut-outs, two depth maps)
+- [x] Commit `M1`
 
 ## M2 — Foundations
 - [ ] Design tokens, base styles, typography (Archivo variable)

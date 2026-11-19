@@ -1,0 +1,32 @@
+/* HOMYVEST in Archivo: weight 900, width 125%, uppercase, tracking −0.02em. No icon, no monogram. */
+.wordmark {
+  display: inline-flex;
+  color: inherit;
+  line-height: 1;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.wm {
+  --wm-wdth: 125;
+  display: inline-flex;
+  align-items: flex-end;
+  font-weight: 900;
+  font-variation-settings: 'wdth' var(--wm-wdth);
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.wm-gap,
+.wm-ins {
+  display: inline-flex;
+  align-items: flex-end;
+  width: 0;
+  overflow: hidden;
+  flex: none;
+}
+.wm-ins i {
+  display: inline-block;
+  font-style: normal;
+  will-change: transform;
+}

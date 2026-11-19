@@ -3,10 +3,90 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>HOMYVEST</title>
+    <title>HOMYVEST: Turn idle land into income</title>
+    <meta
+      name="description"
+      content="Have empty land or an unfinished building? See what it can hold and earn, then let HomyEight build it and Behomy run it."
+    />
+    <meta name="theme-color" content="#fafaf7" />
+    <!-- Placeholder domain until the owner provides the real one. Search the codebase for "homyvest.example". -->
+    <link rel="canonical" href="https://homyvest.example/" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="HOMYVEST" />
+    <meta property="og:url" content="https://homyvest.example/" />
+    <meta property="og:title" content="HOMYVEST: Turn idle land into income" />
+    <meta
+      property="og:description"
+      content="Have empty land or an unfinished building? See what it can hold and earn, then let HomyEight build it and Behomy run it."
+    />
+    <meta property="og:image" content="https://homyvest.example/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="HOMYVEST wordmark over a lit-up property at dusk" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="id_ID" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="HOMYVEST: Turn idle land into income" />
+    <meta
+      name="twitter:description"
+      content="Have empty land or an unfinished building? See what it can hold and earn, then let HomyEight build it and Behomy run it."
+    />
+    <meta name="twitter:image" content="https://homyvest.example/og.jpg" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "HOMYVEST",
+        "url": "https://homyvest.example/",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+62-821-1010-6088",
+          "contactType": "customer service",
+          "availableLanguage": ["en", "id"]
+        }
+      }
+    </script>
+
+    <!-- Theme and language before first paint, so nothing flashes. Storage access is guarded. -->
+    <script>
+      (function () {
+        var d = document.documentElement;
+        try {
+          var p = localStorage.getItem('homyvest:theme');
+          var dark = p === 'dark' || (p !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          d.dataset.theme = dark ? 'dark' : 'light';
+          var m = document.querySelector('meta[name="theme-color"]');
+          if (m && dark) m.setAttribute('content', '#0c0c0b');
+        } catch (e) {
+          try {
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) d.dataset.theme = 'dark';
+          } catch (e2) {}
+        }
+        try {
+          var l = new URLSearchParams(location.search).get('lang') || localStorage.getItem('homyvest:lang');
+          if (l === 'id' || l === 'en') d.lang = l;
+        } catch (e) {}
+      })();
+    </script>
+    <style>
+      /* First paint, before the stylesheet arrives */
+      html { background: #fafaf7; }
+      html[data-theme='dark'] { background: #0c0c0b; }
+    </style>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <p style="font-family: system-ui, sans-serif; padding: 24px; max-width: 60ch">
+        HOMYVEST helps owners of idle land and buildings turn them into earning properties. This site needs JavaScript.
+        You can reach us on WhatsApp at +62 821-1010-6088.
+      </p>
+    </noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

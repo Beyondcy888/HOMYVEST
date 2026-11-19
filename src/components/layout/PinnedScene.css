@@ -1,0 +1,34 @@
+.pinned {
+  position: relative;
+  background: var(--paper);
+}
+.pinned__stage {
+  position: sticky;
+  top: 0;
+  height: var(--stage-h);
+  width: 100%;
+  overflow: hidden;
+  /* transforms and opacity only inside the stage: never animate layout while pinned */
+  contain: layout paint;
+}
+
+/* Skip links for pinned scenes: quiet text, always reachable by keyboard. */
+.scene-skip {
+  position: absolute;
+  z-index: 5;
+  left: var(--gutter);
+  bottom: clamp(20px, 4vh, 40px);
+  font-size: var(--t-small);
+  font-weight: 600;
+  color: var(--ink-2);
+  padding: 12px 0;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: auto;
+}
+.scene-skip svg {
+  width: 14px;
+  height: 14px;
+}

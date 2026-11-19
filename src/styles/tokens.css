@@ -1,0 +1,98 @@
+/* Design tokens. Source of truth: docs/03_BRAND_AND_DESIGN.md. */
+:root,
+[data-theme='light'] {
+  --paper: #fafaf7;
+  --paper-2: #f2f1ec;
+  --ink: #0b0b0a;
+  --ink-2: #3b3a37;
+  --muted: #6f6d67; /* 4.9:1 on --paper, 4.5:1 on --paper-2 */
+  --line: #dcdad3;
+  --focus: #0b0b0a;
+  --clay: #eeece6;
+  --clay-shadow: #cfcac0;
+  --zone-green: #8c9c7a;
+  --scrim: 11 11 10; /* rgb triplet for photo scrims, same in both themes */
+  --on-photo: #fafaf7;
+  color-scheme: light;
+}
+
+[data-theme='dark'] {
+  --paper: #0c0c0b;
+  --paper-2: #161614;
+  --ink: #f3f2ee;
+  --ink-2: #c8c6bf;
+  --muted: #8e8c86;
+  --line: #2b2a27;
+  --focus: #f3f2ee;
+  --clay: #e6e3dc;
+  --clay-shadow: #6e6a62;
+  --zone-green: #7e8e6c;
+  color-scheme: dark;
+}
+
+:root {
+  --font: 'Archivo Variable', 'Archivo', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Type scale (fluid) */
+  --t-display: clamp(3rem, 8.5vw, 9.5rem);
+  --t-h1: clamp(2.25rem, 5vw, 5rem);
+  --t-h2: clamp(1.6rem, 3vw, 2.75rem);
+  --t-h3: clamp(1.15rem, 1.6vw, 1.4rem);
+  --t-body: clamp(1rem, 1.05vw, 1.125rem);
+  --t-lead: clamp(1.125rem, 1.45vw, 1.5rem);
+  --t-small: 0.875rem;
+  --t-eyebrow: 0.75rem;
+  --t-stat: clamp(3rem, 7vw, 7.5rem);
+
+  /* Layout */
+  --max: 1440px;
+  --gutter: clamp(20px, 5vw, 80px);
+  --section: clamp(96px, 14vh, 200px);
+  --col-gap: clamp(16px, 2vw, 32px);
+  --header-h: 72px;
+
+  /* Spacing steps */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 64px;
+  --s-9: 96px;
+  --s-10: 128px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); /* expo.out */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-1: 0.2s;
+  --dur-2: 0.35s;
+  --dur-3: 0.6s;
+
+  /* Layers */
+  --z-canvas: 0;
+  --z-content: 1;
+  --z-float: 40;
+  --z-header: 50;
+  --z-menu: 60;
+  --z-lightbox: 70;
+  --z-intro: 80;
+
+  /* Viewport units that don't jump when the mobile URL bar hides */
+  --vh: 1vh;
+  --stage-h: 100vh;
+}
+
+@supports (height: 100svh) {
+  :root {
+    --vh: 1svh;
+    --stage-h: 100svh;
+  }
+}
+
+@media (max-width: 720px) {
+  :root {
+    --header-h: 60px;
+  }
+}

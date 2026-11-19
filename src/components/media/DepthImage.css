@@ -1,0 +1,48 @@
+.depth {
+  position: relative;
+  overflow: hidden;
+  background: var(--paper-2);
+}
+.depth--cover {
+  width: 100%;
+  height: 100%;
+}
+.depth--cover .depth__picture,
+.depth--cover .depth__picture img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.depth--natural .depth__picture img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+/* The WebGL depth view sits exactly over the picture; the picture hides only once the view is ready. */
+.depth__view {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.depth[data-depth-live='true'] .depth__picture img {
+  visibility: hidden;
+}
+
+/* Images arrive with a slow scale from 1.06 to 1.0 (docs/03 §7). */
+.depth--enter .depth__picture img,
+.frame--enter > picture > img {
+  transform: scale(1.06);
+  transition: transform 1.4s var(--ease-out);
+}
+.depth--enter.is-in .depth__picture img,
+.frame--enter.is-in > picture > img {
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .depth--enter .depth__picture img,
+  .frame--enter > picture > img {
+    transform: none;
+    transition: none;
+  }
+}

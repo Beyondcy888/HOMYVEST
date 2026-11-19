@@ -1,0 +1,21 @@
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-intro);
+  display: grid;
+  place-items: center;
+  color: var(--ink);
+  pointer-events: auto;
+}
+.intro__bg {
+  position: absolute;
+  inset: 0;
+  background: var(--paper);
+}
+.intro__mark {
+  position: relative;
+  font-size: clamp(2.5rem, 11vw, 11rem);
+}
+.intro__mark .wm {
+  will-change: transform, opacity;
+}
