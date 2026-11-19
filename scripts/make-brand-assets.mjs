@@ -25,8 +25,7 @@ const browser = await chromium.launch();
 // ---- Favicons: a bold H in paper on an ink square ----
 // The H is drawn (an SVG icon cannot load a web font) with the proportions of Archivo at weight 900,
 // width 125%. The PNG sizes are rendered from the same SVG with sharp, so all three match and stay crisp.
-const iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#0b0b0a"/><path fill="#fafaf7" d="M11 14h15v12h12V14h15v36H38V37H26v13H11z"/></svg>
-';
+const iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#0b0b0a"/><path fill="#fafaf7" d="M11 14h15v12h12V14h15v36H38V37H26v13H11z"/></svg>\n';
 fs.writeFileSync(out('favicon.svg'), iconSvg);
 await sharp(Buffer.from(iconSvg), { density: 384 }).resize(32, 32).png().toFile(out('favicon-32.png'));
 await sharp(Buffer.from(iconSvg), { density: 768 }).resize(180, 180).png().toFile(out('apple-touch-icon.png'));
