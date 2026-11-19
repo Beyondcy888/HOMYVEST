@@ -185,7 +185,8 @@ export default function Walkthrough() {
                 className="walk__shot"
                 style={{ '--s0': shot.s0, '--s1': shot.s1, '--dx': shot.dx, '--dy': shot.dy, '--o': i === 0 ? 1 : 0, '--k': 0 }}
               >
-                <Picture id={shot.id} sizes="100vw" alt="" className="walk__shot-pic" priority={i < 2} />
+                {/* on portrait screens a landscape render is cropped to cover, so it is drawn about 1.55 × the screen height wide */}
+                <Picture id={shot.id} sizes="(max-aspect-ratio: 85/100) 155vh, 100vw" alt="" className="walk__shot-pic" />
               </div>
             ))}
           </div>

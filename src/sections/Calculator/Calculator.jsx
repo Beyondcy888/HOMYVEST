@@ -43,9 +43,14 @@ export default function Calculator() {
 
   const goStep = (n) => {
     setStep(n);
-    // bring the top of the workspace back into view when the step changes from further down
-    const top = tabsRef.current?.getBoundingClientRect().top ?? 0;
-    if (top < 0) scrollToTarget(tabsRef.current, { offset: -8 });
+    // Bring the top of the workspace back into view when the step changes from further down. On narrow
+    // screens the 3D is sticky at the top of the screen, so the tabs must land below it, not under it.
+    const tabs = tabsRef.current;
+    if (tabs) {
+      const narrow = window.matchMedia('(max-width: 980px)').matches;
+      const cover = narrow ? (tabs.closest('.calc__work')?.querySelector('.calc__canvas')?.offsetHeight ?? 0) : 0;
+      if (tabs.getBoundingClientRect().top < cover) scrollToTarget(tabs, { offset: -(cover + 12) });
+    }
     refreshTriggers();
   };
 

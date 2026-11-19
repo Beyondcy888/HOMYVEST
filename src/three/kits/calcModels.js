@@ -38,7 +38,7 @@ const WIN_T = 0.07; // window panels stand 3 cm proud of the wall
 const WIN_OUT = 0.03;
 const MIN_BAY = 0.9; // narrowest window bay drawn
 const MAX_WINDOWS = 2400;
-const MAX_BODIES = 6000;
+const MAX_BODIES = 4000;
 
 const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 const sum = (list) => list.reduce((a, b) => a + b, 0);
@@ -97,8 +97,11 @@ function bandGround(r, footprints, { bays = true } = {}) {
   return out;
 }
 
-const greenLabel = (r, area, depth) =>
-  depth > 0.8 ? [{ key: 'green', type: 'green', x: 0, z: r.L - depth / 2, lv: [0, 0], dy: 0.1, area }] : [];
+const greenLabel = (r, area, depth) => {
+  if (!(depth > 0.8)) return [];
+  const end = r.P / 2 - Math.min(r.P * 0.14, 2.2);
+  return [['green', 0], ['green:l', -end], ['green:r', end]].map(([key, x]) => ({ key, group: 'green', type: 'green', x, z: r.L - depth / 2, lv: [0, 0], dy: 0.1, area }));
+};
 
 const noModel = (id, r, extra = {}) => ({
   id, levels: [], parts: [], ground: bandGround(r, []), labels: [...greenLabel(r, r.greenMin, bands(r).dBack)], stack: null, boxes: [],
@@ -132,7 +135,7 @@ function buildMax(r) {
       ...greenLabel(r, r.greenMin, bands(r).dBack),
       ...capLabel(df, fp, levels.length),
     ],
-    stack: { x: fp.x - fp.w / 2, z: fp.z - fp.d / 2 },
+    stack: { x: fp.x + fp.w / 2, z: fp.z - fp.d / 2 },
     boxes: rects.map((rect, k) => ({ ...rect, from: k, to: k + 1 })),
     info: { fits: true, full: m.full, partial: m.partial, total: df.total, capped: df.capped, footprint: m.fpUsed, floorArea: m.full * m.fpUsed + m.partial },
   };
@@ -197,7 +200,7 @@ function buildKos(r, res) {
       ...greenLabel(r, r.greenMin, bands(r).dBack),
       ...capLabel(df, fp, levels.length),
     ],
-    stack: { x: fp.x - fp.w / 2, z: fp.z - fp.d / 2 },
+    stack: { x: fp.x + fp.w / 2, z: fp.z - fp.d / 2 },
     boxes: rects.map((rect, k) => ({ ...rect, from: k, to: k + 1 })),
     info: { fits: true, units: res.kos.units, rooms, windows, windowsCapped, full: m.full, partial: m.partial, total: df.total, capped: df.capped, footprint: m.fpUsed, floorArea: built },
   };
@@ -267,7 +270,7 @@ function buildRuko(r, res, I) {
       ...greenLabel(r, r.greenMin, bands(r).dBack),
       ...capLabel(df, fp, count),
     ],
-    stack: { x: fp.x - fp.w / 2, z: fp.z - fp.d / 2 },
+    stack: { x: fp.x + fp.w / 2, z: fp.z - fp.d / 2 },
     boxes: rowRects.map((rect, k) => ({ ...rect, from: k, to: k + 1 })),
     info: { fits: true, units: n, unitWidth: uw, unitFootprint: m.unitFootprint, perUnit, merged, full: m.full, partial: m.partial, total: df.total, capped: df.capped, footprint: fp.w * fp.d, floorArea: n * perUnit },
   };
@@ -374,7 +377,7 @@ function buildHouses(r, res, I) {
       { key: 'floors', type: 'floors', lv: [0, floors], full: m.floorsPerHouse, partial: 0 },
       ...capLabel(df, first, levels.length),
     ],
-    stack: { x: first.x - hw / 2, z: first.z - hd / 2 },
+    stack: { x: first.x + hw / 2, z: first.z - hd / 2 },
     boxes: cells.length <= 48 ? cells.map((c) => ({ x: c.cx, z: c.cz, w: hw, d: hd, from: 0, to: floors + 1 })) : [],
     info: {
       fits: true, units: m.units, drawnUnits: units, cols: m.cols, rows: m.rows, parcelW: m.parcelW, parcelD: pd, houseW: hw, houseD: hd,
@@ -479,7 +482,7 @@ function buildExisting(land, r, C) {
     id: 'existing', levels, parts,
     ground: [...zones, ...(main ? [ground('pad:0', 'box', main, 0, PAD_H, { tone: 'slab', role: 'pad' })] : [])],
     labels,
-    stack: main && levels.length ? { x: main.x - main.w / 2, z: main.z - main.d / 2 } : null,
+    stack: main && levels.length ? { x: main.x + main.w / 2, z: main.z - main.d / 2 } : null,
     boxes: [...rects.map((rect, k) => ({ ...rect, from: k, to: k + 1 })), ...(ghosts ? [{ ...main, from: solid, to: solid + ghosts }] : [])],
     info: {
       fits: has, fp: c.fp, tfa: c.tfa, green: c.green, full: e.full, partial: e.partial, ghostFloors: e.ghostFloors, drawnGhosts: ghosts,
@@ -531,12 +534,12 @@ export function describeScene({ land, ideas, check, step = 1, selectedIdea = nul
   const labels = [
     { key: 'front', type: 'front', x: 0, z: -ROAD_DEPTH - u, lv: [0, 0], dy: 0, value: P },
     { key: 'depth', type: 'depth', x: -P / 2 - u, z: L / 2, lv: [0, 0], dy: 0, value: L },
-    { key: 'road', type: 'road', x: P / 2 - Math.min(P * 0.2, 3.5), z: -KERB_W - (ROAD_DEPTH - KERB_W) / 2, lv: [0, 0], dy: 0 },
+    { key: 'road', type: 'road', x: -P / 2 + Math.min(P * 0.2, 3.5), z: -KERB_W - (ROAD_DEPTH - KERB_W) / 2, lv: [0, 0], dy: 0 },
     ...model.labels.map((l) => ({ dy: 0, ...l })),
   ];
   // labels that hang beside the stack share its front-left corner
   for (const l of labels) {
-    if (l.x === undefined && model.stack) { l.x = model.stack.x - u * 0.55; l.z = model.stack.z; }
+    if (l.x === undefined && model.stack) { l.x = model.stack.x + u * 0.55; l.z = model.stack.z; }
   }
   return {
     id: model.id, empty: false, land: { P, L }, th, u,

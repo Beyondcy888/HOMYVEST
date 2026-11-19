@@ -412,7 +412,11 @@ export function buildStage2({ stage = 1, seed = 22 } = {}) {
     slabBox(17.78, 17.87, 1.85, 15.5, f1 + 1.06, f1 + 1.14, { tone: 'slab' }),
   ];
   // the stair continues up through the opening
-  for (let i = 0; i < 10; i++) fit.push(slabBox(11.75, 13.1, 8.9 - (i + 1) * 0.02, 13.3 - 4.4 - i * 0.02, h + (i * (f1 - h)) / 10, h + ((i + 1) * (f1 - h)) / 10, { tone: 'base' }).size[1] > 0 ? slabBox(11.75, 13.1, 8.9 - 0.02, 8.9, h, f1, { tone: 'base' }) : null);
+  fit.push(slabBox(10.7, 13.1, 8.45, 8.9, h - 0.14, h, { tone: 'base' })); // landing
+  for (let i = 0; i < 10; i++) {
+    const y = h + ((i + 1) * (f1 - h)) / 10;
+    fit.push(slabBox(10.7, 11.65, 8.9 + i * 0.44, 8.9 + (i + 1) * 0.44, y - 0.14, y, { tone: 'base' }));
+  }
   for (const [p, q] of [[15.1, 10.9], [15.05, 5.8], [11.5, 5.8], [8.2, 5.9], [4.6, 6.0], [4.6, 11.0]]) {
     fit.push(round(0.5, p, q, f1 + 0.7, f1 + 0.76, { tone: 'wall' }), round(0.07, p, q, f1, f1 + 0.7, { tone: 'slab' }));
     for (const [dp, dq] of [[0.72, 0], [-0.72, 0], [0, 0.72], [0, -0.72]]) fit.push(slabBox(p + dp - 0.2, p + dp + 0.2, q + dq - 0.2, q + dq + 0.2, f1, f1 + 0.46, { tone: 'soft' }));

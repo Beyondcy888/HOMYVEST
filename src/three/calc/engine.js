@@ -32,7 +32,7 @@ class Tw {
   step(now) {
     if (this.v === this.b && now >= this.t0) return false;
     const u = this.dur > 0 ? (now - this.t0) / this.dur : now >= this.t0 ? 1 : 0;
-    if (u >= 1) { this.v = this.b; return false; }
+    if (u >= 1) { this.v = this.b; return true; }
     if (u > 0) this.v = this.a + (this.b - this.a) * this.ease(u);
     return true;
   }
@@ -52,7 +52,7 @@ class Geo {
   step(now) {
     if (this.done) return false;
     const u = (now - this.t0) / this.dur;
-    if (u >= 1) { this.v = this.b.slice(); this.done = true; return false; }
+    if (u >= 1) { this.v = this.b.slice(); this.done = true; return true; }
     const e = easeOut(Math.max(0, u));
     for (let i = 0; i < 6; i++) this.v[i] = this.a[i] + (this.b[i] - this.a[i]) * e;
     return true;

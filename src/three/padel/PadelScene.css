@@ -1,0 +1,36 @@
+.padel-scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.padel-scene__model {
+  position: absolute;
+  inset: 0;
+}
+/* A render laid over the model. The layer is as large as the stage and paper-coloured, so inside the
+   wipe band nothing of the clay model or its shadow shows around the cut-out. */
+.padel-reveal {
+  position: absolute;
+  inset: 0;
+  display: block;
+  visibility: hidden;
+  background: var(--paper);
+  pointer-events: none;
+  will-change: clip-path;
+}
+.padel-reveal__img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  max-width: none;
+  transform-origin: 0 0;
+  will-change: transform;
+  user-select: none;
+}
+
+/* ?debug=padel: the render at half strength over the model, to judge the fit. */
+.padel-scene[data-debug] .padel-reveal {
+  background: none;
+  opacity: 0.5;
+}
