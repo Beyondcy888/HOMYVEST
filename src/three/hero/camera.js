@@ -55,7 +55,7 @@ const LAYOUTS = {
   portrait: {
     region: [0.02, 0.4, 0.98, 0.93],
     plot: { hx: 13.2, hy: 6.6, hz: 7.5, cy: 6.4, cz: -9 },
-    row: { hx: 84, hy: 6, hz: 13, cy: 5, cz: -6 },
+    row: { hx: 94, hy: 6, hz: 15, cy: 5, cz: -6 },
     az: [-40, -30],
     el: 34,
     wideAz: -66,

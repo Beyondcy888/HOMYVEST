@@ -82,16 +82,16 @@ Detailed log per milestone: [docs/PROGRESS.md](docs/PROGRESS.md) · decisions: [
 - [ ] Commit `M6`
 
 ## M7 — Padel assembly
-- [~] Camera calibration + model
-- [ ] Three-stage choreography
-- [ ] Render alignment + reveals
-- [ ] Commit `M7`
+- [x] Camera calibration + model
+- [x] Three-stage choreography
+- [x] Render alignment + reveals
+- [x] Commit `M7`
 
 ## M8 — Calculator live 3D
-- [~] CalcScene: land plate, zones, road, orbit, auto-frame
-- [ ] Models: max building, kos, ruko, houses, warehouse, existing + ghost floors
-- [ ] Labels + text alternative
-- [ ] Commit `M8`
+- [x] CalcScene: land plate, zones, road, orbit, auto-frame
+- [x] Models: max building, kos, ruko, houses, warehouse, existing + ghost floors
+- [x] Labels + text alternative
+- [x] Commit `M8`
 
 ## M9 — Depth parallax
 - [x] DepthImage + shared view canvas + shader
@@ -118,3 +118,4 @@ Detailed log per milestone: [docs/PROGRESS.md](docs/PROGRESS.md) · decisions: [
 ## Session log
 - Session 1: 2026-11-20 01:08 → 02:17 WIB. Stopped by the account's usage limit while four scene agents were mid-build.
 - Session 2: resumed 2026-11-20 04:53 WIB. Scene agents resumed with their saved context; the Maxone section shell (cards, mini-map, render-led fallback, static mode) is built by the main session so the page is whole even if a scene is not finished.
+- Session 2 note: all four scene agents stalled at ~05:17 (stream stall, reported 08:07). Calculator 3D and padel had finished; hero and the Maxone room were resumed at 08:08.

@@ -1,9 +1,9 @@
 // UI checks from docs/05 §10 and docs/10 §2. Expected strings come straight from the spec.
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 import { open, calcStep, scrollToSel } from './helpers.ts';
 
-const result = (page) => page.locator('.calc__result');
-const panel = (page) => page.locator('#calc-panel');
+const result = (page: Page) => page.locator('.calc__result');
+const panel = (page: Page) => page.locator('#calc-panel');
 
 test('default values in English', async ({ page }) => {
   await open(page);

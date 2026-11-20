@@ -1,7 +1,7 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 import { open } from './helpers.ts';
 
-const widths = (page) =>
+const widths = (page: Page) =>
   page.evaluate(() => {
     const mark = document.querySelector('.header__mark')!;
     return ['.wm-in', '.wm-asi'].map((s) => mark.querySelector(s)!.getBoundingClientRect().width);

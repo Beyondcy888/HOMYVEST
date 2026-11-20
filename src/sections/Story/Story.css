@@ -265,6 +265,10 @@
   .story__photo .depth__picture img {
     object-position: 48% 50%;
   }
+  /* the poster is framed for landscape: on portrait the live scene simply fades in */
+  .story--live .story__poster {
+    visibility: hidden;
+  }
 }
 
 /* ---------- Static mode: no pin, everything visible ---------- */
@@ -291,7 +295,7 @@
   width: 100%;
   aspect-ratio: 5 / 4;
   object-fit: cover;
-  object-position: 80% 50%;
+  object-position: 100% 50%;
 }
 .story-static__earn {
   position: relative;
@@ -320,7 +324,7 @@
   }
   .story-static__poster {
     aspect-ratio: 4 / 3;
-    object-position: 84% 50%;
+    object-position: 100% 50%;
   }
   .story-static__earn .story__earn {
     left: var(--gutter);

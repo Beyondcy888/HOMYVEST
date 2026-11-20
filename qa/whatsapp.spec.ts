@@ -1,8 +1,8 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 import { open, scrollToSel, decodeWa, calcStep } from './helpers.ts';
 
 const BASE = 'https://wa.me/6282110106088?text=';
-const hrefs = (page) => page.evaluate(() => [...document.querySelectorAll('a[data-wa]')].map((a) => (a as HTMLAnchorElement).href));
+const hrefs = (page: Page) => page.evaluate(() => [...document.querySelectorAll('a[data-wa]')].map((a) => (a as HTMLAnchorElement).href));
 
 test('every WhatsApp link goes to the right number with a prefilled message', async ({ page }) => {
   await open(page);
