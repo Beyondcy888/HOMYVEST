@@ -39,6 +39,8 @@ const phaseOf = (p) => (p < BEATS.dissolve[0] - 0.012 ? 'clay' : p < T.earnIn + 
 /** Builds the scrubbed timeline. Positions and durations are in scroll progress (0..1). */
 function buildTimeline(tl, ui, photo, split) {
   const q = gsap.utils.selector(ui);
+  // keep every tweened element on the GPU for the whole story (see the will-change note in Story.css)
+  tl.vars.defaults = { ...tl.vars.defaults, force3D: true };
   const rise = (title, at) => {
     if (split) {
       const lines = SplitText.create(title, { type: 'lines', mask: 'lines', linesClass: 'split-line' }).lines;
@@ -97,11 +99,11 @@ function StoryLive({ onFail }) {
   const ui = useRef(null);
   const photo = useRef(null);
   const section = useRef(null);
-  const [earning, setEarning] = useState(false);
   const [layout, setLayout] = useState({ fonts: false, n: 0 });
 
   // Three coarse phases (clay, the wipe, the photo) switch layers on and off. They are written straight
-  // to the section's attributes so scrolling never re-renders React; only the stats' roll-up is state.
+  // to the section's attributes, so scrolling never re-renders this component (or the canvas under it).
+  // The only React state that scrolling changes is the stats' roll-up, kept inside StoryOverlay.
   useLayoutEffect(() => {
     let phase = null;
     let top = null;
@@ -112,7 +114,6 @@ function StoryLive({ onFail }) {
       if (next !== phase) {
         phase = next;
         el.dataset.phase = next;
-        setEarning(next === 'earn');
       }
       // the poster shows the opening frame: it may only stand in for the scene at the very top
       const atTop = v < 0.02;
@@ -124,6 +125,23 @@ function StoryLive({ onFail }) {
     apply(progress.current);
     return progress.subscribe(apply);
   }, [progress]);
+
+  // Warm-up. Large text is expensive the first time the GPU rasterises it, and a beat that first
+  // appears mid-scroll pays for it with a 50–150 ms frame. So for a moment after load, once the font
+  // is in, every hidden beat is painted in place at 0.5% opacity (see Story.css): nothing can be seen,
+  // but the glyphs are ready. It ends early if the visitor starts scrolling.
+  useEffect(() => {
+    const el = section.current;
+    const end = () => el.removeAttribute('data-warm');
+    el.setAttribute('data-warm', '');
+    const timer = window.setTimeout(end, layout.fonts ? 1200 : 4000);
+    const off = progress.subscribe((v) => v > 0.03 && end());
+    return () => {
+      window.clearTimeout(timer);
+      off();
+      end();
+    };
+  }, [progress, layout.fonts]);
 
   // Line splits depend on the font and the column width: rebuild the timeline when either changes.
   useEffect(() => {
@@ -192,7 +210,8 @@ function StoryLive({ onFail }) {
         <StoryOverlay
           key={lang}
           ref={ui}
-          earning={earning}
+          progress={progress}
+          earnAt={T.earnIn + 0.014}
           onSkip={(e) => goTo(e, '#about')}
           onCalculator={(e) => goTo(e, '#calculator')}
           onReveal={reveal}

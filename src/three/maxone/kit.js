@@ -146,9 +146,9 @@ export class Kit {
     g.translate(x, y0 + h / 2, z);
     return this.add(bucket, g, hex);
   }
-  /** Ellipsoid: an icosphere scaled by [sx, sy, sz], optionally rotated (Euler x, y, z). */
+  /** Ellipsoid: an icosphere scaled by [sx, sy, sz], optionally rotated (Euler x, y, z). detail −1 = a 36-triangle sphere. */
   ball(bucket, x, y, z, scale, hex, detail = 1, rot) {
-    const g = new THREE.IcosahedronGeometry(1, detail);
+    const g = detail < 0 ? new THREE.SphereGeometry(1, 6, 4) : new THREE.IcosahedronGeometry(1, detail);
     const s = typeof scale === 'number' ? [scale, scale, scale] : scale;
     if (rot) euler.set(rot[0], rot[1], rot[2]);
     else euler.set(0, 0, 0);

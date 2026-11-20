@@ -26,7 +26,6 @@
   position: absolute;
   inset: 0;
   z-index: 2;
-  visibility: hidden;
   pointer-events: none;
   /* --r: 0..1 from the timeline · --ax/--ay: where the stay sits on screen, and --d: the distance
      from there to the farthest corner, both from the scene */
@@ -35,22 +34,25 @@
   --ay: 78%;
   --d: 130vmax;
   --feather: 26vmax;
+  --open: 0px;
+  /* The photo is painted from the first frame, under a mask that stays closed (--r: 0) until the wipe,
+     and at an opacity too low to register (one 8-bit step). Hiding it instead (visibility, display, or
+     opacity 0) would postpone its image decode, its tiles and the GPU's gradient-mask shader to the
+     moment of the reveal: measured as 150–280 ms frames at the start and at the end of the wipe.
+     The mask always has the same three stops (never fewer, never coincident), so the GPU keeps using
+     the shader it compiled at load; only the two radii move. Nothing else about the layer changes. */
+  opacity: 0.004;
+  --inner: calc(var(--r) * (var(--d) + var(--feather)) - var(--feather) + var(--open));
+  --outer: calc(var(--r) * (var(--d) + var(--feather)) + var(--open));
+  -webkit-mask-image: radial-gradient(circle at var(--ax) var(--ay), #000 0, #000 max(0.5px, var(--inner)), transparent max(1px, var(--outer)));
+  mask-image: radial-gradient(circle at var(--ax) var(--ay), #000 0, #000 max(0.5px, var(--inner)), transparent max(1px, var(--outer)));
 }
-.story[data-phase='wipe'] .story__photo {
-  visibility: visible;
-  -webkit-mask-image: radial-gradient(
-    circle at var(--ax) var(--ay),
-    #000 calc(var(--r) * (var(--d) + var(--feather)) - var(--feather)),
-    transparent calc(var(--r) * (var(--d) + var(--feather)))
-  );
-  mask-image: radial-gradient(
-    circle at var(--ax) var(--ay),
-    #000 calc(var(--r) * (var(--d) + var(--feather)) - var(--feather)),
-    transparent calc(var(--r) * (var(--d) + var(--feather)))
-  );
+.story:not([data-phase='clay']) .story__photo {
+  opacity: 1;
 }
+/* once the wipe is over, the circle is pushed well past every corner (a resize cannot reopen an edge) */
 .story[data-phase='earn'] .story__photo {
-  visibility: visible;
+  --open: 120vmax;
 }
 .story__zoom {
   position: absolute;
@@ -93,6 +95,20 @@
 .story--live .story__earn {
   opacity: 0;
 }
+/* Everything the timeline moves keeps its own compositor layer for the whole story. Without this,
+   layers are created and dropped around each tween and the large headline text is re-rasterised on
+   the GPU every time: measured as 50–200 ms frames on the first scroll through. It also means the
+   hidden beats are rasterised at load, not when they first appear. */
+.story--live .story__body,
+.story--live .story__labels,
+.story--live .story__label,
+.story--live .story__thumb,
+.story--live .story__skip,
+.story--live .story__earn,
+.story--live .story__stats,
+.story--live .story__ctas {
+  will-change: transform, opacity;
+}
 .story__title {
   font-size: var(--story-title);
   font-weight: 800;
@@ -117,6 +133,29 @@
 .story__cue svg {
   width: 14px;
   height: 14px;
+}
+
+/* Warm-up (a moment after load, see Story.jsx): hidden beats are painted in place at 0.5% opacity so the
+   GPU has their glyphs before they are needed. The !important rules override the timeline's inline
+   starting values for that moment only. */
+.story--live[data-warm] .story__beat:not(.story__b1),
+.story--live[data-warm] .story__earn {
+  opacity: 0.005 !important;
+}
+.story--live[data-warm] .story__beat:not(.story__b1) *,
+.story--live[data-warm] .story__earn * {
+  opacity: 1 !important;
+  transform: none !important;
+}
+.story__digits {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  font-size: clamp(2.6rem, min(5vw, 11vh), 5.5rem);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
 }
 
 /* Slide labels: the four options down a hairline, with a thumb on the current one. */
@@ -280,6 +319,12 @@
   }
   .story__photo .depth__picture img {
     object-position: 48% 50%;
+  }
+  /* the road passes under the skip link here: a small paper tag keeps it readable in both themes */
+  .story__skip {
+    background: var(--paper);
+    padding-inline: 12px;
+    margin-left: -12px;
   }
   /* the poster is framed for landscape: on portrait the live scene simply fades in */
   .story--live .story__poster {

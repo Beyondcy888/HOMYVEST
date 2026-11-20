@@ -86,7 +86,7 @@ function createWorld(debug) {
       continue;
     }
     const up = UPPER_TYPES.includes(type);
-    const mesh = instanced(track(geometry), up ? mats.upper : mats.lower, list);
+    const mesh = track(instanced(track(geometry), up ? mats.upper : mats.lower, list));
     mesh.name = type;
     if (up) {
       mesh.renderOrder = 2;
@@ -172,6 +172,8 @@ function Room({ progress }) {
   const world = useMemo(() => createWorld(debug), [debug]);
   const sun = useRef(null);
   const state = useRef({ p: null, frames: 0, route: {} });
+  // &shift=0 keeps the picture centred (dev aid for comparing a stop with its render)
+  const view = useMemo(() => ({ aspect: 1.6, shift: query('shift') !== '0' }), []);
 
   useEffect(() => () => world.dispose(), [world]);
 
@@ -238,7 +240,8 @@ function Room({ progress }) {
     if (s.p === null) s.p = target;
     const moving = easing.damp(s, 'p', target, 0.18, Math.min(delta, 0.05), Infinity, undefined, 1e-5);
     const { camera, size } = three;
-    const r = routeAt(s.p, { aspect: size.width / size.height }, s.route);
+    view.aspect = size.width / size.height;
+    const r = routeAt(s.p, view, s.route);
 
     camera.position.set(r.position[0], r.position[1], r.position[2]);
     camera.rotation.set(r.pitch, -r.yaw, 0, 'YXZ');
@@ -262,14 +265,18 @@ function Room({ progress }) {
   }, -1);
 
   const size = tier.shadowMap || 1024;
+  // Without shadow maps (low tier) the sun would light the rooms through the ceiling: keep it to a hint.
+  const sunPower = tier.shadows ? 2.0 : 0.25;
   return (
     <>
       <Environment intensity={0.3} />
-      <hemisphereLight args={['#fffaf0', '#cdc6ba', 1.75]} />
+      <hemisphereLight args={['#fffaf0', '#cdc6ba', tier.shadows ? 1.6 : 1.8]} />
+      {/* a weak fill without shadows, from the north-west: walls that face different ways get different tones */}
+      <directionalLight position={[-6, 7, -4]} intensity={0.5} color="#f4f6ff" />
       <directionalLight
         ref={sun}
         color="#fff3e0"
-        intensity={2.0}
+        intensity={sunPower}
         castShadow={tier.shadows}
         shadow-mapSize={[size, size]}
         shadow-bias={-0.0006}

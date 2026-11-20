@@ -13,7 +13,7 @@ import { ACCENT_DARK, createClayMaterials } from '../shared/ClayMaterials.js';
 import AssemblyMesh from '../assembly/AssemblyMesh.jsx';
 import { prepare } from '../assembly/pieces.js';
 import { cssVar, useTheme } from '../../lib/theme.js';
-import { useTier, isCoarsePointer } from '../../lib/device/tier.js';
+import { useTier } from '../../lib/device/tier.js';
 import { span } from '../../lib/scroll/progress.js';
 import { buildStay } from '../kits/stay.js';
 import { buildOffice } from '../kits/office.js';
@@ -73,7 +73,7 @@ function buildKits() {
 function Scene({ progress, onAnchor }) {
   const theme = useTheme();
   const tier = useTier();
-  const { camera, gl, scene, size } = useThree();
+  const { camera, scene, size } = useThree();
   const root = useRef(null);
 
   const uStreet = useMemo(() => createStreetUniform(), []);
@@ -130,18 +130,8 @@ function Scene({ progress, onAnchor }) {
   const rig = useMemo(() => createRig(size.width / size.height, VIEW === 'trio' ? { centre: 92, half: 63 } : undefined), [size.width, size.height]);
   const view = useRef({ w: 0, h: 0, rig: null });
   const anchor = useRef({ x: -1, y: -1 });
-  const blur = useRef(0);
-  const lastX = useRef(null);
-  const canBlur = tier.name !== 'low' && !isCoarsePointer();
   const texel = (2 * SHADOW_BOUNDS) / (tier.shadowMap || 1024);
   const materialFor = useMemo(() => (kind) => (kind === 'curtain' ? materials.curtain : kind === 'court' ? materials.court : kind === 'mesh' ? materials.mesh : null), [materials]);
-
-  useEffect(
-    () => () => {
-      gl.domElement.style.filter = '';
-    },
-    [gl],
-  );
 
   // The driver: runs before the meshes (priority −1) so they read fresh values in the same frame.
   useFrame((state, delta) => {
@@ -210,22 +200,9 @@ function Scene({ progress, onAnchor }) {
       }
     }
 
-    // a touch of blur while the camera swipes sideways, proportional to its real speed
-    if (canBlur) {
-      let px = 0;
-      const inSwipe = a.pc > BEATS.swipes[0][0] && a.pc < BEATS.swipes[2][1] + 0.01;
-      if (inSwipe && lastX.current !== null && dt > 0) {
-        const metresPerPx = (2 * Math.tan((FOV * Math.PI) / 360) * _cam.dist) / size.height;
-        const speed = Math.abs(_cam.x - lastX.current) / metresPerPx / dt; // px per second
-        px = Math.min(5, speed * 0.0028);
-      }
-      lastX.current = _cam.x;
-      const next = px < 0.4 ? 0 : Math.round(px * 4) / 4;
-      if (next !== blur.current) {
-        blur.current = next;
-        gl.domElement.style.filter = next ? `blur(${next}px)` : '';
-      }
-    }
+    // No CSS blur on the canvas during swipes (docs/06 §2.4 suggests one): switching a filter on and
+    // off re-allocates the canvas's compositor surface and cost a 50–100 ms frame at the end of every
+    // swipe. The street fade between plots already softens the move.
 
     // once the photo covers the stage there is nothing to draw
     if (root.current) root.current.visible = a.pc < BEATS.dissolve[1] + 0.012;

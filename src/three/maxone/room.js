@@ -241,6 +241,8 @@ function reception(k) {
     [17.6, 3.5, 2.3, 1.3, 0.2],
     [19.8, 3.25, 1.6, 1.85, 1.1],
     [16.6, 4.2, 1.5, 0.9, 2.0],
+    [18.7, 3.95, 2.6, 1.1, 3.1],
+    [20.3, 4.3, 1.4, 1.0, 4.4],
   ];
   loops.forEach(([cx, cz, rx, rz, ph], n) => {
     const pts = [];
@@ -249,7 +251,7 @@ function reception(k) {
       const w = 1 + 0.17 * Math.sin(3 * t + ph);
       pts.push([cx + Math.cos(t) * rx * w, 3.07 - 0.045 * n + 0.04 * Math.sin(2 * t + ph), cz + Math.sin(t) * rz * w]);
     }
-    k.tube('upper', pts, 0.032, C.sage, { closed: true, seg: 72, radial: 5 });
+    k.tube('upper', pts, 0.024, C.sage, { closed: true, seg: 72, radial: 5 });
   });
 
   // lattice screen at the bar end, side table between the armchairs
@@ -428,7 +430,7 @@ function terrace(k, place) {
     for (const x of [px0, px1]) for (const z of [pz0, pz1]) k.box('lower', x - 0.015, 0, z - 0.015, x + 0.015, 1.0, z + 0.015, C.white);
     k.box('lower', px0, 0.62, pz0, px1, 0.98, pz1, C.sage);
     k.box('lower', px0 + 0.02, 0.2, pz0 + 0.02, px1 - 0.02, 0.225, pz1 - 0.02, C.white);
-    for (let z = pz0 + 0.16; z < pz1; z += 0.22) place('tuft', { x: (px0 + px1) / 2 + (rnd() - 0.5) * 0.1, y: 0.95, z, rot: rnd() * 6, s: 1.0 + rnd() * 0.3, sy: 1.25 });
+    for (let z = pz0 + 0.12; z < pz1 - 0.05; z += 0.13) place('tuft', { x: (px0 + px1) / 2 + (rnd() - 0.5) * 0.14, y: 0.95 + rnd() * 0.08, z, rot: rnd() * 6, s: 0.75 + rnd() * 0.3, sy: 1.5 });
   }
 }
 
@@ -456,7 +458,7 @@ function lobby(k) {
     k.box('lower', x + 0.075, 2.4, za, x + 0.115, 2.46, zb, C.white);
     for (const z of [za, zb]) k.box('lower', x + 0.075, 0, z - 0.02, x + 0.115, 2.46, z + 0.02, C.white);
     const hz = za < E.z0 ? za + 0.1 : zb - 0.1;
-    k.box('lower', x + 0.13, 0.9, hz - 0.012, x + 0.15, 1.4, hz + 0.012, C.black);
+    k.box('lower', x + 0.125, 0.95, hz - 0.008, x + 0.14, 1.35, hz + 0.008, '#b9b9b5');
   }
 }
 
@@ -490,8 +492,8 @@ function outdoor(k, place) {
   k.box('lower', 26.95, 0, -0.6, 27.36, 0.95, 5.85, C.leafB);
   for (let z = -0.4; z < 5.8; z += 0.34) place('tuft', { x: 27.12 + (rnd() - 0.5) * 0.14, y: 0.86, z, rot: rnd() * 6, s: 1.1 + rnd() * 0.4 });
   // The closed core beside the walkway: dark timber lining with a row of globe lights, as on its terrace side.
-  k.box('lower', 22.45, 0, 11.74, 22.5, 3.3, 14.65, C.timberDark);
-  k.box('lower', 17.12, 0, 14.6, 22.45, 3.3, 14.65, C.timberDark);
+  k.box('lower', 22.45, 0, 11.74, 22.5, 3.3, 14.65, C.cladding);
+  k.box('lower', 17.12, 0, 14.6, 22.45, 3.3, 14.65, C.cladding);
   for (let z = 12.6; z < 14.6; z += 0.9) k.box('lower', 22.5, 0, z - 0.008, 22.504, 3.3, z + 0.008, '#5c3f2c');
   for (let x = 18.0; x < 22.4; x += 0.9) k.box('lower', x - 0.008, 0, 14.65, x + 0.008, 3.3, 14.654, '#5c3f2c');
   k.box('lower', 22.5, 2.335, 12.1, 22.52, 2.35, 14.3, C.black);
@@ -511,11 +513,11 @@ function outdoor(k, place) {
     const inner = bed.map(([x, z]) => [x + Math.sign(cx - x) * 0.09, z + Math.sign(cz - z) * 0.09]);
     k.prism('lower', inner, 0.42, 0.45, C.leafC);
     let n = 0;
-    for (let i = 0; i < 600 && n < 46; i++) {
+    for (let i = 0; i < 600 && n < 28; i++) {
       const x = Math.min(...xs) + rnd() * (Math.max(...xs) - Math.min(...xs));
       const z = Math.min(...zs) + rnd() * (Math.max(...zs) - Math.min(...zs));
       if (!inside(x, z, inner)) continue;
-      place('tuft', { x, y: 0.43, z, rot: rnd() * 6, s: 0.9 + rnd() * 0.6, sy: 1.2 });
+      place('tuft', { x, y: 0.43, z, rot: rnd() * 6, s: 0.85 + rnd() * 0.45 });
       n++;
     }
   }

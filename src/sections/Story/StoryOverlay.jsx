@@ -1,13 +1,22 @@
 // The hero story's text layer: five beats of copy, the slide labels, the closing stats and CTAs.
 // Everything is real DOM text from the first paint; Story.jsx animates it on the pinned timeline.
+import { useEffect, useState } from 'react';
 import { useT } from '../../i18n/useT.js';
 import { Button, WhatsAppButton } from '../../components/ui/Button.jsx';
 import Stat from '../../components/ui/Stat.jsx';
 import { ArrowDown } from '../../components/ui/Icons.jsx';
 
-export default function StoryOverlay({ ref, earning, onSkip, onCalculator, onReveal }) {
+export default function StoryOverlay({ ref, progress, earnAt, onSkip, onCalculator, onReveal }) {
   const { t } = useT();
   const labels = t('hero.b3.labels');
+  // The stats roll up when their beat starts. This is the only state scrolling changes, and it lives
+  // here so the flip re-renders this small text layer and nothing else.
+  const [earning, setEarning] = useState(false);
+  useEffect(() => {
+    const apply = (v) => setEarning(v >= earnAt);
+    apply(progress.current);
+    return progress.subscribe(apply);
+  }, [progress, earnAt]);
   return (
     <div ref={ref} className="story__ui">
       <div className="story__col">
@@ -56,6 +65,10 @@ export default function StoryOverlay({ ref, earning, onSkip, onCalculator, onRev
           <Stat stat={t('hero.b5.stat1')} start={earning} />
           <Stat stat={t('hero.b5.stat2')} start={earning} />
         </div>
+        {/* every digit, painted once during the warm-up so the roll-up never meets a new glyph */}
+        <span className="story__digits t-stat" aria-hidden="true">
+          0123456789
+        </span>
         <div className="story__ctas">
           <Button variant="on-photo" href="#calculator" onClick={onCalculator}>
             {t('hero.b5.cta1')}

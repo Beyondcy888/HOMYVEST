@@ -192,11 +192,18 @@ describe('Maxone route: the shared contract', () => {
     expect(PATH_LENGTH).toBeGreaterThan(30);
     const stops = stopPositions();
     expect(stops.length).toBe(7);
-    for (const s of stops.slice(1)) {
+    // every stop and every point of the walked path lies on the plan, so the mini-map dot never leaves the map
+    for (const s of stops) {
       expect(s.x).toBeGreaterThan(0);
       expect(s.x).toBeLessThan(PLAN.w);
       expect(s.z).toBeGreaterThan(0);
       expect(s.z).toBeLessThan(PLAN.h);
+    }
+    for (const [x, z] of line) {
+      expect(x).toBeGreaterThan(0);
+      expect(x).toBeLessThan(PLAN.w);
+      expect(z).toBeGreaterThan(0);
+      expect(z).toBeLessThan(PLAN.h);
     }
   });
 });

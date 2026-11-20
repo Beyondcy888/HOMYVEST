@@ -84,24 +84,29 @@ function plant(k) {
 // A low rosette of rounded leaves: fills planters, beds and hedges.
 function tuft(k) {
   const rnd = prng(19);
-  for (let i = 0; i < 9; i++) {
+  for (let i = 0; i < 7; i++) {
     const a = i * 2.4 + rnd() * 0.6;
     const rad = 0.06 + rnd() * 0.15;
     const h = 0.06 + rnd() * 0.22;
-    k.ball('u', Math.cos(a) * rad, h, Math.sin(a) * rad, [0.12 + rnd() * 0.04, 0.022, 0.08 + rnd() * 0.03], LEAVES[i % 3], 1, [rnd() * 0.5 - 0.25, -a, 0.2 + rnd() * 0.5]);
+    k.ball('u', Math.cos(a) * rad, h, Math.sin(a) * rad, [0.1 + rnd() * 0.04, 0.016, 0.065 + rnd() * 0.025], LEAVES[i % 3], 1, [rnd() * 0.5 - 0.25, -a, 0.2 + rnd() * 0.5]);
   }
-  k.ball('u', 0, 0.08, 0, [0.13, 0.09, 0.13], C.leafA, 1);
+  k.ball('u', 0, 0.07, 0, [0.12, 0.08, 0.12], C.leafB, 0);
 }
 // Planter box hanging from the timber grid, with trailing green (render 7). Origin at the top of the box.
 function hanging(k) {
   const rnd = prng(23);
-  k.box('u', -0.26, -0.2, -0.26, 0.26, 0, 0.26, C.timberDark);
-  k.ball('u', 0, -0.04, 0, [0.36, 0.16, 0.36], C.leafA, 1);
-  for (let i = 0; i < 12; i++) {
+  k.box('u', -0.26, -0.2, -0.26, 0.26, 0, 0.26, C.sageDeep);
+  k.ball('u', 0, -0.05, 0, [0.4, 0.17, 0.4], C.leafA, 1);
+  // trailing strands of different lengths, each a string of small leaves
+  for (let i = 0; i < 16; i++) {
     const a = i * 2.4;
-    const rad = 0.18 + rnd() * 0.16;
-    const len = 0.4 + rnd() * 0.7;
-    k.ball('u', Math.cos(a) * rad, -0.15 - len * 0.6, Math.sin(a) * rad, [0.11, len * 0.62, 0.11], LEAVES[i % 3], 1, [rnd() * 0.2 - 0.1, a, rnd() * 0.2 - 0.1]);
+    const rad = 0.2 + rnd() * 0.2;
+    const len = 0.5 + rnd() * 1.1;
+    const x = Math.cos(a) * rad;
+    const z = Math.sin(a) * rad;
+    k.ball('u', x, -0.12 - len * 0.5, z, [0.035, len * 0.52, 0.035], LEAVES[i % 3], 0, [rnd() * 0.16 - 0.08, a, rnd() * 0.16 - 0.08]);
+    k.ball('u', x * 1.05, -0.2 - len * 0.35, z * 1.05, [0.085, 0.06, 0.085], LEAVES[(i + 1) % 3], 1);
+    k.ball('u', x * 0.95, -0.15 - len * 0.85, z * 0.95, [0.07, 0.055, 0.07], LEAVES[(i + 2) % 3], 1);
   }
 }
 

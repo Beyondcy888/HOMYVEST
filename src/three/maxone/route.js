@@ -18,10 +18,11 @@ const smoother = (t) => t * t * t * (t * (t * 6 - 15) + 10);
 // Camera positions with the point they look at. `stop` marks a dwell. Eye height 1.6 m above the local floor
 // (the street is 0.45 m below the building floor, so the first keys are lower).
 export const KEYS = [
-  { pos: [24.7, 1.17, 20.2], look: [22.2, 2.6, 9.0], stop: 0 }, // on the street, a little to the east
-  { pos: [23.9, 1.17, 17.6], look: [22.4, 2.3, 8.5] },
-  { pos: [23.35, 1.2, 16.0], look: [22.5, 2.0, 8.0] }, // foot of the steps
-  { pos: [23.02, 1.6, 14.3], look: [22.6, 1.9, 7.5] }, // top of the steps
+  // The walk starts on the street inside the plan's bounds (z ≤ 17.69), so the mini-map dot is on the map from the first frame.
+  { pos: [26.3, 1.17, 17.45], look: [22.0, 2.5, 8.0], stop: 0 }, // on the street, east of the steps: the glazed lobby is in view
+  { pos: [25.0, 1.17, 16.5], look: [22.2, 2.3, 8.0] },
+  { pos: [23.75, 1.25, 15.7], look: [22.4, 2.0, 8.0] }, // on the steps
+  { pos: [22.98, 1.6, 14.2], look: [22.6, 1.9, 7.5] }, // top of the steps
   { pos: [23.0, 1.6, 12.3], look: [22.3, 1.8, 7.3] }, // walkway between the core and the planter beds
   { pos: [23.4, 1.6, 10.2], look: [20.8, 1.7, 6.0] },
   { pos: [23.35, 1.6, 8.5], look: [19.6, 1.65, 4.8] }, // swinging in toward the doors

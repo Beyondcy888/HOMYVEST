@@ -57,9 +57,10 @@ export function herringboneTexture() {
     g.fillRect(0, i, S, 1);
   }
   const P = S / 2; // 0.3 m cell
-  const L = (0.4 / 0.6) * S;
-  const W = (0.1 / 0.6) * S;
+  const L = (0.38 / 0.6) * S;
+  const W = (0.07 / 0.6) * S; // slimmer than the plan draws them: at eye level the floor should stay calm
   g.fillStyle = C.herringLight;
+  g.globalAlpha = 0.86; // a touch of the ground shows through: less glare under the reception lights
   const bar = (cx, cy, horizontal) => {
     for (const ox of [-S, 0, S]) {
       for (const oy of [-S, 0, S]) {
@@ -80,7 +81,7 @@ export function deckTexture() {
   const S = 256;
   const [c, g] = canvas(S, S);
   const rnd = prng(3);
-  const tones = ['#7d5642', '#74503d', '#84604a', '#6c4a39'];
+  const tones = ['#7a6451', '#705b49', '#816b57', '#6a5645']; // sampled from the plan's deck
   for (let i = 0; i < 8; i++) {
     g.fillStyle = tones[Math.floor(rnd() * tones.length)];
     g.fillRect(i * 32, 0, 32, S);
