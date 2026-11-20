@@ -294,7 +294,7 @@ function cafe() {
 }
 
 function person(p, q) {
-  return [round(0.2, p, q, 0, 1.2, { grow: true, tone: 'wall' }), round(0.15, p, q, 1.24, 1.56, { grow: true, tone: 'wall' })];
+  return [round(0.17, p, q, 0, 1.22, { grow: true, tone: 'wall' }), round(0.13, p, q, 1.27, 1.56, { grow: true, tone: 'wall' })];
 }
 
 export function buildStage1({ stage = 0, seed = 21 } = {}) {
@@ -425,9 +425,11 @@ export function buildStage2({ stage = 1, seed = 22 } = {}) {
 
   const trees = [];
   for (const [p, q] of [[28.2, 35.9], [15.2, 35.4], [28.2, 23.2], [15.2, 23.2], [28.2, 17.5], [20.4, 15.0], [15.2, 17.4], [40.2, 16.2]]) {
-    trees.push(round(0.11, p, q, 0, 3.0, { grow: true, tone: 'slab' }));
-    trees.push(round(1.05, p, q, 2.7, 4.3, { grow: true, tone: 'soft' }));
-    trees.push(round(0.7, p, q, 4.2, 5.3, { grow: true, tone: 'soft' }));
+    // a slim trunk and a crown in three tiers
+    trees.push(round(0.09, p, q, 0, 2.9, { grow: true, tone: 'slab' }));
+    trees.push(round(0.92, p, q, 2.6, 3.5, { grow: true, tone: 'soft' }));
+    trees.push(round(0.66, p, q, 3.5, 4.4, { grow: true, tone: 'soft' }));
+    trees.push(round(0.36, p, q, 4.4, 5.3, { grow: true, tone: 'soft' }));
   }
 
   const groups = [columns, [...beams, ...band], walls, lights, front, floor, fit.filter(Boolean), trees];

@@ -69,7 +69,7 @@ function buildTimeline(tl, ui, photo, split) {
   BEATS.swipes.forEach(([a, b], i) => {
     const mid = (a + b) / 2;
     tl.to(q('.story__thumb'), { xPercent: 100 * (i + 1), duration: b - a, ease: 'power2.inOut' }, a);
-    tl.to(labels[i], { opacity: 0.4, duration: 0.012 }, mid - 0.006);
+    tl.to(labels[i], { opacity: 0.5, duration: 0.012 }, mid - 0.006);
     tl.to(labels[i + 1], { opacity: 1, duration: 0.012 }, mid - 0.006);
   });
   tl.to(q('.story__labels'), { opacity: 0, duration: 0.02 }, T.b3Out + 0.008);
@@ -135,6 +135,9 @@ function StoryLive({ onFail }) {
     if (!el) return;
     el.style.setProperty('--ax', `${(x * 100).toFixed(2)}%`);
     el.style.setProperty('--ay', `${(y * 100).toFixed(2)}%`);
+    // the circle must reach the farthest corner exactly when the wipe ends
+    const far = Math.hypot(Math.max(x, 1 - x) * window.innerWidth, Math.max(y, 1 - y) * window.innerHeight);
+    el.style.setProperty('--d', `${Math.ceil(far + 8)}px`);
   }, []);
   const sceneProps = useMemo(() => ({ progress, onAnchor }), [progress, onAnchor]);
 

@@ -34,6 +34,8 @@ const LIGHT_TARGET = [0, 0, -6];
 const _cam = { x: 0, y: 0, z: 0, az: 0, el: 0, dist: 100 };
 const _v = new THREE.Vector3();
 const smooth = (t) => t * t * (3 - 2 * t);
+// Dev aid for the posters: ?view=trio frames the office, the café and the court without the stay.
+const VIEW = import.meta.env.DEV ? new URLSearchParams(window.location.search).get('view') : null;
 
 // The shadow camera's right and up axes on the ground plane. The light's follow point is snapped to
 // whole shadow texels along them, so shadow edges do not crawl while the camera travels.
@@ -108,13 +110,13 @@ function Scene({ progress, onAnchor }) {
   }, [theme, uStreet, uSway, sway]);
   useEffect(() => () => materials.dispose(), [materials]);
 
-  // The page colour, in three's fog (so everything outside the street window is exactly paper).
+  // Switches the street fog on (see streetFog.js; near and far are set by the driver).
   useEffect(() => {
-    scene.fog = new THREE.Fog(cssVar('--paper') || '#fafaf7', 17, 28);
+    scene.fog = new THREE.Fog('#ffffff', 15.4, 18.8);
     return () => {
       scene.fog = null;
     };
-  }, [scene, theme]);
+  }, [scene]);
 
   const kits = useMemo(() => buildKits(), []);
   const street = useMemo(() => prepare(buildStreet(), { seed: 1 }), []);
@@ -125,7 +127,7 @@ function Scene({ progress, onAnchor }) {
   const stakeStage = useRef(new Float32Array([1]));
   const follow = useRef({ x: 0, z: LIGHT_TARGET[2] });
   const anim = useRef({ p: progress.current, pc: progress.current, sink: 0, life: 0 });
-  const rig = useMemo(() => createRig(size.width / size.height), [size.width, size.height]);
+  const rig = useMemo(() => createRig(size.width / size.height, VIEW === 'trio' ? { centre: 92, half: 63 } : undefined), [size.width, size.height]);
   const view = useRef({ w: 0, h: 0, rig: null });
   const anchor = useRef({ x: -1, y: -1 });
   const blur = useRef(0);
@@ -157,7 +159,7 @@ function Scene({ progress, onAnchor }) {
     a.life = span(p, BEATS.life[0], BEATS.dissolve[1]);
 
     // camera
-    cameraAt(a.pc, rig, _cam);
+    cameraAt(VIEW === 'trio' ? 0.8 : a.pc, rig, _cam);
     const ce = Math.cos(_cam.el);
     camera.position.set(_cam.x + _cam.dist * Math.sin(_cam.az) * ce, _cam.y + _cam.dist * Math.sin(_cam.el), _cam.z + _cam.dist * Math.cos(_cam.az) * ce);
     camera.lookAt(_cam.x, _cam.y, _cam.z);
@@ -177,11 +179,12 @@ function Scene({ progress, onAnchor }) {
     snapToShadowTexels(_cam.x, _cam.z, texel, follow.current);
 
     // street fog: one plot in focus, then the whole street
-    const wide = smooth(span(a.pc, BEATS.pull[0], BEATS.pull[0] + 0.07));
+    const wide = VIEW === 'trio' ? 1 : smooth(span(a.pc, BEATS.pull[0], BEATS.pull[0] + 0.07));
     uStreet.value.x = _cam.x;
+    uStreet.value.w = 0.68 + 0.32 * wide;
     if (scene.fog) {
-      scene.fog.near = 16.5 + (98 - 16.5) * wide;
-      scene.fog.far = 27 + (130 - 27) * wide;
+      scene.fog.near = 15.4 + ((VIEW === 'trio' ? 61.5 : 98) - 15.4) * wide;
+      scene.fog.far = 18.8 + ((VIEW === 'trio' ? 65 : 130) - 18.8) * wide;
     }
 
     // windows warm up only in the "alive" beat
@@ -233,7 +236,7 @@ function Scene({ progress, onAnchor }) {
   return (
     <>
       <Environment />
-      <Lights target={LIGHT_TARGET} bounds={SHADOW_BOUNDS} distance={LIGHT_DISTANCE} follow={follow} />
+      <Lights target={LIGHT_TARGET} bounds={SHADOW_BOUNDS} distance={LIGHT_DISTANCE} softness={2} follow={follow} />
       <group ref={root}>
         {tier.shadows ? (
           <mesh rotation-x={-Math.PI / 2} position={[ROW_CENTRE[0], 0, ROW_CENTRE[2]]} receiveShadow>

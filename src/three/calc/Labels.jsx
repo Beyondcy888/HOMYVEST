@@ -29,7 +29,7 @@ function labelText(l, t, lang) {
     case 'road': return t('calc.scene.road');
     case 'area': return fmtArea(l.area, lang);
     case 'green': return `${t('calc.legend.green')} ${fmtArea(l.area, lang)}`;
-    case 'floors': return floors(l.full, l.partial);
+    case 'floors': return l.cap ? t('calc.s3.floorsCap', { n: fmtNum(l.cap, lang) }) : floors(l.full, l.partial);
     case 'existing': return `${t('calc.scene.existing')} · ${floors(l.full, l.partial)}`;
     case 'ghost': return `${t('calc.scene.ghost')} · ${floors(l.floors, 0)}`;
     case 'cap': return t('calc.s3.floorsCap', { n: fmtNum(l.n, lang) });

@@ -191,9 +191,9 @@ export default function Rig({ scene, reduced, zoom, api, onStart }) {
     if (!c) return undefined;
     c.touches.ONE = THREE.TOUCH.ROTATE;
     c.touches.TWO = THREE.TOUCH.DOLLY_ROTATE;
-    if (import.meta.env.DEV) window.__calcView = { controls: c, camera, azimuth: () => c.getAzimuthalAngle(), distance: () => camera.position.distanceTo(c.target) };
+    if (import.meta.env.DEV) window.__calcView = { controls: c, camera, gl, azimuth: () => c.getAzimuthalAngle(), distance: () => camera.position.distanceTo(c.target) };
     return undefined;
-  }, [camera]);
+  }, [camera, gl]);
 
   return (
     <OrbitControls
@@ -202,7 +202,8 @@ export default function Rig({ scene, reduced, zoom, api, onStart }) {
       enableZoom={zoom}
       enableDamping={!reduced}
       dampingFactor={0.09}
-      rotateSpeed={0.75}
+      // one full turn per panel height is too lively on a short phone panel
+      rotateSpeed={0.75 * Math.min(1, Math.max(0.45, size.height / 700))}
       zoomSpeed={0.8}
       minPolarAngle={15 * DEG}
       maxPolarAngle={80 * DEG}

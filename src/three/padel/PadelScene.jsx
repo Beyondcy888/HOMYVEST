@@ -243,13 +243,16 @@ function Model({ stages }) {
     glass.color.multiplyScalar(0.8);
     glass.opacity = theme === 'dark' ? 0.36 : 0.3;
     const roof = materials.dark.clone();
-    roof.color.set('#2d2c29');
+    roof.color.set(theme === 'dark' ? '#4b4945' : '#2d2c29');
     roof.roughness = 0.72;
-    return { turf, glass, roof };
+    // on the dark page the accent is lifted a little, or the frame and the roof would sink into the paper
+    const dark = theme === 'dark' ? materials.dark.clone() : null;
+    dark?.color.set('#45433f');
+    return { turf, glass, roof, dark };
   }, [materials, theme]);
-  useEffect(() => () => Object.values(extra).forEach((m) => m.dispose()), [extra]);
+  useEffect(() => () => Object.values(extra).forEach((m) => m?.dispose()), [extra]);
   const kit = useMemo(() => prepare(buildPadel(), { seed: 31, spread: 0.8 }), []);
-  const materialFor = useMemo(() => (kind) => (kind === 'turf' ? extra.turf : kind === 'glass' ? extra.glass : null), [extra]);
+  const materialFor = useMemo(() => (kind) => (kind === 'turf' ? extra.turf : kind === 'glass' ? extra.glass : kind === 'dark' ? extra.dark : null), [extra]);
   return (
     <>
       <AssemblyMesh kit={kit} stages={stages} materials={materials} materialFor={materialFor} />

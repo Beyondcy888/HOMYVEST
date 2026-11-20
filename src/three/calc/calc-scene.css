@@ -49,6 +49,7 @@
   background: var(--ink);
   color: var(--paper);
   border-color: var(--ink);
+  box-shadow: 0 0 0 1px var(--paper); /* keeps its edge on the light clay in dark mode */
 }
 .calc-label[data-type='green'],
 .calc-label[data-type='road'] {

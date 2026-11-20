@@ -13,7 +13,7 @@ const _b = { x: 0, y: 0, z: 0, sx: 0, sy: 0, sz: 0 };
 const _pt = { x: 0, y: 0, z: 0 };
 const EMPTY = [];
 /** How far above its anchor a floating tag sits, in units of the dimension offset. */
-export const TAG_LIFT = { area: 0.55, idea: 0.55, nofit: 0.4, cap: 1.25 };
+export const TAG_LIFT = { area: 0.55, idea: 0.55, nofit: 0.4, cap: 0.55 };
 
 export default function Lines({ engine, materials, reduced }) {
   const invalidate = useThree((s) => s.invalidate);

@@ -134,17 +134,14 @@ function buildMax(r) {
     id: 'max', levels, parts, ground: bandGround(r, [fp]),
     labels: [
       { key: 'top', type: 'area', x: fp.x, z: fp.z, lv: [levels.length, levels.length], area: m.full * m.fpUsed + m.partial },
-      { key: 'floors', type: 'floors', lv: [0, levels.length], full: m.full, partial: m.partial },
+      { key: 'floors', type: 'floors', lv: [0, levels.length], full: m.full, partial: m.partial, cap: df.capped ? df.total : 0 },
       ...greenLabel(r, r.greenMin, bands(r).dBack),
-      ...capLabel(df, fp, levels.length),
     ],
     stack: { x: fp.x + fp.w / 2, z: fp.z - fp.d / 2 },
     boxes: rects.map((rect, k) => ({ ...rect, from: k, to: k + 1 })),
     info: { fits: true, full: m.full, partial: m.partial, total: df.total, capped: df.capped, footprint: m.fpUsed, floorArea: m.full * m.fpUsed + m.partial },
   };
 }
-
-const capLabel = (df, fp, top) => (df.capped ? [{ key: 'cap', type: 'cap', x: fp.x, z: fp.z, lv: [top, top], n: df.total }] : []);
 
 /**
  * Rooms per floor in proportion to floor area (largest remainder), so the rooms add up to exactly `units`.
@@ -199,9 +196,8 @@ function buildKos(r, res) {
     id: 'kos', levels, parts, ground: bandGround(r, [fp]),
     labels: [
       { key: 'top', type: 'idea', idea: 'kos', x: fp.x, z: fp.z, lv: [levels.length, levels.length], units: res.kos.units },
-      { key: 'floors', type: 'floors', lv: [0, levels.length], full: m.full, partial: m.partial },
+      { key: 'floors', type: 'floors', lv: [0, levels.length], full: m.full, partial: m.partial, cap: df.capped ? df.total : 0 },
       ...greenLabel(r, r.greenMin, bands(r).dBack),
-      ...capLabel(df, fp, levels.length),
     ],
     stack: { x: fp.x + fp.w / 2, z: fp.z - fp.d / 2 },
     boxes: rects.map((rect, k) => ({ ...rect, from: k, to: k + 1 })),
@@ -269,9 +265,8 @@ function buildRuko(r, res, I) {
     id: 'ruko', levels, parts, ground: bandGround(r, [fp]),
     labels: [
       { key: 'top', type: 'idea', idea: 'ruko', x: fp.x, z: fp.z, lv: [count, count], units: n, perUnit },
-      { key: 'floors', type: 'floors', lv: [0, count], full: m.full, partial: m.partial },
+      { key: 'floors', type: 'floors', lv: [0, count], full: m.full, partial: m.partial, cap: df.capped ? df.total : 0 },
       ...greenLabel(r, r.greenMin, bands(r).dBack),
-      ...capLabel(df, fp, count),
     ],
     stack: { x: fp.x + fp.w / 2, z: fp.z - fp.d / 2 },
     boxes: rowRects.map((rect, k) => ({ ...rect, from: k, to: k + 1 })),
@@ -377,8 +372,7 @@ function buildHouses(r, res, I) {
     ground: [...green.rects.map((g) => ground(g.key, 'green', g, 0, ZONE_H, { role: 'green' })), ...pads, ...outlines],
     labels: [
       { key: 'top', type: 'idea', idea: 'rumah', x: 0, z: L / 2, lv: [levels.length, levels.length], units: m.units },
-      { key: 'floors', type: 'floors', lv: [0, floors], full: m.floorsPerHouse, partial: 0 },
-      ...capLabel(df, first, levels.length),
+      { key: 'floors', type: 'floors', lv: [0, floors], full: m.floorsPerHouse, partial: 0, cap: df.capped ? df.total : 0 },
     ],
     stack: { x: first.x + hw / 2, z: first.z - hd / 2 },
     boxes: cells.length <= 48 ? cells.map((c) => ({ x: c.cx, z: c.cz, w: hw, d: hd, from: 0, to: floors + 1 })) : [],

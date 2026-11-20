@@ -74,9 +74,10 @@ function fitDistance(box, az, el, aspect, fw, fh) {
 
 /**
  * Builds the keyframes for one stage aspect ratio. Call again when the stage is resized.
+ * `centre` and `half` re-aim the wide shot (used only to frame the posters).
  * Returns { portrait, cx, cy, keys } where cx, cy is the screen point (0..1) the camera target lands on.
  */
-export function createRig(aspect) {
+export function createRig(aspect, { centre = ROW_CENTRE[0], half } = {}) {
   const portrait = aspect < 0.9;
   const L = portrait ? LAYOUTS.portrait : LAYOUTS.landscape;
   const [x0, y0, x1, y1] = L.region;
@@ -96,15 +97,16 @@ export function createRig(aspect) {
     lnd: Math.log(dist(L.plot, az, el) * push),
   });
   const wideEl = L.wideEl * RAD;
+  const row = half ? { ...L.row, hx: half } : L.row;
   const wideKey = (p, push, ease) => ({
     p,
     ease,
-    x: ROW_CENTRE[0],
+    x: centre,
     y: L.row.cy,
     z: L.row.cz,
     az: L.wideAz * RAD,
     el: wideEl,
-    lnd: Math.log(dist(L.row, L.wideAz, wideEl) * push),
+    lnd: Math.log(dist(row, L.wideAz, wideEl) * push),
   });
 
   const [azIdle, azBuilt] = L.az;

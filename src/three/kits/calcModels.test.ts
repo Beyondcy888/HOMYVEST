@@ -15,10 +15,10 @@ const IDEAS: Ideas = {
 const CHECK: Check = { fp: 240, tfa: 480, green: 150 };
 
 type Part = { key: string; kind: string; role?: string; level: number; x: number; z: number; w: number; d: number; y0: number; h: number; over?: string; unit?: number };
-type Scene = ReturnType<typeof describeScene> & { ground: Part[]; parts: Part[] };
+type Scene = Omit<ReturnType<typeof describeScene>, 'ground' | 'parts' | 'info'> & { ground: Part[]; parts: Part[]; info: Record<string, any> };
 
 const scene = (over: Record<string, unknown> = {}): Scene =>
-  describeScene({ land: LAND, ideas: IDEAS, check: CHECK, step: 1, selectedIdea: null, ...over }) as Scene;
+  describeScene({ land: LAND, ideas: IDEAS, check: CHECK, step: 1, selectedIdea: null, ...over }) as unknown as Scene;
 const all = (s: Scene): Part[] => [...s.ground, ...s.parts];
 const area = (parts: Part[]) => parts.reduce((a, p) => a + p.w * p.d, 0);
 const role = (s: Scene, name: string) => all(s).filter((p) => p.role === name);
@@ -143,8 +143,9 @@ describe('step 1: variations', () => {
     const land = { ...LAND, klb: 33 };
     const s = scene({ land });
     expect(s.levels.length).toBe(40);
-    const cap = s.labels.find((l: any) => l.key === 'cap') as any;
-    expect(cap.n).toBe(55);
+    const floors = s.labels.find((l: any) => l.key === 'floors') as any;
+    expect(floors.cap).toBe(55);
+    expect(role(s, 'floor').length).toBe(40);
   });
   it('empty land: only the road and a faint outline', () => {
     const s = scene({ land: { ...LAND, P: 0 } });

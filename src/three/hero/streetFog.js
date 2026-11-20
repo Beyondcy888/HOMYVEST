@@ -3,9 +3,11 @@
 // focus. While the camera is on one plot, its neighbours and the far road are simply paper; when the
 // camera pulls back, the window opens and the whole street appears.
 //
-// It reuses three's own fog uniforms (so the colour is exactly the page colour, applied after tone
-// mapping): scene.fog.near / .far are metres from the focus. The distance is evaluated per fragment,
-// because the road is one 266 m piece and per-vertex fog cannot describe a window in its middle.
+// It reuses three's fog switch and its near / far uniforms (metres from the focus), but instead of
+// mixing toward a colour it fades the fragment's ALPHA. The canvas is transparent, so whatever page
+// colour is behind it shows through: light theme, dark theme, or nothing at all (transparent posters).
+// The distance is evaluated per fragment, because the road is one 266 m piece.
+// The window is wider on the +x side (uStreet.w < 1): the key light throws shadows that way.
 import * as THREE from 'three';
 
 const VERTEX = /* glsl */ `
@@ -17,10 +19,15 @@ vec4 streetPos = vec4( transformed, 1.0 );
 vStreet = ( modelMatrix * streetPos ).xz;
 `;
 
-const FRAGMENT = /* glsl */ `
+// Opaque materials are drawn without blending, so their colour is premultiplied here; transparent ones
+// are alpha-blended by three and only need their alpha scaled.
+const fragment = (opaque) => /* glsl */ `
 #ifdef USE_FOG
-  float streetDist = max( abs( vStreet.x - uStreet.x ), abs( vStreet.y - uStreet.y ) * uStreet.z );
-  gl_FragColor.rgb = mix( gl_FragColor.rgb, fogColor, smoothstep( fogNear, fogFar, streetDist ) );
+  float streetDx = vStreet.x - uStreet.x;
+  float streetDist = max( streetDx > 0.0 ? streetDx * uStreet.w : - streetDx, abs( vStreet.y - uStreet.y ) * uStreet.z );
+  float streetVis = 1.0 - smoothstep( fogNear, fogFar, streetDist );
+  gl_FragColor.a *= streetVis;
+  ${opaque ? 'gl_FragColor.rgb *= streetVis;' : ''}
 #endif
 `;
 
@@ -34,14 +41,15 @@ const SWAY = /* glsl */ `
 #endif
 `;
 
-/** One shared uniform: (focus x, focus z, z weight). */
-export const createStreetUniform = () => ({ value: new THREE.Vector3(0, -5, 0.8) });
+/** One shared uniform: (focus x, focus z, z weight, +x side scale). */
+export const createStreetUniform = () => ({ value: new THREE.Vector4(0, -5, 0.8, 0.68) });
 
 /**
- * Patches a material so its fog follows the street focus. `sway` (a { value } uniform holding seconds)
- * additionally adds the grass's slow lean.
+ * Patches a material so it fades with distance from the street focus. `sway` (a { value } uniform
+ * holding seconds) additionally adds the grass's slow lean.
  */
 export function withStreetFog(material, uStreet, sway) {
+  const opaque = !material.transparent;
   material.onBeforeCompile = (shader) => {
     shader.uniforms.uStreet = uStreet;
     let vs = `varying vec2 vStreet;\n${shader.vertexShader}`.replace('#include <fog_vertex>', VERTEX);
@@ -50,9 +58,9 @@ export function withStreetFog(material, uStreet, sway) {
       vs = `uniform float uSway;\n${vs}`.replace('#include <begin_vertex>', SWAY);
     }
     shader.vertexShader = vs;
-    shader.fragmentShader = `uniform vec3 uStreet;\nvarying vec2 vStreet;\n${shader.fragmentShader}`.replace('#include <fog_fragment>', FRAGMENT);
+    shader.fragmentShader = `uniform vec4 uStreet;\nvarying vec2 vStreet;\n${shader.fragmentShader}`.replace('#include <fog_fragment>', fragment(opaque));
   };
-  material.customProgramCacheKey = () => (sway ? 'street-fog-sway' : 'street-fog');
+  material.customProgramCacheKey = () => `street-fog-${opaque ? 'o' : 't'}${sway ? '-sway' : ''}`;
   material.needsUpdate = true;
   return material;
 }

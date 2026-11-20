@@ -24,22 +24,25 @@
   z-index: 2;
   visibility: hidden;
   pointer-events: none;
-  /* --r: 0..1 from the timeline · --ax/--ay: where the stay sits on screen, from the scene */
+  /* --r: 0..1 from the timeline · --ax/--ay: where the stay sits on screen, and --d: the distance
+     from there to the farthest corner, both from the scene */
   --r: 0;
-  --ax: 58%;
-  --ay: 64%;
+  --ax: 46%;
+  --ay: 78%;
+  --d: 130vmax;
+  --feather: 34vmax;
 }
 .story[data-phase='wipe'] .story__photo {
   visibility: visible;
   -webkit-mask-image: radial-gradient(
     circle at var(--ax) var(--ay),
-    #000 calc(var(--r) * 190vmax - 36vmax),
-    transparent calc(var(--r) * 190vmax)
+    #000 calc(var(--r) * (var(--d) + var(--feather)) - var(--feather)),
+    transparent calc(var(--r) * (var(--d) + var(--feather)))
   );
   mask-image: radial-gradient(
     circle at var(--ax) var(--ay),
-    #000 calc(var(--r) * 190vmax - 36vmax),
-    transparent calc(var(--r) * 190vmax)
+    #000 calc(var(--r) * (var(--d) + var(--feather)) - var(--feather)),
+    transparent calc(var(--r) * (var(--d) + var(--feather)))
   );
 }
 .story[data-phase='earn'] .story__photo {
@@ -130,7 +133,7 @@
 .story__label {
   text-align: center;
   white-space: nowrap;
-  opacity: 0.4;
+  opacity: 0.5;
 }
 .story__label:first-child {
   opacity: 1;

@@ -66,7 +66,7 @@ export function createCalcMaterials(theme = 'light') {
   tones.gap = new THREE.Color(clayHex).multiplyScalar(0.55); // the shadow gap between storeys
 
   const plate = patterned(new THREE.MeshStandardMaterial({ color: paper2, roughness: 0.95, metalness: 0 }), 'dots', DOTS, {
-    uCalcInk: { value: new THREE.Color(ink) }, uCalcScale: scale, uCalcAlpha: { value: 0.45 },
+    uCalcInk: { value: new THREE.Color(ink) }, uCalcScale: scale, uCalcAlpha: { value: theme === 'dark' ? 0.26 : 0.45 },
   });
   // Over-limit parts of the building: the clay stays light in both themes, so the hatch on it is always dark.
   const hatchScale = { value: 0.6 };

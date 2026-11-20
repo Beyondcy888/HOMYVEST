@@ -69,6 +69,9 @@
 .padel-live__scene {
   position: absolute;
   inset: 0 0 0 34%;
+  /* pieces drift in from all sides: on the text side they come out of the paper, not from behind an edge */
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 4.5%);
+  mask-image: linear-gradient(to right, transparent 0, #000 4.5%);
 }
 .padel-live__text {
   position: relative;
@@ -115,7 +118,7 @@
 
 @media (max-width: 820px) {
   .padel-live__scene {
-    inset: 27% 0 19% 0;
+    inset: 21% 0 21% 0;
     /* the roof comes down from above the model: let it arrive out of the paper, not from under a hard edge */
     -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 13%);
     mask-image: linear-gradient(to bottom, transparent 0, #000 13%);

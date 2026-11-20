@@ -33,13 +33,13 @@ export const KEYS = [
   { pos: [12.55, 1.55, 5.85], look: [7.0, 1.4, 4.7] }, // stepping back into the aisle between the round tables
   { pos: [11.95, 1.52, 6.9], look: [7.6, 1.4, 4.4] },
   { pos: [11.92, 1.5, 8.25], look: [8.2, 1.3, 4.55], stop: 3 }, // S3a buffet and bar (render 5)
-  { pos: [9.6, 1.5, 8.25], look: [9.3, 1.4, 4.0] }, // tracking west along the aisle
-  { pos: [8.0, 1.5, 8.18], look: [12.0, 1.4, 3.6] },
-  { pos: [7.2, 1.5, 7.6], look: [14.5, 1.38, 5.2], stop: 3.5 }, // S3b looking back east (render 3)
+  { pos: [9.6, 1.5, 8.25], look: [9.6, 1.4, 3.25] }, // tracking west along the aisle, facing the bar
+  { pos: [8.3, 1.5, 8.15], look: [10.8, 1.4, 3.82] },
+  { pos: [7.45, 1.5, 7.8], look: [11.15, 1.4, 4.45], stop: 3.5 }, // S3b the bar from the west lane (render 3)
   { pos: [7.0, 1.45, 7.0], look: [8.55, 5.5, 3.95], stop: 4 }, // S4 look up into the void (render 7)
-  { pos: [7.35, 1.5, 7.95], look: [12.5, 2.2, 6.8] },
-  { pos: [8.4, 1.55, 8.25], look: [14.5, 1.6, 8.6] },
-  { pos: [10.3, 1.6, 8.27], look: [14.0, 1.6, 11.0] },
+  { pos: [7.35, 1.5, 7.95], look: [11.45, 5.0, 5.08] }, // lowering the gaze while turning east…
+  { pos: [8.4, 1.55, 8.25], look: [13.4, 3.1, 8.08] },
+  { pos: [10.3, 1.6, 8.27], look: [13.84, 2.04, 11.8] }, // …and on round to the windows
   { pos: [11.92, 1.6, 8.3], look: [11.92, 1.72, 14.5], stop: 5 }, // S5 by the windows (render 6, from inside)
 ];
 
@@ -51,13 +51,13 @@ export const DWELLS = [
   { stop: 0, a: 0.0, b: 0.03 },
   { stop: 1, a: 0.16, b: 0.24 },
   { stop: 2, a: 0.31, b: 0.39 },
-  { stop: 3, a: 0.47, b: 0.512 },
-  { stop: 3.5, a: 0.548, b: 0.58 },
-  { stop: 4, a: 0.63, b: 0.71 },
-  { stop: 5, a: 0.77, b: 0.84 },
+  { stop: 3, a: 0.47, b: 0.505 },
+  { stop: 3.5, a: 0.55, b: 0.58 },
+  { stop: 4, a: 0.63, b: 0.7 },
+  { stop: 5, a: 0.775, b: 0.83 },
 ];
-export const RISE = { a: 0.84, b: 0.935 }; // lift through the ceiling to the top view
-export const PLAN_FADE = { a: 0.925, b: 0.972 }; // model → floor plan
+export const RISE = { a: 0.83, b: 0.945 }; // lift through the ceiling to the top view
+export const PLAN_FADE = { a: 0.935, b: 0.98 }; // model → floor plan
 export const UPPER_FADE = { y0: 1.85, y1: 2.85 }; // ceiling and upper floor fade while the eye passes these heights
 
 /** Stops as the visitor knows them (index into homyeight.walk.stops). `at` is where a "go to" lands. */
@@ -66,8 +66,8 @@ export const STOPS = [
   { index: 1, a: 0.16, b: 0.24, at: 0.2 },
   { index: 2, a: 0.31, b: 0.39, at: 0.35 },
   { index: 3, a: 0.47, b: 0.58, at: 0.495 },
-  { index: 4, a: 0.63, b: 0.71, at: 0.67 },
-  { index: 5, a: 0.77, b: 0.84, at: 0.805 },
+  { index: 4, a: 0.63, b: 0.7, at: 0.665 },
+  { index: 5, a: 0.775, b: 0.83, at: 0.805 },
   { index: 6, a: 0.9, b: 1.0, at: 0.985 },
 ];
 
@@ -76,8 +76,8 @@ export const CARDS = [
   { stop: 1, ids: ['maxone/1'], side: 'right', a: 0.16, b: 0.24 },
   { stop: 2, ids: ['maxone/2'], side: 'left', a: 0.31, b: 0.39 },
   { stop: 3, ids: ['maxone/5', 'maxone/3'], side: 'right', a: 0.47, b: 0.58, swap: [0.519, 0.541] },
-  { stop: 4, ids: ['maxone/7'], side: 'left', a: 0.63, b: 0.71 },
-  { stop: 5, ids: ['maxone/6'], side: 'right', a: 0.77, b: 0.84 },
+  { stop: 4, ids: ['maxone/7'], side: 'left', a: 0.63, b: 0.7 },
+  { stop: 5, ids: ['maxone/6'], side: 'right', a: 0.775, b: 0.83 },
   { stop: 6, ids: ['maxone/4'], side: 'left', a: 0.9, b: 1.01 },
 ];
 const CARD_IN = 0.022; // progress taken by the reveal (≈ 15 vh of scroll)
@@ -280,6 +280,12 @@ const pitchAt = monotone(KNOTS.s, KNOTS.pitch);
 
 const WALK_END = DWELL_S[DWELL_S.length - 1].s1;
 
+// Travel between two dwells: speed ramps up over the first 30%, holds, ramps down over the last 30%.
+// Peak speed is 1.43× the mean (a sine ease would be 2×), so long walks do not rush in the middle.
+const RAMP = 0.3;
+const VMAX = 1 / (1 - RAMP);
+const travel = (t) => (t <= RAMP ? (VMAX * t * t) / (2 * RAMP) : t >= 1 - RAMP ? 1 - (VMAX * (1 - t) * (1 - t)) / (2 * RAMP) : VMAX * (t - RAMP / 2));
+
 /** Arc length walked at progress p. Flat (a slow drift) inside dwells, eased in between, C1 everywhere. */
 export function distanceAt(p) {
   const first = DWELL_S[0];
@@ -295,7 +301,7 @@ export function distanceAt(p) {
       const v0 = (d.s1 - d.s0) / (d.b - d.a); // drift speed leaving this dwell
       const v1 = (next.s1 - next.s0) / (next.b - next.a); // drift speed entering the next
       const L = next.s0 - d.s1;
-      const w = t - Math.sin(2 * Math.PI * t) / (2 * Math.PI);
+      const w = travel(t);
       return d.s1 + dp * (v0 * t + ((v1 - v0) * t * t) / 2) + (L - (dp * (v0 + v1)) / 2) * w;
     }
   }
@@ -354,17 +360,16 @@ export function routeAt(p, view = {}, out = {}) {
   let rise = 0;
 
   if (q > RISE.a) {
-    // Lift: tilt down first, then climb, turning through west to north so the plan ends north-up.
+    // Lift: a last look round the hall (turning through west to north, so the plan ends north-up), then the
+    // gaze drops and the eye climbs. Height grows exponentially, which reads as an even pull-back.
     rise = span(q, RISE.a, RISE.b);
     const top = topView(aspect);
-    const climb = smoother(rise);
-    const k = climb * climb * (3 - 2 * climb); // slow start so the eye leaves the room gently
-    const hy = Math.pow(k, 1.6);
-    x = lerp(x, top.x, smoother(span(rise, 0.08, 0.92)));
-    z = lerp(z, top.z, smoother(span(rise, 0.08, 0.92)));
-    y = lerp(y, top.y, hy);
-    yaw = lerp(yaw, Math.ceil((yaw - 1e-6) / (2 * Math.PI)) * 2 * Math.PI, smoother(span(rise, 0.02, 0.82)));
-    pitch = lerp(pitch, -Math.PI / 2, smoother(span(rise, 0.0, 0.7)));
+    const slide = smoother(span(rise, 0.08, 0.92));
+    x = lerp(x, top.x, slide);
+    z = lerp(z, top.z, slide);
+    y *= Math.pow(top.y / y, travel(span(rise, 0.12, 1)));
+    yaw = lerp(yaw, Math.ceil((yaw - 1e-6) / (2 * Math.PI)) * 2 * Math.PI, travel(span(rise, 0.0, 0.7)));
+    pitch = lerp(pitch, -Math.PI / 2, smooth(span(rise, 0.1, 0.78)));
     fov = lerp(fov, FOV.top, smoother(span(rise, 0.1, 0.9)));
   }
 
@@ -410,9 +415,10 @@ export function routeAt(p, view = {}, out = {}) {
 export function pathPolyline(step = 0.25) {
   const pts = [];
   const o = [0, 0, 0];
-  for (let s = 0; s <= WALK_END + 1e-6; s += step) {
-    positionAt(Math.min(s, WALK_END), o);
-    pts.push([o[0], o[2], Math.min(s, WALK_END) / WALK_END]);
+  const n = Math.ceil(WALK_END / step);
+  for (let i = 0; i <= n; i++) {
+    positionAt((i / n) * WALK_END, o);
+    pts.push([o[0], o[2], i / n]);
   }
   return pts;
 }
