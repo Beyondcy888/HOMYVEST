@@ -144,3 +144,11 @@
     transform: none;
   }
 }
+
+/* On very wide screens the display headline is long enough to reach the detail image's column,
+   so the image no longer rides up beside it. */
+@media (min-width: 1600px) {
+  .about__detail {
+    margin-top: -48px;
+  }
+}

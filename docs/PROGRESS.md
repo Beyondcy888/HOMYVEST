@@ -63,3 +63,37 @@ At-a-glance checklist: [../TASKLIST.md](../TASKLIST.md). This file is the detail
 - Done: Playwright specs (`qa/*.spec.ts`): smoke, i18n, wordmark, calculator, calc3d, doors, whatsapp, motion, a11y (axe), placeholders, screenshots (separate `shots` project). Favicons, OG image (rendered with the real Archivo), robots.txt, sitemap.xml, vercel.json, netlify.toml.
 - First run on what existed: 56 passed. Two real problems found and fixed: step text in "What happens next" dimmed below contrast limits; Door A on phones focused the width field without scrolling it into view.
 - Next step: integrate the four scenes as the sub-agents finish; then M10 polish and the full M11 run.
+
+## Session 2 — 2026-11-20 04:53 onward
+Session 1 was stopped by the account's usage limit at 02:17 with four scene agents mid-build. Session 2 resumed them with their saved context. A stream stall froze all agents from about 05:17 to 08:07, and a second usage limit stopped the last two at about 09:45; each time the work on disk was committed and picked up again.
+
+## M4 addendum: Maxone section shell — 05:00–05:10
+- Done by the main session so the page was whole without the 3D room: `Walkthrough.jsx`, `MiniMap.jsx`, `StopCard.jsx` (render cards, mini-map with walked path and stop buttons, skip link, render-led fallback B, static mode).
+- Also: projects gallery recomposed row by row; step changes on phones land below the sticky 3D; "eight courts" removed from the padel line (DECISIONS D18).
+
+## M8 Calculator live 3D — done 05:17, verified 08:20
+- `src/three/kits/calcModels.js`, `src/three/calc/*`. Models for every step and idea, labels, orbit, morphs, rule highlights, touch behaviour, poster.
+- Verified in the real page: step 1, ruko, houses, warehouse (dark), step 3 with ghost floors, mobile. 26 unit tests measure the drawn boxes against the calculator's numbers.
+
+## M7 Padel assembly — done 05:14, verified 08:22
+- `src/three/kits/padel.js`, `src/three/padel/*`, `src/sections/Beyond/PadelSection.jsx`. True-isometric camera, three-stage assembly, aligned reveals, fallback, posters.
+- Verified in the real page at eight progress points, mobile and dark. 18 draw calls, about 42,000 triangles.
+
+## M5 Hero story — done 09:40, verified 10:10
+- `src/three/kits/{stay,office,cafe,sports}.js`, `src/three/hero/*`, `src/sections/Story/*`. Five beats, radial dissolve into the dusk render, stats and CTAs, static mode, posters.
+- Verified in the real page: desktop, mobile, dark. No frame over 50 ms on desktop after the hitch work.
+
+## M6 Maxone 3D room — done 09:40, verified 10:10
+- `src/three/maxone/*`. Compared with the renders at every stop (`qa/maxone-compare/`): passes, so the room is the default (`SCENE_READY = true`). 19–26 draw calls, 104k–142k triangles.
+- Assumptions about the room: DECISIONS D22.
+
+## M10 Design polish
+- Impeccable: design hook active on every UI file written; `impeccable detect` on the source (no findings beyond advisory type-size notes) and on the rendered page in both languages (seven "label above heading" findings, kept: DECISIONS D10, D26).
+- Taste Skill used as a review lens (DECISIONS D11): no gradients, glass, rounded shadow cards, icon grids, carousels or centred-everything layouts; photographs lead; hover answers on buttons, links, doors and gallery images.
+- Flow checklist (docs/04 §12): headlines alone tell the story; every section hands over to the next; both doors land in the calculator with the first field focused; WhatsApp within two taps everywhere; every pinned scene has a skip link; colour only in renders and the one zone green; Indonesian checked at 390 px.
+- Fixed in review: footer and intro wordmark overflowing when expanded; dimmed step text below contrast; gallery rows; hybrid diagram redrawn as a building elevation; footer partner line; stray full stop in the Indonesian headline.
+
+## M11 QA and performance
+- `npm run test`: 76/76. `npm run typecheck`: clean. `npm run build`: clean. `npm run e2e`: 66 passed, 6 skipped by design (hover and keyboard checks that only apply to one device class).
+- Performance measured with `node qa/tools/perf.mjs` (numbers in REPORT.md).
+- Originals: `node qa/tools/verify-renders.mjs` → 32 of 32 identical.

@@ -13,3 +13,10 @@ renders/
 # Not part of the website
 HOMYVEST-DEV-PACK/
 Template-Analisis-Tapak-Zoning-Site-Planning-mindelevate/
+
+# Raw screenshot set (large); the contact sheets in qa/screenshots/sheets are kept
+qa/screenshots/sections/
+qa/screenshots/calculator/
+qa/screenshots/3d/
+qa/screenshots/fallbacks/
+qa/screenshots/header/

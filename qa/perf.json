@@ -1,16 +1,16 @@
 {
-  "generatedAt": "2026-11-20T03:09:16.934Z",
+  "generatedAt": "2026-11-20T03:20:23.811Z",
   "base": "http://localhost:4173",
   "load": {
     "mobile, CPU ×4, Fast 4G": {
-      "lcpMs": 2928,
+      "lcpMs": 2184,
       "lcpElement": "p.story__body",
-      "cls": 0.0035,
-      "longTasks": 9,
-      "longestTaskMs": 1426,
+      "cls": 0.0031,
+      "longTasks": 11,
+      "longestTaskMs": 692,
       "typingLatencyMs": {
-        "median": 61,
-        "max": 67
+        "median": 56,
+        "max": 62
       },
       "transferredKB": {
         "js": 442,
@@ -18,19 +18,19 @@
         "font": 188,
         "img": 166,
         "other": 2,
-        "total": 812
+        "total": 813
       },
       "initialJsKB": 181
     },
     "desktop, no throttle": {
-      "lcpMs": 304,
+      "lcpMs": 168,
       "lcpElement": "span.wm",
-      "cls": 0.0261,
-      "longTasks": 3,
-      "longestTaskMs": 189,
+      "cls": 0.0286,
+      "longTasks": 4,
+      "longestTaskMs": 270,
       "typingLatencyMs": {
-        "median": 28,
-        "max": 38
+        "median": 29,
+        "max": 32
       },
       "transferredKB": {
         "js": 442,
@@ -46,16 +46,7 @@
   "frames": {
     "desktop, no throttle": {
       "story": {
-        "frames": 117,
-        "p50": 16.7,
-        "p95": 16.8,
-        "max": 16.8,
-        "over50ms": 0,
-        "fpsMedian": 60,
-        "hitches": []
-      },
-      "homyeight": {
-        "frames": 165,
+        "frames": 114,
         "p50": 16.7,
         "p95": 16.8,
         "max": 50,
@@ -63,16 +54,30 @@
         "fpsMedian": 60,
         "hitches": []
       },
-      "beyond": {
-        "frames": 87,
+      "homyeight": {
+        "frames": 164,
         "p50": 16.7,
         "p95": 16.7,
-        "max": 66.6,
+        "max": 66.7,
         "over50ms": 1,
         "fpsMedian": 60,
         "hitches": [
           {
-            "p": 0.483,
+            "p": 1.034,
+            "ms": 67
+          }
+        ]
+      },
+      "beyond": {
+        "frames": 86,
+        "p50": 16.7,
+        "p95": 16.8,
+        "max": 66.7,
+        "over50ms": 1,
+        "fpsMedian": 60,
+        "hitches": [
+          {
+            "p": 0.487,
             "ms": 67
           }
         ]
@@ -80,7 +85,7 @@
       "ways": {
         "frames": 68,
         "p50": 16.7,
-        "p95": 16.7,
+        "p95": 16.8,
         "max": 16.8,
         "over50ms": 0,
         "fpsMedian": 60,
@@ -90,38 +95,33 @@
     },
     "mobile, CPU ×4": {
       "story": {
-        "frames": 83,
+        "frames": 88,
         "p50": 16.7,
-        "p95": 33.2,
-        "max": 83.3,
+        "p95": 16.8,
+        "max": 66.6,
         "over50ms": 1,
         "fpsMedian": 60,
         "hitches": [
           {
-            "p": 1.022,
-            "ms": 83
+            "p": 0.996,
+            "ms": 67
           }
         ]
       },
       "homyeight": {
-        "frames": 77,
-        "p50": 33.3,
-        "p95": 50,
-        "max": 50.1,
-        "over50ms": 1,
-        "fpsMedian": 30,
-        "hitches": [
-          {
-            "p": 0.672,
-            "ms": 50
-          }
-        ]
-      },
-      "beyond": {
-        "frames": 75,
+        "frames": 95,
         "p50": 16.7,
         "p95": 33.4,
-        "max": 33.4,
+        "max": 50,
+        "over50ms": 0,
+        "fpsMedian": 60,
+        "hitches": []
+      },
+      "beyond": {
+        "frames": 82,
+        "p50": 16.7,
+        "p95": 16.8,
+        "max": 33.2,
         "over50ms": 0,
         "fpsMedian": 60,
         "hitches": []
@@ -132,12 +132,43 @@
   },
   "walk": {
     "desktop, no throttle, 3000 px/s": {
-      "frames": 740,
+      "frames": 662,
       "p50": 16.7,
-      "p95": 16.8,
-      "max": 16.8,
-      "over50ms": 0,
-      "hitches": []
+      "p95": 16.7,
+      "max": 333.4,
+      "over50ms": 6,
+      "hitches": [
+        {
+          "near": "beyond",
+          "y": 28565,
+          "ms": 333
+        },
+        {
+          "near": "beyond",
+          "y": 29465,
+          "ms": 300
+        },
+        {
+          "near": "beyond",
+          "y": 29665,
+          "ms": 67
+        },
+        {
+          "near": "calculator",
+          "y": 33365,
+          "ms": 100
+        },
+        {
+          "near": "next",
+          "y": 34165,
+          "ms": 267
+        },
+        {
+          "near": "faq",
+          "y": 36515,
+          "ms": 333
+        }
+      ]
     }
   }
 }

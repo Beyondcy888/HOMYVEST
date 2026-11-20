@@ -7,7 +7,7 @@ Detailed log per milestone: [docs/PROGRESS.md](docs/PROGRESS.md) · decisions: [
 "Resume the HOMYVEST build from TASKLIST.md and docs/PROGRESS.md." The next unchecked item below is where to continue.
 
 - Build started: 2026-11-20 01:08 (WIB, +07:00)
-- Build finished: _not yet_
+- Build finished: 2026-11-20 10:35 (WIB). Report: docs/REPORT.md
 
 ---
 
@@ -47,8 +47,6 @@ Detailed log per milestone: [docs/PROGRESS.md](docs/PROGRESS.md) · decisions: [
 - [x] store.ts (zustand + safe localStorage)
 - [x] `npm run test` all green
 - [x] Commit `M3`
-
-> **Note for a resumed session:** the scene work in M5–M8 was handed to four parallel sub-agents (see docs/DECISIONS.md D12 and docs/SCENE_GUIDE.md). Items marked `[~]` there were in their hands. If their folders (`src/three/hero`, `maxone`, `padel`, `calc`, `src/sections/Story`, `src/sections/HomyEight/Walkthrough.jsx`, `src/sections/Beyond/PadelSection.jsx`) are missing or incomplete, finish them following docs/06 and docs/SCENE_GUIDE.md, then mount them in `src/sections/Sections.jsx`.
 
 ## M4 — All sections, static (no 3D)
 - [x] Hero story (static/poster version)
@@ -99,20 +97,20 @@ Detailed log per milestone: [docs/PROGRESS.md](docs/PROGRESS.md) · decisions: [
 - [x] Commit `M9`
 
 ## M10 — Design polish
-- [ ] Impeccable critique / audit / polish
-- [ ] Taste review against anti-patterns
-- [ ] Flow checklist (04 §12), copy fit EN + ID, motion tuning
-- [ ] Commit `M10`
+- [x] Impeccable critique / audit / polish
+- [x] Taste review against anti-patterns
+- [x] Flow checklist (04 §12), copy fit EN + ID, motion tuning
+- [x] Commit `M10`
 
 ## M11 — QA, performance, report
-- [ ] Playwright specs (smoke, i18n, wordmark, calculator, calc3d, doors, whatsapp, motion, a11y, placeholders, screenshots)
-- [ ] Posters generated for 3D scenes
-- [ ] Performance numbers measured
+- [x] Playwright specs (smoke, i18n, wordmark, calculator, calc3d, doors, whatsapp, motion, a11y, placeholders, screenshots)
+- [x] Posters generated for 3D scenes
+- [x] Performance numbers measured
 - [x] Favicon, OG image, robots, sitemap, deploy configs
-- [ ] `npm run test`, `typecheck`, `build`, `e2e` all pass
-- [ ] Originals in renders/ verified untouched
-- [ ] docs/REPORT.md written, finish time recorded
-- [ ] Commit `M11`
+- [x] `npm run test`, `typecheck`, `build`, `e2e` all pass
+- [x] Originals in renders/ verified untouched
+- [x] docs/REPORT.md written, finish time recorded
+- [x] Commit `M11`
 
 ---
 ## Session log

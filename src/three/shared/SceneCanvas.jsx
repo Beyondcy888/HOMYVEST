@@ -1,5 +1,5 @@
 // The <Canvas> every big scene uses: tier-aware quality, render-on-demand, transparent background.
-import { useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { Canvas, useThree } from '@react-three/fiber';
 import { useTier } from '../../lib/device/tier.js';
@@ -26,29 +26,52 @@ export function InvalidateOn({ progress }) {
   return null;
 }
 
-/** Fires once after the first frame has been drawn (used to cross-fade the poster out). */
-function Ready({ onReady }) {
-  const invalidate = useThree((s) => s.invalidate);
+/**
+ * Brings a scene up without freezing the page.
+ *
+ * A cold GPU needs time to compile a scene's shaders (measured: up to 1.5 s for the walkthrough on a first
+ * visit). Done on the first draw, that is one long frozen frame, right while the visitor is scrolling toward
+ * the scene. So the canvas starts with its frame loop off, every material in the scene graph (hidden objects
+ * included) is compiled in the background with compileAsync, and only then does drawing begin. The poster
+ * stays up in the meantime. The onReady callback fires after the first frame has been drawn.
+ */
+function Warm({ live, onLive, onReady }) {
   const get = useThree((s) => s.get);
+  const invalidate = useThree((s) => s.invalidate);
+
   useEffect(() => {
+    let alive = true;
+    const go = () => alive && onLive();
+    // one frame later, so the children's own effects (materials, environment map) have run
+    const id = requestAnimationFrame(() => {
+      try {
+        const { gl, scene, camera } = get();
+        (typeof gl.compileAsync === 'function' ? gl.compileAsync(scene, camera) : Promise.resolve()).then(go, go);
+      } catch {
+        go();
+      }
+    });
+    const safety = window.setTimeout(go, 5000); // never leave a scene dark because a compile stalled
+    return () => {
+      alive = false;
+      cancelAnimationFrame(id);
+      window.clearTimeout(safety);
+    };
+  }, [get, onLive]);
+
+  useEffect(() => {
+    if (!live) return undefined;
     invalidate();
     let id2;
     const id = requestAnimationFrame(() => {
-      // Compile every material in the scene graph now, including objects that are still hidden, so that
-      // nothing has to compile a shader in the middle of a scroll.
-      try {
-        const { gl, scene, camera } = get();
-        gl.compile(scene, camera);
-      } catch {
-        /* compile is an optimisation only */
-      }
+      invalidate();
       id2 = requestAnimationFrame(() => onReady?.());
     });
     return () => {
       cancelAnimationFrame(id);
       cancelAnimationFrame(id2);
     };
-  }, [invalidate, onReady, get]);
+  }, [live, invalidate, onReady]);
   return null;
 }
 
@@ -81,12 +104,14 @@ export default function SceneCanvas({
   ...rest
 }) {
   const tier = useTier();
+  const [live, setLive] = useState(false);
+  const onLive = useCallback(() => setLive(true), []);
   return (
     <Canvas
       className={className}
       style={{ position: 'absolute', inset: 0, ...style }}
       dpr={tier.dpr}
-      frameloop={frameloop}
+      frameloop={live ? frameloop : 'never'}
       orthographic={orthographic}
       camera={camera}
       // three r182+ removed PCFSoftShadowMap; PCFShadowMap ("percentage") is the soft-filtered map now
@@ -104,8 +129,8 @@ export default function SceneCanvas({
       {progress ? <InvalidateOn progress={progress} /> : null}
       <FrameWatch />
       <PerfProbe label={name} />
-      <Ready onReady={onReady} />
       {children}
+      <Warm live={live} onLive={onLive} onReady={onReady} />
     </Canvas>
   );
 }
