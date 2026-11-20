@@ -1,0 +1,116 @@
+{
+  "generatedAt": "2026-11-20T01:25:54.469Z",
+  "base": "http://localhost:4173",
+  "load": {},
+  "frames": {
+    "desktop, no throttle": {
+      "story": {
+        "frames": 69,
+        "p50": 16.7,
+        "p95": 83.4,
+        "max": 466.7,
+        "over50ms": 6,
+        "fpsMedian": 60,
+        "hitches": [
+          {
+            "p": 0.085,
+            "ms": 83
+          },
+          {
+            "p": 0.174,
+            "ms": 117
+          },
+          {
+            "p": 0.449,
+            "ms": 83
+          },
+          {
+            "p": 0.547,
+            "ms": 83
+          },
+          {
+            "p": 0.592,
+            "ms": 83
+          },
+          {
+            "p": 1.081,
+            "ms": 467
+          }
+        ]
+      },
+      "homyeight": {
+        "frames": 164,
+        "p50": 16.7,
+        "p95": 16.8,
+        "max": 33.4,
+        "over50ms": 0,
+        "fpsMedian": 60,
+        "hitches": []
+      },
+      "beyond": {
+        "frames": 70,
+        "p50": 16.7,
+        "p95": 33.3,
+        "max": 183.3,
+        "over50ms": 2,
+        "fpsMedian": 60,
+        "hitches": [
+          {
+            "p": 0.77,
+            "ms": 183
+          },
+          {
+            "p": 1.017,
+            "ms": 117
+          }
+        ]
+      },
+      "ways": {
+        "frames": 64,
+        "p50": 16.7,
+        "p95": 16.8,
+        "max": 50,
+        "over50ms": 0,
+        "fpsMedian": 60,
+        "hitches": []
+      },
+      "drawCalls": null
+    },
+    "mobile, CPU ×4": {
+      "story": {
+        "frames": 78,
+        "p50": 16.7,
+        "p95": 33.4,
+        "max": 116.7,
+        "over50ms": 1,
+        "fpsMedian": 60,
+        "hitches": [
+          {
+            "p": 0.97,
+            "ms": 117
+          }
+        ]
+      },
+      "homyeight": {
+        "frames": 105,
+        "p50": 16.7,
+        "p95": 33.4,
+        "max": 33.4,
+        "over50ms": 0,
+        "fpsMedian": 60,
+        "hitches": []
+      },
+      "beyond": {
+        "frames": 71,
+        "p50": 16.7,
+        "p95": 33.3,
+        "max": 33.4,
+        "over50ms": 0,
+        "fpsMedian": 60,
+        "hitches": []
+      },
+      "ways": "not pinned in this profile",
+      "drawCalls": null
+    }
+  }
+}

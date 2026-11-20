@@ -2,7 +2,7 @@
 // idle land → built → it could be an office, a café, a court → the street comes alive → colour.
 // Live mode pins the stage and scrubs everything from one scroll range; static mode (reduced motion,
 // no WebGL, or a failed scene) is a calm vertical sequence with the same copy.
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { SplitText } from 'gsap/SplitText';
 import PinnedScene from '../../components/layout/PinnedScene.jsx';
@@ -29,8 +29,8 @@ const T = {
   b2In: 0.115,
   b2Out: 0.312,
   b3In: 0.345,
-  b3Out: 0.632,
-  b4In: 0.678,
+  b3Out: 0.646,
+  b4In: 0.684,
   b4Out: 0.77,
   earnIn: BEATS.dissolve[1],
 };
@@ -63,21 +63,25 @@ function buildTimeline(tl, ui, photo, split) {
   enter('b4', T.b4In);
   leave('b4', T.b4Out);
 
-  // Slide labels: the thumb travels with each camera swipe.
+  // Slide labels: the thumb travels with each camera swipe. Landscape lists the four options down the
+  // column; portrait has room for one line, so it shows the current option over a four-step line.
   const labels = q('.story__label');
-  tl.fromTo(q('.story__labels'), { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.02, ease: 'power2.out' }, T.b3In);
+  const portrait = window.matchMedia('(max-aspect-ratio: 9/10)').matches;
+  const step = portrait ? 'xPercent' : 'yPercent';
+  tl.fromTo(q('.story__labels'), { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.03, ease: 'power2.out' }, T.b3In + 0.022);
   BEATS.swipes.forEach(([a, b], i) => {
     const mid = (a + b) / 2;
-    tl.to(q('.story__thumb'), { xPercent: 100 * (i + 1), duration: b - a, ease: 'power2.inOut' }, a);
-    tl.to(labels[i], { opacity: 0.5, duration: 0.012 }, mid - 0.006);
+    tl.to(q('.story__thumb'), { [step]: 100 * (i + 1), duration: b - a, ease: 'power2.inOut' }, a);
+    tl.to(labels[i], { opacity: portrait ? 0 : 0.5, duration: 0.012 }, mid - 0.006);
     tl.to(labels[i + 1], { opacity: 1, duration: 0.012 }, mid - 0.006);
   });
-  tl.to(q('.story__labels'), { opacity: 0, duration: 0.02 }, T.b3Out + 0.008);
 
   // The dissolve: colour arrives through a soft circle opening from the stay.
   const [d0, d1] = BEATS.dissolve;
   tl.to(q('.story__skip'), { opacity: 0, duration: 0.02 }, d0 - 0.02);
   tl.fromTo(photo, { '--r': 0 }, { '--r': 1, duration: d1 - d0, ease: 'sine.inOut' }, d0);
+  // the clay lets go as the photo spreads, so the model never ghosts through the soft edge
+  tl.fromTo(ui.parentElement.querySelector('.story__scene'), { opacity: 1 }, { opacity: 0, duration: 0.042, ease: 'sine.in' }, d0 + 0.006);
   tl.fromTo(photo.querySelector('.story__zoom'), { scale: 1.08 }, { scale: 1, duration: 0.12, ease: 'power2.out' }, d0);
 
   // Beat 5 over the photo.
@@ -92,20 +96,33 @@ function StoryLive({ onFail }) {
   const progress = useMemo(() => createProgress(0), []);
   const ui = useRef(null);
   const photo = useRef(null);
-  const [phase, setPhase] = useState('clay');
+  const section = useRef(null);
+  const [earning, setEarning] = useState(false);
   const [layout, setLayout] = useState({ fonts: false, n: 0 });
 
-  // Three coarse phases are all React needs to know: clay, the wipe, and the photo.
-  useEffect(() => {
-    let current = phaseOf(progress.current);
-    setPhase(current);
-    return progress.subscribe((v) => {
+  // Three coarse phases (clay, the wipe, the photo) switch layers on and off. They are written straight
+  // to the section's attributes so scrolling never re-renders React; only the stats' roll-up is state.
+  useLayoutEffect(() => {
+    let phase = null;
+    let top = null;
+    const apply = (v) => {
+      const el = section.current;
+      if (!el) return;
       const next = phaseOf(v);
-      if (next !== current) {
-        current = next;
-        setPhase(next);
+      if (next !== phase) {
+        phase = next;
+        el.dataset.phase = next;
+        setEarning(next === 'earn');
       }
-    });
+      // the poster shows the opening frame: it may only stand in for the scene at the very top
+      const atTop = v < 0.02;
+      if (atTop !== top) {
+        top = atTop;
+        el.toggleAttribute('data-top', atTop);
+      }
+    };
+    apply(progress.current);
+    return progress.subscribe(apply);
   }, [progress]);
 
   // Line splits depend on the font and the column width: rebuild the timeline when either changes.
@@ -156,7 +173,7 @@ function StoryLive({ onFail }) {
   };
 
   return (
-    <section id="story" className="story story--live" aria-labelledby="story-title" data-phase={phase}>
+    <section ref={section} id="story" className="story story--live" aria-labelledby="story-title">
       <PinnedScene id="story" lengthVh={500} mobileLengthVh={420} progress={progress} timeline={timeline} deps={[lang, layout.n]}>
         <SceneMount
           className="story__scene"
@@ -175,7 +192,7 @@ function StoryLive({ onFail }) {
         <StoryOverlay
           key={lang}
           ref={ui}
-          earning={phase === 'earn'}
+          earning={earning}
           onSkip={(e) => goTo(e, '#about')}
           onCalculator={(e) => goTo(e, '#calculator')}
           onReveal={reveal}

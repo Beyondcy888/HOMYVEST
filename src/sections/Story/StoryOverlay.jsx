@@ -25,22 +25,24 @@ export default function StoryOverlay({ ref, earning, onSkip, onCalculator, onRev
           <div key={key} className={`story__beat story__${key}`}>
             <h2 className="story__title">{t(`hero.${key}.title`)}</h2>
             <p className="story__body">{t(`hero.${key}.body`)}</p>
+            {key === 'b3' ? (
+              // The four options, with a thin line showing which one the camera is on. Decorative:
+              // the sentence above already names them. Kept beside the copy so it never sits on the model.
+              <div className="story__labels" aria-hidden="true">
+                <span className="story__track">
+                  <span className="story__thumb" />
+                </span>
+                <ol>
+                  {labels.map((label) => (
+                    <li key={label} className="story__label t-eyebrow">
+                      {label}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            ) : null}
           </div>
         ))}
-      </div>
-
-      {/* The four options of beat 3, with a thin line showing which one the camera is on. */}
-      <div className="story__labels" aria-hidden="true">
-        <ol>
-          {labels.map((label) => (
-            <li key={label} className="story__label t-eyebrow">
-              {label}
-            </li>
-          ))}
-        </ol>
-        <span className="story__track">
-          <span className="story__thumb" />
-        </span>
       </div>
 
       <a className="scene-skip story__skip" href="#about" onClick={onSkip}>

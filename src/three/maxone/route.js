@@ -18,9 +18,10 @@ const smoother = (t) => t * t * t * (t * (t * 6 - 15) + 10);
 // Camera positions with the point they look at. `stop` marks a dwell. Eye height 1.6 m above the local floor
 // (the street is 0.45 m below the building floor, so the first keys are lower).
 export const KEYS = [
-  { pos: [23.05, 1.17, 20.4], look: [22.75, 2.3, 9.0], stop: 0 }, // on the street
-  { pos: [23.02, 1.2, 16.5], look: [22.7, 2.1, 8.0] }, // foot of the steps
-  { pos: [23.0, 1.6, 14.3], look: [22.6, 1.9, 7.5] }, // top of the steps
+  { pos: [24.7, 1.17, 20.2], look: [22.2, 2.6, 9.0], stop: 0 }, // on the street, a little to the east
+  { pos: [23.9, 1.17, 17.6], look: [22.4, 2.3, 8.5] },
+  { pos: [23.35, 1.2, 16.0], look: [22.5, 2.0, 8.0] }, // foot of the steps
+  { pos: [23.02, 1.6, 14.3], look: [22.6, 1.9, 7.5] }, // top of the steps
   { pos: [23.0, 1.6, 12.3], look: [22.3, 1.8, 7.3] }, // walkway between the core and the planter beds
   { pos: [23.4, 1.6, 10.2], look: [20.8, 1.7, 6.0] },
   { pos: [23.35, 1.6, 8.5], look: [19.6, 1.65, 4.8] }, // swinging in toward the doors
@@ -36,10 +37,10 @@ export const KEYS = [
   { pos: [9.6, 1.5, 8.25], look: [9.6, 1.4, 3.25] }, // tracking west along the aisle, facing the bar
   { pos: [8.3, 1.5, 8.15], look: [10.8, 1.4, 3.82] },
   { pos: [7.45, 1.5, 7.8], look: [11.15, 1.4, 4.45], stop: 3.5 }, // S3b the bar from the west lane (render 3)
-  { pos: [7.0, 1.45, 7.0], look: [8.55, 5.5, 3.95], stop: 4 }, // S4 look up into the void (render 7)
-  { pos: [7.35, 1.5, 7.95], look: [11.45, 5.0, 5.08] }, // lowering the gaze while turning east…
-  { pos: [8.4, 1.55, 8.25], look: [13.4, 3.1, 8.08] },
-  { pos: [10.3, 1.6, 8.27], look: [13.84, 2.04, 11.8] }, // …and on round to the windows
+  { pos: [7.0, 1.45, 7.0], look: [9.1, 6.4, 5.5], stop: 4 }, // S4 look up into the void (render 7)
+  { pos: [7.35, 1.5, 7.95], look: [11.21, 4.86, 6.91] }, // lowering the gaze while turning east…
+  { pos: [8.4, 1.55, 8.25], look: [12.34, 2.85, 8.94] },
+  { pos: [10.3, 1.6, 8.27], look: [12.87, 1.95, 11.33] }, // …and on round to the windows
   { pos: [11.92, 1.6, 8.3], look: [11.92, 1.72, 14.5], stop: 5 }, // S5 by the windows (render 6, from inside)
 ];
 

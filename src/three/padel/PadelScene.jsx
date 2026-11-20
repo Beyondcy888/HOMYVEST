@@ -201,11 +201,27 @@ function Roof({ stages, materials, extra }) {
   }, []);
   useEffect(() => () => Object.values(geo).forEach((g) => g.dispose()), [geo]);
 
+  // Warm-up: on the first frames the roof is drawn once, far out of sight. That uploads its geometry and
+  // compiles its shaders (shadow pass included) up front, so its entrance in stage 3 never costs a slow frame.
+  const warm = useRef(2);
+  const invalidate = useThree((s) => s.invalidate);
   useFrame(() => {
+    if (warm.current > 0) {
+      warm.current -= 1;
+      for (const mesh of Object.values(refs.current)) {
+        if (!mesh) continue;
+        mesh.visible = true;
+        mesh.frustumCulled = false;
+        mesh.position.y = 4000;
+      }
+      invalidate();
+      return;
+    }
     const st = stages.current;
     const set = (name, t) => {
       const mesh = refs.current[name];
       if (!mesh) return;
+      mesh.frustumCulled = true;
       mesh.visible = t > 0;
       mesh.position.y = (1 - easeOutQuart(t)) * DROP;
     };

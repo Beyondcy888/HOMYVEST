@@ -13,6 +13,10 @@
 .story__poster {
   display: block;
 }
+/* The poster is the opening frame. Away from the top (a reload mid-scene) it would not match. */
+.story--live:not([data-top]) .story__poster {
+  visibility: hidden;
+}
 .story[data-phase='earn'] .story__scene {
   visibility: hidden;
 }
@@ -30,7 +34,7 @@
   --ax: 46%;
   --ay: 78%;
   --d: 130vmax;
-  --feather: 34vmax;
+  --feather: 26vmax;
 }
 .story[data-phase='wipe'] .story__photo {
   visibility: visible;
@@ -115,23 +119,21 @@
   height: 14px;
 }
 
-/* Slide labels: the four options, and a hairline with a thumb on the current one. */
+/* Slide labels: the four options down a hairline, with a thumb on the current one. */
 .story__labels {
-  position: absolute;
-  left: 66.75%;
-  bottom: clamp(20px, 4.2vh, 44px);
-  width: min(520px, 56vw);
-  margin-left: calc(min(520px, 56vw) / -2);
   display: grid;
-  gap: 12px;
+  grid-template-columns: auto 1fr;
+  column-gap: 16px;
+  margin-top: clamp(4px, 1.4vh, 16px);
   color: var(--ink);
 }
 .story__labels ol {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
 }
 .story__label {
-  text-align: center;
+  display: flex;
+  align-items: center;
+  height: 26px;
   white-space: nowrap;
   opacity: 0.5;
 }
@@ -141,15 +143,15 @@
 .story__track {
   position: relative;
   display: block;
-  height: 1px;
+  width: 1px;
   background: var(--line);
 }
 .story__thumb {
   position: absolute;
-  left: 0;
-  top: -0.5px;
-  width: 25%;
-  height: 2px;
+  left: -0.5px;
+  top: 0;
+  width: 2px;
+  height: 25%;
   background: var(--ink);
 }
 
@@ -222,15 +224,29 @@
   .story__cue {
     margin-top: 6px;
   }
+  /* one line: the current option over a four-step line */
   .story__labels {
-    left: 50%;
-    width: min(92vw, 420px);
-    margin-left: calc(min(92vw, 420px) / -2);
-    bottom: calc(64px + env(safe-area-inset-bottom));
+    grid-template-columns: 1fr;
+    row-gap: 8px;
+    margin-top: 2px;
+  }
+  .story__labels ol {
+    order: -1;
   }
   .story__label {
-    font-size: 0.6875rem;
-    letter-spacing: 0.08em;
+    grid-area: 1 / 1;
+    height: auto;
+    opacity: 0;
+  }
+  .story__track {
+    width: min(200px, 56%);
+    height: 1px;
+  }
+  .story__thumb {
+    left: 0;
+    top: -0.5px;
+    width: 25%;
+    height: 2px;
   }
   .story__scrim {
     background:
@@ -296,6 +312,11 @@
   aspect-ratio: 5 / 4;
   object-fit: cover;
   object-position: 100% 50%;
+  /* the model's road runs out of frame: let it fade like the live scene's ends do */
+  -webkit-mask-image: linear-gradient(90deg, #000 82%, transparent), linear-gradient(180deg, #000 80%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(90deg, #000 82%, transparent), linear-gradient(180deg, #000 80%, transparent);
+  mask-composite: intersect;
 }
 .story-static__earn {
   position: relative;
@@ -309,8 +330,8 @@
 }
 .story-static__earn .story__earn {
   position: relative;
-  top: auto;
-  bottom: auto;
+  inset: auto;
+  margin-inline: var(--gutter);
   padding-block: clamp(64px, 12vh, 140px);
 }
 .story-static__earn .story__ctas,
@@ -327,8 +348,6 @@
     object-position: 100% 50%;
   }
   .story-static__earn .story__earn {
-    left: var(--gutter);
-    right: var(--gutter);
     width: auto;
     display: flex;
     flex-direction: column;

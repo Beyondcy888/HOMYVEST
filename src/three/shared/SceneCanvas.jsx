@@ -29,17 +29,26 @@ export function InvalidateOn({ progress }) {
 /** Fires once after the first frame has been drawn (used to cross-fade the poster out). */
 function Ready({ onReady }) {
   const invalidate = useThree((s) => s.invalidate);
+  const get = useThree((s) => s.get);
   useEffect(() => {
     invalidate();
     let id2;
     const id = requestAnimationFrame(() => {
+      // Compile every material in the scene graph now, including objects that are still hidden, so that
+      // nothing has to compile a shader in the middle of a scroll.
+      try {
+        const { gl, scene, camera } = get();
+        gl.compile(scene, camera);
+      } catch {
+        /* compile is an optimisation only */
+      }
       id2 = requestAnimationFrame(() => onReady?.());
     });
     return () => {
       cancelAnimationFrame(id);
       cancelAnimationFrame(id2);
     };
-  }, [invalidate, onReady]);
+  }, [invalidate, onReady, get]);
   return null;
 }
 

@@ -122,22 +122,24 @@ async function frameTiming(label, contextOptions, throttle) {
     }, Math.max(0, range.start - 200));
     await page.waitForTimeout(2500); // let the scene mount and settle
     // steady scroll: ~2400 px per second, driven from inside the page so timing is exact
-    const deltas = await page.evaluate(
+    const { deltas, hitches } = await page.evaluate(
       ({ start, end }) =>
         new Promise((resolve) => {
           const out = [];
+          const hitches = [];
           const from = Math.max(0, start - 200);
           const to = end + 200;
           const speed = 2400;
           const t0 = performance.now();
           let last = t0;
           const step = (now) => {
-            out.push(now - last);
-            last = now;
             const y = from + ((now - t0) / 1000) * speed;
+            out.push(now - last);
+            if (now - last > 50) hitches.push({ p: Number(((y - start) / (end - start)).toFixed(3)), ms: Math.round(now - last) });
+            last = now;
             window.scrollTo(0, y);
             if (y < to) requestAnimationFrame(step);
-            else resolve(out.slice(2));
+            else resolve({ deltas: out.slice(2), hitches });
           };
           requestAnimationFrame(step);
         }),
@@ -146,6 +148,7 @@ async function frameTiming(label, contextOptions, throttle) {
     report.frames[label][id] = {
       frames: deltas.length, p50: round(pct(deltas, 50)), p95: round(pct(deltas, 95)), max: round(Math.max(...deltas)),
       over50ms: deltas.filter((d) => d > 50).length, fpsMedian: round(1000 / pct(deltas, 50), 0),
+      hitches, // where in the scene (progress 0..1) each frame over 50 ms happened
     };
   }
   report.frames[label].drawCalls = await page.evaluate(() => window.__homyvestPerf ?? null);
@@ -154,8 +157,11 @@ async function frameTiming(label, contextOptions, throttle) {
 
 const mobile = { ...devices['Pixel 7'] };
 const desktop = { viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 };
-await loadMetrics('mobile, CPU ×4, Fast 4G', mobile, true);
-await loadMetrics('desktop, no throttle', desktop, false);
+// ONLY=frames skips the load metrics (quicker when tuning a scene)
+if (process.env.ONLY !== 'frames') {
+  await loadMetrics('mobile, CPU ×4, Fast 4G', mobile, true);
+  await loadMetrics('desktop, no throttle', desktop, false);
+}
 await frameTiming('desktop, no throttle', desktop, false);
 await frameTiming('mobile, CPU ×4', mobile, true);
 await browser.close();

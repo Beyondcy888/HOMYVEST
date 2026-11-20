@@ -27,8 +27,11 @@ function floors(k) {
   k.box('lower', 13.0, L.street, 0.75, 22.45, -0.02, 3.7, C.concrete);
   k.box('lower', 22.45, L.street, 5.85, 27.4, 0, 14.6, C.paving);
   k.box('lower', 22.45, L.street, -0.6, 27.4, -0.02, 5.85, C.timberDark);
-  for (let i = 0; i < 2; i++) k.box('lower', 22.45, L.street, 14.6 + i * 0.4, 26.0, -0.15 * (i + 1), 15.0 + i * 0.4, C.paving);
-  k.box('lower', -8, L.street - 0.2, 14.6, 38, L.street, 30, C.asphalt);
+  // three risers down to the street (plan.js STEPS)
+  const tread = (P.STEPS[3] - P.STEPS[1]) / 2;
+  for (let i = 0; i < 2; i++) k.box('lower', P.STEPS[0], L.street, P.STEPS[1] + i * tread, P.STEPS[2], -0.15 * (i + 1), P.STEPS[1] + (i + 1) * tread, C.paving);
+  // the street reaches only as far as the plan shows it, so the top view lines up with the drawing
+  k.box('lower', 0.8, L.street - 0.2, 14.6, P.PLAN.w, L.street, P.PLAN.h, C.asphalt);
   // joints in the walkway paving (1.2 m slabs)
   for (let x = 23.65; x < 27.4; x += 1.2) k.box('lower', x - 0.006, 0, 5.85, x + 0.006, 0.003, 14.6, '#b5b4ae');
   for (let z = 7.05; z < 14.6; z += 1.2) k.box('lower', 22.45, 0, z - 0.006, 27.4, 0.003, z + 0.006, '#b5b4ae');
@@ -176,6 +179,18 @@ function reception(k) {
   k.prism('lower', west, 0, 1.04, C.terrazzo);
   k.prism('lower', east, 0, 1.04, C.tileGreen);
   k.prism('lower', P.receptionOutline(), 1.04, P.RECEPTION.h, C.white);
+  // slim vertical tiles on the public face (render 1): a joint every 8.5 cm
+  const face = [[17.2, 4.353], [19.02, 4.68], [19.36, 4.58], [19.56, 4.3], [20.08, 2.36], [20.02, 2.06], [19.74, 1.92]];
+  for (let i = 0; i < face.length - 1; i++) {
+    const [ax, az] = face[i];
+    const [bx, bz] = face[i + 1];
+    const len = Math.hypot(bx - ax, bz - az);
+    const n = Math.max(1, Math.round(len / 0.085));
+    for (let j = 0; j < n; j++) {
+      const t = (j + 0.5) / n;
+      k.obox('lower', ax + (bx - ax) * t - ((bz - az) / len) * 0.003, 0.54, az + (bz - az) * t + ((bx - ax) / len) * 0.003, 0.012, 0.92, 0.008, Math.atan2(bz - az, bx - ax), C.tileJoint);
+    }
+  }
   // espresso machine and jugs at the bar end, two screens on the short arm
   k.obox('lower', 15.62, 1.29, 3.62, 0.5, 0.38, 0.36, 0.178, C.blue);
   k.obox('lower', 15.62, 1.5, 3.62, 0.52, 0.04, 0.38, 0.178, '#c9c9c6');
@@ -413,7 +428,7 @@ function terrace(k, place) {
     for (const x of [px0, px1]) for (const z of [pz0, pz1]) k.box('lower', x - 0.015, 0, z - 0.015, x + 0.015, 1.0, z + 0.015, C.white);
     k.box('lower', px0, 0.62, pz0, px1, 0.98, pz1, C.sage);
     k.box('lower', px0 + 0.02, 0.2, pz0 + 0.02, px1 - 0.02, 0.225, pz1 - 0.02, C.white);
-    for (let z = pz0 + 0.16; z < pz1; z += 0.22) place('tuft', { x: (px0 + px1) / 2 + (rnd() - 0.5) * 0.12, y: 0.94, z, rot: rnd() * 6, s: 1.15 + rnd() * 0.3, sy: 1.5 });
+    for (let z = pz0 + 0.16; z < pz1; z += 0.22) place('tuft', { x: (px0 + px1) / 2 + (rnd() - 0.5) * 0.1, y: 0.95, z, rot: rnd() * 6, s: 1.0 + rnd() * 0.3, sy: 1.25 });
   }
 }
 
@@ -474,6 +489,18 @@ function outdoor(k, place) {
   }
   k.box('lower', 26.95, 0, -0.6, 27.36, 0.95, 5.85, C.leafB);
   for (let z = -0.4; z < 5.8; z += 0.34) place('tuft', { x: 27.12 + (rnd() - 0.5) * 0.14, y: 0.86, z, rot: rnd() * 6, s: 1.1 + rnd() * 0.4 });
+  // The closed core beside the walkway: dark timber lining with a row of globe lights, as on its terrace side.
+  k.box('lower', 22.45, 0, 11.74, 22.5, 3.3, 14.65, C.timberDark);
+  k.box('lower', 17.12, 0, 14.6, 22.45, 3.3, 14.65, C.timberDark);
+  for (let z = 12.6; z < 14.6; z += 0.9) k.box('lower', 22.5, 0, z - 0.008, 22.504, 3.3, z + 0.008, '#5c3f2c');
+  for (let x = 18.0; x < 22.4; x += 0.9) k.box('lower', x - 0.008, 0, 14.65, x + 0.008, 3.3, 14.654, '#5c3f2c');
+  k.box('lower', 22.5, 2.335, 12.1, 22.52, 2.35, 14.3, C.black);
+  for (let i = 0; i < 3; i++) k.ball('glow', 22.58, 2.34, 12.35 + i * 0.85, 0.075, C.lamp, 1);
+  k.box('lower', 18.4, 2.335, 14.65, 21.6, 2.35, 14.67, C.black);
+  for (let i = 0; i < 4; i++) k.ball('glow', 18.7 + i * 0.87, 2.34, 14.73, 0.075, C.lamp, 1);
+  // upper floor windows (invented: the renders do not show the upper facade)
+  for (let i = 0; i < 6; i++) k.box('upper', 6.2 + i * 2.7, 4.8, 14.6, 7.9 + i * 2.7, 7.1, 14.62, C.window);
+  for (let i = 0; i < 5; i++) k.box('upper', 22.45, 4.8, 1.6 + i * 2.6, 22.47, 7.1, 3.3 + i * 2.6, C.window);
   // raised planter beds beside the walkway
   for (const bed of P.BEDS) {
     k.prism('lower', bed, 0, 0.42, C.concrete);
@@ -484,11 +511,11 @@ function outdoor(k, place) {
     const inner = bed.map(([x, z]) => [x + Math.sign(cx - x) * 0.09, z + Math.sign(cz - z) * 0.09]);
     k.prism('lower', inner, 0.42, 0.45, C.leafC);
     let n = 0;
-    for (let i = 0; i < 400 && n < 34; i++) {
+    for (let i = 0; i < 600 && n < 46; i++) {
       const x = Math.min(...xs) + rnd() * (Math.max(...xs) - Math.min(...xs));
       const z = Math.min(...zs) + rnd() * (Math.max(...zs) - Math.min(...zs));
       if (!inside(x, z, inner)) continue;
-      place('tuft', { x, y: 0.43, z, rot: rnd() * 6, s: 0.9 + rnd() * 0.7 });
+      place('tuft', { x, y: 0.43, z, rot: rnd() * 6, s: 0.9 + rnd() * 0.6, sy: 1.2 });
       n++;
     }
   }

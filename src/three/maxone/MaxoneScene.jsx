@@ -20,7 +20,7 @@ import { buildRoom } from './room.js';
 import { UPPER_TYPES, blobs, buildUnits, instanced, placeFurniture } from './furniture.js';
 import { blobTexture, deckTexture, herringboneTexture, lineArtTexture, muralTexture, signTexture, tileTexture } from './textures.js';
 
-const GLASS_OPACITY = 0.2;
+const GLASS_OPACITY = 0.13;
 // Sun from the south-east, 38° up: it comes in through the street glazing, the entrance wall and the skylight.
 const SUN = new THREE.Vector3(0.55, 0.62, 0.56).normalize();
 const SUN_TARGET = [14.5, 0, 9.5];
@@ -42,7 +42,8 @@ function createWorld(debug) {
     blob: track(blobTexture()),
   };
   const std = (o) => track(new THREE.MeshStandardMaterial({ roughness: 0.9, metalness: 0, ...o }));
-  const glass = () => std({ color: C.glass, roughness: 0.2, transparent: true, opacity: GLASS_OPACITY, depthWrite: false, side: THREE.DoubleSide });
+  // glass is an unlit tint: a lit pane turns milky in the sun and hides the room behind it
+  const glass = () => track(new THREE.MeshBasicMaterial({ color: C.glass, transparent: true, opacity: GLASS_OPACITY, depthWrite: false, side: THREE.DoubleSide, toneMapped: false }));
   const mats = {
     lower: std({ vertexColors: true }),
     // always in the transparent pass (the shader must keep its alpha), opaque until the camera rises
@@ -267,8 +268,8 @@ function Room({ progress }) {
       <hemisphereLight args={['#fffaf0', '#cdc6ba', 1.75]} />
       <directionalLight
         ref={sun}
-        color="#fff0d8"
-        intensity={2.6}
+        color="#fff3e0"
+        intensity={2.0}
         castShadow={tier.shadows}
         shadow-mapSize={[size, size]}
         shadow-bias={-0.0006}

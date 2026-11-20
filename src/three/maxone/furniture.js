@@ -71,37 +71,37 @@ function plant(k) {
   const rnd = prng(7);
   k.cyl('u', 0, 0, 0, 0.13, 0.3, C.pot, 12, 0.17);
   k.cyl('u', 0, 0.28, 0, 0.15, 0.02, '#3b2f25', 12);
-  for (let i = 0; i < 12; i++) {
+  for (let i = 0; i < 15; i++) {
     const a = i * 2.4 + rnd() * 0.5;
-    const rad = 0.14 + rnd() * 0.34;
-    const h = 0.6 + (i / 12) * 0.75 + rnd() * 0.12;
+    const rad = 0.1 + rnd() * 0.3;
+    const h = 0.5 + (i / 15) * 0.75 + rnd() * 0.1;
     const x = Math.cos(a) * rad;
     const z = Math.sin(a) * rad;
-    k.rod('u', [0, 0.28, 0], [x * 0.9, h, z * 0.9], 0.008, C.leafB, 4);
-    k.ball('u', x, h, z, [0.2 + rnd() * 0.08, 0.016, 0.15 + rnd() * 0.05], LEAVES[i % 3], 1, [rnd() * 0.5 - 0.25, -a, 0.3 + rnd() * 0.5]);
+    k.rod('u', [0, 0.28, 0], [x * 0.9, h, z * 0.9], 0.006, C.leafB, 4);
+    k.ball('u', x, h, z, [0.15 + rnd() * 0.05, 0.012, 0.095 + rnd() * 0.03], LEAVES[i % 3], 1, [rnd() * 0.5 - 0.25, -a, 0.25 + rnd() * 0.45]);
   }
 }
-// A low rosette of leaves: fills planters, beds and hedges.
+// A low rosette of rounded leaves: fills planters, beds and hedges.
 function tuft(k) {
   const rnd = prng(19);
-  for (let i = 0; i < 8; i++) {
+  for (let i = 0; i < 9; i++) {
     const a = i * 2.4 + rnd() * 0.6;
-    const rad = 0.08 + rnd() * 0.2;
-    const h = 0.08 + rnd() * 0.3;
-    k.ball('u', Math.cos(a) * rad, h, Math.sin(a) * rad, [0.17 + rnd() * 0.06, 0.02, 0.11 + rnd() * 0.04], LEAVES[i % 3], 0, [rnd() * 0.6 - 0.3, -a, 0.35 + rnd() * 0.6]);
+    const rad = 0.06 + rnd() * 0.15;
+    const h = 0.06 + rnd() * 0.22;
+    k.ball('u', Math.cos(a) * rad, h, Math.sin(a) * rad, [0.12 + rnd() * 0.04, 0.022, 0.08 + rnd() * 0.03], LEAVES[i % 3], 1, [rnd() * 0.5 - 0.25, -a, 0.2 + rnd() * 0.5]);
   }
-  k.ball('u', 0, 0.12, 0, [0.16, 0.12, 0.16], C.leafB, 0);
+  k.ball('u', 0, 0.08, 0, [0.13, 0.09, 0.13], C.leafA, 1);
 }
 // Planter box hanging from the timber grid, with trailing green (render 7). Origin at the top of the box.
 function hanging(k) {
   const rnd = prng(23);
-  k.box('u', -0.24, -0.2, -0.24, 0.24, 0, 0.24, C.timberDark);
-  k.ball('u', 0, -0.02, 0, [0.3, 0.14, 0.3], C.leafA, 1);
-  for (let i = 0; i < 10; i++) {
+  k.box('u', -0.26, -0.2, -0.26, 0.26, 0, 0.26, C.timberDark);
+  k.ball('u', 0, -0.04, 0, [0.36, 0.16, 0.36], C.leafA, 1);
+  for (let i = 0; i < 12; i++) {
     const a = i * 2.4;
-    const rad = 0.16 + rnd() * 0.14;
-    const len = 0.3 + rnd() * 0.5;
-    k.ball('u', Math.cos(a) * rad, -0.15 - len * 0.6, Math.sin(a) * rad, [0.09, len * 0.62, 0.09], LEAVES[i % 3], 0, [rnd() * 0.2 - 0.1, a, rnd() * 0.2 - 0.1]);
+    const rad = 0.18 + rnd() * 0.16;
+    const len = 0.4 + rnd() * 0.7;
+    k.ball('u', Math.cos(a) * rad, -0.15 - len * 0.6, Math.sin(a) * rad, [0.11, len * 0.62, 0.11], LEAVES[i % 3], 1, [rnd() * 0.2 - 0.1, a, rnd() * 0.2 - 0.1]);
   }
 }
 

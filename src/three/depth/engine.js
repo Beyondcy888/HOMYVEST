@@ -52,7 +52,11 @@ let bufferW = 0;
 let bufferH = 0;
 const items = new Set();
 const pointer = { x: 0, y: 0, active: false };
-const loader = new THREE.TextureLoader();
+// ImageBitmapLoader decodes off the main thread, so a texture upload never costs a long frame.
+// flipY is ignored for bitmaps, so the flip is requested from the decoder instead.
+const bitmaps = typeof createImageBitmap === 'function';
+const loader = bitmaps ? new THREE.ImageBitmapLoader().setOptions({ imageOrientation: 'flipY', premultiplyAlpha: 'none' }) : new THREE.TextureLoader();
+const uploads = []; // textures waiting for their GPU upload: at most one per frame
 
 export const depthAvailable = (id) => Boolean(depthStatus.available && depthStatus.items?.[id]);
 
@@ -125,12 +129,14 @@ function loadTexture(url, srgb) {
   return new Promise((resolve, reject) => {
     loader.load(
       url,
-      (tex) => {
+      (loaded) => {
+        const tex = bitmaps ? new THREE.Texture(loaded) : loaded;
         tex.colorSpace = srgb ? THREE.SRGBColorSpace : THREE.NoColorSpace;
         tex.minFilter = THREE.LinearFilter;
         tex.magFilter = THREE.LinearFilter;
         tex.generateMipmaps = false;
         tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping;
+        tex.needsUpdate = true;
         resolve(tex);
       },
       undefined,
@@ -154,9 +160,8 @@ async function ensureTextures(it) {
       depth.dispose();
       return;
     }
-    it.image = image;
-    it.depth = depth;
-    it.dirty = true;
+    // Hand the pair to the upload queue; the image goes live once both are on the GPU.
+    uploads.push({ it, image, depth, step: 0 });
     wake();
   } catch {
     it.broken = true; // keep the plain picture
@@ -230,13 +235,32 @@ function frame(now) {
   const dt = Math.min(0.1, (now - last) / 1000 || 0.016);
   last = now;
   let again = false;
+  // one texture upload per frame, so several images arriving together never pile into one long frame
+  const job = uploads[0];
+  if (job) {
+    if (!items.has(job.it)) {
+      job.image.dispose();
+      job.depth.dispose();
+      uploads.shift();
+    } else {
+      renderer.initTexture(job.step === 0 ? job.image : job.depth);
+      job.step += 1;
+      if (job.step === 2) {
+        job.it.image = job.image;
+        job.it.depth = job.depth;
+        job.it.dirty = true;
+        uploads.shift();
+      }
+    }
+    again = uploads.length > 0 || again;
+  }
   for (const it of items) {
     if (!it.visible || !it.image || !it.depth) continue;
     // a host can pause its depth views while they are off stage (e.g. walkthrough cards that are not showing)
     if (it.host && it.host.dataset.depthOff === "true") { it.dirty = true; continue; }
     if (draw(it, dt)) again = true;
   }
-  if (again) raf = requestAnimationFrame(frame);
+  if (again || uploads.length) raf = requestAnimationFrame(frame);
 }
 function wake() {
   if (!raf && !failed) {
