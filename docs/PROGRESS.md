@@ -97,3 +97,10 @@ Session 1 was stopped by the account's usage limit at 02:17 with four scene agen
 - `npm run test`: 76/76. `npm run typecheck`: clean. `npm run build`: clean. `npm run e2e`: 66 passed, 6 skipped by design (hover and keyboard checks that only apply to one device class).
 - Performance measured with `node qa/tools/perf.mjs` (numbers in REPORT.md).
 - Originals: `node qa/tools/verify-renders.mjs` → 32 of 32 identical.
+
+## Final pass after review — 10:30–10:50
+- First-visit path (with the intro) checked in the finished page: all ten sections mount in order, a header link reaches the calculator, no errors. The smoke test now asserts this. A link clicked before its section has mounted waits for it.
+- Low tier on a phone checked: hero 3D, render-led walkthrough, padel renders, calculator 3D; no errors.
+- Impeccable audit by hand, five dimensions (0–4 each): accessibility 3 (axe clean in both themes and languages, visible focus, skip links; not tested with a screen reader), performance 3 (budgets met; the hero keeps some layers promoted for the whole scene, by measurement), theming 3 (tokens everywhere in the interface; fixed colours only inside 3D materials and the Maxone palette), responsive 4 (no horizontal overflow from 320 to 1920 px; every control at least 44 px after fixing seven), implementation integrity 3 (detector: seven label-above-heading findings, kept by the brief). Total 16/20.
+- Fixed: seven undersized touch targets; the period footnote is now beside the 82% figure in the hero; draw calls recorded for all four scenes.
+- Final: 76 unit tests, 66 browser tests, typecheck and build clean.

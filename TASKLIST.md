@@ -7,7 +7,7 @@ Detailed log per milestone: [docs/PROGRESS.md](docs/PROGRESS.md) · decisions: [
 "Resume the HOMYVEST build from TASKLIST.md and docs/PROGRESS.md." The next unchecked item below is where to continue.
 
 - Build started: 2026-11-20 01:08 (WIB, +07:00)
-- Build finished: 2026-11-20 10:35 (WIB). Report: docs/REPORT.md
+- Build finished: 2026-11-20 10:42 (WIB). Report: docs/REPORT.md
 
 ---
 
@@ -97,7 +97,7 @@ Detailed log per milestone: [docs/PROGRESS.md](docs/PROGRESS.md) · decisions: [
 - [x] Commit `M9`
 
 ## M10 — Design polish
-- [x] Impeccable critique / audit / polish
+- [x] Impeccable: detector on source and rendered page, audit by hand (16/20), polish fixes. Its `shape` and `critique` commands were not run (see REPORT, "How the plugins were used")
 - [x] Taste review against anti-patterns
 - [x] Flow checklist (04 §12), copy fit EN + ID, motion tuning
 - [x] Commit `M10`

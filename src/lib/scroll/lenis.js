@@ -43,6 +43,17 @@ const headerOffset = () => {
  * Short hops glide; long ones (which would race through the pinned 3D scenes) jump behind a quick veil.
  */
 export function scrollToTarget(target, { offset, focus, onArrive } = {}) {
+  // On a first visit the sections below the hero mount a moment after the intro. A link clicked in that
+  // moment waits for its target instead of doing nothing.
+  if (typeof target === 'string' && !document.querySelector(target)) {
+    let tries = 0;
+    const wait = () => {
+      if (document.querySelector(target)) scrollToTarget(target, { offset, focus, onArrive });
+      else if ((tries += 1) < 120) requestAnimationFrame(wait);
+    };
+    requestAnimationFrame(wait);
+    return;
+  }
   const el = typeof target === 'string' ? document.querySelector(target) : target instanceof Element ? target : null;
   const y =
     typeof target === 'number'

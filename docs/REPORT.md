@@ -3,7 +3,7 @@
 **Status: complete.** Checklist: [../TASKLIST.md](../TASKLIST.md) · milestone log: [PROGRESS.md](PROGRESS.md) · every decision with its reason and how to undo it: [DECISIONS.md](DECISIONS.md).
 
 - Build started: 2026-11-20 01:08 WIB
-- Build finished: 2026-11-20 10:35 WIB
+- Build finished: 2026-11-20 10:42 WIB
 - Working time was about 3 hours 20 minutes. The rest was waiting: the account's usage limit stopped the build twice (02:17–04:53 and 09:45–10:00) and a stream stall froze the scene agents from about 05:17 to 08:07. Each time the work on disk was committed and picked up where it stopped.
 
 ## Run it
@@ -55,18 +55,19 @@ Measured with `node qa/tools/perf.mjs` on the production build. Raw data: `qa/pe
 
 | Metric | Budget | Result |
 |---|---|---|
-| LCP, phone profile (CPU ×4, Fast 4G) | ≤ 2.5 s | **2.18 s** |
-| CLS | ≤ 0.05 | **0.003** phone · 0.029 desktop |
-| Typing latency in the calculator (INP-like), phone profile | ≤ 200 ms | **56 ms** median, 62 ms worst |
+| LCP on a first visit, phone profile (CPU ×4, Fast 4G) | ≤ 2.5 s | **1.86 s** (runs ranged 1.86–2.22 s). Reloads mount the whole page at once and were not measured separately |
+| CLS | ≤ 0.05 | **0.004** phone · 0.029 desktop |
+| Typing latency in the calculator (INP-like), phone profile | ≤ 200 ms | **56 ms** median, 70 ms worst |
 | Initial JavaScript, gzipped | ≤ 180 KB | **179.5 KB** (three.js is not in the first load) |
 | Largest 3D chunk, gzipped | ≤ 350 KB | three.js 182 KB; shared canvas code 57 KB; each scene 8–25 KB |
-| Frame time while scrolling each scene, desktop | 16.7 ms, none over 50 ms | p50 **16.7 ms** in all four. Hero and the sideways strip: none over 50 ms. Walkthrough and padel: one 67 ms frame each |
-| Same, phone profile (CPU ×4) | ≥ 30 fps, no hitch over 50 ms | p95 **16.8–33.4 ms**. One 67 ms frame at the very end of the hero |
-| Draw calls | hero ≤ 120 · padel ≤ 120 · Maxone ≤ 220 · calculator ≤ 80 | padel 18 and Maxone 19–26 are inside. Hero and calculator were not recorded in the final run (see known issues) |
+| Frame time while scrolling each scene, desktop | 16.7 ms, none over 50 ms | p50 **16.7 ms** in all four. Hero, walkthrough and the sideways strip: none over 50 ms. Padel: one 67 ms frame, mid-scene |
+| Whole page scrolled top to bottom at 3,000 px/s, desktop, warm browser | none over 50 ms | worst frame **33 ms** |
+| Per scene, phone profile (CPU ×4) | ≥ 30 fps, no hitch over 50 ms | p50 **16.7 ms**, p95 33–50 ms. Hero: one 83 ms frame at the very end. Walkthrough: two 50 ms frames, and one of 133 ms just after it ends. Padel: none over 50 ms |
+| Draw calls and triangles | hero ≤ 120 · padel ≤ 120 · Maxone ≤ 220 · calculator ≤ 80; ≤ 400k triangles | hero **20** calls / 92k · Maxone **19–22** / 106k–139k · padel **12–18** / 42k · calculator **10–12** / under 5k |
 
 Budget notes:
-- **First visit on a cold GPU.** The first time a browser draws each 3D scene it has to prepare it. Scrolling very fast (3,000 px per second) through the whole page in a fresh browser, that showed as single frames of 80–280 ms as the walkthrough and the calculator came into range. Before a fix made at the end it was one 1.5 s freeze. In a browser that has drawn the scenes before, the same scroll is a flat 60 fps.
-- The frame-time rows above were measured before that last fix (a background shader compile). After it I re-ran the unit and browser tests and the cold-start scroll, but not the per-scene frame timing.
+- **First visit on a cold GPU.** The first time a browser draws each 3D scene it has to prepare it. Scrolling very fast (3,000 px per second) through the whole page in a fresh browser, that showed as single frames of 80–280 ms as the walkthrough and the calculator came into range. Before a fix made at the end it was one 1.5 s freeze. In a browser that has drawn the scenes before, the same scroll never exceeds 33 ms a frame.
+- All rows above were measured on the final build, after that fix.
 - The test browser ran on this machine's real GPU (Radeon 880M), not software rendering, so the frame times are representative of a mid-range laptop. No physical phone was tested; the phone figures are Chromium's Pixel 7 profile with CPU throttling.
 
 Checks:
@@ -90,7 +91,7 @@ Checks:
 | Python depth environment | OK | `.venv-depth` with CPU PyTorch |
 
 ### How the plugins were used, and where I did it differently from the brief
-- **Impeccable.** Its hook scanned every interface file as it was written (one false alarm, fixed by renaming a component). Its detector was run over the source and over the rendered page in both languages. The rendered page has one kind of finding, seven times: a small label above a section heading. Those stay, because your brief defines that label style and supplies the text for each one. Its `init` interview could not be held with you away, so `PRODUCT.md` was written from your brief and says so. Its deeper `critique` and `audit` commands, which start their own reviewer agents, were **not run**; the same ground was covered with screenshots at every size, the automated accessibility checks and the performance measurements.
+- **Impeccable.** Its hook scanned every interface file as it was written (one false alarm, fixed by renaming a component). Its detector was run over the source and over the rendered page in both languages. The rendered page has one kind of finding, seven times: a small label above a section heading. Those stay, because your brief defines that label style and supplies the text for each one. Its `init` interview could not be held with you away, so `PRODUCT.md` was written from your brief and says so. Its `audit` was done by hand against its five dimensions (accessibility, performance, theming, responsive design, implementation integrity): my scoring is 16 of 20, "good", and it found seven controls smaller than the 44 px touch target, which were fixed. Two of its commands were **not run**: `shape` (a planning interview before building; your brief already fixed the page structure) and `critique` (which starts its own reviewer agents). The brief asks for a critique after each section; that review was done by me from screenshots instead.
 - **Taste Skill.** Used as a review lens rather than as a page generator. Its own kit deals a palette and page structure, forbids captions under images, limits every section to one or two screens and reserves scroll-driven 3D for tech companies, all of which contradict your brief. Its principles were applied: plain copy, one system, equal edges, photographs lead, quiet hover responses, nothing generic. Its own finish gate was not run.
 - **Playwright.** Beyond the specs the brief lists, it drove every visual check while building, the performance measurements, the favicon and share-image rendering, and the 3D-versus-render comparison sheets.
 - **Sub-agents.** The four large 3D scenes were built in parallel by four sub-agents on a shared foundation that was built and calibrated first, then reviewed and integrated here. The brief did not ask for this; it kept each scene's detail intact and saved time.
@@ -128,10 +129,10 @@ Checks:
 ## Known issues
 - **Not tested on a real phone.** Phone results come from Chromium's device emulation with CPU throttling.
 - **First visit, very fast scrolling:** single slow frames of 80–280 ms as the walkthrough and calculator scenes first come into range (see budget notes).
-- **Draw calls for the hero and the calculator were not recorded** in the final run; both agents' earlier checks had them inside budget, but I have no final figure to quote.
-- **Padel cut-outs on the dark theme:** the cleaned images for stages 2 and 3 contain a few small white patches that show against dark paper. The fix belongs in `scripts/clean-padel.mjs`, which was left as delivered.
+- **Padel cut-outs on the dark theme:** in stages 2 and 3 a thin white band shows behind the rear fence, where the original white background is enclosed by the frame. It is visible, not subtle, on dark paper; the light theme is unaffected. The fix belongs in `scripts/clean-padel.mjs`, which was left as delivered.
 - **Maxone posters and comparison images** were captured just before a final colour adjustment and are slightly more saturated than the live room.
 - **Maxone room has no ambient occlusion** (it conflicts with the transparent canvas), so interiors are clean but a little flat.
 - **`npm run test` does not start from Git Bash** on this machine (a Vitest path-case problem). It passes from PowerShell, cmd and the VS Code terminal.
+- **The dev server is still running** on http://localhost:5173 from this session, so you can open the site straight away. It stops when this session closes; `npm run dev` starts it again.
 - **Scroll position after a reload on a first visit** may not be restored, because the sections below the hero mount a moment after the first paint. Return visits and reloads later in the same session restore normally.
 - The 122 MB of raw screenshots in `qa/screenshots/` are on disk but not in git; the contact sheets are.

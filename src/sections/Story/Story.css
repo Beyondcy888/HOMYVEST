@@ -406,3 +406,11 @@
     margin-top: 0;
   }
 }
+
+/* Footnote for the occupancy figure, kept beside it on the photo. */
+.story__note {
+  max-width: 46ch;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: rgb(250 250 247 / 0.82);
+}

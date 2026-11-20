@@ -81,7 +81,7 @@
   letter-spacing: 0.04em;
 }
 .lang button {
-  min-width: 36px;
+  min-width: 44px;
   min-height: 44px;
   color: var(--muted);
   transition: color var(--dur-1) linear;

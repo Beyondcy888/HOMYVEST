@@ -285,6 +285,10 @@ function StoryStatic() {
             </Button>
             <WhatsAppButton variant="ghost-on-photo" label={t('hero.b5.cta2')} />
           </div>
+          {/* the period behind the 82% figure, beside the figure itself (docs/02 §6) */}
+          <p className="story__note">
+            <sup>1</sup> {t('notes.1')}
+          </p>
         </div>
       </div>
     </section>

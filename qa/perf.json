@@ -1,16 +1,16 @@
 {
-  "generatedAt": "2026-11-20T03:20:23.811Z",
+  "generatedAt": "2026-11-20T03:38:16.546Z",
   "base": "http://localhost:4173",
   "load": {
     "mobile, CPU ×4, Fast 4G": {
-      "lcpMs": 2184,
+      "lcpMs": 1856,
       "lcpElement": "p.story__body",
-      "cls": 0.0031,
-      "longTasks": 11,
-      "longestTaskMs": 692,
+      "cls": 0.0037,
+      "longTasks": 10,
+      "longestTaskMs": 596,
       "typingLatencyMs": {
         "median": 56,
-        "max": 62
+        "max": 70
       },
       "transferredKB": {
         "js": 442,
@@ -23,14 +23,14 @@
       "initialJsKB": 181
     },
     "desktop, no throttle": {
-      "lcpMs": 168,
+      "lcpMs": 184,
       "lcpElement": "span.wm",
-      "cls": 0.0286,
+      "cls": 0.0291,
       "longTasks": 4,
-      "longestTaskMs": 270,
+      "longestTaskMs": 198,
       "typingLatencyMs": {
-        "median": 29,
-        "max": 32
+        "median": 27,
+        "max": 35
       },
       "transferredKB": {
         "js": 442,
@@ -46,30 +46,25 @@
   "frames": {
     "desktop, no throttle": {
       "story": {
-        "frames": 114,
+        "frames": 115,
         "p50": 16.7,
-        "p95": 16.8,
-        "max": 50,
+        "p95": 16.7,
+        "max": 33.2,
         "over50ms": 0,
         "fpsMedian": 60,
         "hitches": []
       },
       "homyeight": {
-        "frames": 164,
+        "frames": 162,
         "p50": 16.7,
-        "p95": 16.7,
-        "max": 66.7,
-        "over50ms": 1,
+        "p95": 16.8,
+        "max": 33.5,
+        "over50ms": 0,
         "fpsMedian": 60,
-        "hitches": [
-          {
-            "p": 1.034,
-            "ms": 67
-          }
-        ]
+        "hitches": []
       },
       "beyond": {
-        "frames": 86,
+        "frames": 87,
         "p50": 16.7,
         "p95": 16.8,
         "max": 66.7,
@@ -77,7 +72,7 @@
         "fpsMedian": 60,
         "hitches": [
           {
-            "p": 0.487,
+            "p": 0.488,
             "ms": 67
           }
         ]
@@ -85,90 +80,110 @@
       "ways": {
         "frames": 68,
         "p50": 16.7,
-        "p95": 16.8,
+        "p95": 16.7,
         "max": 16.8,
         "over50ms": 0,
         "fpsMedian": 60,
         "hitches": []
       },
-      "drawCalls": null
+      "drawCalls": {
+        "hero": {
+          "calls": 20,
+          "triangles": 91918,
+          "textures": 5,
+          "geometries": 7
+        },
+        "maxone": {
+          "calls": 19,
+          "triangles": 139170,
+          "textures": 12,
+          "geometries": 27
+        },
+        "padel": {
+          "calls": 18,
+          "triangles": 42130,
+          "textures": 5,
+          "geometries": 10
+        }
+      }
     },
     "mobile, CPU ×4": {
       "story": {
-        "frames": 88,
+        "frames": 79,
         "p50": 16.7,
-        "p95": 16.8,
-        "max": 66.6,
+        "p95": 33.4,
+        "max": 83.4,
         "over50ms": 1,
         "fpsMedian": 60,
         "hitches": [
           {
-            "p": 0.996,
-            "ms": 67
+            "p": 1.01,
+            "ms": 83
           }
         ]
       },
       "homyeight": {
-        "frames": 95,
-        "p50": 16.7,
-        "p95": 33.4,
-        "max": 50,
-        "over50ms": 0,
+        "frames": 82,
+        "p50": 16.8,
+        "p95": 50,
+        "max": 133.4,
+        "over50ms": 3,
         "fpsMedian": 60,
-        "hitches": []
+        "hitches": [
+          {
+            "p": 0.478,
+            "ms": 50
+          },
+          {
+            "p": 0.648,
+            "ms": 50
+          },
+          {
+            "p": 1.108,
+            "ms": 133
+          }
+        ]
       },
       "beyond": {
-        "frames": 82,
+        "frames": 66,
         "p50": 16.7,
-        "p95": 16.8,
-        "max": 33.2,
+        "p95": 33.4,
+        "max": 33.4,
         "over50ms": 0,
         "fpsMedian": 60,
         "hitches": []
       },
       "ways": "not pinned in this profile",
-      "drawCalls": null
+      "drawCalls": {
+        "hero": {
+          "calls": 20,
+          "triangles": 68110,
+          "textures": 5,
+          "geometries": 7
+        },
+        "maxone": {
+          "calls": 22,
+          "triangles": 106188,
+          "textures": 12,
+          "geometries": 27
+        },
+        "padel": {
+          "calls": 12,
+          "triangles": 41950,
+          "textures": 5,
+          "geometries": 10
+        }
+      }
     }
   },
   "walk": {
     "desktop, no throttle, 3000 px/s": {
-      "frames": 662,
+      "frames": 738,
       "p50": 16.7,
-      "p95": 16.7,
-      "max": 333.4,
-      "over50ms": 6,
-      "hitches": [
-        {
-          "near": "beyond",
-          "y": 28565,
-          "ms": 333
-        },
-        {
-          "near": "beyond",
-          "y": 29465,
-          "ms": 300
-        },
-        {
-          "near": "beyond",
-          "y": 29665,
-          "ms": 67
-        },
-        {
-          "near": "calculator",
-          "y": 33365,
-          "ms": 100
-        },
-        {
-          "near": "next",
-          "y": 34165,
-          "ms": 267
-        },
-        {
-          "near": "faq",
-          "y": 36515,
-          "ms": 333
-        }
-      ]
+      "p95": 16.8,
+      "max": 33.4,
+      "over50ms": 0,
+      "hitches": []
     }
   }
 }

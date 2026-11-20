@@ -26,6 +26,11 @@ test('the intro plays once and gets out of the way', async ({ page }) => {
   await expect(page.locator('.intro')).toBeVisible();
   await expect(page.locator('.intro')).toHaveCount(0, { timeout: 6000 });
   await expect(page.locator('.header__mark')).toBeVisible();
+  // on a first visit the sections below the hero mount right after the intro: all ten, in order
+  await page.waitForSelector('#faq');
+  expect(await page.evaluate(() => [...document.querySelectorAll('main section[id]')].map((el) => el.id))).toEqual(SECTION_IDS);
+  // a header link (or the menu on phones) reaches its section
+  await page.evaluate(() => (document.querySelector('.header__nav a[href="#calculator"]') as HTMLElement | null)?.click());
   // second visit in the same session: no intro
   await page.reload();
   await page.waitForTimeout(300);

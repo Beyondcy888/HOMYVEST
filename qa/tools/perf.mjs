@@ -105,7 +105,7 @@ async function frameTiming(label, contextOptions, throttle) {
   const page = await context.newPage();
   const cdp = await context.newCDPSession(page);
   if (throttle) await cdp.send('Emulation.setCPUThrottlingRate', { rate: 4 });
-  await page.goto(`${BASE}/?nointro=1`, { waitUntil: 'load' });
+  await page.goto(`${BASE}/?nointro=1&perf=1`, { waitUntil: 'load' });
   await page.waitForTimeout(2500);
   report.frames[label] = {};
   for (const id of ['story', 'homyeight', 'beyond', 'ways']) {

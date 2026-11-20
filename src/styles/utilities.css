@@ -218,3 +218,25 @@
   height: 100%;
   object-fit: cover;
 }
+
+/* ---------- Touch targets: every control is at least 44 × 44 px (docs/03 §11) ---------- */
+button.link {
+  min-height: 44px;
+}
+.lang button,
+.theme button,
+.filters__tab {
+  min-width: 44px;
+}
+.filters__tab {
+  text-align: center;
+}
+.header__nav a {
+  min-width: 44px;
+  justify-content: center;
+}
+.header__mark,
+.footer__mark {
+  min-height: 44px;
+  align-items: center;
+}
