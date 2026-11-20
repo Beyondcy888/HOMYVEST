@@ -155,6 +155,44 @@ async function frameTiming(label, contextOptions, throttle) {
   await context.close();
 }
 
+// ---------- 3. one continuous walk down the whole page ----------
+// Catches what the per-scene runs cannot: the cost of each 3D scene mounting as its section approaches.
+async function pageWalk(label, contextOptions) {
+  const context = await browser.newContext(contextOptions);
+  const page = await context.newPage();
+  await page.goto(`${BASE}/?nointro=1`, { waitUntil: 'load' });
+  await page.waitForTimeout(3000);
+  const result = await page.evaluate(
+    () =>
+      new Promise((resolve) => {
+        const marks = [...document.querySelectorAll('main section[id]')].map((s) => ({ id: s.id, top: s.getBoundingClientRect().top + scrollY }));
+        const where = (y) => marks.filter((m) => m.top <= y + innerHeight).pop()?.id ?? 'top';
+        const out = [];
+        const hitches = [];
+        const to = document.documentElement.scrollHeight - innerHeight;
+        const speed = 3000;
+        const t0 = performance.now();
+        let last = t0;
+        const step = (now) => {
+          const y = ((now - t0) / 1000) * speed;
+          out.push(now - last);
+          if (now - last > 50 && out.length > 3) hitches.push({ near: where(y), y: Math.round(y), ms: Math.round(now - last) });
+          last = now;
+          window.scrollTo(0, y);
+          if (y < to) requestAnimationFrame(step);
+          else resolve({ deltas: out.slice(3), hitches });
+        };
+        requestAnimationFrame(step);
+      }),
+  );
+  report.walk = report.walk || {};
+  report.walk[label] = {
+    frames: result.deltas.length, p50: round(pct(result.deltas, 50)), p95: round(pct(result.deltas, 95)), max: round(Math.max(...result.deltas)),
+    over50ms: result.hitches.length, hitches: result.hitches,
+  };
+  await context.close();
+}
+
 const mobile = { ...devices['Pixel 7'] };
 const desktop = { viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 };
 // ONLY=frames skips the load metrics (quicker when tuning a scene)
@@ -162,8 +200,10 @@ if (process.env.ONLY !== 'frames') {
   await loadMetrics('mobile, CPU ×4, Fast 4G', mobile, true);
   await loadMetrics('desktop, no throttle', desktop, false);
 }
+if (process.env.ONLY === 'load') { await browser.close(); fs.writeFileSync('qa/perf-load.json', JSON.stringify(report.load, null, 2)); console.log(JSON.stringify(report.load, null, 2)); process.exit(0); }
 await frameTiming('desktop, no throttle', desktop, false);
 await frameTiming('mobile, CPU ×4', mobile, true);
+await pageWalk('desktop, no throttle, 3000 px/s', desktop);
 await browser.close();
 
 fs.writeFileSync('qa/perf.json', `${JSON.stringify(report, null, 2)}\n`);

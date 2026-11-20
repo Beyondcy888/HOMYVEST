@@ -130,14 +130,28 @@ function StoryLive({ onFail }) {
   // appears mid-scroll pays for it with a 50–150 ms frame. So for a moment after load, once the font
   // is in, every hidden beat is painted in place at 0.5% opacity (see Story.css): nothing can be seen,
   // but the glyphs are ready. It ends early if the visitor starts scrolling.
+  // On phones the warm-up waits for the first touch. Text painted before any interaction is measured as the
+  // page's Largest Contentful Paint (even at 0.5% opacity), which made the page report a load a second slower
+  // than it is; after the first interaction that measurement is closed, so warming then costs nothing.
   useEffect(() => {
     const el = section.current;
     const end = () => el.removeAttribute('data-warm');
-    el.setAttribute('data-warm', '');
-    const timer = window.setTimeout(end, layout.fonts ? 1200 : 4000);
+    let timer;
+    const start = () => {
+      el.setAttribute('data-warm', '');
+      timer = window.setTimeout(end, layout.fonts ? 1200 : 4000);
+    };
+    const events = ['touchstart', 'pointerdown', 'keydown', 'wheel'];
+    const onFirst = () => {
+      events.forEach((name) => window.removeEventListener(name, onFirst));
+      start();
+    };
+    if (window.matchMedia('(pointer: coarse)').matches) events.forEach((name) => window.addEventListener(name, onFirst, { passive: true }));
+    else start();
     const off = progress.subscribe((v) => v > 0.03 && end());
     return () => {
       window.clearTimeout(timer);
+      events.forEach((name) => window.removeEventListener(name, onFirst));
       off();
       end();
     };

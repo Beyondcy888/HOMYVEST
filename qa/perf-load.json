@@ -1,0 +1,42 @@
+{
+  "mobile, CPU ×4, Fast 4G": {
+    "lcpMs": 2140,
+    "lcpElement": "p.story__body",
+    "cls": 0.0034,
+    "longTasks": 11,
+    "longestTaskMs": 598,
+    "typingLatencyMs": {
+      "median": 62,
+      "max": 72
+    },
+    "transferredKB": {
+      "js": 442,
+      "css": 15,
+      "font": 188,
+      "img": 166,
+      "other": 2,
+      "total": 813
+    },
+    "initialJsKB": 181
+  },
+  "desktop, no throttle": {
+    "lcpMs": 188,
+    "lcpElement": "span.wm",
+    "cls": 0.0287,
+    "longTasks": 5,
+    "longestTaskMs": 308,
+    "typingLatencyMs": {
+      "median": 27,
+      "max": 34
+    },
+    "transferredKB": {
+      "js": 442,
+      "css": 15,
+      "font": 188,
+      "img": 300,
+      "other": 2,
+      "total": 947
+    },
+    "initialJsKB": 442
+  }
+}

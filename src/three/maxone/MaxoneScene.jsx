@@ -238,6 +238,9 @@ function Room({ progress }) {
     const s = state.current;
     const target = progress?.current ?? 0;
     if (s.p === null) s.p = target;
+    // A far jump (a stop button on the mini-map, the skip link, an anchor link) cuts straight to the new place
+    // instead of sweeping the camera through walls on the way there.
+    if (Math.abs(target - s.p) > 0.12) s.p = target;
     const moving = easing.damp(s, 'p', target, 0.18, Math.min(delta, 0.05), Infinity, undefined, 1e-5);
     const { camera, size } = three;
     view.aspect = size.width / size.height;

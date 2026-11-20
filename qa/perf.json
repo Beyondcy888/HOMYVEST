@@ -1,75 +1,87 @@
 {
-  "generatedAt": "2026-11-20T01:25:54.469Z",
+  "generatedAt": "2026-11-20T03:09:16.934Z",
   "base": "http://localhost:4173",
-  "load": {},
+  "load": {
+    "mobile, CPU ×4, Fast 4G": {
+      "lcpMs": 2928,
+      "lcpElement": "p.story__body",
+      "cls": 0.0035,
+      "longTasks": 9,
+      "longestTaskMs": 1426,
+      "typingLatencyMs": {
+        "median": 61,
+        "max": 67
+      },
+      "transferredKB": {
+        "js": 442,
+        "css": 15,
+        "font": 188,
+        "img": 166,
+        "other": 2,
+        "total": 812
+      },
+      "initialJsKB": 181
+    },
+    "desktop, no throttle": {
+      "lcpMs": 304,
+      "lcpElement": "span.wm",
+      "cls": 0.0261,
+      "longTasks": 3,
+      "longestTaskMs": 189,
+      "typingLatencyMs": {
+        "median": 28,
+        "max": 38
+      },
+      "transferredKB": {
+        "js": 442,
+        "css": 15,
+        "font": 188,
+        "img": 300,
+        "other": 2,
+        "total": 947
+      },
+      "initialJsKB": 442
+    }
+  },
   "frames": {
     "desktop, no throttle": {
       "story": {
-        "frames": 69,
-        "p50": 16.7,
-        "p95": 83.4,
-        "max": 466.7,
-        "over50ms": 6,
-        "fpsMedian": 60,
-        "hitches": [
-          {
-            "p": 0.085,
-            "ms": 83
-          },
-          {
-            "p": 0.174,
-            "ms": 117
-          },
-          {
-            "p": 0.449,
-            "ms": 83
-          },
-          {
-            "p": 0.547,
-            "ms": 83
-          },
-          {
-            "p": 0.592,
-            "ms": 83
-          },
-          {
-            "p": 1.081,
-            "ms": 467
-          }
-        ]
-      },
-      "homyeight": {
-        "frames": 164,
+        "frames": 117,
         "p50": 16.7,
         "p95": 16.8,
-        "max": 33.4,
+        "max": 16.8,
+        "over50ms": 0,
+        "fpsMedian": 60,
+        "hitches": []
+      },
+      "homyeight": {
+        "frames": 165,
+        "p50": 16.7,
+        "p95": 16.8,
+        "max": 50,
         "over50ms": 0,
         "fpsMedian": 60,
         "hitches": []
       },
       "beyond": {
-        "frames": 70,
+        "frames": 87,
         "p50": 16.7,
-        "p95": 33.3,
-        "max": 183.3,
-        "over50ms": 2,
+        "p95": 16.7,
+        "max": 66.6,
+        "over50ms": 1,
         "fpsMedian": 60,
         "hitches": [
           {
-            "p": 0.77,
-            "ms": 183
-          },
-          {
-            "p": 1.017,
-            "ms": 117
+            "p": 0.483,
+            "ms": 67
           }
         ]
       },
       "ways": {
-        "frames": 64,
+        "frames": 68,
         "p50": 16.7,
-        "p95": 16.8,
-        "max": 50,
+        "p95": 16.7,
+        "max": 16.8,
         "over50ms": 0,
         "fpsMedian": 60,
         "hitches": []
@@ -78,32 +90,37 @@
     },
     "mobile, CPU ×4": {
       "story": {
-        "frames": 78,
+        "frames": 83,
         "p50": 16.7,
-        "p95": 33.4,
-        "max": 116.7,
+        "p95": 33.2,
+        "max": 83.3,
         "over50ms": 1,
         "fpsMedian": 60,
         "hitches": [
           {
-            "p": 0.97,
-            "ms": 117
+            "p": 1.022,
+            "ms": 83
           }
         ]
       },
       "homyeight": {
-        "frames": 105,
-        "p50": 16.7,
-        "p95": 33.4,
-        "max": 33.4,
-        "over50ms": 0,
-        "fpsMedian": 60,
-        "hitches": []
+        "frames": 77,
+        "p50": 33.3,
+        "p95": 50,
+        "max": 50.1,
+        "over50ms": 1,
+        "fpsMedian": 30,
+        "hitches": [
+          {
+            "p": 0.672,
+            "ms": 50
+          }
+        ]
       },
       "beyond": {
-        "frames": 71,
+        "frames": 75,
         "p50": 16.7,
-        "p95": 33.3,
+        "p95": 33.4,
         "max": 33.4,
         "over50ms": 0,
         "fpsMedian": 60,
@@ -111,6 +128,16 @@
       },
       "ways": "not pinned in this profile",
       "drawCalls": null
+    }
+  },
+  "walk": {
+    "desktop, no throttle, 3000 px/s": {
+      "frames": 740,
+      "p50": 16.7,
+      "p95": 16.8,
+      "max": 16.8,
+      "over50ms": 0,
+      "hitches": []
     }
   }
 }
