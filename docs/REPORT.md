@@ -1,9 +1,10 @@
 # HOMYVEST website: build report
 
-**Status: IN PROGRESS.** This report is updated as work lands, so it is accurate even if a session is interrupted. Last update: 2026-11-20 05:20 WIB. Live checklist: [../TASKLIST.md](../TASKLIST.md).
+**Status: IN PROGRESS.** This report is updated as work lands, so it is accurate even if a session is interrupted. Last update: 2026-11-20 08:25 WIB. Live checklist: [../TASKLIST.md](../TASKLIST.md).
 
 - Build started: 2026-11-20 01:08 WIB
 - Session 1 stopped at 02:17 WIB when the account's usage limit was reached. Session 2 resumed at 04:53 WIB.
+- At about 05:17 all four scene agents stalled (a stream stall, not a limit) and nothing ran until 08:07, when the stall was reported and work resumed.
 - Build finished: _not yet_
 
 ## Run it
@@ -35,14 +36,14 @@ One long page in seven movements, in English and Bahasa Indonesia, light and dar
 |---|---|---|
 | Hero story | _in progress_ | Section runs end to end; detailed building models in progress |
 | Maxone walkthrough | Render-led walkthrough ("fallback B") live now; 3D room _in progress_ | The 3D room stays behind `?maxone=3d` until it passes its comparison with the renders |
-| Padel assembly | _in progress_ | |
-| Calculator | 2D plan + floor stack live now; live 3D _in progress_ | Numbers never depend on the 3D |
+| Padel assembly | **Full 3D with aligned render reveals** | White-clay hall assembles in three stages; each cleaned render wipes in exactly over the model. The renders are true isometric (elevation 35.26°, azimuth 45°), so one orthographic camera fits all three. 18 draw calls, about 42,000 triangles. Fallback (three renders with the stage text) for reduced motion, low tier and no WebGL. Built with four courts, as the renders show |
+| Calculator | **Live 3D + 2D fallback** | Massing models for the maximum building, kos-kosan, ruko (countable units), rental houses (parcels and pitched roofs), warehouse, and an existing building with ghost floors. Dimension labels, orbit and zoom, smooth morphs while typing. Every box is checked against the calculator's numbers by 26 unit tests. On phones a vertical swipe scrolls the page and two fingers zoom and rotate; on desktop the wheel zooms only after you click or drag the model, so the page still scrolls. 2D plan + floor stack when WebGL is missing; the numbers never depend on the 3D |
 | Depth parallax | On | 28 depth maps; one shared WebGL context; off on low tier, reduced motion, or without WebGL |
 
 ## Quality numbers
 _To be measured on the final build (`node qa/tools/perf.mjs`)._
 
-Checks so far: 38/38 unit tests (24 locked calculator cases from the spec plus 14 geometry cases). First browser run on the partly built page: 56 passed, and two real problems it found were fixed.
+Checks so far: 76/76 unit tests (24 locked calculator cases from the spec, 14 geometry cases, 26 that measure the 3D calculator models against the numbers, 12 for the Maxone camera route). TypeScript check clean. Initial JavaScript 176 KB gzipped (budget 180); three.js is not in the first load. First browser run on the partly built page: 56 passed, and two real problems it found were fixed.
 
 ## Setup outcome
 | Item | Result | Notes |
