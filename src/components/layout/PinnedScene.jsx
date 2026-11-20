@@ -71,7 +71,8 @@ export default function PinnedScene({
         });
         timeline(tl);
         // Pad the timeline to exactly 1 so positions read as scroll progress.
-        tl.set({}, {}, 1);
+        // (inherit: false keeps timeline defaults such as force3D off this empty placeholder tween)
+        tl.set({}, { inherit: false }, 1);
       }
 
       return () => {

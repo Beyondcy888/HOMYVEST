@@ -31,9 +31,10 @@ import './Walkthrough.css';
 const sceneModules = import.meta.glob('../../three/maxone/MaxoneScene.jsx');
 const loadScene = sceneModules['../../three/maxone/MaxoneScene.jsx'] ?? null;
 
-// Flipped to true once the 3D room has passed its side-by-side comparison with the renders (docs/06 §3.12).
-// Until then every visitor gets the render-led walkthrough; `?maxone=3d` shows the room for review.
-const SCENE_READY = false;
+// The 3D room passed its side-by-side comparison with the renders (qa/maxone-compare, docs/06 §3.12), so it is
+// the default on capable devices. Set this to false to ship the render-led walkthrough to everyone;
+// `?maxone=3d` and `?maxone=fallback` force either one for review.
+const SCENE_READY = true;
 
 // Fallback B: which render fills the stage over which part of the scroll, and how it drifts.
 // s0 → s1 is the scale, (dx, dy) the pan in percent, chosen to follow the direction of travel.

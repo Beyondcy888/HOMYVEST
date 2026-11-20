@@ -67,19 +67,19 @@ Detailed log per milestone: [docs/PROGRESS.md](docs/PROGRESS.md) · decisions: [
 ## M5 — 3D foundation + hero story
 - [x] Shared: SceneCanvas, clay materials, lights, ground, tiers, error boundary
 - [x] Assembly engine (instanced pieces, seeded start transforms)
-- [~] Building kits: stay, office, café, sports
-- [ ] Hero choreography (5 beats) + text overlays + dissolve to photo
-- [ ] Reduced-motion / no-WebGL fallback
-- [ ] Commit `M5`
+- [x] Building kits: stay, office, café, sports
+- [x] Hero choreography (5 beats) + text overlays + dissolve to photo
+- [x] Reduced-motion / no-WebGL fallback
+- [x] Commit `M5`
 
 ## M6 — Maxone walkthrough
-- [~] Debug trace mode (`?debug=maxone`)
-- [ ] Room shell, floors, ceiling, void, mezzanine
-- [ ] Counters, furniture, plants, mural, lights
-- [ ] Camera route + dwell stops + collision check
-- [ ] Render cards + mini-map
-- [ ] Compared against renders (qa/maxone-compare)
-- [ ] Commit `M6`
+- [x] Debug trace mode (`?debug=maxone`)
+- [x] Room shell, floors, ceiling, void, mezzanine
+- [x] Counters, furniture, plants, mural, lights
+- [x] Camera route + dwell stops + collision check
+- [x] Render cards + mini-map
+- [x] Compared against renders (qa/maxone-compare)
+- [x] Commit `M6`
 
 ## M7 — Padel assembly
 - [x] Camera calibration + model
