@@ -68,9 +68,9 @@ Instructions: `updates/U01/U01_00_START.md` (delivered in `update2/`). Detailed 
 - [x] Commit `U6` (nothing to change: the kit files are as delivered; verified with the 34 tests + rendered PDFs)
 
 ## U7 — Mobile pass
-- [ ] Desktop 1440 screenshots before/after
-- [ ] 360 / 390 / 414 / 768 / 844×390, light + dark, EN + ID; funnel states; Maxone S1/S3/S5
-- [ ] Fixes + re-shoot
+- [x] Desktop 1440 screenshots before/after (identical)
+- [~] 360 / 390 / 414 / 768 / 844×390, light + dark, EN + ID; funnel states; Maxone S1/S3/S5 — main page and funnel done; portfolio after the U3 merge
+- [~] Fixes + re-shoot (main page done: 940685b)
 - [ ] Commit `U7`
 
 ## U8 — QA
@@ -87,4 +87,4 @@ Instructions: `updates/U01/U01_00_START.md` (delivered in `update2/`). Detailed 
 
 ---
 ## Session log
-- Session 1: 2026-11-21 — read all U01 docs and the kit; U1 committed (e898d19). U2 assets and U3 portfolio running as helper agents; main session on U4/U5.
+- Session 1: 2026-11-21 — U1, U2, U4, U5, U6 done; U7 main page done; U8 specs written (112/112 green). Waiting on the U3 portfolio branch, then: merge, portfolio mobile check, full QA, docs sync and report.

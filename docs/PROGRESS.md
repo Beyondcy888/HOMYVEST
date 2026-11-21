@@ -104,3 +104,56 @@ Session 1 was stopped by the account's usage limit at 02:17 with four scene agen
 - Impeccable audit by hand, five dimensions (0–4 each): accessibility 3 (axe clean in both themes and languages, visible focus, skip links; not tested with a screen reader), performance 3 (budgets met; the hero keeps some layers promoted for the whole scene, by measurement), theming 3 (tokens everywhere in the interface; fixed colours only inside 3D materials and the Maxone palette), responsive 4 (no horizontal overflow from 320 to 1920 px; every control at least 44 px after fixing seven), implementation integrity 3 (detector: seven label-above-heading findings, kept by the brief). Total 16/20.
 - Fixed: seven undersized touch targets; the period footnote is now beside the 82% figure in the hero; draw calls recorded for all four scenes.
 - Final: 76 unit tests, 66 browser tests, typecheck and build clean.
+
+
+---
+
+# Update U01 (`updates/U01/`, delivered in `update2/`): 2026-11-21
+
+Task list: `tasklist-update2.md`. Decisions: `docs/DECISIONS.md` (U01-D1 …). Report: `docs/REPORT_U01.md`.
+
+## U1 Setup (e898d19)
+- **Done:**
+  - The kit is placed in the project root without overwriting anything.
+  - Packages: `@supabase/supabase-js`, dev `pdf-lib@1.17.1`, dev `supabase`.
+  - Secrets: the `.gitignore` block, the pre-commit hook (`core.hooksPath .githooks`; it blocked a fake refresh token in a test), and the npm scripts.
+  - Config: the Vitest alias, tsconfig `paths`, and a multi-page Vite build around a shared `SiteShell`.
+  - Copy: per-page SEO meta, and every U01 string in English and Indonesian.
+- **The owner's Supabase values:** in the git-ignored `.env.development.local`, for `npm run dev` only (U01-D1).
+
+## U2 Assets (f8eb1ba)
+- **Done** (by a helper agent; originals hash-verified, no churn in existing media):
+  - logos with display versions
+  - 25 photos through the optimizer
+  - 15 depth maps
+  - alt text in both languages
+- **Captions:** `src/content/behomy.js`.
+
+## U4 + U5 Main page and lead funnel (9c53041, 5e42c49, d89a8f5)
+- **Main page, in this order:** hero + funnel, What is HOMYVEST?, End-to-end, Behomy (hero, diagram, five stats, training, mosaic, before/after, team), Projects (no filters), Land check, What happens next with the portfolio card, FAQ.
+- **The funnel** is complete: all paths, result screens, persistence, focus handling, mobile sheet.
+- **Checked in the browser** at every state.
+- **Bugs found and fixed:**
+  - focus didn't enter the panel (GSAP `autoAlpha`, and the reduced-motion transitions)
+  - the calculator's `.chip` class clashed with the funnel's chips
+  - the About heading clipped its "?"
+  - the before/after carousel wasn't keyboard-scrollable
+- **First load:** 184.8 → 172.4 KB gzip (budget 180). The calculator's UI is its own chunk, and the manifest is slimmed.
+
+## U6 Backend (kit files unchanged)
+- The 34 lead tests are green.
+- The sample PDFs were rendered to PNG and checked in both languages. Emoji and non-Latin characters print as "?" (standard font); noted in the report.
+- **A read-only probe of the owner's project:** the URL and key work, and the `leads` table doesn't exist yet (`PGRST205`). The owner's setup is still to do.
+
+## U7 Mobile (main page, 940685b)
+- **Fixed:** the phone card overflowed at 360 px. The test had missed it because emulation widens the layout viewport; it now compares with the device width.
+- **Phone rules:** header 56 px, section spacing, type caps, menu rows; tablet stacking of the phone row; the hero `sizes`.
+- **Checked** at 360 (ID), 390 (light and dark), 768, and 844 × 390.
+- **Desktop 1440 before/after:** identical.
+
+## U8 QA (in progress)
+- **New specs:** main-flow, funnel (fake Supabase on :4174), funnel-handoff (:4173), mobile, secrets. The older specs are updated.
+- **e2e:** 112/112 before the portfolio merge. The mobile 360 px check on `/portofolio/` waits for U3.
+
+## U3 Portfolio page
+- Being built by a helper agent in the worktree `../HOMYVEST-u3` (branch `u3-portfolio`), to be merged here.
