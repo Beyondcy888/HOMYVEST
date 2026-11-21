@@ -102,7 +102,10 @@ function init() {
     }
     window.addEventListener('scroll', wake, { passive: true });
     window.addEventListener('resize', () => {
-      items.forEach((it) => (it.dirty = true));
+      items.forEach((it) => {
+        it.dirty = true;
+        if (it.visible) ensureTextures(it);
+      });
       wake();
     });
     return true;
@@ -146,7 +149,10 @@ function loadTexture(url, srgb) {
 }
 
 async function ensureTextures(it) {
-  if (it.loading || it.image) return;
+  if (it.loading || it.image || it.broken) return;
+  // Too small to get the effect (draw() keeps the plain picture under MIN_WIDTH): don't fetch or upload
+  // anything for it. Phones' walkthrough cards (62vw) are such a case. A resize checks again.
+  if (it.el.clientWidth < MIN_WIDTH) return;
   it.loading = true;
   try {
     const cssW = it.el.clientWidth || 800;

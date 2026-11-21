@@ -3,8 +3,9 @@
 //
 // 1. Load metrics on a mobile profile (Pixel 7, CPU ×4, Fast 4G): LCP, CLS, long tasks, an INP-like
 //    typing latency in the calculator, and transferred bytes by type.
-// 2. Frame timing while scrolling through each pinned scene at a steady speed, on desktop (no throttle)
-//    and on the throttled mobile profile: p50, p95, max, frames over 50 ms.
+// 2. Frame timing while scrolling through each pinned scene of /portofolio/ at a steady speed, on desktop
+//    (no throttle) and on the throttled mobile profile: p50, p95, max, frames over 50 ms. (With real wheel
+//    input and before/after numbers for U01: qa/tools/perf-scenes.mjs.)
 // Writes qa/perf.json and prints a summary.
 import { chromium, devices } from '@playwright/test';
 import fs from 'node:fs';
@@ -105,10 +106,10 @@ async function frameTiming(label, contextOptions, throttle) {
   const page = await context.newPage();
   const cdp = await context.newCDPSession(page);
   if (throttle) await cdp.send('Emulation.setCPUThrottlingRate', { rate: 4 });
-  await page.goto(`${BASE}/?nointro=1&perf=1`, { waitUntil: 'load' });
+  await page.goto(`${BASE}/portofolio/?perf=1`, { waitUntil: 'load' });
   await page.waitForTimeout(2500);
   report.frames[label] = {};
-  for (const id of ['story', 'homyeight', 'beyond', 'ways']) {
+  for (const id of ['story', 'maxone', 'padel', 'beyond']) {
     const has = await page.evaluate((k) => Boolean(window.__homyvest?.triggers?.[k]), id);
     if (!has) {
       report.frames[label][id] = 'not pinned in this profile';

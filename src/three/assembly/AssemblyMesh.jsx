@@ -26,6 +26,7 @@ const _zero = new THREE.Matrix4().makeScale(0, 0, 0);
 function Bucket({ kind, bucket, material, shape, stages, tones, castShadow, receiveShadow, grow = 0.15 }) {
   const ref = useRef(null);
   const lastT = useMemo(() => new Float32Array(bucket.count).fill(-1), [bucket]);
+  const range = useMemo(() => ({ start: 0, count: 0 }), []);
   const invalidate = useThree((s) => s.invalidate);
 
   // Pre-compute start and final quaternions once.
@@ -51,6 +52,7 @@ function Bucket({ kind, bucket, material, shape, stages, tones, castShadow, rece
       if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
     }
     for (let i = 0; i < bucket.count; i++) mesh.setMatrixAt(i, _zero);
+    mesh.instanceMatrix.clearUpdateRanges(); // a full upload
     mesh.instanceMatrix.needsUpdate = true;
     // Instances travel far from their final spot while assembling: skip per-mesh frustum culling.
     mesh.frustumCulled = false;
@@ -61,13 +63,16 @@ function Bucket({ kind, bucket, material, shape, stages, tones, castShadow, rece
     const mesh = ref.current;
     const sp = stages.current;
     if (!mesh || !sp) return;
-    let dirty = false;
+    // only the instances whose transform changed are written, and only the span they cover is uploaded
+    let lo = -1;
+    let hi = -1;
     const { final, start, size, order, stage, flags, count } = bucket;
     for (let i = 0; i < count; i++) {
       const t = pieceT(sp[stage[i]] ?? 0, order[i]);
       if (t === lastT[i]) continue;
       lastT[i] = t;
-      dirty = true;
+      if (lo < 0) lo = i;
+      hi = i;
       if (t <= 0) {
         mesh.setMatrixAt(i, _zero);
         continue;
@@ -100,7 +105,22 @@ function Bucket({ kind, bucket, material, shape, stages, tones, castShadow, rece
       }
       mesh.setMatrixAt(i, _m);
     }
-    if (dirty) mesh.instanceMatrix.needsUpdate = true;
+    if (lo >= 0) {
+      const im = mesh.instanceMatrix;
+      const ranges = im.updateRanges;
+      if (ranges.length === 0) {
+        range.start = lo * 16;
+        range.count = (hi - lo + 1) * 16;
+        ranges.push(range); // one reused object: nothing allocated per frame
+      } else {
+        // the last range was not uploaded yet (the mesh was not drawn): grow it to cover both
+        const r = ranges[0];
+        const end = Math.max(r.start + r.count, (hi + 1) * 16);
+        r.start = Math.min(r.start, lo * 16);
+        r.count = end - r.start;
+      }
+      im.needsUpdate = true;
+    }
   });
 
   return (

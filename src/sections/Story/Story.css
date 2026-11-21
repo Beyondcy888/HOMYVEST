@@ -332,6 +332,80 @@
   }
 }
 
+/* ---------- A phone on its side (e.g. 844 × 390): text left, the model right, everything shorter ---------- */
+@media (orientation: landscape) and (max-height: 520px) and (max-width: 1023px) {
+  .story {
+    --story-title: clamp(1.6rem, min(4vw, 9vh), 2.4rem);
+    --story-col: 33vw;
+  }
+  .story__beat {
+    gap: 10px;
+  }
+  .story__body {
+    font-size: 0.9375rem;
+    line-height: 1.45;
+  }
+  .story__cue {
+    margin-top: 4px;
+  }
+  /* one line: the current option over a four-step line (as in portrait) */
+  .story__labels {
+    grid-template-columns: 1fr;
+    row-gap: 6px;
+    margin-top: 2px;
+  }
+  .story__labels ol {
+    order: -1;
+  }
+  .story__label {
+    grid-area: 1 / 1;
+    height: auto;
+    opacity: 0;
+  }
+  .story__track {
+    width: min(200px, 70%);
+    height: 1px;
+  }
+  .story__thumb {
+    left: 0;
+    top: -0.5px;
+    width: 25%;
+    height: 2px;
+  }
+  .story__skip {
+    bottom: 8px;
+  }
+  .story__earn {
+    width: min(64vw, 620px);
+    gap: 12px;
+    top: calc(env(safe-area-inset-top) + 12px);
+    bottom: calc(env(safe-area-inset-bottom) + 10px);
+  }
+  .story__title--earn {
+    font-size: clamp(1.8rem, 9vh, 2.6rem);
+  }
+  .story__stats {
+    gap: 28px;
+  }
+  .story__earn .stat__value {
+    font-size: clamp(1.8rem, 9vh, 2.6rem);
+  }
+  .story__earn .stat__label {
+    font-size: 0.8125rem;
+  }
+  .story__earn .stat {
+    gap: 4px;
+  }
+  .story__ctas .btn {
+    min-height: 44px;
+    padding: 0 18px;
+    font-size: 0.9375rem;
+  }
+  .story__note {
+    font-size: 0.6875rem;
+  }
+}
+
 /* ---------- Static mode: no pin, everything visible ---------- */
 .story--static {
   padding-top: calc(var(--header-h) + clamp(24px, 6vh, 72px));

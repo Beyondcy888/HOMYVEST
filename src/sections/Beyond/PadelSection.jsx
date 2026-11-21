@@ -1,5 +1,6 @@
-// Beyond stays, part 1: the padel hall assembling in three stages (docs/04 §7, docs/06 §4).
-// Live: a pinned scene, text on the left, the clay model on the right; each stage resolves into its render.
+// The padel hall assembling in three stages (docs/06 §4), on /portofolio/ (#padel).
+// Live: a pinned scene (length: SCROLL.padel), text on the left, the clay model on the right; each stage
+// resolves into its render. On phones the text sits above the model, which is fitted to the width.
 // Static (reduced motion, no WebGL, the low tier, or the scene failing): the three renders in sequence
 // with the same text, nothing pinned (docs/06 §4.6).
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -87,7 +88,7 @@ function PadelLive({ onFail }) {
 
   return (
     <div className="padel padel--live">
-      <PinnedScene id="beyond" lengthVh={360} progress={progress} timeline={timeline} className="padel-live">
+      <PinnedScene id="padel" progress={progress} timeline={timeline} className="padel-live">
         <div className="padel-live__scene">
           <SceneMount load={loadScene} sceneProps={sceneProps} label={t('beyond.padel.sceneAlt')} onFail={onFail} poster={poster} />
         </div>
@@ -112,7 +113,7 @@ function PadelLive({ onFail }) {
           </div>
         </div>
         <a className="scene-skip padel-live__skip" href="#padel-end" onClick={onSkip}>
-          {t('beyond.padel.skip')}
+          {t('pf.skipPadel')}
           <ArrowDown />
         </a>
       </PinnedScene>

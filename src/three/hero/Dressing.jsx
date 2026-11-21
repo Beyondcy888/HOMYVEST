@@ -87,14 +87,17 @@ export function Bushes({ anim, material }) {
     const sink = anim.current.sink;
     if (!mesh || sink === last.current) return;
     last.current = sink;
-    BUSHES.forEach(([x, y, z, r], i) => {
+    // a plain loop: no callback allocated per frame
+    for (let i = 0; i < BUSHES.length; i++) {
+      const b = BUSHES[i];
+      const x = b[0], y = b[1], z = b[2], r = b[3];
       const order = Math.min(1, Math.hypot(x, z - BUILD_Z) / BUSH_FAR);
       const t = (sink - order * 0.7) / 0.3;
       const k = t <= 0 ? 1 : t >= 1 ? 0 : (1 - t) * (1 - t);
       _p.set(x, PLATE_TOP + (y - PLATE_TOP) * k, z);
       _s.set(r * (0.4 + 0.6 * k), r * 0.62 * k, r * (0.4 + 0.6 * k));
       mesh.setMatrixAt(i, k === 0 ? _zero : _m.compose(_p, _q.identity(), _s));
-    });
+    }
     mesh.instanceMatrix.needsUpdate = true;
   });
   return <instancedMesh ref={ref} name="bushes" args={[blob, material, BUSHES.length]} castShadow receiveShadow frustumCulled={false} />;

@@ -12,7 +12,7 @@ for (const [w, h, touch] of [[320, 640, true], [390, 844, true], [768, 1024, tru
     const vw = document.documentElement.clientWidth;
     const overflow = document.documentElement.scrollWidth - vw;
     const wide = [...document.querySelectorAll('main *, footer *, header *')]
-      .filter((el) => { const b = el.getBoundingClientRect(); return b.width > 0 && b.right > vw + 1 && !el.closest('.ways, .sr-only, .mmenu'); })
+      .filter((el) => { const b = el.getBoundingClientRect(); return b.width > 0 && b.right > vw + 1 && !el.closest('.bpanel__thumbs, .sr-only, .mmenu'); })
       .slice(0, 4).map((el) => `${el.tagName.toLowerCase()}.${String(el.className).split(' ')[0]}`);
     const small = [];
     const tiny = [];

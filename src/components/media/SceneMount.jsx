@@ -1,7 +1,7 @@
 // Mounts a lazy 3D scene only while its section is near the viewport, shows a poster until the first
 // frame is drawn, and swaps to the poster if the scene throws. Contains no three.js itself, so the
 // initial bundle stays free of it (docs/06 §1.2, docs/09 §4).
-import { Component, Suspense, lazy, useEffect, useMemo, useRef, useState } from 'react';
+import { Component, Suspense, lazy, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { hasWebGL } from '../../lib/device/webgl.js';
 import { useReducedMotion } from '../../lib/device/useReducedMotion.js';
 import './SceneMount.css';
@@ -58,6 +58,8 @@ export default function SceneMount({ load, sceneProps, poster, label, active = t
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
   const Scene = useMemo(() => lazy(load), [load]);
+  // stable, so a re-render of the section around the scene never re-renders the canvas or re-runs its warm-up
+  const onReady = useCallback(() => setReady(true), []);
 
   useEffect(() => {
     if (!active) {
@@ -86,7 +88,7 @@ export default function SceneMount({ load, sceneProps, poster, label, active = t
           }}
         >
           <Suspense fallback={null}>
-            <Scene {...sceneProps} onReady={() => setReady(true)} />
+            <Scene {...sceneProps} onReady={onReady} />
           </Suspense>
         </SceneBoundary>
       ) : null}

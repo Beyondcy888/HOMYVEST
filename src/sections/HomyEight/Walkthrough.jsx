@@ -1,4 +1,6 @@
-// "Step inside": a scroll-driven walk through the Maxone lobby and dining room (docs/04 §4, docs/06 §3).
+// "Step inside Maxone": a scroll-driven walk through the Maxone lobby and dining room (docs/06 §3), on
+// /portofolio/ (#maxone). Its scroll length comes from SCROLL.maxone (src/content/scroll-config.js); the
+// portfolio's divider above it carries the title, so the live walk has no heading block of its own.
 //
 // Three modes
 //   3d        the procedural room (src/three/maxone/MaxoneScene.jsx) with the real renders as cards at each stop
@@ -101,6 +103,10 @@ export default function Walkthrough() {
   const [failed, setFailed] = useState(false);
   const mode = useMode(failed);
   const progress = useMemo(() => createProgress(0), []);
+  // Stable props: the stop number is React state, and its change must not re-render the canvas or the cards.
+  const sceneProps = useMemo(() => ({ progress }), [progress]);
+  const onFail = useCallback(() => setFailed(true), []);
+  const cardRefFns = useMemo(() => CARDS.map((_, i) => (el) => (cardRefs.current[i] = el)), []);
   const [stop, setStop] = useState(0);
   const blockRef = useRef(null);
   const cardRefs = useRef([]);
@@ -142,41 +148,45 @@ export default function Walkthrough() {
   }, [progress, mode]);
 
   const yAt = (p) => {
-    const tr = registry.triggers.homyeight;
+    const tr = registry.triggers.maxone;
     return tr ? tr.start + (tr.end - tr.start) * p : null;
   };
   const go = useCallback((i) => {
     const y = yAt(STOPS[i].at);
     if (y !== null) scrollToTarget(y);
   }, []);
+  // "Skip walkthrough": to the end of the pin, where the stage scrolls away and the next title comes up.
   const skip = (e) => {
     e.preventDefault();
+    const tr = registry.triggers.maxone;
     const el = blockRef.current;
-    if (!el) return;
-    const bottom = el.getBoundingClientRect().bottom + window.scrollY;
-    scrollToTarget(bottom - 80, { focus: '#walk-after' });
+    if (!tr && !el) return;
+    const end = tr ? tr.end : el.getBoundingClientRect().bottom + window.scrollY - window.innerHeight;
+    scrollToTarget(Math.ceil(end) + 1, { focus: '#walk-after' });
   };
 
   if (mode === 'static') return <StaticWalk />;
 
   return (
     <div className="walk" data-mode={mode} ref={blockRef}>
-      <div className="wrap walk__head">
-        <h3 className="t-h1 walk__title">{t('homyeight.walk.title')}</h3>
-        <p className="walk__lede">
-          {t('homyeight.walk.hint')}
-          <ArrowDown />
-        </p>
-      </div>
-
-      <PinnedScene id="homyeight" lengthVh={700} mobileLengthVh={560} progress={progress} className="walk__pin">
-        <a className="walk__skip" href="#behomy" onClick={skip}>
+      <PinnedScene id="maxone" progress={progress} className="walk__pin">
+        <a className="walk__skip" href="#walk-after" onClick={skip}>
           {t('homyeight.walk.skip')}
           <ArrowDown />
         </a>
 
         {mode === '3d' ? (
-          <SceneMount load={loadScene} sceneProps={{ progress }} label={t('homyeight.walk.sceneAlt')} onFail={() => setFailed(true)} className="walk__scene" />
+          <SceneMount
+            load={loadScene}
+            sceneProps={sceneProps}
+            label={t('homyeight.walk.sceneAlt')}
+            onFail={onFail}
+            className="walk__scene"
+            // Until the room has drawn its first frame (about 0.8 s after it mounts, one screen ahead), a fast
+            // scroller sees the view it opens on instead of an empty stage: the arrival, or the whole floor
+            // when coming back up from below.
+            poster={<img className="walk__poster" src={`/media/posters/maxone-${stop >= 4 ? 6 : 0}.webp`} alt="" decoding="async" />}
+          />
         ) : (
           <div className="walk__shots" role="img" aria-label={t('homyeight.walk.sceneAlt')}>
             {SHOTS.map((shot, i) => (
@@ -194,7 +204,7 @@ export default function Walkthrough() {
         )}
 
         {CARDS.map((card, i) => (
-          <StopCard key={card.stop} ref={(el) => (cardRefs.current[i] = el)} card={card} name={names[card.stop]} variant={mode === '3d' ? 'image' : 'label'} />
+          <StopCard key={card.stop} ref={cardRefFns[i]} card={card} name={names[card.stop]} variant={mode === '3d' ? 'image' : 'label'} />
         ))}
 
         {mode === 'fallback' ? (
@@ -203,6 +213,11 @@ export default function Walkthrough() {
             <Picture id="maxone/layout" sizes="(max-aspect-ratio: 85/100) 90vw, 42vw" />
           </figure>
         ) : null}
+
+        {/* phones: the stop's name as a small label top-left (the mini-map's live region announces it) */}
+        <p className="walk__stopname" aria-hidden="true">
+          {names[stop]}
+        </p>
 
         <p ref={hintRef} className="walk__hint" aria-hidden="true">
           {t('homyeight.walk.hint')}
