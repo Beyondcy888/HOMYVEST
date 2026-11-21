@@ -46,6 +46,8 @@ async function choose(page: Page, funding: 'bank_loan' | 'personal_funds' | 'no_
   await page.locator(`label.rcard:has(input[name="funding"][value="${funding}"])`).click();
   await page.locator('.funnel__primary').click();
   await expect(page.locator('.funnel')).toHaveAttribute('data-step', '3');
+  // each new step's heading takes the focus
+  await expect(page.locator('#funnel-title')).toBeFocused();
 }
 
 const chip = (page: Page, name: string, value: string) => page.locator(`label.fchip:has(input[name="${name}"][value="${value}"])`).click();

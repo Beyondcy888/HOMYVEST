@@ -3,6 +3,7 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage, type StateStorage } from 'zustand/middleware';
 import type { Land, Ideas, Check, IdeaKey } from './calc.ts';
+import { registry } from '../scroll/triggers.js';
 
 export const STORAGE_KEY = 'homyvest:calc:v1';
 
@@ -141,3 +142,6 @@ export function shareInput(s: CalcState) {
     usedStep3: s.ui.usedStep3,
   };
 }
+
+// QA hook: window.__homyvest.calc is this store (used by the Playwright specs and screenshots).
+(registry as Record<string, unknown>).calc = useCalc;

@@ -1,7 +1,7 @@
 // The main page, in order (U01_01 §2): leave a number → what HOMYVEST is → how it works → who runs it →
 // the places → your land → what happens next → questions. The 3D showpieces live on /portofolio/ and none of
 // their code is imported here.
-import { startTransition, useEffect, useState } from 'react';
+import { Suspense, lazy, startTransition, useEffect, useState } from 'react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useUi } from '../lib/ui/store.js';
 import { getLenis, refreshTriggers, scrollToTarget } from '../lib/scroll/lenis.js';
@@ -13,10 +13,20 @@ import About from '../sections/About/About.jsx';
 import How from '../sections/How/How.jsx';
 import Behomy from '../sections/Behomy/Behomy.jsx';
 import Projects from '../sections/Projects/Projects.jsx';
-import Calculator from '../sections/Calculator/Calculator.jsx';
 import Next from '../sections/Next/Next.jsx';
 import Faq from '../sections/Faq/Faq.jsx';
 import FunnelHost from '../components/funnel/FunnelHost.jsx';
+
+// The land check's interface is the largest piece of this page's code. It is its own chunk, fetched as soon as the
+// sections below the hero mount (right after the first paint), so the first load stays within budget (U01_08 §4).
+// Until it arrives, an empty section of about its height holds its place, with the same id for links.
+const Calculator = lazy(() =>
+  import('../sections/Calculator/Calculator.jsx').then((m) => {
+    requestAnimationFrame(() => requestAnimationFrame(refreshTriggers));
+    return m;
+  }),
+);
+const CalculatorPending = () => <section id="calculator" className="calc-pending" aria-busy="true" style={{ minHeight: '100svh' }} />;
 
 /** Lands a deep link once everything is mounted and measured: /#calculator scrolls there, /?focus=phone focuses the number field. */
 function landDeepLink() {
@@ -79,7 +89,9 @@ export default function Home() {
           <How />
           <Behomy />
           <Projects />
-          <Calculator />
+          <Suspense fallback={<CalculatorPending />}>
+            <Calculator />
+          </Suspense>
           <Next />
           <Faq />
         </>

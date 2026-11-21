@@ -24,8 +24,6 @@ const loadScene = sceneModules['../../three/calc/CalcScene.jsx'] ?? null;
 
 const STEPS = [1, 2, 3];
 
-// QA hook: window.__homyvest.calc is the calculator store (used by the Playwright specs and screenshots).
-registry.calc = useCalc;
 
 /** The land check: three steps, one shared land, results live as you type. */
 export default function Calculator() {

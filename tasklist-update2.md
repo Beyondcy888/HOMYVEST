@@ -32,7 +32,7 @@ Instructions: `updates/U01/U01_00_START.md` (delivered in `update2/`). Detailed 
 - [x] Commit `U2`
 
 ## U3 — Portfolio page (`/portofolio/`) — being built by a helper agent on branch `u3-portfolio` (worktree ../HOMYVEST-u3)
-- [ ] `src/content/scroll-config.js` (SCROLL + SMOOTH) + test
+- [x] `src/content/scroll-config.js` (SCROLL + SMOOTH) + test (done in U1)
 - [ ] Portfolio page: intro + index, Story, dividers, Maxone, Padel, Beyond (landscape), closing CTA
 - [ ] Story beat-5 CTA → `/#calculator`; headings h2; skip links incl. "Skip padel hall"
 - [ ] Pins read SCROLL; ScrollTrigger settings; Lenis lerp/wheel for portfolio
@@ -65,7 +65,7 @@ Instructions: `updates/U01/U01_00_START.md` (delivered in `update2/`). Detailed 
 ## U6 — Backend verified locally
 - [x] 34 lead tests green
 - [x] Sample PDFs rendered and inspected (EN + ID)
-- [ ] Commit `U6`
+- [x] Commit `U6` (nothing to change: the kit files are as delivered; verified with the 34 tests + rendered PDFs)
 
 ## U7 — Mobile pass
 - [ ] Desktop 1440 screenshots before/after
@@ -74,7 +74,7 @@ Instructions: `updates/U01/U01_00_START.md` (delivered in `update2/`). Detailed 
 - [ ] Commit `U7`
 
 ## U8 — QA
-- [ ] Playwright: second web server (fake Supabase env), specs removed/updated/added
+- [x] Playwright: second web server (fake Supabase env), specs removed/updated/added (5e42c49; portfolio.spec comes with U3)
 - [ ] `npm run test`, `typecheck`, `build`, `e2e` all pass
 - [ ] Screenshots reviewed; performance (LCP, CLS, initial JS, frame times)
 - [ ] Originals in `renders/` and `assets-src/` untouched

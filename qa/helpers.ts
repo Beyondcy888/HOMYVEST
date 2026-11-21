@@ -17,7 +17,8 @@ export function watchConsole(page: Page) {
 export async function open(page: Page, query = '') {
   const sep = query ? `&${query.replace(/^[?&]/, '')}` : '';
   await page.goto(`/?nointro=1${sep}`);
-  await page.waitForSelector('#calculator');
+  // the land check's interface is its own chunk: wait for the real form, not its placeholder
+  await page.waitForSelector('#calc-P', { state: 'attached' });
   await page.evaluate(() => document.fonts.ready);
 }
 

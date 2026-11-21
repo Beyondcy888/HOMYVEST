@@ -128,12 +128,15 @@ export default function FunnelPanel() {
     // With reduced motion every element carries a tiny transition (base.css), so in this very frame the panel's
     // contents may still count as hidden and refuse the focus: try again on the next frames until it takes.
     let raf = 0;
-    let tries = 0;
-    const focusTitle = () => {
+    const until = performance.now() + 1000;
+    const before = document.activeElement;
+    const focusTitle = (retry) => {
       const title = titleRef.current;
       if (!title) return;
+      // on a retry, stop if the visitor has meanwhile moved the focus somewhere in the panel themselves
+      if (retry && document.activeElement !== before && sheet.current?.contains(document.activeElement)) return;
       title.focus({ preventScroll: true });
-      if (document.activeElement !== title && (tries += 1) < 6) raf = requestAnimationFrame(focusTitle);
+      if (document.activeElement !== title && performance.now() < until) raf = requestAnimationFrame(() => focusTitle(true));
     };
     focusTitle();
     return () => cancelAnimationFrame(raf);

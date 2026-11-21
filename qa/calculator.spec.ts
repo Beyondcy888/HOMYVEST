@@ -102,7 +102,7 @@ test('values survive a reload, and reset restores the examples', async ({ page }
   await expect(result(page)).toContainText('1,600 m²');
   await page.waitForTimeout(200);
   await page.reload();
-  await page.waitForSelector('#calculator');
+  await page.waitForSelector('#calc-P', { state: 'attached' });
   await scrollToSel(page, '.calc__tabs');
   await expect(page.locator('#calc-P')).toHaveValue('40');
   await expect(result(page)).toContainText('1,600 m²');
