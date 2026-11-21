@@ -1,0 +1,6 @@
+#!/bin/sh
+# Blocks commits that contain secrets. Installed with: git config core.hooksPath .githooks
+node scripts/check-secrets.mjs --staged || {
+  echo "Commit blocked: a secret or a secret file is staged. Remove it (git restore --staged <file>) and try again."
+  exit 1
+}

@@ -7,12 +7,22 @@ export default {
       'Have empty land or an unfinished building? See what it can hold and earn, then let HomyEight build it and Behomy run it.',
     ogAlt: 'HOMYVEST wordmark over a lit-up property at dusk',
   },
+  // The portfolio page's own title and description (U01_06 §8).
+  pfMeta: {
+    title: 'Portfolio: HOMYVEST',
+    description:
+      'See how HomyEight builds and Behomy runs: a building assembling, a walk through Maxone, a padel hall rising, and more.',
+    ogAlt: 'HOMYVEST wordmark over a lit-up property at dusk',
+  },
   nav: {
     label: 'Main',
     how: 'How it works',
+    behomy: 'Behomy',
     projects: 'Projects',
-    calculator: 'Calculator',
+    calculator: 'Land check',
     faq: 'FAQ',
+    portfolio: 'Portfolio',
+    home: 'Home',
     menu: 'Menu',
     close: 'Close',
     lang: 'Language',
@@ -29,9 +39,14 @@ export default {
     newTab: 'opens WhatsApp in a new tab',
   },
   wordmark: { aria: 'HOMYVEST — Homy Investasi, home' },
-  movements: ['Story', 'What we do', 'The team', 'Projects', 'Beyond stays', 'Your land', 'Next steps'],
 
+  // hero.partner … hero.chip: the main page's hero (U01_06 §1). hero.b1 … hero.b5: the 3D story on /portofolio/.
   hero: {
+    partner: 'In partnership with',
+    title1: 'Turn idle land into steady income.',
+    title2: 'Built by HomyEight, operated by Behomy.',
+    body: "Have an empty plot or an unfinished building? Leave your number and we'll show you what it could become.",
+    chip: '82% average occupancy across Behomy properties',
     scrollCue: 'Scroll',
     skip: 'Skip intro',
     b1: {
@@ -68,53 +83,120 @@ export default {
     ],
   },
 
+  consult: {
+    label: 'Free consultation with the HomyEight team',
+    number: '+62 821-1010-6088',
+  },
+
+  // The lead funnel (U01_02, U01_06 §2). Chip and radio labels come from OPTION_LABELS in src/lib/leads/leads.ts.
+  funnel: {
+    phone: {
+      label: 'Enter your phone number so we can contact you',
+      placeholder: '812 3456 7890',
+      continue: 'Continue',
+      privacy: "We'll only use it to talk to you about your property.",
+      error: 'Please enter a valid Indonesian mobile number, for example 0812 3456 7890.',
+      done: "Thanks, we'll be in touch at {phone}.",
+    },
+    panel: {
+      poweredBy: 'Powered by',
+      step: 'Step {n} of 3',
+      close: 'Close',
+      recap: "We'll contact you at {phone}",
+      change: 'Change',
+      back: 'Back',
+      continue: 'Continue',
+      send: 'Send',
+      sending: 'Sending…',
+      chat: 'Prefer to chat? WhatsApp us',
+    },
+    funding: {
+      title: 'What is your funding source for building or renovating your property?',
+      help: 'Choose the option that fits best.',
+    },
+    build: { title: 'Tell us about your property' },
+    f: {
+      name: { label: "What's your name?", help: "So we know who we're talking to." },
+      owned: { label: 'What property or land do you own now?', help: 'Choose all that apply.' },
+      build: { label: 'What would you like to build?', help: 'Choose all that apply. "Not sure yet" is a fine answer.' },
+      city: { label: 'Where is the property?', help: 'Choose all that apply.' },
+      need: { label: 'Which of these fits you best?' },
+      otherPlaceholder: 'Tell us briefly',
+    },
+    needs: {
+      title: "No construction budget yet? That's okay.",
+      body: 'Plenty of owners start here. Behomy and HomyEight also help with properties that are already standing, from renting them out and running them day to day to filling more rooms. We can also check what a well-located property could become before you spend anything.',
+    },
+    consent:
+      'By sending this, you agree that the HOMYVEST, HomyEight and Behomy team may contact you about your property.',
+    err: {
+      required: 'Please fill this in.',
+      chooseOne: 'Please choose at least one.',
+      chooseSingle: 'Please choose one.',
+      tooLong: "That's a little long. Please shorten it.",
+      summary: 'Please check the highlighted fields.',
+    },
+    thanks: {
+      title: "Thank you, {firstName}. We've got your details.",
+      body: 'The HomyEight team will reach out on WhatsApp at {phone} during working hours. Want to talk sooner? Message us now.',
+      whatsapp: 'Chat on WhatsApp now',
+      calc: 'Try the land check',
+      portfolio: 'See our full portfolio',
+    },
+    handoff: {
+      title: 'Almost there: send your details on WhatsApp',
+      body: 'Your answers are already written into the message. Just press send.',
+      button: 'Send on WhatsApp',
+    },
+    error: {
+      title: "We couldn't send your details just now",
+      body: 'Send them on WhatsApp instead; your answers are already filled in. Or try again in a moment.',
+      retry: 'Try again',
+    },
+    rate: {
+      body: "You've already sent this a few times. We'll be in touch soon, or message us on WhatsApp.",
+    },
+  },
+
   about: {
-    eyebrow: 'What is HOMYVEST',
-    title: 'We help idle land and buildings start earning.',
-    body: "HOMYVEST isn't a developer, and we don't sell buildings. We sit down with you, look at what your land is allowed to hold, work out what it could become and what it could earn, and tell you honestly what to plan for. When you're ready, our partners build it and run it.",
-    doorsTitle: 'Which one sounds like you?',
-    doorA: {
-      title: 'I have empty land',
-      body: "Nothing built yet. Let's see how much it can hold and which use earns the most.",
-      cta: 'Start with my land',
-    },
-    doorB: {
-      title: 'I have an idle or unfinished building',
-      body: 'Old, unfinished or simply not earning. We can continue the construction and find the business that fits.',
-      cta: 'Check my building',
-    },
-    bridge: "Here's who does the work.",
+    title: 'What is HOMYVEST?',
+    body: 'HOMYVEST helps owners of idle land and unfinished buildings turn them into properties that earn. We look at what your land is allowed to hold and what would work best there, from a hybrid stay to an office or a sports court. Then HomyEight builds it and Behomy runs it, so you deal with one team from start to finish.',
+    note: "We're not a developer and we don't sell property. We work on yours.",
   },
 
-  team: {
-    title: 'Three names. One team, from empty land to monthly report.',
-    homyvest: {
-      name: 'HOMYVEST',
-      role: 'Finds the potential',
-      body: 'Land checks, feasibility and honest numbers before anything is built.',
-    },
-    homyeight: {
-      name: 'HomyEight',
-      role: 'Builds it',
-      body: 'Design, construction, interiors and custom furniture from its own workshop.',
-    },
-    behomy: {
-      name: 'Behomy',
-      role: 'Runs it',
-      body: 'Guests, marketing, maintenance, staff and real-time owner reporting.',
-    },
-    closing: 'You talk to one team, the whole way through.',
-  },
-
-  homyeight: {
-    eyebrow: 'Built by HomyEight',
-    title: 'Drawn with care. Built the same way.',
-    body: "HomyEight is an interior consultant and contractor based in Tangerang. Its team has completed 50+ projects, from homes and offices to hotels, shops and boarding houses. It has its own furniture workshop, so what's designed is what gets built.",
-    stats: [
-      { n: 50, suffix: '+', label: 'projects completed' },
-      { text: '2021', label: 'founded, with roots going back to 2011' },
-      { text: 'In-house', label: 'furniture workshop' },
+  // End-to-end (U01_06 §4): the old "three names, one team" idea, told as four steps.
+  how: {
+    eyebrow: 'How it works',
+    title: 'From the first sketch to full rooms, we take care of it.',
+    sub: 'You keep one contact. Behind it, three teams do the work.',
+    steps: [
+      {
+        name: 'Plan.',
+        body: 'We study your land, the local rules and the demand nearby, and work out what will earn best.',
+        by: "HOMYVEST, with Behomy's feasibility data",
+      },
+      {
+        name: 'Design.',
+        body: 'HomyEight turns the plan into drawings and a clear cost estimate, free of charge.',
+        by: 'HomyEight',
+      },
+      {
+        name: 'Build.',
+        body: 'HomyEight builds it, from the structure to the interiors and furniture from its own workshop.',
+        by: 'HomyEight',
+      },
+      {
+        name: 'Operate.',
+        body: 'Behomy opens it, fills it and runs it every day. You follow it all on a live owner dashboard.',
+        by: 'Behomy',
+      },
     ],
+    closing:
+      'HOMYVEST finds the potential, HomyEight builds it, and Behomy keeps it running. You only need to save one number.',
+  },
+
+  // homyeight.walk: the Maxone walkthrough on /portofolio/.
+  homyeight: {
     walk: {
       title: 'Step inside one of our projects.',
       hint: 'Scroll to walk through',
@@ -133,10 +215,16 @@ export default {
       sceneAlt:
         'Walkthrough of a hotel lobby and dining room: from the street entrance past the reception, through the dining hall to the buffet and bar, up into the double-height void, to the windows, then up to a view of the whole floor.',
     },
-    bridge: 'Building it well is half the job. The other half is running it.',
   },
 
   behomy: {
+    // The full-bleed opener of the Behomy section (U01_06 §5)
+    hero: {
+      eyebrow: 'Operated by Behomy',
+      title: 'Building it is half the story. Behomy keeps it full.',
+      body: "Indonesia's hybrid stay pioneer runs 3,000+ rooms across 100+ locations, mixing nightly guests with monthly tenants so rooms keep earning.",
+      more: 'See how it works',
+    },
     eyebrow: 'Run by Behomy',
     title: 'Daily guests and monthly tenants. One building, full all year.',
     body: 'Behomy is a hybrid stay operator. It mixes hotel-style daily stays with monthly kost living under one roof, so rooms keep earning in busy months and quiet ones.',
@@ -151,6 +239,7 @@ export default {
     stats: [
       { n: 82, suffix: '%', label: 'average occupancy', note: 1 },
       { n: 65.4, digits: 1, suffix: '%', label: 'average gross operating profit margin', note: 2 },
+      { text: '< 3.5', suffix: ' yrs', label: 'estimated break-even on Behomy equity partnership projects', note: 4 },
       { n: 3000, suffix: '+', label: 'rooms under management' },
       { n: 100, suffix: '+', label: 'locations in 18 areas' },
     ],
@@ -176,6 +265,21 @@ export default {
     brandsLabel: 'Brands run by Behomy',
     uplift: "Behomy's hybrid model can earn up to 2.5× a conventional kost. Results vary by property.",
     upliftNote: 3,
+    // Places Behomy runs today (U01_01 §2.4)
+    portfolio: {
+      title: 'Places Behomy runs today',
+      team: 'The Behomy team',
+      training: 'Front office and housekeeping training',
+    },
+    // Before and after pairs
+    ba: {
+      title: 'From idle to running',
+      sub: 'Real buildings, before and after Behomy and HomyEight took them on.',
+      before: 'Before',
+      after: 'After',
+      label: 'Before and after pairs',
+      pair: 'Pair {n} of {total}',
+    },
     bridge: "Here are some of the places we've built and run.",
   },
 
@@ -183,8 +287,6 @@ export default {
     eyebrow: 'Projects',
     title: "Places we've built and run.",
     body: 'Kost, guesthouses, homestays and villas.',
-    filters: { all: 'All', kost: 'Kost', guesthouse: 'Guesthouse', homestay: 'Homestay', villa: 'Villa' },
-    filterLabel: 'Filter projects by type',
     viewer: { label: 'Project image viewer', close: 'Close', prev: 'Previous', next: 'Next', open: 'Open image' },
     caption: { name: 'Project Name', place: 'City, Province', type: 'Type · Year' },
     bridge: 'Not every plot should be a place to stay.',
@@ -216,8 +318,24 @@ export default {
         body: 'A corner on a busy street can earn more serving coffee than housing tenants.',
       },
       office: { title: 'Office', body: 'Close to business districts, flexible offices fill quickly.' },
+      open: 'Open {name} images',
     },
-    bridge: 'So what could your land become?',
+  },
+
+  // The full portfolio page, /portofolio/ (U01_06 §8)
+  pf: {
+    eyebrow: 'Portfolio',
+    title: 'Our full portfolio',
+    intro: 'Three projects, told in motion. Take your time: scroll slowly and each one builds itself in front of you.',
+    begin: 'Scroll to begin',
+    index: ['The story', 'Step inside Maxone', 'The padel hall', 'Beyond stays'],
+    indexLabel: 'On this page',
+    skipStory: 'Skip the story',
+    skipPadel: 'Skip padel hall',
+    close: {
+      title: "Like what you see? Let's look at your land.",
+      back: '← Back to home',
+    },
   },
 
   calc: {
@@ -228,7 +346,6 @@ export default {
     stepsLabel: 'Land check steps',
     tabs: ['Your land', 'Ideas for your land', 'Already built? Add a floor'],
     tabsShort: ['Your land', 'Ideas', 'Add a floor'],
-    doorBNote: 'First, tell us about the land, then about your building.',
     example: 'Example',
     reset: 'Reset to example values',
     how: 'How this is calculated',
@@ -299,7 +416,6 @@ export default {
     },
     next: {
       ideas: 'Next: see what this space could earn',
-      building: 'Check my building',
       ideasAlt: 'Or compare ideas for this land',
       addFloor: 'Already built? See if a floor fits',
     },
@@ -458,6 +574,13 @@ export default {
       body: "Tell us about your land or building. We'll reply with what we'd check first.",
       withResults: 'Your land check results will be included.',
     },
+    leaveNumber: 'Leave your number',
+    // The big card that leads to /portofolio/ (U01_01 §2.7)
+    pf: {
+      title: 'See our full portfolio',
+      body: 'Watch a building come together, walk through Maxone and see a padel hall rise, piece by piece.',
+      list: 'Story · Step inside Maxone · Padel hall · Beyond stays',
+    },
   },
 
   faq: {
@@ -468,8 +591,8 @@ export default {
         a: "No. We don't sell buildings or land. HOMYVEST helps owners understand what their land or building could become and what it could earn. When you decide to go ahead, HomyEight builds it and Behomy runs it.",
       },
       {
-        q: 'Do I need a building budget ready?',
-        a: "Not to start. Begin with the land check and a chat. There are different ways to partner, and which one fits depends on your property and your plans. We'll walk you through the options.",
+        q: "I don't have construction funds yet. Should I still get in touch?",
+        a: 'Yes. Leave your number and choose "Currently do not have funds for construction". Many owners start by renting out, running or improving a property they already have, and we can check what your land could become before you spend anything.',
       },
       {
         q: 'How accurate is the calculator?',
@@ -507,6 +630,10 @@ export default {
         q: "I don't own land, but I'd like to invest. Is that possible?",
         a: "Behomy also offers equity partnerships in hybrid stay projects. Chat with us and we'll connect you.",
       },
+      {
+        q: 'What happens to the details I send?',
+        a: "They're stored securely and used only by the HOMYVEST, HomyEight and Behomy team to contact you about your property. We don't sell or share them.",
+      },
     ],
   },
 
@@ -524,6 +651,7 @@ export default {
     1: 'Average occupancy across all Behomy-managed properties, Aug 2025–Mar 2026.',
     2: 'Average gross operating profit margin across Behomy-managed properties over 8 months, Aug 2025–Mar 2026.',
     3: "Based on Behomy's 2026 company profile. Results vary by property and location.",
+    4: "Behomy's own estimates for its equity partnership projects (10-year terms), from its 2026 company profile. Estimates, not guarantees; results vary by property.",
   },
 
   glossary: {

@@ -20,3 +20,22 @@ qa/screenshots/calculator/
 qa/screenshots/3d/
 qa/screenshots/fallbacks/
 qa/screenshots/header/
+
+# --- secrets (U01) ---
+.env
+.env.*
+!.env.example
+supabase/.env*
+!supabase/.env.secrets.example
+supabase/.temp/
+supabase/.branches/
+*.pem
+*service-account*.json
+*credentials*.json
+client_secret*.json
+qa/tmp/
+
+# --- U01 build/test output ---
+dist-e2e/
+# Delivery folder for update 2: its contents were placed in the project (updates/U01, assets-src, supabase, …)
+update2/

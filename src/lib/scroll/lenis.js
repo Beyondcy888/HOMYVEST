@@ -12,9 +12,13 @@ let lenis = null;
 let tick = null;
 let stops = 0;
 
-export function startLenis({ reducedMotion }) {
+/**
+ * Starts smooth scrolling. The main page uses lerp 0.1; the portfolio page passes a softer lerp and a smaller
+ * wheel step so its long scenes move slowly (U01_04 §3, src/content/scroll-config.js).
+ */
+export function startLenis({ reducedMotion, lerp = 0.1, wheelMultiplier = 1 }) {
   if (reducedMotion || lenis) return lenis; // reduced motion keeps native scrolling
-  lenis = new Lenis({ lerp: 0.1, smoothWheel: true, wheelMultiplier: 1, touchMultiplier: 1, autoRaf: false });
+  lenis = new Lenis({ lerp, smoothWheel: true, wheelMultiplier, touchMultiplier: 1, autoRaf: false });
   lenis.on('scroll', ScrollTrigger.update);
   tick = (time) => lenis?.raf(time * 1000);
   gsap.ticker.add(tick);
@@ -42,13 +46,13 @@ const headerOffset = () => {
  * Scroll to an element, a selector or a pixel position.
  * Short hops glide; long ones (which would race through the pinned 3D scenes) jump behind a quick veil.
  */
-export function scrollToTarget(target, { offset, focus, onArrive } = {}) {
+export function scrollToTarget(target, { offset, focus, onArrive, immediate = false } = {}) {
   // On a first visit the sections below the hero mount a moment after the intro. A link clicked in that
   // moment waits for its target instead of doing nothing.
   if (typeof target === 'string' && !document.querySelector(target)) {
     let tries = 0;
     const wait = () => {
-      if (document.querySelector(target)) scrollToTarget(target, { offset, focus, onArrive });
+      if (document.querySelector(target)) scrollToTarget(target, { offset, focus, onArrive, immediate });
       else if ((tries += 1) < 120) requestAnimationFrame(wait);
     };
     requestAnimationFrame(wait);
@@ -82,6 +86,13 @@ export function scrollToTarget(target, { offset, focus, onArrive } = {}) {
 
   if (!lenis || prefersReducedMotion()) {
     window.scrollTo({ top, behavior: 'auto' });
+    requestAnimationFrame(arrive);
+    return;
+  }
+  // A deep link on load (/#calculator, /?focus=phone) lands at once, without gliding through the page.
+  if (immediate) {
+    lenis.scrollTo(top, { immediate: true, force: true });
+    ScrollTrigger.update();
     requestAnimationFrame(arrive);
     return;
   }

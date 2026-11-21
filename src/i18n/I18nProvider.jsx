@@ -31,7 +31,11 @@ export function ensureDict(lang) {
 const fill = (text, vars) =>
   vars && typeof text === 'string' ? text.replace(/\{(\w+)\}/g, (m, name) => (name in vars ? String(vars[name]) : m)) : text;
 
-export function I18nProvider({ children }) {
+/**
+ * metaKey: which dictionary entry holds this page's title and description ('meta' for the main page,
+ * 'pfMeta' for /portofolio/), so each page keeps its own SEO text in both languages.
+ */
+export function I18nProvider({ children, metaKey = 'meta' }) {
   const [lang, setLangState] = useState(() => (DICTS[initialLang()] ? initialLang() : 'en'));
 
   // If the wanted language was not preloaded (e.g. the dev harness), fetch it and switch.
@@ -68,18 +72,19 @@ export function I18nProvider({ children }) {
   // Keep <html lang>, the title and the description in step with the language.
   useEffect(() => {
     const dict = DICTS[lang] ?? en;
+    const meta = dict[metaKey] ?? dict.meta;
     document.documentElement.lang = lang;
-    document.title = dict.meta.title;
+    document.title = meta.title;
     const set = (selector, attr, value) => document.querySelector(selector)?.setAttribute(attr, value);
-    set('meta[name="description"]', 'content', dict.meta.description);
-    set('meta[property="og:title"]', 'content', dict.meta.title);
-    set('meta[property="og:description"]', 'content', dict.meta.description);
-    set('meta[property="og:image:alt"]', 'content', dict.meta.ogAlt);
-    set('meta[name="twitter:title"]', 'content', dict.meta.title);
-    set('meta[name="twitter:description"]', 'content', dict.meta.description);
+    set('meta[name="description"]', 'content', meta.description);
+    set('meta[property="og:title"]', 'content', meta.title);
+    set('meta[property="og:description"]', 'content', meta.description);
+    set('meta[property="og:image:alt"]', 'content', meta.ogAlt);
+    set('meta[name="twitter:title"]', 'content', meta.title);
+    set('meta[name="twitter:description"]', 'content', meta.description);
     set('meta[property="og:locale"]', 'content', lang === 'id' ? 'id_ID' : 'en_US');
     set('meta[property="og:locale:alternate"]', 'content', lang === 'id' ? 'en_US' : 'id_ID');
-  }, [lang]);
+  }, [lang, metaKey]);
 
   const value = useMemo(() => ({ lang, setLang, t }), [lang, setLang, t]);
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;

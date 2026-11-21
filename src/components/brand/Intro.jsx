@@ -4,6 +4,7 @@ import { session, query } from '../../lib/storage.js';
 import { prefersReducedMotion } from '../../lib/device/useReducedMotion.js';
 import { canHover } from '../../lib/device/tier.js';
 import { useUi } from '../../lib/ui/store.js';
+import { hasDeepLink } from '../../lib/page.js';
 import Wordmark from './Wordmark.jsx';
 import './Intro.css';
 
@@ -13,12 +14,15 @@ const KEY = 'homyvest:intro';
  * Logo → story. The page opens on the wordmark, centred and huge; it expands to HOMY INVESTASI,
  * collapses, then flies into the header position while the hero appears beneath (docs/03 §4).
  * Never blocks content: the hero renders behind it. Click, scroll or any key skips it.
- * Once per session; skipped entirely with reduced motion.
+ * Once per session; skipped entirely with reduced motion, on a deep link (/#calculator, /?focus=phone: the
+ * visitor came for something specific) and on the portfolio page (enabled = false).
  */
-export default function Intro({ headerMark }) {
+export default function Intro({ headerMark, enabled = true }) {
   const setIntroDone = useUi((s) => s.setIntroDone);
   const [show] = useState(
-    () => !(prefersReducedMotion() || session.get(KEY) === '1' || query('nointro') === '1' || window.scrollY > 40),
+    () =>
+      enabled &&
+      !(prefersReducedMotion() || session.get(KEY) === '1' || query('nointro') === '1' || window.scrollY > 40 || hasDeepLink()),
   );
   const [gone, setGone] = useState(!show);
   const ref = useRef(null);

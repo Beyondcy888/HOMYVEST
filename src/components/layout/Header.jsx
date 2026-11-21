@@ -1,19 +1,23 @@
 import { useEffect, useRef } from 'react';
+import { PORTFOLIO_URL, homeHref, usePage } from '../../lib/page.js';
 import { useT } from '../../i18n/useT.js';
 import { useUi } from '../../lib/ui/store.js';
 import { scrollToTarget } from '../../lib/scroll/lenis.js';
 import Wordmark from '../brand/Wordmark.jsx';
 import { WhatsAppButton } from '../ui/Button.jsx';
-import { Menu } from '../ui/Icons.jsx';
+import { ArrowLeft, Menu } from '../ui/Icons.jsx';
 import LangToggle from './LangToggle.jsx';
 import MobileMenu from './MobileMenu.jsx';
 import './Header.css';
 
+// Main-page sections by hash, then the portfolio page (U01_01 §3).
 export const NAV = [
-  { key: 'how', href: '#about' },
-  { key: 'projects', href: '#projects' },
-  { key: 'calculator', href: '#calculator' },
-  { key: 'faq', href: '#faq' },
+  { key: 'how', hash: '#how' },
+  { key: 'behomy', hash: '#behomy' },
+  { key: 'projects', hash: '#projects' },
+  { key: 'calculator', hash: '#calculator' },
+  { key: 'faq', hash: '#faq' },
+  { key: 'portfolio', url: PORTFOLIO_URL },
 ];
 
 /** In-page navigation that works with Lenis and with native scrolling. */
@@ -23,8 +27,43 @@ export function goTo(e, href, opts) {
   window.history.replaceState(null, '', href);
 }
 
+/** Warms the portfolio page when a link to it is about to be used (hover or focus). */
+export function prefetchPortfolio() {
+  if (document.querySelector(`link[rel="prefetch"][href="${PORTFOLIO_URL}"]`)) return;
+  const link = document.createElement('link');
+  link.rel = 'prefetch';
+  link.href = PORTFOLIO_URL;
+  document.head.appendChild(link);
+}
+
+/**
+ * Props for a navigation link on the current page. Section links scroll on the main page and navigate to it
+ * from the portfolio; the portfolio link is marked current on its own page.
+ * onFollow(e, hash) replaces the default in-page scroll (the mobile menu closes itself first).
+ */
+export function navLinkProps(item, page, onFollow) {
+  if (item.url) {
+    const current = page === 'portfolio';
+    return {
+      href: item.url,
+      'aria-current': current ? 'page' : undefined,
+      onClick: current
+        ? (e) => {
+            e.preventDefault();
+            onFollow ? onFollow(e, 0) : scrollToTarget(0);
+          }
+        : undefined,
+      onPointerEnter: current ? undefined : prefetchPortfolio,
+      onFocus: current ? undefined : prefetchPortfolio,
+    };
+  }
+  if (page !== 'home') return { href: homeHref(page, item.hash) };
+  return { href: item.hash, onClick: (e) => (onFollow ? onFollow(e, item.hash) : goTo(e, item.hash)) };
+}
+
 export default function Header({ wordmarkRef }) {
   const { t } = useT();
+  const page = usePage();
   const ref = useRef(null);
   const menuBtn = useRef(null);
   const pinned = useUi((s) => s.pinned);
@@ -41,9 +80,7 @@ export default function Header({ wordmarkRef }) {
     const update = () => {
       ticking = false;
       const y = window.scrollY;
-      const story = document.getElementById('story');
-      const heroEnd = story ? story.offsetTop + story.offsetHeight - el.offsetHeight : 0;
-      el.dataset.solid = String(y > Math.max(8, heroEnd));
+      el.dataset.solid = String(y > 8);
       const pinnedNow = useUi.getState().pinned > 0;
       if (y < 60) hidden = false;
       else if (pinnedNow) hidden = true;
@@ -80,12 +117,25 @@ export default function Header({ wordmarkRef }) {
     <>
       <header ref={ref} className="header" data-solid="false" data-hidden="false" data-ready={introDone}>
         <div className="wrap header__in">
-          <Wordmark ref={wordmarkRef} href="#top" className="header__mark" onClick={(e) => goTo(e, '#top', { offset: 0 })} />
+          <div className="header__start">
+            {page === 'home' ? (
+              <Wordmark ref={wordmarkRef} href="#top" className="header__mark" onClick={(e) => goTo(e, '#top', { offset: 0 })} />
+            ) : (
+              <>
+                <Wordmark ref={wordmarkRef} href="/" className="header__mark" />
+                {/* phones: a plain way back, beside the wordmark (U01_01 §3) */}
+                <a className="header__home tap" href="/">
+                  <ArrowLeft />
+                  {t('nav.home')}
+                </a>
+              </>
+            )}
+          </div>
           <nav className="header__nav" aria-label={t('nav.label')}>
             <ul>
               {NAV.map((item) => (
                 <li key={item.key}>
-                  <a className="link" href={item.href} onClick={(e) => goTo(e, item.href)}>
+                  <a className="link" {...navLinkProps(item, page)}>
                     {t(`nav.${item.key}`)}
                   </a>
                 </li>

@@ -4,9 +4,12 @@ import { useUi } from '../../lib/ui/store.js';
 import { useWhatsApp } from '../ui/Button.jsx';
 import { WhatsApp } from '../ui/Icons.jsx';
 
+const isField = (el) => el instanceof HTMLElement && el.matches('input, textarea, select, [contenteditable="true"]');
+
 /**
- * Mobile only. Appears after the hero. Hidden while a pinned scene is active, while a calculator
- * input has focus (so it never covers the keyboard) and while the footer is on screen.
+ * Mobile only. Appears after the page's hero (the element marked data-hero). Hidden while a pinned scene is
+ * active, while the funnel panel or the menu is open, while any field has focus (so it never covers the
+ * keyboard) and while the footer is on screen (U01_05 §1).
  */
 export default function FloatingWhatsApp() {
   const { t } = useT();
@@ -14,13 +17,26 @@ export default function FloatingWhatsApp() {
   const pinned = useUi((s) => s.pinned > 0);
   const inputFocused = useUi((s) => s.inputFocused);
   const menuOpen = useUi((s) => s.menuOpen);
+  const funnelOpen = useUi((s) => s.funnelOpen);
   const [pastHero, setPastHero] = useState(false);
   const [footerVisible, setFooterVisible] = useState(false);
+  const [fieldFocused, setFieldFocused] = useState(false);
+
+  useEffect(() => {
+    const onIn = (e) => setFieldFocused(isField(e.target));
+    const onOut = () => window.setTimeout(() => setFieldFocused(isField(document.activeElement)), 0);
+    document.addEventListener('focusin', onIn);
+    document.addEventListener('focusout', onOut);
+    return () => {
+      document.removeEventListener('focusin', onIn);
+      document.removeEventListener('focusout', onOut);
+    };
+  }, []);
 
   useEffect(() => {
     const onScroll = () => {
-      const story = document.getElementById('story');
-      const end = story ? story.offsetTop + story.offsetHeight - window.innerHeight * 0.5 : 400;
+      const hero = document.querySelector('[data-hero]');
+      const end = hero ? hero.offsetTop + hero.offsetHeight - window.innerHeight * 0.5 : 400;
       setPastHero(window.scrollY > end);
     };
     onScroll();
@@ -34,7 +50,7 @@ export default function FloatingWhatsApp() {
     };
   }, []);
 
-  const show = pastHero && !pinned && !inputFocused && !footerVisible && !menuOpen;
+  const show = pastHero && !pinned && !inputFocused && !fieldFocused && !footerVisible && !menuOpen && !funnelOpen;
   return (
     <a
       className="fab"

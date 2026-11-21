@@ -1,15 +1,17 @@
 import { useEffect, useRef } from 'react';
 import { useT } from '../../i18n/useT.js';
 import { useUi } from '../../lib/ui/store.js';
-import { lockScroll, unlockScroll } from '../../lib/scroll/lenis.js';
+import { lockScroll, unlockScroll, scrollToTarget } from '../../lib/scroll/lenis.js';
 import { WhatsAppButton } from '../ui/Button.jsx';
 import { ArrowRight, Close } from '../ui/Icons.jsx';
 import LangToggle from './LangToggle.jsx';
-import { NAV, goTo } from './Header.jsx';
+import { NAV, goTo, navLinkProps } from './Header.jsx';
+import { usePage } from '../../lib/page.js';
 
 /** Full-screen menu sheet: a dialog with a focus trap that returns focus on close. */
 export default function MobileMenu({ returnFocusTo }) {
   const { t } = useT();
+  const page = usePage();
   const open = useUi((s) => s.menuOpen);
   const setOpen = useUi((s) => s.setMenuOpen);
   const ref = useRef(null);
@@ -41,11 +43,11 @@ export default function MobileMenu({ returnFocusTo }) {
     };
   }, [open, setOpen, returnFocusTo]);
 
-  const follow = (e, href) => {
+  const follow = (e, target) => {
     e.preventDefault();
     setOpen(false);
     // wait for the scroll lock to release
-    requestAnimationFrame(() => goTo(null, href));
+    requestAnimationFrame(() => (typeof target === 'number' ? scrollToTarget(target) : goTo(null, target)));
   };
 
   return (
@@ -70,7 +72,7 @@ export default function MobileMenu({ returnFocusTo }) {
         <ul>
           {NAV.map((item, i) => (
             <li key={item.key} style={{ '--i': i }}>
-              <a href={item.href} onClick={(e) => follow(e, item.href)}>
+              <a {...navLinkProps(item, page, follow)}>
                 {t(`nav.${item.key}`)}
                 <ArrowRight />
               </a>

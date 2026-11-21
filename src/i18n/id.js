@@ -7,12 +7,21 @@ export default {
       'Punya lahan kosong atau bangunan mangkrak? Lihat potensi bangunan dan pendapatannya, lalu biarkan HomyEight membangun dan Behomy mengelolanya.',
     ogAlt: 'Wordmark HOMYVEST di atas properti yang menyala saat senja',
   },
+  pfMeta: {
+    title: 'Portofolio: HOMYVEST',
+    description:
+      'Lihat cara HomyEight membangun dan Behomy mengelola: bangunan yang tersusun, menjelajahi Maxone, arena padel yang berdiri, dan lainnya.',
+    ogAlt: 'Wordmark HOMYVEST di atas properti yang menyala saat senja',
+  },
   nav: {
     label: 'Utama',
     how: 'Cara kerja',
+    behomy: 'Behomy',
     projects: 'Proyek',
-    calculator: 'Kalkulator',
+    calculator: 'Cek lahan',
     faq: 'FAQ',
+    portfolio: 'Portofolio',
+    home: 'Beranda',
     menu: 'Menu',
     close: 'Tutup',
     lang: 'Bahasa',
@@ -29,9 +38,13 @@ export default {
     newTab: 'membuka WhatsApp di tab baru',
   },
   wordmark: { aria: 'HOMYVEST — Homy Investasi, beranda' },
-  movements: ['Cerita', 'Yang kami lakukan', 'Tim', 'Proyek', 'Lebih dari penginapan', 'Lahan Anda', 'Langkah selanjutnya'],
 
   hero: {
+    partner: 'Bekerja sama dengan',
+    title1: 'Ubah lahan menganggur jadi penghasilan rutin.',
+    title2: 'Dibangun oleh HomyEight, dioperasikan oleh Behomy.',
+    body: 'Punya lahan kosong atau bangunan mangkrak? Tinggalkan nomor Anda, kami tunjukkan bisa dijadikan apa.',
+    chip: 'Rata-rata okupansi 82% di properti Behomy',
     scrollCue: 'Scroll',
     skip: 'Lewati intro',
     b1: {
@@ -68,53 +81,117 @@ export default {
     ],
   },
 
-  about: {
-    eyebrow: 'Apa itu HOMYVEST',
-    title: 'Kami bantu lahan dan bangunan yang menganggur mulai menghasilkan.',
-    body: 'HOMYVEST bukan developer, dan kami tidak menjual bangunan. Kami duduk bersama Anda, melihat seberapa besar bangunan yang boleh berdiri di lahan Anda, menghitung bisa jadi apa dan bisa menghasilkan berapa, lalu menjelaskan dengan jujur apa saja yang perlu disiapkan. Saat Anda siap, mitra kami yang membangun dan mengelolanya.',
-    doorsTitle: 'Mana yang paling menggambarkan Anda?',
-    doorA: {
-      title: 'Saya punya lahan kosong',
-      body: 'Belum ada bangunan. Mari lihat seberapa besar yang bisa dibangun dan penggunaan mana yang paling menguntungkan.',
-      cta: 'Mulai dari lahan saya',
-    },
-    doorB: {
-      title: 'Saya punya bangunan yang menganggur atau belum selesai',
-      body: 'Bangunan lama, mangkrak, atau sekadar belum menghasilkan. Kami bisa melanjutkan pembangunannya dan mencarikan usaha yang cocok.',
-      cta: 'Cek bangunan saya',
-    },
-    bridge: 'Ini tim yang mengerjakannya.',
+  consult: {
+    label: 'Konsultasi gratis dengan tim HomyEight',
+    number: '+62 821-1010-6088',
   },
 
-  team: {
-    title: 'Tiga nama. Satu tim, dari lahan kosong sampai laporan bulanan.',
-    homyvest: {
-      name: 'HOMYVEST',
-      role: 'Menemukan potensinya',
-      body: 'Cek lahan, studi kelayakan, dan angka yang jujur sebelum apa pun dibangun.',
+  funnel: {
+    phone: {
+      label: 'Masukkan nomor telepon Anda agar kami bisa menghubungi Anda',
+      placeholder: '812 3456 7890',
+      continue: 'Lanjut',
+      privacy: 'Nomor Anda hanya kami gunakan untuk membahas properti Anda.',
+      error: 'Masukkan nomor HP Indonesia yang valid, contoh 0812 3456 7890.',
+      done: 'Terima kasih, kami akan menghubungi Anda di {phone}.',
     },
-    homyeight: {
-      name: 'HomyEight',
-      role: 'Membangunnya',
-      body: 'Desain, konstruksi, interior, dan furnitur custom dari workshop sendiri.',
+    panel: {
+      poweredBy: 'Didukung oleh',
+      step: 'Langkah {n} dari 3',
+      close: 'Tutup',
+      recap: 'Kami akan menghubungi Anda di {phone}',
+      change: 'Ubah',
+      back: 'Kembali',
+      continue: 'Lanjut',
+      send: 'Kirim',
+      sending: 'Mengirim…',
+      chat: 'Lebih suka chat? Hubungi via WhatsApp',
     },
-    behomy: {
-      name: 'Behomy',
-      role: 'Mengelolanya',
-      body: 'Tamu, pemasaran, perawatan, staf, dan laporan pemilik secara real-time.',
+    funding: {
+      title: 'Apa sumber dana untuk membangun atau merenovasi properti Anda?',
+      help: 'Pilih yang paling sesuai.',
     },
-    closing: 'Anda cukup berurusan dengan satu tim, dari awal sampai akhir.',
+    build: { title: 'Ceritakan tentang properti Anda' },
+    f: {
+      name: { label: 'Siapa nama Anda?', help: 'Agar kami tahu sedang berbicara dengan siapa.' },
+      owned: { label: 'Properti atau lahan apa yang Anda miliki saat ini?', help: 'Boleh pilih lebih dari satu.' },
+      build: { label: 'Apa yang ingin Anda bangun?', help: 'Boleh pilih lebih dari satu. "Belum yakin" juga tidak apa-apa.' },
+      city: { label: 'Di mana lokasi propertinya?', help: 'Boleh pilih lebih dari satu.' },
+      need: { label: 'Mana yang paling sesuai dengan Anda?' },
+      otherPlaceholder: 'Ceritakan singkat',
+    },
+    needs: {
+      title: 'Belum ada dana pembangunan? Tidak masalah.',
+      body: 'Banyak pemilik memulai dari sini. Behomy dan HomyEight juga membantu properti yang sudah berdiri, mulai dari menyewakan dan mengelolanya setiap hari sampai mengisi lebih banyak kamar. Kami juga bisa mengecek properti di lokasi strategis bisa dijadikan apa sebelum Anda mengeluarkan biaya.',
+    },
+    consent:
+      'Dengan mengirim ini, Anda setuju dihubungi oleh tim HOMYVEST, HomyEight, dan Behomy terkait properti Anda.',
+    err: {
+      required: 'Mohon diisi.',
+      chooseOne: 'Pilih minimal satu.',
+      chooseSingle: 'Pilih salah satu.',
+      tooLong: 'Terlalu panjang. Mohon dipersingkat.',
+      summary: 'Mohon periksa kolom yang ditandai.',
+    },
+    thanks: {
+      title: 'Terima kasih, {firstName}. Data Anda sudah kami terima.',
+      body: 'Tim HomyEight akan menghubungi Anda via WhatsApp di {phone} pada jam kerja. Ingin lebih cepat? Kirim pesan sekarang.',
+      whatsapp: 'Chat via WhatsApp sekarang',
+      calc: 'Coba cek lahan',
+      portfolio: 'Lihat portofolio lengkap',
+    },
+    handoff: {
+      title: 'Sedikit lagi: kirim data Anda lewat WhatsApp',
+      body: 'Jawaban Anda sudah tertulis di pesan. Tinggal tekan kirim.',
+      button: 'Kirim via WhatsApp',
+    },
+    error: {
+      title: 'Data Anda belum berhasil terkirim',
+      body: 'Kirim lewat WhatsApp saja, jawaban Anda sudah terisi otomatis. Atau coba lagi sebentar lagi.',
+      retry: 'Coba lagi',
+    },
+    rate: {
+      body: 'Anda sudah mengirim ini beberapa kali. Kami akan segera menghubungi Anda, atau kirim pesan via WhatsApp.',
+    },
+  },
+
+  about: {
+    title: 'Apa itu HOMYVEST?',
+    body: 'HOMYVEST membantu pemilik lahan menganggur dan bangunan mangkrak mengubahnya menjadi properti yang menghasilkan. Kami melihat seberapa besar bangunan yang boleh berdiri di lahan Anda dan usaha apa yang paling cocok, dari hunian hybrid sampai kantor atau lapangan olahraga. Setelah itu HomyEight membangunnya dan Behomy mengelolanya, jadi Anda cukup berurusan dengan satu tim dari awal sampai akhir.',
+    note: 'Kami bukan developer dan tidak menjual properti. Kami menggarap milik Anda.',
+  },
+
+  how: {
+    eyebrow: 'Cara kerja',
+    title: 'Dari sketsa pertama sampai kamar terisi, semuanya kami urus.',
+    sub: 'Anda cukup punya satu kontak. Di baliknya, tiga tim yang bekerja.',
+    steps: [
+      {
+        name: 'Rencana.',
+        body: 'Kami pelajari lahan Anda, aturan setempat, dan permintaan di sekitarnya, lalu menghitung usaha yang paling menguntungkan.',
+        by: 'HOMYVEST, dengan data kelayakan Behomy',
+      },
+      {
+        name: 'Desain.',
+        body: 'HomyEight mengubah rencana menjadi gambar desain dan estimasi biaya yang jelas, tanpa biaya.',
+        by: 'HomyEight',
+      },
+      {
+        name: 'Bangun.',
+        body: 'HomyEight membangunnya, dari struktur sampai interior dan furnitur dari workshop sendiri.',
+        by: 'HomyEight',
+      },
+      {
+        name: 'Kelola.',
+        body: 'Behomy membuka, mengisi, dan mengelolanya setiap hari. Anda memantau semuanya lewat dashboard pemilik secara langsung.',
+        by: 'Behomy',
+      },
+    ],
+    closing:
+      'HOMYVEST menemukan potensinya, HomyEight membangunnya, dan Behomy menjaganya tetap berjalan. Anda cukup menyimpan satu nomor.',
   },
 
   homyeight: {
-    eyebrow: 'Dibangun oleh HomyEight',
-    title: 'Dirancang dengan teliti. Dibangun dengan cara yang sama.',
-    body: 'HomyEight adalah konsultan interior dan kontraktor yang berbasis di Tangerang. Timnya telah menyelesaikan 50+ proyek, mulai dari rumah dan kantor hingga hotel, toko, dan kos. HomyEight punya workshop furnitur sendiri, sehingga yang dirancang itulah yang dibangun.',
-    stats: [
-      { n: 50, suffix: '+', label: 'proyek selesai' },
-      { text: '2021', label: 'berdiri, dengan akar sejak 2011' },
-      { text: 'Sendiri', label: 'workshop furnitur' },
-    ],
     walk: {
       title: 'Masuk ke salah satu proyek kami.',
       hint: 'Scroll untuk menjelajah',
@@ -133,10 +210,15 @@ export default {
       sceneAlt:
         'Penjelajahan lobi dan ruang makan hotel: dari pintu masuk di sisi jalan melewati resepsionis, melalui ruang makan ke buffet dan bar, menengadah ke void dua lantai, ke arah jendela, lalu naik untuk melihat seluruh lantai.',
     },
-    bridge: 'Membangun dengan baik baru separuh pekerjaan. Separuh lainnya adalah mengelolanya.',
   },
 
   behomy: {
+    hero: {
+      eyebrow: 'Dioperasikan oleh Behomy',
+      title: 'Selesai dibangun baru separuh cerita. Behomy memastikannya terisi.',
+      body: 'Pelopor hunian hybrid di Indonesia ini mengelola 3.000+ kamar di 100+ lokasi, memadukan tamu harian dengan penyewa bulanan agar kamar terus menghasilkan.',
+      more: 'Lihat cara kerjanya',
+    },
     eyebrow: 'Dikelola oleh Behomy',
     title: 'Tamu harian dan penyewa bulanan. Satu bangunan, terisi sepanjang tahun.',
     body: 'Behomy adalah operator hunian hybrid. Behomy menggabungkan menginap harian ala hotel dengan sewa bulanan ala kos dalam satu bangunan, sehingga kamar tetap menghasilkan di musim ramai maupun sepi.',
@@ -151,6 +233,7 @@ export default {
     stats: [
       { n: 82, suffix: '%', label: 'rata-rata okupansi', note: 1 },
       { n: 65.4, digits: 1, suffix: '%', label: 'rata-rata margin laba operasional kotor (GOP)', note: 2 },
+      { text: '< 3,5', suffix: ' thn', label: 'perkiraan balik modal proyek kemitraan ekuitas Behomy', note: 4 },
       { n: 3000, suffix: '+', label: 'kamar dalam pengelolaan' },
       { n: 100, suffix: '+', label: 'lokasi di 18 wilayah' },
     ],
@@ -179,6 +262,19 @@ export default {
     brandsLabel: 'Brand yang dikelola Behomy',
     uplift: 'Model hybrid Behomy dapat menghasilkan hingga 2,5× kos konvensional. Hasil berbeda untuk setiap properti.',
     upliftNote: 3,
+    portfolio: {
+      title: 'Properti yang dikelola Behomy saat ini',
+      team: 'Tim Behomy',
+      training: 'Pelatihan front office dan housekeeping',
+    },
+    ba: {
+      title: 'Dari menganggur jadi beroperasi',
+      sub: 'Bangunan nyata, sebelum dan sesudah ditangani Behomy dan HomyEight.',
+      before: 'Sebelum',
+      after: 'Sesudah',
+      label: 'Pasangan foto sebelum dan sesudah',
+      pair: 'Pasangan {n} dari {total}',
+    },
     bridge: 'Berikut beberapa tempat yang kami bangun dan kelola.',
   },
 
@@ -186,8 +282,6 @@ export default {
     eyebrow: 'Proyek',
     title: 'Tempat yang kami bangun dan kelola.',
     body: 'Kos, guesthouse, homestay, dan vila.',
-    filters: { all: 'Semua', kost: 'Kos', guesthouse: 'Guesthouse', homestay: 'Homestay', villa: 'Vila' },
-    filterLabel: 'Saring proyek menurut jenis',
     viewer: {
       label: 'Penampil gambar proyek',
       close: 'Tutup',
@@ -225,8 +319,23 @@ export default {
         body: 'Sudut di jalan yang ramai bisa lebih menguntungkan sebagai kedai kopi daripada hunian.',
       },
       office: { title: 'Kantor', body: 'Di dekat kawasan bisnis, kantor yang fleksibel cepat terisi.' },
+      open: 'Buka gambar {name}',
     },
-    bridge: 'Jadi, lahan Anda bisa jadi apa?',
+  },
+
+  pf: {
+    eyebrow: 'Portofolio',
+    title: 'Portofolio lengkap kami',
+    intro: 'Tiga proyek, diceritakan lewat gerak. Santai saja: scroll perlahan dan setiap proyek akan tersusun di depan Anda.',
+    begin: 'Scroll untuk mulai',
+    index: ['Ceritanya', 'Masuk ke Maxone', 'Arena padel', 'Lebih dari penginapan'],
+    indexLabel: 'Di halaman ini',
+    skipStory: 'Lewati cerita',
+    skipPadel: 'Lewati arena padel',
+    close: {
+      title: 'Suka dengan yang Anda lihat? Mari lihat lahan Anda.',
+      back: '← Kembali ke beranda',
+    },
   },
 
   calc: {
@@ -237,7 +346,6 @@ export default {
     stepsLabel: 'Langkah cek lahan',
     tabs: ['Lahan Anda', 'Ide untuk lahan Anda', 'Sudah ada bangunan? Tambah lantai'],
     tabsShort: ['Lahan Anda', 'Ide', 'Tambah lantai'],
-    doorBNote: 'Ceritakan dulu tentang lahannya, lalu tentang bangunan Anda.',
     example: 'Contoh',
     reset: 'Kembalikan ke nilai contoh',
     how: 'Cara menghitungnya',
@@ -316,7 +424,6 @@ export default {
     },
     next: {
       ideas: 'Berikutnya: lihat potensi pendapatannya',
-      building: 'Cek bangunan saya',
       ideasAlt: 'Atau bandingkan ide untuk lahan ini',
       addFloor: 'Sudah ada bangunan? Cek apakah bisa tambah lantai',
     },
@@ -483,6 +590,12 @@ export default {
       body: 'Ceritakan lahan atau bangunan Anda. Kami akan membalas dengan hal-hal yang perlu dicek lebih dulu.',
       withResults: 'Hasil cek lahan Anda akan ikut terkirim.',
     },
+    leaveNumber: 'Tinggalkan nomor Anda',
+    pf: {
+      title: 'Lihat portofolio lengkap',
+      body: 'Saksikan bangunan tersusun, jelajahi Maxone, dan lihat arena padel berdiri, bagian demi bagian.',
+      list: 'Cerita · Masuk ke Maxone · Arena padel · Lebih dari penginapan',
+    },
   },
 
   faq: {
@@ -493,8 +606,8 @@ export default {
         a: 'Bukan. Kami tidak menjual bangunan maupun lahan. HOMYVEST membantu pemilik memahami lahan atau bangunannya bisa dijadikan apa dan bisa menghasilkan berapa. Saat Anda memutuskan untuk lanjut, HomyEight yang membangun dan Behomy yang mengelola.',
       },
       {
-        q: 'Apakah saya harus sudah punya dana pembangunan?',
-        a: 'Tidak untuk memulai. Awali dengan cek lahan dan ngobrol dengan kami. Ada beberapa bentuk kerja sama, dan yang paling cocok tergantung pada properti dan rencana Anda. Kami akan menjelaskan pilihannya.',
+        q: 'Saya belum punya dana pembangunan. Tetap bisa menghubungi?',
+        a: 'Bisa. Tinggalkan nomor Anda dan pilih "Saat ini belum memiliki dana untuk pembangunan". Banyak pemilik memulai dengan menyewakan, mengelola, atau membenahi properti yang sudah ada, dan kami bisa mengecek lahan Anda bisa dijadikan apa sebelum Anda mengeluarkan biaya.',
       },
       {
         q: 'Seberapa akurat kalkulatornya?',
@@ -532,6 +645,10 @@ export default {
         q: 'Saya tidak punya lahan tetapi ingin berinvestasi. Bisa?',
         a: 'Behomy juga menawarkan kemitraan ekuitas pada proyek hunian hybrid. Chat dengan kami dan kami akan menghubungkan Anda.',
       },
+      {
+        q: 'Bagaimana data yang saya kirim digunakan?',
+        a: 'Data Anda disimpan dengan aman dan hanya digunakan oleh tim HOMYVEST, HomyEight, dan Behomy untuk menghubungi Anda terkait properti Anda. Kami tidak menjual atau membagikannya.',
+      },
     ],
   },
 
@@ -549,6 +666,7 @@ export default {
     1: 'Rata-rata okupansi seluruh properti yang dikelola Behomy, Agu 2025–Mar 2026.',
     2: 'Rata-rata margin laba operasional kotor seluruh properti yang dikelola Behomy selama 8 bulan, Agu 2025–Mar 2026.',
     3: 'Berdasarkan company profile Behomy 2026. Hasil berbeda untuk setiap properti dan lokasi.',
+    4: 'Perkiraan Behomy untuk proyek kemitraan ekuitasnya (durasi 10 tahun), dari company profile Behomy 2026. Ini perkiraan, bukan jaminan; hasil berbeda untuk setiap properti.',
   },
 
   glossary: {

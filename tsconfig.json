@@ -20,12 +20,20 @@
     "types": [
       "vite/client",
       "node"
-    ]
+    ],
+    "paths": {
+      "npm:pdf-lib@1.17.1": [
+        "./node_modules/pdf-lib"
+      ]
+    }
   },
   "include": [
     "src",
     "qa",
     "vite.config.ts",
     "playwright.config.ts"
+  ],
+  "exclude": [
+    "supabase/functions"
   ]
 }

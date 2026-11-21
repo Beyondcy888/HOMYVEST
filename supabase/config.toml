@@ -1,0 +1,6 @@
+# Minimal Supabase CLI config for HOMYVEST. The CLI fills in defaults for everything not listed.
+project_id = "homyvest"
+
+[functions.generate-report]
+# Called by the database with a shared secret header, not with a user JWT.
+verify_jwt = false
