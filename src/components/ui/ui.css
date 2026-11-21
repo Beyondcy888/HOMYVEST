@@ -45,6 +45,14 @@
   /* optical: lift the % and + toward the cap height so they read as part of the figure */
   transform: translateY(-0.62em);
 }
+.stat__suffix--word {
+  transform: none;
+  margin-left: 0;
+  font-size: 0.4em;
+  font-weight: 700;
+  letter-spacing: 0;
+  white-space: pre;
+}
 .stat__value--text {
   font-stretch: 100%;
   letter-spacing: -0.035em;

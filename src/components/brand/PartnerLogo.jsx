@@ -17,8 +17,11 @@ const LOGOS = {
   },
   behomy: {
     alt: 'Behomy',
+    // The Behomy mark is a compact pillow shape; beside HomyEight's wide wordmark at the same height it reads far
+    // smaller, so when the two are paired it is drawn 1.35× taller to look the same size (optical only).
+    paired: 1.35,
     light: { src: behomyLight, w: 230, h: 120 },
-    // the on-dark file carries a transparent margin the light one doesn't: drawn 4.5% taller so both read the same size
+    // the on-dark file carries a transparent margin the light one doesn't: 4.5% taller so both read the same size
     dark: { src: behomyDark, w: 224, h: 120, boost: 1.045 },
   },
 };
@@ -27,23 +30,26 @@ const LOGOS = {
  * brand:  'homyeight' | 'behomy'
  * height: on-screen height in px (CSS can override it with --logo-h, e.g. smaller on phones)
  * tone:   'auto' (follows the theme), 'light' (colour logo for light backgrounds) or 'dark' (on-dark variant)
+ * paired: shown beside the other partner's logo (balances their optical size)
  */
-export default function PartnerLogo({ brand, height = 20, tone = 'auto', className = '', alt }) {
+export default function PartnerLogo({ brand, height = 20, tone = 'auto', paired = false, className = '', alt }) {
   const theme = useTheme();
   const variant = tone === 'auto' ? (theme === 'dark' ? 'dark' : 'light') : tone;
   const logo = LOGOS[brand];
   const v = logo[variant];
+  const k = (v.boost ?? 1) * (paired ? (logo.paired ?? 1) : 1);
+  const h = height * k;
   return (
     <img
       className={`plogo ${className}`}
       src={v.src}
       alt={alt ?? logo.alt}
-      width={Math.round((height * v.w) / v.h)}
-      height={height}
+      width={Math.round((h * v.w) / v.h)}
+      height={Math.round(h)}
       decoding="async"
       data-brand={brand}
       data-variant={variant}
-      style={{ '--logo-h0': `${height}px`, '--logo-boost': v.boost ?? 1 }}
+      style={{ '--logo-h0': `${height}px`, '--logo-boost': k }}
     />
   );
 }

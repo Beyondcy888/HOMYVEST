@@ -63,7 +63,10 @@ export default function Stat({ stat, className = '', size = 'stat', start }) {
       <p className={`stat__value t-${size} ${isNumber ? '' : 'stat__value--text'}`}>
         {/* the full value is in the DOM from the first paint; the roll only replaces its text */}
         <span ref={numRef}>{final}</span>
-        {stat.suffix ? <span className="stat__suffix">{stat.suffix}</span> : null}
+        {stat.suffix ? (
+          // a word ("yrs") sits on the baseline; % and + are lifted toward the cap height
+          <span className={/[a-z]/i.test(stat.suffix) ? 'stat__suffix stat__suffix--word' : 'stat__suffix'}>{stat.suffix}</span>
+        ) : null}
       </p>
       <p className="stat__label">
         {stat.label}

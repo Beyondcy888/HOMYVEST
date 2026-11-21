@@ -2,11 +2,22 @@ import { useT } from '../../i18n/useT.js';
 import { useDraw } from '../../lib/scroll/useDraw.js';
 import Heading from '../../components/ui/Heading.jsx';
 import DepthImage from '../../components/media/DepthImage.jsx';
-import { WhatsAppButton, useWhatsApp } from '../../components/ui/Button.jsx';
+import { Button, WhatsAppButton, useWhatsApp } from '../../components/ui/Button.jsx';
+import { scrollToTarget } from '../../lib/scroll/lenis.js';
+import PortfolioCard from './PortfolioCard.jsx';
 import '../sections.css';
 import './Next.css';
 
-/** What happens next: six steps on a line that draws itself, then the closing invitation. */
+/** Back to the hero's number field, focused (it may be showing the confirmation instead, after a send). */
+export function leaveNumber(e) {
+  e?.preventDefault();
+  scrollToTarget('#top', { offset: 0, focus: '#hero-phone' });
+}
+
+/**
+ * What happens next: six steps on a line that draws itself, then "Ready when you are" with three ways on:
+ * the full portfolio (the big card), WhatsApp, or leaving a number in the hero.
+ */
 export default function Next() {
   const { t } = useT();
   const steps = t('next.steps');
@@ -47,13 +58,22 @@ export default function Next() {
           <h3 className="t-display closing__title">{t('next.close.title')}</h3>
           <div className="closing__side">
             <p className="t-lead closing__body">{t('next.close.body')}</p>
+            {hasResults ? <p className="t-small closing__note">{t('next.close.withResults')}</p> : null}
+          </div>
+          <div className="closing__card">
+            <PortfolioCard />
+          </div>
+          <div className="closing__actions">
             <WhatsAppButton label={t('wa.next')} variant="on-photo" className="closing__cta" />
+            <Button as="a" href="#top" variant="ghost-on-photo" className="closing__leave" onClick={leaveNumber}>
+              {t('next.leaveNumber')}
+            </Button>
             <p className="closing__phone nums">
               <a href={href} target="_blank" rel="noopener" data-wa className="link link--underlined">
                 +62 821-1010-6088
+                <span className="sr-only"> ({t('wa.newTab')})</span>
               </a>
             </p>
-            {hasResults ? <p className="t-small closing__note">{t('next.close.withResults')}</p> : null}
           </div>
         </div>
       </div>

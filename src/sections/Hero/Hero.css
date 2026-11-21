@@ -1,0 +1,185 @@
+/* #top: two columns at full height below the header. The photo bleeds to the right edge, square corners. */
+.hero {
+  padding-top: var(--header-h);
+}
+.hero__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  min-height: calc(100svh - var(--header-h));
+}
+.hero__content {
+  display: flex;
+  align-items: center;
+  /* line the text up with the page's content column (.wrap) */
+  padding: clamp(32px, 6vh, 72px) clamp(28px, 3.6vw, 56px) clamp(32px, 6vh, 64px)
+    max(var(--gutter), calc((100vw - var(--max)) / 2));
+}
+.hero__inner {
+  display: grid;
+  gap: clamp(18px, 2.6vh, 28px);
+  width: 100%;
+  max-width: 36rem;
+}
+
+/* Partners: small, the logos at 22 px */
+.hero__partners {
+  --logo-h: 22px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  font-size: var(--t-small);
+  color: var(--ink-2);
+}
+.hero__sep {
+  width: 1px;
+  height: 20px;
+  background: var(--line);
+}
+
+/* The promise: line 1 large and heavy; line 2 smaller and quieter, naming who builds and who runs it */
+.hero__title {
+  display: grid;
+  gap: clamp(10px, 1.6vh, 18px);
+}
+.hero__t1 {
+  display: block;
+  /* the display size, fitted to a five-column measure */
+  font-size: clamp(2.4rem, 4.9vw, 6rem);
+  font-weight: 800;
+  font-stretch: 104%;
+  letter-spacing: -0.035em;
+  line-height: 0.95;
+  text-wrap: balance;
+}
+.hero__t2 {
+  display: block;
+  font-size: var(--t-h2);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  color: var(--ink-2);
+  text-wrap: balance;
+}
+.hero__body {
+  font-size: var(--t-lead);
+  line-height: 1.4;
+  color: var(--ink-2);
+  max-width: 30em;
+}
+
+.hero__consult {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-size: var(--t-small);
+  color: var(--ink-2);
+}
+.hero__wa {
+  min-height: 44px;
+  font-size: 1rem;
+  color: var(--ink);
+}
+.hero__wa svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* The photo */
+.hero__photo {
+  position: relative;
+  margin: 0;
+  min-height: 100%;
+  overflow: hidden;
+  background: #22221f;
+}
+.hero__img {
+  position: absolute;
+  inset: 0;
+}
+.hero__img img {
+  object-position: 50% 50%;
+}
+.hero__chip {
+  position: absolute;
+  left: clamp(16px, 2vw, 28px);
+  bottom: clamp(16px, 2vw, 28px);
+  max-width: min(26rem, calc(100% - 32px));
+  padding: 10px 14px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: var(--t-small);
+  font-weight: 600;
+  line-height: 1.35;
+}
+.hero__chip .fn a {
+  padding: 4px 3px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Tablets: still two columns, a little tighter */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .hero__grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
+  }
+  .hero__t1 {
+    font-size: clamp(2.4rem, 6vw, 3.6rem);
+  }
+}
+
+/* Phones: the photo on top (38svh, centred on the lit building), then the content */
+@media (max-width: 767px) {
+  .hero__grid {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+  }
+  .hero__photo {
+    order: -1;
+    height: 38svh;
+    min-height: 220px;
+  }
+  .hero__img img {
+    object-position: 42% 50%;
+  }
+  .hero__chip {
+    left: 12px;
+    bottom: 12px;
+    padding: 8px 10px;
+    font-size: 0.8125rem;
+  }
+  .hero__content {
+    padding: 24px 20px 40px;
+  }
+  .hero__inner {
+    gap: 18px;
+  }
+  .hero__partners {
+    --logo-h: 18px;
+  }
+  .hero__t1 {
+    font-size: clamp(2.4rem, 11vw, 3.4rem);
+  }
+}
+
+/* Landscape phones: two columns at a reduced scale, the photo on the right at 45% */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero__grid {
+    grid-template-columns: minmax(0, 55fr) minmax(0, 45fr);
+    min-height: 0;
+  }
+  .hero__photo {
+    order: 0;
+    height: auto;
+    min-height: 100%;
+  }
+  .hero__t1 {
+    font-size: clamp(1.8rem, 4.6vw, 2.6rem);
+  }
+  .hero__t2 {
+    font-size: 1.25rem;
+  }
+}

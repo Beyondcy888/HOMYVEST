@@ -108,6 +108,17 @@
   max-width: 24ch;
   text-wrap: balance;
 }
+.closing__card {
+  grid-column: 1 / -1;
+  margin-top: clamp(8px, 3vh, 32px);
+}
+.closing__actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px clamp(16px, 2vw, 28px);
+}
 .closing__phone {
   font-size: var(--t-h3);
   font-weight: 600;
@@ -149,5 +160,141 @@
   .closing__title,
   .closing__side {
     grid-column: 1 / -1;
+  }
+}
+@media (max-width: 767px) {
+  .closing__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .closing__actions .btn {
+    width: 100%;
+  }
+  .closing__phone {
+    align-self: flex-start;
+  }
+}
+
+/* ---------- The portfolio card ---------- */
+.pfcard {
+  --fan-w: 132px;
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: clamp(16px, 3vw, 48px);
+  min-height: 200px;
+  padding: clamp(20px, 3vw, 40px) clamp(20px, 3vw, 44px);
+  background: var(--paper-2);
+  color: var(--ink);
+  transition:
+    background-color 0.35s var(--ease-out),
+    color 0.35s var(--ease-out);
+}
+.pfcard__text {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+.pfcard__title {
+  font-size: var(--t-h1);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  text-wrap: balance;
+}
+.pfcard__body {
+  color: var(--ink-2);
+  max-width: 52ch;
+  transition: color 0.35s var(--ease-out);
+}
+.pfcard__fan {
+  --overlap: calc(var(--fan-w) * -0.3);
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-inline: 24px;
+}
+.pfcard__thumb {
+  display: block;
+  flex: none;
+  width: var(--fan-w);
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: var(--paper);
+  box-shadow: 0 0 0 1px var(--line);
+  will-change: transform;
+}
+.pfcard__thumb + .pfcard__thumb {
+  margin-left: var(--overlap);
+}
+.pfcard__thumb:nth-child(2) {
+  z-index: 1;
+}
+.pfcard__thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.pfcard__arrow {
+  display: inline-grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  transition: transform 0.5s var(--ease-out);
+}
+.pfcard__arrow svg {
+  width: 22px;
+  height: 22px;
+}
+.pfcard:hover,
+.pfcard:focus-visible {
+  background: var(--ink);
+  color: var(--paper);
+}
+.pfcard:hover .pfcard__body,
+.pfcard:focus-visible .pfcard__body {
+  color: var(--paper);
+}
+.pfcard:hover .pfcard__arrow,
+.pfcard:focus-visible .pfcard__arrow {
+  transform: translateX(8px);
+}
+.pfcard:focus-visible {
+  outline: 2px solid var(--on-photo);
+  outline-offset: 4px;
+}
+/* touch: a press darkens the card */
+.pfcard:active {
+  background: var(--ink);
+  color: var(--paper);
+}
+.pfcard__list {
+  margin-top: 12px;
+  color: rgb(250 250 247 / 0.82);
+}
+
+@media (max-width: 767px) {
+  .pfcard {
+    --fan-w: 64px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    min-height: 150px;
+    padding: 18px 16px;
+    gap: 12px;
+  }
+  .pfcard__title {
+    font-size: clamp(1.6rem, 7vw, 2.2rem);
+  }
+  .pfcard__body {
+    font-size: 0.875rem;
+  }
+  .pfcard__fan {
+    margin-inline: 10px 6px;
+  }
+  .pfcard__arrow {
+    display: none;
   }
 }

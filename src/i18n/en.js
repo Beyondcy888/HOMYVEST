@@ -225,7 +225,6 @@ export default {
       body: "Indonesia's hybrid stay pioneer runs 3,000+ rooms across 100+ locations, mixing nightly guests with monthly tenants so rooms keep earning.",
       more: 'See how it works',
     },
-    eyebrow: 'Run by Behomy',
     title: 'Daily guests and monthly tenants. One building, full all year.',
     body: 'Behomy is a hybrid stay operator. It mixes hotel-style daily stays with monthly kost living under one roof, so rooms keep earning in busy months and quiet ones.',
     hybrid: {
@@ -416,7 +415,6 @@ export default {
     },
     next: {
       ideas: 'Next: see what this space could earn',
-      ideasAlt: 'Or compare ideas for this land',
       addFloor: 'Already built? See if a floor fits',
     },
     view: { reset: 'Reset view', hint: 'Drag to rotate, scroll or pinch to zoom' },

@@ -7,7 +7,6 @@ import type { Land, Ideas, Check, IdeaKey } from './calc.ts';
 export const STORAGE_KEY = 'homyvest:calc:v1';
 
 export type Step = 1 | 2 | 3;
-export type Entry = 'land' | 'building';
 export type Ui = { step: Step; selectedIdea: IdeaKey | null; usedStep3: boolean };
 
 export const DEFAULTS: { land: Land; ideas: Ideas; check: Check; ui: Ui } = {
@@ -39,8 +38,6 @@ export type CalcState = {
   ui: Ui;
   /** Example prices the visitor has replaced (keys like "kos.rent"). Drives the "Example" tag. */
   edited: Record<string, true>;
-  /** Not persisted. How the visitor arrived (door A or door B). */
-  entry: Entry;
   /** Not persisted. True once the visitor has actually used the calculator. */
   touched: boolean;
   /** Not persisted. Which rule the visitor is editing, so the 3D can highlight what it controls. */
@@ -53,7 +50,6 @@ export type CalcState = {
   setStep: (step: Step, opts?: { silent?: boolean }) => void;
   selectIdea: (key: IdeaKey | null, opts?: { silent?: boolean }) => void;
   applyPreset: (id: PresetId) => void;
-  setEntry: (entry: Entry) => void;
   setFocusRule: (rule: CalcState['focusRule']) => void;
   reset: () => void;
 };
@@ -102,7 +98,6 @@ export const useCalc = create<CalcState>()(
     (set) => ({
       ...clone(DEFAULTS),
       edited: {},
-      entry: 'land',
       touched: false,
       focusRule: null,
 
@@ -118,9 +113,8 @@ export const useCalc = create<CalcState>()(
       setStep: (step, opts) => set((s) => ({ ui: { ...s.ui, step }, touched: opts?.silent ? s.touched : true })),
       selectIdea: (key, opts) => set((s) => ({ ui: { ...s.ui, selectedIdea: key }, touched: opts?.silent ? s.touched : true })),
       applyPreset: (id) => set((s) => ({ land: { ...s.land, ...PRESETS[id] }, touched: true })),
-      setEntry: (entry) => set({ entry }),
       setFocusRule: (focusRule) => set({ focusRule }),
-      reset: () => set({ ...clone(DEFAULTS), edited: {}, touched: false, entry: 'land' }),
+      reset: () => set({ ...clone(DEFAULTS), edited: {}, touched: false }),
     }),
     {
       name: STORAGE_KEY,

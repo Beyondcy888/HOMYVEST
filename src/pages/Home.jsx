@@ -16,6 +16,7 @@ import Projects from '../sections/Projects/Projects.jsx';
 import Calculator from '../sections/Calculator/Calculator.jsx';
 import Next from '../sections/Next/Next.jsx';
 import Faq from '../sections/Faq/Faq.jsx';
+import FunnelHost from '../components/funnel/FunnelHost.jsx';
 
 /** Lands a deep link once everything is mounted and measured: /#calculator scrolls there, /?focus=phone focuses the number field. */
 function landDeepLink() {
@@ -70,6 +71,8 @@ export default function Home() {
   return (
     <>
       <Hero />
+      {/* the lead funnel panel (its code loads when the phone field is first used) */}
+      <FunnelHost />
       {below ? (
         <>
           <About />

@@ -1,0 +1,630 @@
+/* The lead funnel: the hero's phone card and the panel. Black and white, hairlines, large calm targets. */
+
+/* ---------- Phone card (hero) ---------- */
+.phone {
+  display: grid;
+  gap: 10px;
+  max-width: 34rem;
+}
+.phone__label {
+  font-weight: 600;
+  font-size: var(--t-body);
+}
+.phone__row {
+  display: flex;
+  gap: 10px;
+}
+.phone__field {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: stretch;
+  height: 60px;
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  transition: box-shadow var(--dur-1) linear;
+}
+.phone__field:focus-within {
+  box-shadow: 0 0 0 1px var(--ink);
+}
+.phone__field[data-invalid] {
+  box-shadow: 0 0 0 1px var(--ink);
+  background-image: repeating-linear-gradient(135deg, transparent 0 6px, rgb(127 127 127 / 0.06) 6px 7px);
+}
+.phone__prefix {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 14px 0 18px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  border-right: 1px solid var(--line);
+  user-select: none;
+}
+.phone__input {
+  flex: 1;
+  min-width: 0;
+  padding: 0 16px;
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  background: transparent;
+  color: var(--ink);
+  border: 0;
+  outline: 0;
+}
+.phone__input::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+.phone__go {
+  min-height: 60px;
+  padding-inline: 28px;
+}
+.phone__go[data-busy] .phone__go-label {
+  opacity: 0.55;
+}
+.phone__spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: phone-spin 0.6s linear infinite;
+}
+@keyframes phone-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.phone__error {
+  font-size: var(--t-small);
+  font-weight: 600;
+  min-height: 0;
+}
+.phone__error:empty {
+  display: none;
+}
+.phone__error:not(:empty)::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 8px;
+  vertical-align: -1px;
+  background: repeating-linear-gradient(135deg, var(--ink) 0 2px, transparent 2px 4px);
+}
+.phone__privacy {
+  font-size: var(--t-small);
+  color: var(--muted);
+}
+.phone--done {
+  padding: 18px 20px;
+  border: 1px solid var(--ink);
+  font-weight: 600;
+  outline: none;
+}
+
+/* ---------- Panel ---------- */
+.funnel {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-menu) + 2);
+  pointer-events: none;
+  visibility: hidden;
+  transition: visibility 0s linear 0.45s;
+}
+.funnel[data-open='true'] {
+  pointer-events: auto;
+  visibility: visible;
+  transition: none;
+}
+.funnel__dim {
+  position: absolute;
+  inset: 0;
+  background: rgba(11, 11, 10, 0.45);
+  opacity: 0;
+  transition: opacity 0.35s linear;
+}
+.funnel[data-open='true'] .funnel__dim {
+  opacity: 1;
+}
+.funnel__sheet {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(520px, 100vw);
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  color: var(--ink);
+  border-left: 1px solid var(--line);
+  transform: translateX(100%);
+  transition: transform 0.45s var(--ease-out);
+  outline: none;
+}
+.funnel[data-open='true'] .funnel__sheet {
+  transform: none;
+}
+
+.funnel__head {
+  flex: none;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px 12px;
+  padding: 14px 16px 16px 24px;
+  border-bottom: 1px solid var(--line);
+}
+.funnel__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.funnel__mark {
+  font-size: 1rem;
+  /* static here: the expanding animation lives on the header wordmark */
+  pointer-events: none;
+}
+.funnel__powered {
+  padding-left: 10px;
+  border-left: 1px solid var(--line);
+  font-size: var(--t-small);
+  color: var(--muted);
+  white-space: nowrap;
+}
+.funnel__logo {
+  --logo-h: 17px;
+}
+.funnel__close {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+}
+.funnel__close svg {
+  width: 22px;
+  height: 22px;
+}
+.funnel__progress {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.funnel__segs {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+.funnel__seg {
+  height: 2px;
+  background: var(--line);
+  transition: background-color 0.35s linear;
+}
+.funnel__seg[data-on] {
+  background: var(--ink);
+}
+.funnel__count {
+  font-size: var(--t-small);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.funnel__body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.funnel__form {
+  padding: 24px 24px 32px;
+}
+.funnel__content {
+  will-change: transform, opacity;
+}
+
+.funnel__foot {
+  flex: none;
+  display: grid;
+  gap: 6px;
+  padding: 14px 24px calc(12px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--line);
+  background: var(--paper);
+}
+.funnel__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+}
+.funnel__primary {
+  flex: 1;
+}
+.funnel__primary:disabled {
+  --btn-bg: var(--line);
+  --btn-fg: var(--muted);
+  border-color: var(--line);
+  cursor: not-allowed;
+}
+.funnel__back {
+  min-height: 52px;
+  padding-inline: 8px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+.funnel__chat {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  font-size: var(--t-small);
+  font-weight: 600;
+}
+.funnel__chat svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ---------- Steps ---------- */
+.fstep {
+  display: grid;
+  gap: 16px;
+}
+.frecap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 6px;
+  font-size: var(--t-small);
+  color: var(--ink-2);
+}
+.frecap__change {
+  min-height: 44px;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.fstep__title {
+  font-size: clamp(1.45rem, 2.2vw, 1.75rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  text-wrap: balance;
+  outline: none;
+}
+.fstep__help {
+  color: var(--muted);
+  margin-top: -6px;
+}
+.fstep__intro {
+  color: var(--ink-2);
+  line-height: 1.55;
+}
+.fstep__fields {
+  display: grid;
+  gap: 28px;
+  margin-top: 8px;
+}
+
+/* ---------- Fields ---------- */
+.ffield {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.ffield__label {
+  padding: 0;
+  font-weight: 650;
+  font-size: 1.0625rem;
+  letter-spacing: -0.01em;
+}
+.ffield__help {
+  margin-top: -4px;
+  font-size: var(--t-small);
+  color: var(--muted);
+}
+.ffield__error {
+  font-size: var(--t-small);
+  font-weight: 650;
+}
+.ffield__error::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 8px;
+  vertical-align: -1px;
+  background: repeating-linear-gradient(135deg, var(--ink) 0 2px, transparent 2px 4px);
+}
+.ftext {
+  width: 100%;
+  height: 52px;
+  padding: 0 14px;
+  border: 1px solid var(--ink-2);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 1rem;
+}
+.ftext:focus {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}
+.ftext[aria-invalid='true'] {
+  border-color: var(--ink);
+  box-shadow: 0 0 0 1px var(--ink);
+}
+.ffield__other {
+  display: grid;
+  gap: 8px;
+}
+
+/* Chips: real checkboxes underneath; a chosen chip is solid ink with a small check */
+.fchips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.fchip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.2;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-1) linear,
+    color var(--dur-1) linear,
+    border-color var(--dur-1) linear;
+}
+@media (hover: hover) {
+  .fchip:hover {
+    border-color: var(--ink);
+  }
+}
+.fchip__input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.fchip:focus-within {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+.fchip__check {
+  display: none;
+  width: 14px;
+  height: 14px;
+}
+.fchip__check svg {
+  width: 100%;
+  height: 100%;
+}
+.fchip[data-on] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+.fchip[data-on] .fchip__check {
+  display: inline-block;
+}
+.ffield[data-invalid] .fchip:not([data-on]) {
+  border-color: var(--ink-2);
+}
+
+/* Radio cards: large rows with a custom circle */
+.rcards {
+  display: grid;
+  gap: 8px;
+}
+.rcard {
+  position: relative;
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  min-height: 60px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  cursor: pointer;
+  font-weight: 550;
+  line-height: 1.3;
+  transition: border-color var(--dur-1) linear;
+}
+@media (hover: hover) {
+  .rcard:hover {
+    border-color: var(--ink);
+  }
+}
+.rcard__input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.rcard:focus-within {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+.rcard__dot {
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+}
+.rcard__dot::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--ink);
+  transform: scale(0);
+  transition: transform 0.2s var(--ease-out);
+}
+.rcard[data-on] {
+  border-color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--ink);
+}
+.rcard[data-on] .rcard__dot::after {
+  transform: scale(1);
+}
+
+/* the honeypot: off-screen and invisible (browsers never autofill an invisible field) */
+.fhoney {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  visibility: hidden;
+}
+.fconsent {
+  font-size: var(--t-small);
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ---------- Results ---------- */
+.fresult {
+  padding-top: 12px;
+  gap: 18px;
+}
+.fresult__check {
+  width: 64px;
+  height: 64px;
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .fresult__check circle {
+    stroke-dasharray: 190;
+    stroke-dashoffset: 190;
+    animation: funnel-draw 0.7s var(--ease-out) 0.1s forwards;
+  }
+  .fresult__check path {
+    stroke-dasharray: 44;
+    stroke-dashoffset: 44;
+    animation: funnel-draw 0.45s var(--ease-out) 0.6s forwards;
+  }
+}
+@keyframes funnel-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.fresult__actions {
+  display: grid;
+  gap: 10px;
+  margin-top: 8px;
+}
+.fresult__actions .btn {
+  gap: 10px;
+  white-space: normal;
+  text-align: center;
+  padding-block: 12px;
+}
+.fresult__pf {
+  justify-self: start;
+  min-height: 44px;
+}
+
+/* ---------- Phones: a full-screen sheet from below; it follows the visual viewport above the keyboard ---------- */
+@media (max-width: 767px) {
+  .phone__row {
+    flex-direction: column;
+  }
+  .phone__field,
+  .phone__go {
+    height: 56px;
+    min-height: 56px;
+  }
+  .phone__go {
+    width: 100%;
+  }
+  .funnel__sheet {
+    top: var(--vvt, 0px);
+    bottom: auto;
+    left: 0;
+    width: 100%;
+    height: var(--vvh, 100dvh);
+    border-left: 0;
+    transform: translateY(100%);
+  }
+  .funnel__head {
+    padding: 10px 8px 12px 20px;
+  }
+  .funnel__form {
+    padding: 20px 20px 28px;
+  }
+  .funnel__foot {
+    padding: 10px 20px calc(8px + env(safe-area-inset-bottom));
+  }
+  .fchips {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .fchip {
+    justify-content: space-between;
+  }
+}
+
+/* Landscape phones: a right sheet at 70% width */
+@media (max-height: 500px) and (orientation: landscape) {
+  .funnel__sheet {
+    top: var(--vvt, 0px);
+    left: auto;
+    bottom: auto;
+    width: 70%;
+    height: var(--vvh, 100dvh);
+    border-left: 1px solid var(--line);
+    transform: translateX(100%);
+  }
+  .funnel__head {
+    padding-block: 8px 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .funnel__sheet,
+  .funnel[data-open='true'] .funnel__sheet {
+    transform: none;
+    opacity: 0;
+    transition: opacity 0.2s linear;
+  }
+  .funnel[data-open='true'] .funnel__sheet {
+    opacity: 1;
+  }
+  .funnel {
+    transition-delay: 0.2s;
+  }
+}

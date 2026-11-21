@@ -12,7 +12,6 @@ export default function Step1({ results, goStep }) {
   const land = useCalc((s) => s.land);
   const setLand = useCalc((s) => s.setLand);
   const applyPreset = useCalc((s) => s.applyPreset);
-  const entry = useCalc((s) => s.entry);
   const { r, klbLow } = results;
   const f = (key) => t(`calc.f.${key}`);
   const activePreset = Object.keys(PRESETS).find(
@@ -21,8 +20,6 @@ export default function Step1({ results, goStep }) {
 
   return (
     <>
-      {entry === 'building' ? <Notice tone="info">{t('calc.doorBNote')}</Notice> : null}
-
       <div className="fields fields--2">
         <Field id="calc-P" label={f('P').label} unit={f('P').unit} help={f('P').help} value={land.P} onChange={(v) => setLand({ P: v })} />
         <Field id="calc-L" label={f('L').label} unit={f('L').unit} help={f('L').help} value={land.L} onChange={(v) => setLand({ L: v })} />
@@ -84,27 +81,14 @@ export default function Step1({ results, goStep }) {
           </dl>
 
           <div className="calc-next">
-            {entry === 'building' ? (
-              <>
-                <Button as="button" onClick={() => goStep(3)} data-next="building" icon={null}>
-                  {t('calc.next.building')}
-                </Button>
-                <button type="button" className="link" onClick={() => goStep(2)}>
-                  {t('calc.next.ideasAlt')}
-                  <ArrowRight />
-                </button>
-              </>
-            ) : (
-              <>
-                <Button as="button" onClick={() => goStep(2)} data-next="ideas">
-                  {t('calc.next.ideas')}
-                </Button>
-                <button type="button" className="link" onClick={() => goStep(3)}>
-                  {t('calc.next.addFloor')}
-                  <ArrowRight />
-                </button>
-              </>
-            )}
+            {/* One way in since the doors were removed (U01_01 §2.6): ideas first, adding a floor as the option. */}
+            <Button as="button" onClick={() => goStep(2)} data-next="ideas">
+              {t('calc.next.ideas')}
+            </Button>
+            <button type="button" className="link" onClick={() => goStep(3)}>
+              {t('calc.next.addFloor')}
+              <ArrowRight />
+            </button>
           </div>
         </>
       ) : (

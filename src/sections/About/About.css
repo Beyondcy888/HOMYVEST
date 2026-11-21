@@ -7,11 +7,13 @@
   align-items: start;
 }
 .about__title {
-  grid-column: 1 / span 4;
-  max-width: 10ch;
+  grid-column: 1 / span 5;
+  /* HOMYVEST is one long word: the heading is sized so it always fits its column */
+  font-size: clamp(2.25rem, 4.4vw, 4.75rem);
+  max-width: 11ch;
 }
 .about__text {
-  grid-column: 6 / span 6;
+  grid-column: 7 / span 6;
   display: grid;
   gap: clamp(20px, 3vh, 32px);
 }

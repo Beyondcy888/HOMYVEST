@@ -219,7 +219,6 @@ export default {
       body: 'Pelopor hunian hybrid di Indonesia ini mengelola 3.000+ kamar di 100+ lokasi, memadukan tamu harian dengan penyewa bulanan agar kamar terus menghasilkan.',
       more: 'Lihat cara kerjanya',
     },
-    eyebrow: 'Dikelola oleh Behomy',
     title: 'Tamu harian dan penyewa bulanan. Satu bangunan, terisi sepanjang tahun.',
     body: 'Behomy adalah operator hunian hybrid. Behomy menggabungkan menginap harian ala hotel dengan sewa bulanan ala kos dalam satu bangunan, sehingga kamar tetap menghasilkan di musim ramai maupun sepi.',
     hybrid: {
@@ -424,7 +423,6 @@ export default {
     },
     next: {
       ideas: 'Berikutnya: lihat potensi pendapatannya',
-      ideasAlt: 'Atau bandingkan ide untuk lahan ini',
       addFloor: 'Sudah ada bangunan? Cek apakah bisa tambah lantai',
     },
     view: { reset: 'Atur ulang tampilan', hint: 'Geser untuk memutar, scroll atau cubit untuk zoom' },

@@ -18,37 +18,6 @@
   border-bottom: 1px solid var(--ink);
 }
 
-/* ---------- Typographic filter tabs ---------- */
-.filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0 clamp(18px, 2.4vw, 36px);
-}
-.filters__tab {
-  position: relative;
-  min-height: 44px;
-  font-weight: 600;
-  color: var(--muted);
-  transition: color var(--dur-1) linear;
-}
-.filters__tab::after {
-  content: '';
-  position: absolute;
-  inset: auto 0 6px 0;
-  height: 1px;
-  background: currentColor;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--dur-2) var(--ease-out);
-}
-.filters__tab:hover,
-.filters__tab[aria-selected='true'] {
-  color: var(--ink);
-}
-.filters__tab[aria-selected='true']::after {
-  transform: scaleX(1);
-}
-
 /* ---------- Asymmetric gallery ----------
    A 12-column grid composed row by row in src/content/projects.js: each image has a size (its span),
    a start column and a drop, so rows alternate left and right and no two line up like a uniform grid. */
@@ -79,19 +48,18 @@
 }
 .pj--s {
   --span: 3;
-  /* low-res sources never render wider than 420 CSS px */
-  max-width: 420px;
+  max-width: 405px; /* the smallest low-res source is 810 px wide: never more than half of it */
 }
-/* A filtered view is a calmer, regular arrangement: fewer images, so no orphaned gaps. */
-.pj-grid[data-filtered='true'] .pj {
-  grid-column: span 6;
-  margin-top: 0;
-}
-.pj-grid[data-filtered='true'] .pj--s {
-  grid-column: span 3;
-}
-.pj-grid[data-filtered='true'] .pj:nth-child(4n + 2) {
-  margin-top: clamp(24px, 6vh, 72px);
+/* Each image reveals as it scrolls in: a clip opening from the bottom, with the 1.06 → 1.0 scale
+   (the scale comes from .depth--enter). */
+@media (prefers-reduced-motion: no-preference) {
+  .pj .depth--enter {
+    clip-path: inset(100% 0 0 0);
+    transition: clip-path 1.2s var(--ease-out);
+  }
+  .pj .depth--enter.is-in {
+    clip-path: inset(0 0 0 0);
+  }
 }
 
 .pj__open {
@@ -118,23 +86,20 @@
     align-items: flex-start;
     flex-direction: column;
   }
+  /* one column: landscape images full width */
   .pj-grid {
+    grid-template-columns: minmax(0, 1fr);
     row-gap: 44px;
   }
-  .pj-grid .pj,
-  .pj-grid[data-filtered='true'] .pj {
-    grid-column: 1 / -1;
+  .pj-grid .pj {
+    grid-column: 1;
     margin-top: 0;
   }
-  /* small (low-res) images sit to one side at a modest width */
-  .pj-grid .pj--s,
-  .pj-grid[data-filtered='true'] .pj--s {
-    grid-column: 1 / span 8;
-  }
-  .pj-grid .pj--s:nth-of-type(even) {
-    grid-column: 5 / -1;
-  }
-  .pj-grid .pj--m {
-    grid-column: 3 / -1;
+  /* small (low-res) images keep a modest width, never stretched, with the caption beside them */
+  .pj-grid .pj--s {
+    max-width: none;
+    grid-template-columns: minmax(0, min(62%, 405px)) minmax(0, 1fr);
+    align-items: end;
+    column-gap: 14px;
   }
 }
