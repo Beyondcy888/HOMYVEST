@@ -1,8 +1,9 @@
 import { test, expect } from '@playwright/test';
 import { open, scrollToSel } from './helpers.ts';
 
-const EN_B1 = 'Your land is waiting.';
-const ID_B1 = 'Lahan Anda sedang menunggu.';
+// The hero's <h1> (U01_06 §1)
+const EN_B1 = 'Turn idle land into steady income. Built by HomyEight, operated by Behomy.';
+const ID_B1 = 'Ubah lahan menganggur jadi penghasilan rutin. Dibangun oleh HomyEight, dioperasikan oleh Behomy.';
 
 test('the language toggle switches copy, <html lang> and number formats', async ({ page }, info) => {
   await open(page);
@@ -17,7 +18,8 @@ test('the language toggle switches copy, <html lang> and number formats', async 
 
   if (info.project.name === 'desktop') {
     await expect(page.locator('.header__nav')).toContainText('Cara kerja');
-    await expect(page.locator('.header__nav')).toContainText('Kalkulator');
+    await expect(page.locator('.header__nav')).toContainText('Cek lahan');
+    await expect(page.locator('.header__nav')).toContainText('Portofolio');
   }
   await scrollToSel(page, '.calc__tabs');
   await expect(page.locator('.calc__result')).toContainText('1.200 m²');

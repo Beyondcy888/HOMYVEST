@@ -2,6 +2,15 @@
   command = "npm run build"
   publish = "dist"
 
+# The portfolio page lives at /portofolio/ (with the slash). Netlify's Pretty URLs already send
+# /portofolio to /portofolio/ (a rule for it would loop: Netlify matches rules with or without the
+# trailing slash). The English spelling, with or without the slash, redirects there (301).
+[[redirects]]
+  from = "/portfolio"
+  to = "/portofolio/"
+  status = 301
+  force = true
+
 [[headers]]
   for = "/media/*"
   [headers.values]
@@ -24,5 +33,15 @@
 
 [[headers]]
   for = "/"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/portofolio/"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/portofolio/index.html"
   [headers.values]
     Cache-Control = "no-cache"

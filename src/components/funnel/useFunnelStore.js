@@ -3,6 +3,7 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { FUNDING, NEEDS, OWNED, BUILD, CITIES } from '../../lib/leads/leads.ts';
+import { registry } from '../../lib/scroll/triggers.js';
 
 export const FUNNEL_KEY = 'homyvest:funnel:v1';
 
@@ -100,7 +101,7 @@ function restore(raw) {
 
 export const useFunnel = create()(
   persist(
-    (set, get) => ({
+    (set) => ({
       ...initial,
 
       /** The hero step passed: remember the number and open the panel at step 2 (or where the visitor left off). */
@@ -163,3 +164,6 @@ export const useFunnel = create()(
     },
   ),
 );
+
+// QA hook: window.__homyvest.funnel is this store (used by the Playwright specs).
+registry.funnel = useFunnel;

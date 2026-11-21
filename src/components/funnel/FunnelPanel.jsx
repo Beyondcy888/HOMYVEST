@@ -125,7 +125,18 @@ export default function FunnelPanel() {
       const from = prefersReducedMotion() ? { opacity: 0 } : { opacity: 0, x: 44 * (dir || 1) };
       gsap.fromTo(el, from, { opacity: 1, x: 0, duration: 0.35, ease: 'expo.out', overwrite: true, clearProps: 'transform' });
     }
-    titleRef.current?.focus({ preventScroll: true });
+    // With reduced motion every element carries a tiny transition (base.css), so in this very frame the panel's
+    // contents may still count as hidden and refuse the focus: try again on the next frames until it takes.
+    let raf = 0;
+    let tries = 0;
+    const focusTitle = () => {
+      const title = titleRef.current;
+      if (!title) return;
+      title.focus({ preventScroll: true });
+      if (document.activeElement !== title && (tries += 1) < 6) raf = requestAnimationFrame(focusTitle);
+    };
+    focusTitle();
+    return () => cancelAnimationFrame(raf);
     // only when the step (or visibility) changes: picking an option must not move the focus
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step, shown]);

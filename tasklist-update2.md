@@ -12,26 +12,26 @@ Instructions: `updates/U01/U01_00_START.md` (delivered in `update2/`). Detailed 
 ---
 
 ## U1 — Setup
-- [ ] Place the kit in the project root (`updates/U01/`, `HUMAN_SETUP_…md`, `assets-src/`, `supabase/`, `scripts/check-secrets.mjs`, `scripts/gdrive-auth.mjs`, `reference/leads/`, `.env.example`, `.githooks/`)
-- [ ] Install `@supabase/supabase-js`, dev `pdf-lib@1.17.1`, dev `supabase`
-- [ ] `.gitignore` secrets block (+ `dist-e2e/`, `update2/`), `git rm --cached` safety
-- [ ] Git hook (`core.hooksPath .githooks`) + verify it blocks a fake token
-- [ ] npm scripts (`check:secrets`, `gdrive:auth`, `supabase:deploy`)
-- [ ] Vitest alias + tsconfig (`paths`, `exclude supabase/functions`)
-- [ ] Multi-page Vite (`portofolio/index.html`, `src/portfolio-main.jsx`, shared `SiteShell`)
-- [ ] Owner's Supabase URL + publishable key in `.env.development.local` (git-ignored)
-- [ ] Exit check: dev serves `/` and `/portofolio/`; `npm run test` green; `check-secrets --all` passes
-- [ ] Commit `U1`
+- [x] Place the kit in the project root (`updates/U01/`, `HUMAN_SETUP_…md`, `assets-src/`, `supabase/`, `scripts/check-secrets.mjs`, `scripts/gdrive-auth.mjs`, `reference/leads/`, `.env.example`, `.githooks/`)
+- [x] Install `@supabase/supabase-js`, dev `pdf-lib@1.17.1`, dev `supabase`
+- [x] `.gitignore` secrets block (+ `dist-e2e/`, `update2/`), `git rm --cached` safety
+- [x] Git hook (`core.hooksPath .githooks`) + verify it blocks a fake token
+- [x] npm scripts (`check:secrets`, `gdrive:auth`, `supabase:deploy`)
+- [x] Vitest alias + tsconfig (`paths`, `exclude supabase/functions`)
+- [x] Multi-page Vite (`portofolio/index.html`, `src/portfolio-main.jsx`, shared `SiteShell`)
+- [x] Owner's Supabase URL + publishable key in `.env.development.local` (git-ignored)
+- [x] Exit check: dev serves `/` and `/portofolio/`; `npm run test` green; `check-secrets --all` passes
+- [x] Commit `U1`
 
 ## U2 — Assets
-- [ ] Logos → `src/assets/logos/` + display versions (PNG + WebP, 96 px / 120 px tall)
-- [ ] Optimizer: `photos` group; depth script: `photos` group + excludes
-- [ ] Run optimizer (manifest gains 25 `photos/*`) and depth maps
-- [ ] Captions for Behomy photos (`src/content/behomy.js`), alt text EN + ID
-- [ ] Logos crisp in both themes (checked)
-- [ ] Commit `U2`
+- [x] Logos → `src/assets/logos/` + display versions (PNG + WebP, 96 px / 120 px tall)
+- [x] Optimizer: `photos` group; depth script: `photos` group + excludes
+- [x] Run optimizer (manifest gains 25 `photos/*`) and depth maps
+- [x] Captions for Behomy photos (`src/content/behomy.js`), alt text EN + ID
+- [x] Logos crisp in both themes (checked on light and dark backgrounds; in-page check in U7)
+- [x] Commit `U2`
 
-## U3 — Portfolio page (`/portofolio/`)
+## U3 — Portfolio page (`/portofolio/`) — being built by a helper agent on branch `u3-portfolio` (worktree ../HOMYVEST-u3)
 - [ ] `src/content/scroll-config.js` (SCROLL + SMOOTH) + test
 - [ ] Portfolio page: intro + index, Story, dividers, Maxone, Padel, Beyond (landscape), closing CTA
 - [ ] Story beat-5 CTA → `/#calculator`; headings h2; skip links incl. "Skip padel hall"
@@ -42,29 +42,29 @@ Instructions: `updates/U01/U01_00_START.md` (delivered in `update2/`). Detailed 
 - [ ] Commit `U3`
 
 ## U4 — Main page restructure
-- [ ] Delete doors, Team, HomyEight intro, Story/Maxone/Padel/Beyond from `/` (components, styles, keys, tests)
-- [ ] Hero + lead funnel shell (`#top`)
-- [ ] `#about` short; `#how` End-to-end (4 steps + closing line)
-- [ ] `#behomy`: Behomy hero, 5 stats, staff training, portfolio mosaic, before/after, team photo
-- [ ] `#projects` without filters, curated order, reveals
-- [ ] Calculator: door entry logic removed
-- [ ] `#next` closing with portfolio card, WhatsApp, "Leave your number"
-- [ ] FAQ updated; footer Portfolio link + logos; header nav + `?focus=phone`
-- [ ] Redirects (vercel/netlify), sitemap
-- [ ] Commit `U4`
+- [x] Delete doors, Team, HomyEight intro, Story/Maxone/Padel/Beyond from `/` (components, styles, keys, tests) — HomyEight intro files deleted after the U3 merge
+- [x] Hero + lead funnel shell (`#top`)
+- [x] `#about` short; `#how` End-to-end (4 steps + closing line)
+- [x] `#behomy`: Behomy hero, 5 stats, staff training, portfolio mosaic, before/after, team photo
+- [x] `#projects` without filters, curated order, reveals
+- [x] Calculator: door entry logic removed
+- [x] `#next` closing with portfolio card, WhatsApp, "Leave your number"
+- [x] FAQ updated; footer Portfolio link + logos; header nav + `?focus=phone`
+- [x] Redirects (vercel/netlify), sitemap
+- [x] Commit `U4` (9c53041, with U5)
 
 ## U5 — Lead funnel
-- [ ] `src/lib/leads/leads.ts` + test (verbatim), `supabase.ts` (lazy)
-- [ ] Hero phone step (normalize, error, lead_starts fire-and-forget)
-- [ ] Panel (dialog, focus trap, Esc, lenis stop, sessionStorage, recap, cross-slide)
-- [ ] Step 2 funding; Step 3A build; Step 3B needs; honeypot; consent
-- [ ] Send + results (thank you / handoff / error / rate limit / spam)
-- [ ] Mobile sheet + sticky footer above keyboard
-- [ ] Commit `U5`
+- [x] `src/lib/leads/leads.ts` + test (verbatim), `supabase.ts` (lazy)
+- [x] Hero phone step (normalize, error, lead_starts fire-and-forget)
+- [x] Panel (dialog, focus trap, Esc, lenis stop, sessionStorage, recap, cross-slide)
+- [x] Step 2 funding; Step 3A build; Step 3B needs; honeypot; consent
+- [x] Send + results (thank you / handoff / error / rate limit / spam)
+- [x] Mobile sheet + sticky footer above keyboard
+- [x] Commit `U5` (9c53041)
 
 ## U6 — Backend verified locally
-- [ ] 34 lead tests green
-- [ ] Sample PDFs rendered and inspected (EN + ID)
+- [x] 34 lead tests green
+- [x] Sample PDFs rendered and inspected (EN + ID)
 - [ ] Commit `U6`
 
 ## U7 — Mobile pass
@@ -87,4 +87,4 @@ Instructions: `updates/U01/U01_00_START.md` (delivered in `update2/`). Detailed 
 
 ---
 ## Session log
-- Session 1: 2026-11-21 — read all U01 docs and the kit; oriented in the codebase.
+- Session 1: 2026-11-21 — read all U01 docs and the kit; U1 committed (e898d19). U2 assets and U3 portfolio running as helper agents; main session on U4/U5.

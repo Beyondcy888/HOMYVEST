@@ -50,7 +50,8 @@ export default function BeforeAfter() {
         <h3 className="t-h2 ba__title">{t('behomy.ba.title')}</h3>
         <p className="ba__sub ink-2">{t('behomy.ba.sub')}</p>
       </div>
-      <ul className="ba__track" ref={track} aria-label={t('behomy.ba.label')}>
+      {/* focusable: on phones it scrolls sideways, and keyboard users must be able to scroll it too */}
+      <ul className="ba__track" ref={track} aria-label={t('behomy.ba.label')} tabIndex={0}>
         {beforeAfter.map((pair, i) => (
           <li key={pair.n} className="ba__card" aria-label={t('behomy.ba.pair', { n: i + 1, total })}>
             <figure className="ba__fig">

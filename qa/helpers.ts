@@ -1,6 +1,7 @@
 import { expect, type Page } from '@playwright/test';
 
-export const SECTION_IDS = ['story', 'about', 'team', 'homyeight', 'behomy', 'projects', 'beyond', 'calculator', 'next', 'faq'];
+// The main page, in order (U01_01 §2). The 3D scenes live on /portofolio/ (see portfolio-helpers.ts).
+export const SECTION_IDS = ['top', 'about', 'how', 'behomy', 'projects', 'calculator', 'next', 'faq'];
 
 /** Collects console errors, warnings and uncaught exceptions for a page. */
 export function watchConsole(page: Page) {

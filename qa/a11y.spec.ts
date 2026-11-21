@@ -43,7 +43,7 @@ test('keyboard: skip link first, a visible focus ring, and a logical order', asy
   const skip = page.locator('.skip-link');
   await expect(skip).toBeFocused();
   await expect(skip).toBeInViewport();
-  await expect(skip).toHaveAttribute('href', '#about');
+  await expect(skip).toHaveAttribute('href', '#main');
 
   // every focused control shows a ring
   const ring = () =>
@@ -60,16 +60,16 @@ test('keyboard: skip link first, a visible focus ring, and a logical order', asy
     seen.push(`${r.tag}.${r.cls}`);
     expect(r.outline || r.box, `no focus ring on ${r.tag}.${r.cls}`).toBe(true);
   }
-  // wordmark, then the four nav links, then language and WhatsApp
+  // wordmark, then the six nav links (How it works … Portfolio), then language and WhatsApp
   expect(seen[0]).toContain('header__mark');
-  expect(seen.slice(1, 5).every((s) => s.startsWith('A.link'))).toBe(true);
+  expect(seen.slice(1, 7).every((s) => s.startsWith('A.link'))).toBe(true);
 
-  // the calculator's fields, the idea radios, the FAQ and WhatsApp can all be reached by keyboard
+  // the phone field, the calculator's fields, the tabs, the FAQ, the portfolio card and WhatsApp are reachable
   const focusable = await page.evaluate(() => {
     const ok = (sel: string) => [...document.querySelectorAll(sel)].some((el) => (el as HTMLElement).tabIndex >= 0 && (el as HTMLElement).offsetParent !== null);
-    return { doors: ok('.door'), fields: ok('#calc-P'), tabs: ok('#calc-tab-1'), faq: ok('.faq__q button'), wa: ok('a[data-wa]') };
+    return { phone: ok('#hero-phone'), fields: ok('#calc-P'), tabs: ok('#calc-tab-1'), faq: ok('.faq__q button'), portfolio: ok('a.pfcard'), wa: ok('a[data-wa]') };
   });
-  expect(focusable).toEqual({ doors: true, fields: true, tabs: true, faq: true, wa: true });
+  expect(focusable).toEqual({ phone: true, fields: true, tabs: true, faq: true, portfolio: true, wa: true });
 });
 
 test('FAQ buttons expose their state', async ({ page }) => {
@@ -97,3 +97,45 @@ test('the mobile menu is a dialog that traps focus and returns it', async ({ pag
   await expect(menu).toHaveAttribute('data-open', 'false');
   await expect(btn).toBeFocused();
 });
+
+const axeBad = async (page: import('@playwright/test').Page) => {
+  const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();
+  return results.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical').map((v) => `${v.id}: ${v.help} (${v.nodes.length}) ${v.nodes[0]?.target}`);
+};
+
+// U01_08 §2: the portfolio page, and the funnel open at steps 2 and 3, in both themes.
+for (const scheme of ['light', 'dark'] as const) {
+  test.describe(`${scheme}: portfolio and funnel`, () => {
+    test.use({ colorScheme: scheme, reducedMotion: 'reduce' });
+
+    test('/portofolio/ has no serious or critical violations', async ({ page }) => {
+      await page.goto('/portofolio/?nointro=1');
+      await page.waitForSelector('#beyond');
+      await page.waitForTimeout(500);
+      expect(await axeBad(page)).toEqual([]);
+    });
+
+    test('the funnel at steps 2 and 3 has no serious or critical violations', async ({ page }) => {
+      await open(page);
+      await page.fill('#hero-phone', '081234567890');
+      await page.click('#hero-continue');
+      await expect(page.locator('.funnel')).toHaveAttribute('data-open', 'true');
+      await expect(page.locator('#funnel-title')).toBeFocused();
+      await page.waitForTimeout(500);
+      expect(await axeBad(page), 'step 2').toEqual([]);
+      await page.locator('label.rcard:has(input[value="personal_funds"])').click();
+      await page.locator('.funnel__primary').click();
+      await expect(page.locator('.funnel')).toHaveAttribute('data-step', '3');
+      await page.waitForTimeout(500); // each step fades in over 0.35 s: measure contrast once it has settled
+      await page.locator('.funnel__primary').click(); // send empty: the errors show
+      await expect(page.locator('.ffield__error').first()).toBeVisible();
+      expect(await axeBad(page), 'step 3A with errors').toEqual([]);
+      await page.locator('.funnel__back').click();
+      await page.locator('label.rcard:has(input[value="no_funds"])').click();
+      await page.locator('.funnel__primary').click();
+      await expect(page.locator('.funnel')).toHaveAttribute('data-step', '3');
+      await page.waitForTimeout(500); // each step fades in over 0.35 s: measure contrast once it has settled
+      expect(await axeBad(page), 'step 3B').toEqual([]);
+    });
+  });
+}

@@ -4,7 +4,7 @@ import { open, watchConsole } from './helpers.ts';
 test.describe('prefers-reduced-motion: reduce', () => {
   test.use({ reducedMotion: 'reduce' });
 
-  test('no pinned sections, posters instead of 3D scenes, all copy visible', async ({ page }) => {
+  test('no pinned sections and all copy visible', async ({ page }) => {
     const problems = watchConsole(page);
     await open(page);
     await page.waitForTimeout(600);
@@ -19,31 +19,26 @@ test.describe('prefers-reduced-motion: reduce', () => {
 
     const text = await page.evaluate(() => document.body.innerText.replace(/\s+/g, ' '));
     for (const copy of [
-      // hero: all five beats are on the page as text
-      'Your land is waiting.',
-      'First, we build it right.',
-      "It doesn't have to be a guesthouse.",
-      'Then we bring it to life.',
-      'From idle to earning.',
-      // walkthrough and padel stages
-      'Step inside one of our projects.',
-      'The dining hall',
-      'Ground floor: the courts, a café and changing rooms.',
-      'Finished: one hall, ready to book.',
-      // the rest of the story
-      'We help idle land and buildings start earning.',
-      'Three names. One team, from empty land to monthly report.',
+      'Turn idle land into steady income.',
+      'Built by HomyEight, operated by Behomy.',
+      'What is HOMYVEST?',
+      'From the first sketch to full rooms, we take care of it.',
+      'Building it is half the story. Behomy keeps it full.',
+      'Places Behomy runs today',
+      'From idle to running',
+      "Places we've built and run.",
       'What can your land become?',
       'Ready when you are.',
+      'See our full portfolio',
     ]) {
       expect(text, `missing: ${copy}`).toContain(copy);
     }
 
-    // the pinned 3D scenes are replaced by images
-    for (const id of ['story', 'homyeight', 'beyond']) {
-      const imgs = await page.locator(`#${id} img`).count();
-      expect(imgs, `#${id} should show poster or render images`).toBeGreaterThan(0);
-    }
+    // images that reveal on scroll are simply there: no clip is left on any of them
+    const clipped = await page.evaluate(
+      () => [...document.querySelectorAll('.pj .depth--enter, .bp__open, .how-step__media')].filter((el) => getComputedStyle(el).clipPath !== 'none').length,
+    );
+    expect(clipped).toBe(0);
     expect(problems, problems.join('\n')).toEqual([]);
   });
 

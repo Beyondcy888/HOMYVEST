@@ -152,3 +152,83 @@ The owner gave permission to assume what the renders and plan do not show. Every
 - **Decision:** `impeccable detect` on the rendered page reports only "kicker above heading", seven times (the section labels). They stay.
 - **Reason:** see D10; the brief defines them and supplies their text. The tool can only suppress this rule wholesale, which its own guidance reserves for the owner.
 - **Undo:** remove the `<p className="t-eyebrow label-line">` lines if the owner prefers no labels.
+
+## 2026-11-21 — Update U01 (`updates/U01/`)
+
+Numbered U01-Dn. Where U01 and the older docs disagree, U01 wins (U01_00 §A).
+
+### U01-D1. The owner's Supabase URL and publishable key: dev only, in `.env.development.local`
+- **Decision:** the owner gave the project URL and the publishable key in the chat. They are written only to `.env.development.local` (git-ignored), which `npm run dev` reads and `vite build` does not.
+- **Reason:** the publishable key is public by design (insert-only through RLS), and the owner clearly wants to try the form. Putting it in `.env.local` instead would have leaked into every `npm run build`, including the keyless e2e build that must hand over to WhatsApp, and into tests that would then write to the real database. Production builds get the two values from the hosting provider's settings (HUMAN_SETUP §D).
+- **Undo:** delete `.env.development.local`, or move the two lines to `.env.local` once the database is set up.
+
+### U01-D2. The delivery folder `update2/` is left as delivered
+- **Decision:** its kit was copied into the project root without overwriting anything (`updates/U01`, `assets-src`, `supabase`, `reference/leads`, two scripts, `.env.example`, `.githooks`, the setup guide). `update2/` itself is git-ignored. So is `.claude/worktrees/`, left behind by a failed helper-agent worktree.
+- **Undo:** remove the two lines from `.gitignore`.
+
+### U01-D3. The logo intro plays on the main page only, and never on a deep link
+- **Decision:** the intro opens `/` on a first visit, as before. It is skipped on `/portofolio/` and whenever the URL carries a hash or `?focus=phone`. On such a deep link every section mounts at once, and the page lands on its target after the fonts load.
+- **Reason:** a visitor who follows "Leave your number" or "See what your land can do" came for something specific. A target that mounts after the intro would otherwise not exist yet.
+- **Undo:** `src/components/brand/Intro.jsx` (`enabled`, `hasDeepLink`), `src/pages/Home.jsx`.
+
+### U01-D4. One shell, two pages; per-page SEO
+- **Decision:** `src/SiteShell.jsx` wraps both entries (`src/main.jsx`, `src/portfolio-main.jsx`). The i18n provider takes a `metaKey`: `meta` on `/`, `pfMeta` on `/portofolio/`. Without it, the language switch would overwrite the portfolio's title and description with the main page's.
+
+### U01-D5. Header and skip link
+- **Decision:** six links (How it works · Behomy · Projects · Land check · FAQ · Portfolio). On `/` they scroll with Lenis. On `/portofolio/` the section links are plain links to `/#…`, "Portfolio" carries `aria-current="page"`, and phones get a "← Home" link beside the wordmark. The skip link goes to `#main` on both pages, the start of the content (the hero now holds the form).
+
+### U01-D6. The hero headline is sized for its column
+- **Decision:** line 1 of the H1 uses `clamp(2.4rem, 4.9vw, 6rem)`, the display weight and width fitted to the hero's five-column measure. On phones it uses U01_05's `clamp(2.4rem, 11vw, 3.4rem)`.
+- **Reason:** the full `--t-display` (up to 9.5rem) set the line in five or more lines inside a 5/12 column and pushed the phone field below the fold.
+
+### U01-D7. Behomy's logo gets an optical size boost beside HomyEight's
+- **Decision:** when the two logos sit side by side (hero partner line, footer), Behomy's is drawn 1.35× taller. The on-dark Behomy file is also drawn 4.5% taller everywhere, because it carries a transparent margin the light file doesn't.
+- **Reason:** at the same height, Behomy's compact pillow mark looked about half the size of HomyEight's wide wordmark and was barely legible. The artwork is never altered.
+- **Undo:** `paired` and `boost` in `src/components/brand/PartnerLogo.jsx`.
+
+### U01-D8. The portfolio card's thumbnails are library images, not the scene posters
+- **Decision:** the fan shows `facades/best`, `maxone/1` and `padel-clean/padel-3`, the fallbacks named in U01_01 §2.7.
+- **Reason:** U01_04 §6 asks that `/` request no portfolio chunks or posters before the card is hovered. The card is visible long before any hover. The library images also come in 480 px variants.
+
+### U01-D9. Behomy section structure
+- **Decision:** the Behomy hero's headline is the section's `<h2>`, and the existing title "Daily guests and monthly tenants…" becomes an `<h3>` under it. The old eyebrow "Run by Behomy" is dropped because the hero says "Operated by Behomy"; its key is removed. Stats are three over two on desktop and two columns on phones with the fifth full width. Footnotes 1–4 sit under the stats band. The training photo sits under "What Behomy takes off your hands".
+- **Mosaic:** four columns on desktop, two below 1024 px (capped at 820 px wide). One large image (the corridor, the only high-resolution one), two portrait facades in tall cells, the rest in single cells. Dense packing leaves no holes at either column count.
+
+### U01-D10. Small sources are never shown wider than half their pixels
+- **Decision:** the step photos are capped at 400 CSS px (step-operate is 800 px wide), small project images at 405 px (benhil is 810), the training photo at 600 px, the mosaic as in D9, and before/after at 420 px (U01_01 §2.4 sets that cap even though some sources are 470 px).
+
+### U01-D11. Funnel implementation choices
+- **The panel's code is its own chunk** (about 5 KB gzip). It loads on the first focus of the phone field or on "Continue", together with the Supabase client, which is reached only through a dynamic import.
+- **Persistence** (`sessionStorage`, `homyvest:funnel:v1`) also keeps the open state and `openedAt`. A reload therefore reopens the panel where the visitor left it. A restored form sent quickly is not mistaken for a bot by `submitLead`'s 1.5 s check. Result screens are never restored, and a successful send clears everything.
+- **The honeypot** (`name="company"`) is off-screen and `visibility: hidden`. Browser autofill can fill a merely off-screen "company" field from an address profile, which would silently drop a real lead as spam. Naive bots still fill it.
+- **The rate-limit screen** has no separate title in U01_06; its one sentence is the heading.
+- **Chips use their own class (`fchip`)**, because the calculator already owns `.chip`.
+- **Focus** moves to each step's heading, retried for a few frames. Under reduced motion the site-wide 0.01 ms transitions keep the panel's contents "hidden" for one frame. The step animation uses opacity, not GSAP's `autoAlpha`, which would hide the heading through `visibility`.
+- **The before/after carousel is focusable** (`tabindex="0"`), so keyboard users can scroll it on phones.
+
+### U01-D12. Copy: removed and added keys
+- **Removed besides U01_01 §4:** `calc.next.building` and `calc.next.ideasAlt` (door B only), `homyeight.bridge`, `beyond.bridge` (the portfolio closing follows instead), `behomy.eyebrow`, and `movements` (unused).
+- **Added beyond U01_06** (small fit edits, both languages):
+  - `pfMeta.ogAlt`
+  - `behomy.ba.label`, `behomy.ba.pair` (carousel labels)
+  - `pf.indexLabel`, `pf.skipStory`
+  - `beyond.ways.open`
+  - the Indonesian caption types (Kamar co-living, Kehidupan di Behomy, Penginapan bisnis, Lobi, Vila, Penginapan ruko, Properti Behomy, Sebelum / sesudah)
+- **The break-even stat** is written "< 3.5 yrs" / "< 3,5 thn", with the unit on the baseline.
+
+### U01-D13. Redirects
+- **Vercel:** `/portofolio`, `/portfolio` and `/portfolio/` redirect (301) to `/portofolio/`.
+- **Netlify:** only the `/portfolio` rule. Netlify matches rules with or without the trailing slash, so a `/portofolio` → `/portofolio/` rule would loop. Its Pretty URLs already add the slash.
+
+### U01-D14. The hero photo is preloaded from the HTML
+- **Decision:** `index.html` preloads `facades/best` as AVIF (`imagesrcset` and `imagesizes` identical to the hero's `<picture>`) with `fetchpriority="high"`, because it is the LCP element (U01_08 §4).
+
+### U01-D15. Tests run on two builds, never against the real project
+- **Decision:** `:4173` is built with the `VITE_SUPABASE_*` variables explicitly blank, so a future `.env.local` can't leak in. `:4174` is built with a fake URL and key passed through the environment. Every request to that fake URL is intercepted by `page.route`. The funnel is never scripted against `npm run dev`, which has the owner's real project (D1).
+
+### U01-D16. Owner checks flagged by the asset review (not changed)
+- **Before/after:** pairs 3 and 4 are Google Street View captures ("Google Maps" watermark and arrows on 4-before); licensing and attribution are the owner's call. Pair 4's "after" shows "Behomy Metropolim".
+- **Staff-training photo:** it shows a "Corner Eight" sign.
+- **Team photo:** its banner reads "Homy Group", while U01 captions it "The Behomy team".
+- **Captions:** all kept as U01_07 specifies. No unconfirmed project name is displayed.
+- **PDF report:** it uses the standard Helvetica font, so emoji and non-Latin characters in a name print as "?". Indonesian names are unaffected.

@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-11-20T03:41:33.609Z",
-  "captionsOnPage": 26,
-  "placeholders": 26,
+  "generatedAt": "2026-11-21T09:11:26.594Z",
+  "captionsOnPages": 43,
+  "placeholders": 33,
   "images": [
     "cafe/cafe",
     "facades/benhil-1",
@@ -28,6 +28,13 @@
     "others/athero-3",
     "padel-clean/padel-1",
     "padel-clean/padel-2",
-    "padel-clean/padel-3"
+    "padel-clean/padel-3",
+    "photos/before-after-1-after",
+    "photos/before-after-2-after",
+    "photos/before-after-3-after",
+    "photos/before-after-4-after",
+    "photos/behomy-corridor",
+    "photos/behomy-facade-1",
+    "photos/behomy-facade-2"
   ]
 }

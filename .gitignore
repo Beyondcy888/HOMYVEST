@@ -20,6 +20,7 @@ qa/screenshots/calculator/
 qa/screenshots/3d/
 qa/screenshots/fallbacks/
 qa/screenshots/header/
+qa/screenshots/funnel/
 
 # --- secrets (U01) ---
 .env
@@ -39,3 +40,6 @@ qa/tmp/
 dist-e2e/
 # Delivery folder for update 2: its contents were placed in the project (updates/U01, assets-src, supabase, …)
 update2/
+
+# Claude Code agent worktrees (local only)
+.claude/worktrees/
