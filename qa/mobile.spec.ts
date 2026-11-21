@@ -3,7 +3,9 @@ import { test, expect } from '@playwright/test';
 
 test.use({ viewport: { width: 360, height: 740 } });
 
-const noSideScroll = () => document.documentElement.scrollWidth <= window.innerWidth;
+// Against the device width itself: in mobile emulation the layout viewport widens to fit overflowing content,
+// so comparing with innerWidth would hide an overflow.
+const noSideScroll = () => document.documentElement.scrollWidth <= 360 && window.innerWidth <= 360;
 
 test('no horizontal scroll at 360 px on either page', async ({ page }, info) => {
   test.skip(info.project.name !== 'mobile', 'phones');

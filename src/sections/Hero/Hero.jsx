@@ -42,7 +42,7 @@ export default function Hero() {
           </div>
         </div>
         <figure className="hero__photo">
-          <DepthImage id="facades/best" priority strength={1.2} sizes="(min-width: 1024px) 58vw, 100vw" className="hero__img" />
+          <DepthImage id="facades/best" priority strength={1.2} sizes="(min-width: 1024px) 58vw, (min-width: 768px) 45vw, (orientation: landscape) and (max-height: 500px) 45vw, 100vw" className="hero__img" />
           <p className="hero__chip">
             {t('hero.chip')}
             <sup className="fn">

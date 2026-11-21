@@ -6,6 +6,11 @@
   line-height: 1.4;
   color: var(--ink);
 }
+@media (max-width: 767px) {
+  .caption {
+    font-size: 0.8125rem;
+  }
+}
 .caption__name {
   font-weight: 700;
 }

@@ -91,8 +91,12 @@
   }
 }
 
-@media (max-width: 720px) {
+/* Phones (U01_05 §1): a 56 px header, calmer section spacing and capped display sizes. Desktop is untouched. */
+@media (max-width: 767px) {
   :root {
-    --header-h: 60px;
+    --header-h: 56px;
+    --section: clamp(64px, 12svh, 96px);
+    --t-display: clamp(2.4rem, 11vw, 3.4rem);
+    --t-h1: clamp(1.9rem, 8vw, 2.6rem);
   }
 }

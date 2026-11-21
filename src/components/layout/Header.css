@@ -264,3 +264,13 @@ html.is-jumping main {
 main {
   transition: opacity 0.35s linear;
 }
+
+/* Phones: menu links at 28 px on 56 px rows (U01_05 §1), so all six fit on short screens */
+@media (max-width: 767px) {
+  .mmenu__nav a {
+    min-height: 56px;
+    align-items: center;
+    padding-block: 12px;
+    font-size: 1.75rem;
+  }
+}

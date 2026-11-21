@@ -3,6 +3,8 @@
 /* ---------- Phone card (hero) ---------- */
 .phone {
   display: grid;
+  /* minmax(0, 1fr): the field's intrinsic width must never widen the column (it overflowed at 360 px) */
+  grid-template-columns: minmax(0, 1fr);
   gap: 10px;
   max-width: 34rem;
 }
@@ -43,6 +45,7 @@
 .phone__input {
   flex: 1;
   min-width: 0;
+  width: 100%;
   padding: 0 16px;
   font-size: 1.25rem;
   font-weight: 500;
@@ -556,6 +559,16 @@
 .fresult__pf {
   justify-self: start;
   min-height: 44px;
+}
+
+/* Tablets: the hero column is narrow, so the field and the button stack (desktop keeps them in one row) */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .phone__row {
+    flex-direction: column;
+  }
+  .phone__go {
+    width: 100%;
+  }
 }
 
 /* ---------- Phones: a full-screen sheet from below; it follows the visual viewport above the keyboard ---------- */
