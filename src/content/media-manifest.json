@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-19T18:13:26.496Z",
+  "generatedAt": "2026-11-21T08:30:34.315Z",
   "renderRoot": "renders",
   "images": {
     "cafe/cafe": {
@@ -596,6 +596,431 @@
       "lqip": "data:image/webp;base64,UklGRvIBAABXRUJQVlA4WAoAAAAQAAAAFwAAEAAAQUxQSO0AAAABkFvbtmo3+9wrZmZmpgaYMqVSSgVIDUhmCBlS5szDLTC7AVuRhyPGc842vfdbiIgJQHIIyN26d7QVEpBWIrD0jMaPJxsQJUFiQP8ddzU17q0iyH9iQMXxz1Ql3dR5sRgChIistbe0X07SjPaT10QkCqbu09WZ7D+5D4KOq041pnZ+HC7Z+UBTZvqLV/fzpzoz9e/cPc1vzgxdjW8mVt7RNJ0pPx4sA2pPfKNakivtRi+ChIDRu6T6f1T5eBYSBZAILL+mqdOUfqUcMeC/IaJg+z1NnQ+mESJSxoCmCz+4t5mDKEgtUTC5vwYhIhEAVlA4IN4AAACwBACdASoYABEAPu1mqU+ppSOiMBgIATAdiWoAgABk5pGbRuOuG/mCnrxrmzAAAP6e9bKqvv3WgnshWGBbd7N+ASWBTVypWIi6Qv4i11YcK4JfTAJjbQV9D2wEzxqj58MPdfGyJ4nJpjR5x7JEGG6Xyf74I2G1usxaHK2SRsoN1rOltz0ZdIglCF4MibW9HCZGRldOUocLc+TI/9HJn9l2ANuTOnM/q/Xv1vyFmsObhFTFRTBsGQrsn/x637//JhK8N/8et+//yZyOp0uYVrbFnmrQbs/GIn3y2chKVgA=",
       "dominant": "#f8f8f8",
       "lowRes": false
+    },
+    "photos/before-after-1-after": {
+      "id": "photos/before-after-1-after",
+      "group": "photos",
+      "source": "assets-src/photos/before-after-1-after.jpg",
+      "width": 960,
+      "height": 539,
+      "aspect": 1.7811,
+      "hasAlpha": false,
+      "largestUrl": "/media/photos/before-after-1-after-960.webp",
+      "srcset": {
+        "avif": "/media/photos/before-after-1-after-480.avif 480w, /media/photos/before-after-1-after-800.avif 800w, /media/photos/before-after-1-after-960.avif 960w",
+        "webp": "/media/photos/before-after-1-after-480.webp 480w, /media/photos/before-after-1-after-800.webp 800w, /media/photos/before-after-1-after-960.webp 960w"
+      },
+      "lqip": "data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAADwAwCdASoYAA0APu1iqU2ppaOiMAgBMB2JZQAOcAOoulR7R0y+ZuAAAPeOfVqL//9qRLZ0+O3WnViewOkVQO4M+nDNmmK61jZ455DCTRJ2WOCZwe/XOBvvQymLdCxC+XNRYuOGdr7D8WLcqkmsunNNTkscsfFX4+M/vY5eDIQmaih0zqVHDXFB9PK+tmuIfu7QGVgtQAA=",
+      "dominant": "#585858",
+      "lowRes": true
+    },
+    "photos/before-after-1-before": {
+      "id": "photos/before-after-1-before",
+      "group": "photos",
+      "source": "assets-src/photos/before-after-1-before.jpg",
+      "width": 470,
+      "height": 628,
+      "aspect": 0.7484,
+      "hasAlpha": false,
+      "largestUrl": "/media/photos/before-after-1-before-470.webp",
+      "srcset": {
+        "avif": "/media/photos/before-after-1-before-470.avif 470w",
+        "webp": "/media/photos/before-after-1-before-470.webp 470w"
+      },
+      "lqip": "data:image/webp;base64,UklGRuYAAABXRUJQVlA4INoAAAAQBQCdASoYACAAPu1iqE2ppaOiMAgBMB2JaQAAUz3VwEiN2yfr2W4AZhtZH23CZD/YAP7WCLRDUIYgznXCvo76Fp3xC6wUSUiVuUlu14MlSV+ByjBIhOvEVK5qJrrBWyBGjqN+/mFEhf6fGyzkz+ThuwRQjpjyParj0HIx2TWizjM84NjU5ZdEOjA8h2qm/xsIqLKTiL1RqzWPcOtzLrgLpYqPa/ssHUCWyCYF93Y1sQxGHs8TnOlZ3U48npHiboQnSwI6QRtuu7/SVGI/ANvRfZW5Ry3osAAAAA==",
+      "dominant": "#f8f8f8",
+      "lowRes": true
+    },
+    "photos/before-after-2-after": {
+      "id": "photos/before-after-2-after",
+      "group": "photos",
+      "source": "assets-src/photos/before-after-2-after.jpg",
+      "width": 681,
+      "height": 908,
+      "aspect": 0.75,
+      "hasAlpha": false,
+      "largestUrl": "/media/photos/before-after-2-after-681.webp",
+      "srcset": {
+        "avif": "/media/photos/before-after-2-after-480.avif 480w, /media/photos/before-after-2-after-681.avif 681w",
+        "webp": "/media/photos/before-after-2-after-480.webp 480w, /media/photos/before-after-2-after-681.webp 681w"
+      },
+      "lqip": "data:image/webp;base64,UklGRioBAABXRUJQVlA4IB4BAABwBgCdASoYACAAPu1qqU8ppiOiMBgIATAdiUAX7XIN/+x/34COA9afRVWU5hmjS/PJ+fQdL8DrPAxyEYAA/VObYxG4AfrzKZfS3y9VWD9XDb8gFZP1PZDdgAroLMsbdu0pnhOGrZcas7QVLyK+5CzCvDEaouD45Kq7l+uFtCcoKD/JtN0kAxveSb6aAnWfjuCE5j7KmJ8JEVyBBX38yk+6qJMbvpp5ToHw/nBX/wKqMLW2VLMEGd2WIfH4rWbADn/SYyWfxWEOMdxpAdBcA6ro9hRTr+jpDeU6CMgsFK39SdfUBHCejDGwq9Wv+DG6KBg5jwCd8XyiEqQvAYkn9TrQOdl0qPzsbOEQwpRQysF1KZiJZ0jnz6DancU4KMAA",
+      "dominant": "#383838",
+      "lowRes": true
+    },
+    "photos/before-after-2-before": {
+      "id": "photos/before-after-2-before",
+      "group": "photos",
+      "source": "assets-src/photos/before-after-2-before.jpg",
+      "width": 578,
+      "height": 526,
+      "aspect": 1.0989,
+      "hasAlpha": false,
+      "largestUrl": "/media/photos/before-after-2-before-578.webp",
+      "srcset": {
+        "avif": "/media/photos/before-after-2-before-480.avif 480w, /media/photos/before-after-2-before-578.avif 578w",
+        "webp": "/media/photos/before-after-2-before-480.webp 480w, /media/photos/before-after-2-before-578.webp 578w"
+      },
+      "lqip": "data:image/webp;base64,UklGRsAAAABXRUJQVlA4ILQAAABwBQCdASoYABYAPu1oqk+ppiOiKA1RMB2JaQAOifuAGR1HQ3CRS4w6/toSjnpHITXI6VQAAPxnSl8+DAOrFzsiwbKrvQpL6cS8O52yOZ6i9HffTMuSl0OiOCW2GhxA24qIdUnicwRJMaIeCQeUfAZry3Z4LKBK5eogZ4O2zaZ9vPcbEr0wIxCvqwkr2/nkGrB5yZ44cTZhfQREnF3Ve6rMC5u/1o/4AbI5oj0q8wckIZwAAAA=",
+      "dominant": "#989898",
+      "lowRes": true
+    },
+    "photos/before-after-3-after": {
+      "id": "photos/before-after-3-after",
+      "group": "photos",
+      "source": "assets-src/photos/before-after-3-after.jpg",
+      "width": 959,
+      "height": 521,
+      "aspect": 1.8407,
+      "hasAlpha": false,
+      "largestUrl": "/media/photos/before-after-3-after-959.webp",
+      "srcset": {
+        "avif": "/media/photos/before-after-3-after-480.avif 480w, /media/photos/before-after-3-after-800.avif 800w, /media/photos/before-after-3-after-959.avif 959w",
+        "webp": "/media/photos/before-after-3-after-480.webp 480w, /media/photos/before-after-3-after-800.webp 800w, /media/photos/before-after-3-after-959.webp 959w"
+      },
+      "lqip": "data:image/webp;base64,UklGRqQAAABXRUJQVlA4IJgAAADwAwCdASoYAA0APu1iqU2ppaOiMAgBMB2JQBibMZeatd0HuyliJleAAP6C13LqhfkkKUbTbFV2mrW5N3uH1n7yjkoBMUY91CjZ5jO8wG7+2RdngJkNaZSRo63adYO7HVfS6XDRwdO2/5u8GMr30mZfND8utJPC8q1qcY27HihnCuIdO/u6Ac5eGXWIBj+Jdbczp0k96IAAAA==",
+      "dominant": "#989888",
+      "lowRes": true
+    },
+    "photos/before-after-3-before": {
+      "id": "photos/before-after-3-before",
+      "group": "photos",
+      "source": "assets-src/photos/before-after-3-before.jpg",
+      "width": 689,
+      "height": 597,
+      "aspect": 1.1541,
+      "hasAlpha": false,
+      "largestUrl": "/media/photos/before-after-3-before-689.webp",
+      "srcset": {
+        "avif": "/media/photos/before-after-3-before-480.avif 480w, /media/photos/before-after-3-before-689.avif 689w",
+        "webp": "/media/photos/before-after-3-before-480.webp 480w, /media/photos/before-after-3-before-689.webp 689w"
+      },
+      "lqip": "data:image/webp;base64,UklGRqAAAABXRUJQVlA4IJQAAADQBACdASoYABUAPu1srlIppaQiqAgBMB2JaQAALteRJGvit1Y0kQn/oHn44PCOgAD+6Db3XpzsUPlvzuEXunheVn+OQ2uU/UWrbkyeQJXmfEeLL74aM2BnEjDb1a05g84cwxOAyAu1nANHEOH3rqkaIjAoacA/EBeykN08tuW1yWczk7KL7H5bDYSHWY7WBnsayQAA",
+      "dominant": "#d8d8d8",
+      "lowRes": true
+    },
+    "photos/before-after-4-after": {
+      "id": "photos/before-after-4-after",
+      "group": "photos",
+      "source": "assets-src/photos/before-after-4-after.jpg",
+      "width": 922,
+      "height": 1229,
+      "aspect": 0.7502,
+      "hasAlpha": false,
+      "largestUrl": "/media/photos/before-after-4-after-922.webp",
+      "srcset": {
+        "avif": "/media/photos/before-after-4-after-480.avif 480w, /media/photos/before-after-4-after-800.avif 800w, /media/photos/before-after-4-after-922.avif 922w",
+        "webp": "/media/photos/before-after-4-after-480.webp 480w, /media/photos/before-after-4-after-800.webp 800w, /media/photos/before-after-4-after-922.webp 922w"
+      },
+      "lqip": "data:image/webp;base64,UklGRjABAABXRUJQVlA4ICQBAACwBQCdASoYACAAPu1urlIppiQiqAgBMB2JaAC2zagxgCUjNtmqW2gYArZsFL9jPex3WfagooAA/vjSAlIySh2Wn7MeqteR+K/s+rr7H3bbfGyoGy2PD3jh/Q980G0XyD7jd2v5wrnRVHAuj8VtGDoqoxP1cglI/DmxzKqqfy9sOEwXR7ELjydUVh4ranR1hLAanqM+2Mt8HW2nsfgJhKBrWyyigrctjnNgt38Kg9EuXVm7mBDsQ2m5Ku6fqvIK7B+jM9pkoUGFb1eej70fMBNDyaX2tUbIplGeKavEJefjZ4FekvESj18HfLDD1Tek55slVARzy/0s7IvssRcAIEdlrlZu+l4i+HyKZrQNf9Kw1/J5IIpOgb66IW0WQh9bQIVYAAAA",
+      "dominant": "#f8f8f8",
+      "lowRes": true
+    },
+    "photos/before-after-4-before": {
+      "id": "photos/before-after-4-before",
+      "group": "photos",
+      "source": "assets-src/photos/before-after-4-before.jpg",
+      "width": 528,
+      "height": 416,
+      "aspect": 1.2692,
+      "hasAlpha": false,
+      "largestUrl": "/media/photos/before-after-4-before-528.webp",
+      "srcset": {
+        "avif": "/media/photos/before-after-4-before-480.avif 480w, /media/photos/before-after-4-before-528.avif 528w",
+        "webp": "/media/photos/before-after-4-before-480.webp 480w, /media/photos/before-after-4-before-528.webp 528w"
+      },
+      "lqip": "data:image/webp;base64,UklGRsIAAABXRUJQVlA4ILYAAADQBACdASoYABMAPu1sqlEppaOiqAqpMB2JaQAAKdl0JdKKgKlKgm6NutQfEA8nSADiH4xG5CqxlXJMNtCbzo0s/nfTUle0fWMHBR4kO3rBhWlQuXu+i0x5znx4Xz6m3LIyJu8u+0OKLdQah/2gY+YrH5RragCd8/n+RLC+odFfUTDMgpOiJGtA8QvKczGccQgdNzdoYt20KOUByHIDZekMhgce5RGJf7PGL031Fy9H1RiFapYAAA==",
+      "dominant": "#e8e8e8",
+      "lowRes": true
+    },
+    "photos/behomy-corridor": {
+      "id": "photos/behomy-corridor",
+      "group": "photos",
+      "source": "assets-src/photos/behomy-corridor.jpg",
+      "width": 3716,
+      "height": 2477,
+      "aspect": 1.5002,
+      "hasAlpha": false,
+      "largestUrl": "/media/photos/behomy-corridor-3716.webp",
+      "srcset": {
+        "avif": "/media/photos/behomy-corridor-480.avif 480w, /media/photos/behomy-corridor-800.avif 800w, /media/photos/behomy-corridor-1200.avif 1200w, /media/photos/behomy-corridor-1600.avif 1600w, /media/photos/behomy-corridor-2000.avif 2000w, /media/photos/behomy-corridor-2560.avif 2560w, /media/photos/behomy-corridor-3716.avif 3716w",
+        "webp": "/media/photos/behomy-corridor-480.webp 480w, /media/photos/behomy-corridor-800.webp 800w, /media/photos/behomy-corridor-1200.webp 1200w, /media/photos/behomy-corridor-1600.webp 1600w, /media/photos/behomy-corridor-2000.webp 2000w, /media/photos/behomy-corridor-2560.webp 2560w, /media/photos/behomy-corridor-3716.webp 3716w"
+      },
+      "lqip": "data:image/webp;base64,UklGRowAAABXRUJQVlA4IIAAAAAwBACdASoYABAAPu1kqU2ppaOiMAgBMB2JaQAAW+zDwJJ5jt9J1roBhgAA/tgqAYyJmx/Lz1ssccMPfukUyIkoJZ+QbbMX9wZQqNxO3ftoLIup1w2f/cEQo/v8pSrwjuqgPftarOXf+gcEYRvJxl58M08JAREMhAyEM+aqNCgAAA==",
+      "dominant": "#d8d8d8",
+      "lowRes": false
+    },
+    "photos/behomy-facade-1": {
+      "id": "photos/behomy-facade-1",
+      "group": "photos",
+      "source": "assets-src/photos/behomy-facade-1.jpg",
+      "width": 1200,
+      "height": 1800,
+      "aspect": 0.6667,
+      "hasAlpha": false,
+      "largestUrl": "/media/photos/behomy-facade-1-1200.webp",
+      "srcset": {
+        "avif": "/media/photos/behomy-facade-1-480.avif 480w, /media/photos/behomy-facade-1-800.avif 800w, /media/photos/behomy-facade-1-1200.avif 1200w",
+        "webp": "/media/photos/behomy-facade-1-480.webp 480w, /media/photos/behomy-facade-1-800.webp 800w, /media/photos/behomy-facade-1-1200.webp 1200w"
+      },
+      "lqip": "data:image/webp;base64,UklGRg4BAABXRUJQVlA4IAIBAADQBQCdASoYACQAPu1urlIppiQipWsxMB2JYgDE2C5tavjE9M+eXAk6KlEZn2RpGFrjk9SMTXbgAP734xtnJsDOYD4s82HDLiJNuFlf0ZSzqJBpgJm/g2YBZZX5WaqyX7Kz4aNw+CrjiagEfRcXDouMrhM24HW/czaIulU2lffnxYy5L/dH/3oCif8sA19rZk6WvTfDZSJbfrpKTtbbBmuySqdCbHolBF0batt/96iKjlt3nzMIou4h6yI0AXfzD4QLrwalui+8AXR6pbc3/eJ4+RFa5r0Tj3UnR9lZv4o0R4w1HeHHA0cRj4nVYtOkuZAoTxq15RmTmZ0BtwTTR+5OAAA=",
+      "dominant": "#f8f8f8",
+      "lowRes": false
+    },
+    "photos/behomy-facade-2": {
+      "id": "photos/behomy-facade-2",
+      "group": "photos",
+      "source": "assets-src/photos/behomy-facade-2.jpg",
+      "width": 908,
+      "height": 1210,
+      "aspect": 0.7504,
+      "hasAlpha": false,
+      "largestUrl": "/media/photos/behomy-facade-2-908.webp",
+      "srcset": {
+        "avif": "/media/photos/behomy-facade-2-480.avif 480w, /media/photos/behomy-facade-2-800.avif 800w, /media/photos/behomy-facade-2-908.avif 908w",
+        "webp": "/media/photos/behomy-facade-2-480.webp 480w, /media/photos/behomy-facade-2-800.webp 800w, /media/photos/behomy-facade-2-908.webp 908w"
+      },
+      "lqip": "data:image/webp;base64,UklGRjwBAABXRUJQVlA4IDABAABQBwCdASoYACAAPu1irVAppSQisBgIATAdiWwAuyBNyY5eBf1KpjrNz4QoW3LnFqkKqAm8wkmH3mrGdVhVv+vVyRwAAP7JpfcbIrLB9Q5e9rQ7zXzr7pAuLo0msgbthp2+26kKhjOks/wBdZnrYoCxaDiGm58nbiiHEitB7KgZ+1J0ucIVbppqxRvjeXjVF5UN2AhCZ+JXE8pAkPRdG93aT7RDSWZs4UHMzneNool8ZbR44/s+ZJ3sK74bfKdeAhBb+A6qVXXjiQcFRZsh9caPTSnHLDUtTACrvPQgppv+OepRZcFSbhrH03Bqz2m6i9U/Yyl1doIVEsjmYnKZA/Ianhy0ei77AhzTta2KoYxaGU5Du35GrJ6aH2+GevRLTUg3M992mp4mRX+QVBI/EAAA",
+      "dominant": "#c8c8c8",
+      "lowRes": true
+    },
+    "photos/behomy-hero": {
+      "id": "photos/behomy-hero",
+      "group": "photos",
+      "source": "assets-src/photos/behomy-hero.jpg",
+      "width": 3096,
+      "height": 2064,
+      "aspect": 1.5,
+      "hasAlpha": false,
+      "largestUrl": "/media/photos/behomy-hero-3096.webp",
+      "srcset": {
+        "avif": "/media/photos/behomy-hero-480.avif 480w, /media/photos/behomy-hero-800.avif 800w, /media/photos/behomy-hero-1200.avif 1200w, /media/photos/behomy-hero-1600.avif 1600w, /media/photos/behomy-hero-2000.avif 2000w, /media/photos/behomy-hero-2560.avif 2560w, /media/photos/behomy-hero-3096.avif 3096w",
+        "webp": "/media/photos/behomy-hero-480.webp 480w, /media/photos/behomy-hero-800.webp 800w, /media/photos/behomy-hero-1200.webp 1200w, /media/photos/behomy-hero-1600.webp 1600w, /media/photos/behomy-hero-2000.webp 2000w, /media/photos/behomy-hero-2560.webp 2560w, /media/photos/behomy-hero-3096.webp 3096w"
+      },
+      "lqip": "data:image/webp;base64,UklGRrIAAABXRUJQVlA4IKYAAAAwBACdASoYABAAPu1iqk2ppaQiMAgBMB2JQBdiP/wF0fzyohao0Y9FDgAA/ptQ8cDXhgnUe4rg2THUpA9oQcZyYFs9l8zvOou254/PawgGY5mMPPU3tk9VVuRfioROc1P0Q+QOq6GT+YmRor2uePqYaw9IZi1Kl2om9An+j1cHizAoBTZvCb11n+2ORshfum0vVjfAA7WzUYXf2zxbE1QdegFybQQA",
+      "dominant": "#d8d8d8",
+      "lowRes": false
+    },
+    "photos/behomy-life": {
+      "id": "photos/behomy-life",
+      "group": "photos",
+      "source": "assets-src/photos/behomy-life.jpg",
+      "width": 1200,
+      "height": 800,
+      "aspect": 1.5,
+      "hasAlpha": false,
+      "largestUrl": "/media/photos/behomy-life-1200.webp",
+      "srcset": {
+        "avif": "/media/photos/behomy-life-480.avif 480w, /media/photos/behomy-life-800.avif 800w, /media/photos/behomy-life-1200.avif 1200w",
+        "webp": "/media/photos/behomy-life-480.webp 480w, /media/photos/behomy-life-800.webp 800w, /media/photos/behomy-life-1200.webp 1200w"
+      },
+      "lqip": "data:image/webp;base64,UklGRsgAAABXRUJQVlA4ILwAAACQBACdASoYABAAPu1iqU2ppaOiMAgBMB2JbACdMoADZc9YLhd27Xtfq+7axAAA/NirJI7PzB+a7W6WBap0ulCJzT51nJ5rzbwn3zKQQkcbMFHYys9QjZaaaNx8D55Cb2bXxhUqB+wNnaL0JFOw/+dVAe2bd7ekrNHm43+f9HPJ19zPeUt4+JT8zVz/MqfcjGP939222HGr7RFsHJa7l6aahLJAXJtbJ0urcmCPeHf15JHU1+Fsext1TwoAAA==",
+      "dominant": "#98b8c8",
+      "lowRes": false
+    },
+    "photos/behomy-room-1": {
+      "id": "photos/behomy-room-1",
+      "group": "photos",
+      "source": "assets-src/photos/behomy-room-1.jpg",
+      "width": 1012,
+      "height": 679,
+      "aspect": 1.4904,
+      "hasAlpha": false,
+      "largestUrl": "/media/photos/behomy-room-1-1012.webp",
+      "srcset": {
+        "avif": "/media/photos/behomy-room-1-480.avif 480w, /media/photos/behomy-room-1-800.avif 800w, /media/photos/behomy-room-1-1012.avif 1012w",
+        "webp": "/media/photos/behomy-room-1-480.webp 480w, /media/photos/behomy-room-1-800.webp 800w, /media/photos/behomy-room-1-1012.webp 1012w"
+      },
+      "lqip": "data:image/webp;base64,UklGRp4AAABXRUJQVlA4IJIAAADwAwCdASoYABAAPu1iqU2ppaOiMAgBMB2JQBhQA3PRSipd1qbn/FZAAP6v7772IlDJZ/UK3imedh7Z0p9guGZ6xi6xLdCOUJgnNGn2EXfy/UDEtS2IhS8Iy87Z6gxE+3dBeCpCKPpIaSz3/Z2COoij0C9nzFTMkJX/j1D8YbRF5UzhK4ncp/fWTgL8llRExoQAAA==",
+      "dominant": "#e8e8e8",
+      "lowRes": true
+    },
+    "photos/behomy-room-2": {
+      "id": "photos/behomy-room-2",
+      "group": "photos",
+      "source": "assets-src/photos/behomy-room-2.jpg",
+      "width": 960,
+      "height": 717,
+      "aspect": 1.3389,
+      "hasAlpha": false,
+      "largestUrl": "/media/photos/behomy-room-2-960.webp",
+      "srcset": {
+        "avif": "/media/photos/behomy-room-2-480.avif 480w, /media/photos/behomy-room-2-800.avif 800w, /media/photos/behomy-room-2-960.avif 960w",
+        "webp": "/media/photos/behomy-room-2-480.webp 480w, /media/photos/behomy-room-2-800.webp 800w, /media/photos/behomy-room-2-960.webp 960w"
+      },
+      "lqip": "data:image/webp;base64,UklGRqwAAABXRUJQVlA4IKAAAADQBACdASoYABIAPu1sqlGppaOiqAqpMB2JQBhmgiOHZoMF1qedwOI6VCcMQe1aiAD+7UgL+ABtQMZCMjSTTWA5IfI+fJzi/l9Itbu5IakpF8luPxjBeSAeN3NeSwibgoE2H7FLeAAByAzGX9QvhfvqjE/E7I5HcfM2VKkKHATZ1x3yrVgkNYI94eBbUUhgF5TbgaKqxhmqtzdsHL9YTOAA",
+      "dominant": "#e8e8e8",
+      "lowRes": true
+    },
+    "photos/behomy-team": {
+      "id": "photos/behomy-team",
+      "group": "photos",
+      "source": "assets-src/photos/behomy-team.jpg",
+      "width": 2698,
+      "height": 1800,
+      "aspect": 1.4989,
+      "hasAlpha": false,
+      "largestUrl": "/media/photos/behomy-team-2698.webp",
+      "srcset": {
+        "avif": "/media/photos/behomy-team-480.avif 480w, /media/photos/behomy-team-800.avif 800w, /media/photos/behomy-team-1200.avif 1200w, /media/photos/behomy-team-1600.avif 1600w, /media/photos/behomy-team-2000.avif 2000w, /media/photos/behomy-team-2560.avif 2560w, /media/photos/behomy-team-2698.avif 2698w",
+        "webp": "/media/photos/behomy-team-480.webp 480w, /media/photos/behomy-team-800.webp 800w, /media/photos/behomy-team-1200.webp 1200w, /media/photos/behomy-team-1600.webp 1600w, /media/photos/behomy-team-2000.webp 2000w, /media/photos/behomy-team-2560.webp 2560w, /media/photos/behomy-team-2698.webp 2698w"
+      },
+      "lqip": "data:image/webp;base64,UklGRqwAAABXRUJQVlA4IKAAAAAQBACdASoYABAAPu1iqU2ppaOiMAgBMB2JYwC2yYxEgm5HDt5R1+/zqAD4Xo6HZbMXTUswBo294zRZQ4mr6vjCbihLpprfglvT7XbscHBKDk95nRqMuUjHv+BNcpbEkI6mZw3M5CQ+dF4bR1thOjuGI0PRI5RlDDbuejLWL0eAtPzx32N2zLqSmO7UpoLUcmrYin4bxXp0QP0dEWNnaQAA",
+      "dominant": "#f8f8f8",
+      "lowRes": false
+    },
+    "photos/corvel-lobby": {
+      "id": "photos/corvel-lobby",
+      "group": "photos",
+      "source": "assets-src/photos/corvel-lobby.jpg",
+      "width": 1239,
+      "height": 826,
+      "aspect": 1.5,
+      "hasAlpha": false,
+      "largestUrl": "/media/photos/corvel-lobby-1239.webp",
+      "srcset": {
+        "avif": "/media/photos/corvel-lobby-480.avif 480w, /media/photos/corvel-lobby-800.avif 800w, /media/photos/corvel-lobby-1200.avif 1200w, /media/photos/corvel-lobby-1239.avif 1239w",
+        "webp": "/media/photos/corvel-lobby-480.webp 480w, /media/photos/corvel-lobby-800.webp 800w, /media/photos/corvel-lobby-1200.webp 1200w, /media/photos/corvel-lobby-1239.webp 1239w"
+      },
+      "lqip": "data:image/webp;base64,UklGRqQAAABXRUJQVlA4IJgAAABwBACdASoYABAAPu1iqU2ppaOiMAgBMB2JbACdMoADNgLCpswURTUOi69mgAD+yZ/vSHgmtRzW0SOtcqdKjpcT8blXvSekxZ/0hXfhfwQHzTLxEYK7yRpehW9nRIRfVgjrITi2GJhQUxbHsizU1pY7m1ceY98a/YazS+nKfEAL/n5JAGuH/EhsAd+BpZ/M8K1omKHPzIS4AA==",
+      "dominant": "#e8d8c8",
+      "lowRes": false
+    },
+    "photos/corvel-room": {
+      "id": "photos/corvel-room",
+      "group": "photos",
+      "source": "assets-src/photos/corvel-room.jpg",
+      "width": 1239,
+      "height": 826,
+      "aspect": 1.5,
+      "hasAlpha": false,
+      "largestUrl": "/media/photos/corvel-room-1239.webp",
+      "srcset": {
+        "avif": "/media/photos/corvel-room-480.avif 480w, /media/photos/corvel-room-800.avif 800w, /media/photos/corvel-room-1200.avif 1200w, /media/photos/corvel-room-1239.avif 1239w",
+        "webp": "/media/photos/corvel-room-480.webp 480w, /media/photos/corvel-room-800.webp 800w, /media/photos/corvel-room-1200.webp 1200w, /media/photos/corvel-room-1239.webp 1239w"
+      },
+      "lqip": "data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAABwBACdASoYABAAPu1iqU2ppaOiMAgBMB2JaACdMoR3ACWcBGNu63JZ4b7EgAD+4kSaykIYJV2kaSz8AzC9sQxYiV0rukwQ7bmw0QaZvk3dx/apbrgwkgrWTEaUfoFv3Din9cN3GnsVf7WzFkPHyXw/GiadCkxZqarlX5hilE8vtrx6r+DYxZ+OMErKl8VcOUxFs+tT+qvHuRqzxqAAAA==",
+      "dominant": "#f8e8d8",
+      "lowRes": false
+    },
+    "photos/hoteru-room": {
+      "id": "photos/hoteru-room",
+      "group": "photos",
+      "source": "assets-src/photos/hoteru-room.jpg",
+      "width": 810,
+      "height": 540,
+      "aspect": 1.5,
+      "hasAlpha": false,
+      "largestUrl": "/media/photos/hoteru-room-810.webp",
+      "srcset": {
+        "avif": "/media/photos/hoteru-room-480.avif 480w, /media/photos/hoteru-room-800.avif 800w, /media/photos/hoteru-room-810.avif 810w",
+        "webp": "/media/photos/hoteru-room-480.webp 480w, /media/photos/hoteru-room-800.webp 800w, /media/photos/hoteru-room-810.webp 810w"
+      },
+      "lqip": "data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAABwBACdASoYABAAPu1iqU2ppaOiMAgBMB2JZAC7Ef/gMXL4WfPtjv9wJYuUAAD5LEIAMcyvw/shdBtnxVThRGkvq2AdOiWjqdHup9ShGaf4oWv9gN5jDPCSqou91606t8Fib9nsFDIBVu1CmSEkR/Z11wEeHgf+cUWnlyiF9qnLu094ZbZdtdL3N24cZ37AS1oJq75xZxDvW8jrpoAAAA==",
+      "dominant": "#d8b898",
+      "lowRes": true
+    },
+    "photos/hoteru-stair": {
+      "id": "photos/hoteru-stair",
+      "group": "photos",
+      "source": "assets-src/photos/hoteru-stair.jpg",
+      "width": 810,
+      "height": 540,
+      "aspect": 1.5,
+      "hasAlpha": false,
+      "largestUrl": "/media/photos/hoteru-stair-810.webp",
+      "srcset": {
+        "avif": "/media/photos/hoteru-stair-480.avif 480w, /media/photos/hoteru-stair-800.avif 800w, /media/photos/hoteru-stair-810.avif 810w",
+        "webp": "/media/photos/hoteru-stair-480.webp 480w, /media/photos/hoteru-stair-800.webp 800w, /media/photos/hoteru-stair-810.webp 810w"
+      },
+      "lqip": "data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAAAwBACdASoYABAAPu1iqU2ppaQiMAgBMB2JZACdMoSA2BnxM1Q2CXstCGAA+5KO1pOpFb9iqxXq7vLopHpRpUx9OOZDCLiEKEJ30bttmatAfOSkRD/oO4cIGAo9SwvVx37IsQ9a3epmFwE4sofXKFAi64QAAA==",
+      "dominant": "#a87858",
+      "lowRes": true
+    },
+    "photos/purnava-pool": {
+      "id": "photos/purnava-pool",
+      "group": "photos",
+      "source": "assets-src/photos/purnava-pool.jpg",
+      "width": 922,
+      "height": 615,
+      "aspect": 1.4992,
+      "hasAlpha": false,
+      "largestUrl": "/media/photos/purnava-pool-922.webp",
+      "srcset": {
+        "avif": "/media/photos/purnava-pool-480.avif 480w, /media/photos/purnava-pool-800.avif 800w, /media/photos/purnava-pool-922.avif 922w",
+        "webp": "/media/photos/purnava-pool-480.webp 480w, /media/photos/purnava-pool-800.webp 800w, /media/photos/purnava-pool-922.webp 922w"
+      },
+      "lqip": "data:image/webp;base64,UklGRtQAAABXRUJQVlA4IMgAAADQBACdASoYABAAPu1iqU2ppaOiMAgBMB2JbACdMoLUANm2i6lIbYGlvMAdO+1xAADiA5uOPoM76eYOo2jajX2/fqs3WemfEkMiCD+1EOq6u4y0N7MerIDtovLknLRnNSXTy4EZ8FpmWHiwjMDd7FWcQf7ZGOAeojEMuDk7DbR6PRrHXdPGnkiT1XBmY3Opx+oJm4h0eQiRKxHs3FqQ90m3C1W4xISyiJdrcrfr5pjMVHkSaTW4vzSSL4Eb+RmpqHT9AL2A9uiAAA==",
+      "dominant": "#f8f8f8",
+      "lowRes": true
+    },
+    "photos/staff-training": {
+      "id": "photos/staff-training",
+      "group": "photos",
+      "source": "assets-src/photos/staff-training.jpg",
+      "width": 1200,
+      "height": 800,
+      "aspect": 1.5,
+      "hasAlpha": false,
+      "largestUrl": "/media/photos/staff-training-1200.webp",
+      "srcset": {
+        "avif": "/media/photos/staff-training-480.avif 480w, /media/photos/staff-training-800.avif 800w, /media/photos/staff-training-1200.avif 1200w",
+        "webp": "/media/photos/staff-training-480.webp 480w, /media/photos/staff-training-800.webp 800w, /media/photos/staff-training-1200.webp 1200w"
+      },
+      "lqip": "data:image/webp;base64,UklGRtgAAABXRUJQVlA4IMwAAACQBACdASoYABAAPu1iqU2ppaOiMAgBMB2JQBOmUGYwaSKmEsLOH020lzTKBrgA/XCPB52WgQHVcPSgzuD98YAFS6JhdFp+CnzG7mJvS7/69ba+GzNQ9R999u+nWpK+Mvqj0zNHzSVMqik9zc7mKWKVU7uWL7Xp4b58yH5pwMImRz6TGBt12u65PtuWRZd8pc785XIR1eh5/T5olOgv9Y0hbtHuLYDQnhTCTic9/J965iUIMFd5sHUUJmS3OKgChZ6eeGpPwCTllouAAAA=",
+      "dominant": "#080808",
+      "lowRes": false
+    },
+    "photos/step-build": {
+      "id": "photos/step-build",
+      "group": "photos",
+      "source": "assets-src/photos/step-build.jpg",
+      "width": 854,
+      "height": 388,
+      "aspect": 2.201,
+      "hasAlpha": false,
+      "largestUrl": "/media/photos/step-build-854.webp",
+      "srcset": {
+        "avif": "/media/photos/step-build-480.avif 480w, /media/photos/step-build-800.avif 800w, /media/photos/step-build-854.avif 854w",
+        "webp": "/media/photos/step-build-480.webp 480w, /media/photos/step-build-800.webp 800w, /media/photos/step-build-854.webp 854w"
+      },
+      "lqip": "data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAAAwBACdASoYAAsAPu1kqU2ppaOiMAgBMB2JaQAD5hmVbf8a/Ru7Yd90YoAA/vHftYDudEp+k3TaQyoEKpxeA4BWHEu2FKq3Iv30n3WVao64U3g/oqIPtSGnEOYM0dra91ZuZrNU9h8DjVoUkzowlr//Q0aTodGP90PXlFhRRGSUAAAA",
+      "dominant": "#f8f8f8",
+      "lowRes": true
+    },
+    "photos/step-design": {
+      "id": "photos/step-design",
+      "group": "photos",
+      "source": "assets-src/photos/step-design.jpg",
+      "width": 1280,
+      "height": 720,
+      "aspect": 1.7778,
+      "hasAlpha": false,
+      "largestUrl": "/media/photos/step-design-1280.webp",
+      "srcset": {
+        "avif": "/media/photos/step-design-480.avif 480w, /media/photos/step-design-800.avif 800w, /media/photos/step-design-1200.avif 1200w, /media/photos/step-design-1280.avif 1280w",
+        "webp": "/media/photos/step-design-480.webp 480w, /media/photos/step-design-800.webp 800w, /media/photos/step-design-1200.webp 1200w, /media/photos/step-design-1280.webp 1280w"
+      },
+      "lqip": "data:image/webp;base64,UklGRp4AAABXRUJQVlA4IJIAAADQAwCdASoYAA4APu1iqU2ppaOiMAgBMB2JYwAAYXf4PxnxK5fEQeAA/u4QlgiLq/9elrrx4JUPOpolL+eOMRy/V68DXeTEhScCziS0VjNavWhUm2Yx99sYrqCP8fI2R3tCScpNJl73QRRTL9PfogUWA0NvO9av4uBreFV4sbg+jeXxmWGa2f98A4d5UnIOREJAAA==",
+      "dominant": "#f8f8f8",
+      "lowRes": false
+    },
+    "photos/step-operate": {
+      "id": "photos/step-operate",
+      "group": "photos",
+      "source": "assets-src/photos/step-operate.jpg",
+      "width": 800,
+      "height": 600,
+      "aspect": 1.3333,
+      "hasAlpha": false,
+      "largestUrl": "/media/photos/step-operate-800.webp",
+      "srcset": {
+        "avif": "/media/photos/step-operate-480.avif 480w, /media/photos/step-operate-800.avif 800w",
+        "webp": "/media/photos/step-operate-480.webp 480w, /media/photos/step-operate-800.webp 800w"
+      },
+      "lqip": "data:image/webp;base64,UklGRuIAAABXRUJQVlA4INYAAABwBQCdASoYABIAPu1wsFKppiSiqAgBMB2JYwCdMt8lyAv9TGvtbSMZgrTHGVWtyD++qdDAAP7v0fwOd/F/iQnKuXceYD48ESMiwa7muvL6JsmsKxbnnWF3oNfTrEdZ/mLhVGxnkc+OkcrCPrMnwIo9lLb0joSumeuqoUdEx4DXGTGSsFq+SSnzN9g3HIXIGLuJq4EY4v0Zcy4L0TdNdyB44hFCgw4MzwLC89X53+jHyH5QMApGJNk2Nb++hH8uI8n82Z/nOoceRRhQtkDqVAIqegTIwAAA",
+      "dominant": "#f8f8f8",
+      "lowRes": true
     }
   }
 }

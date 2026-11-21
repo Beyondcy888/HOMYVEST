@@ -1,0 +1,9 @@
+.plogo {
+  display: block;
+  flex: none;
+  height: calc(var(--logo-h, var(--logo-h0, 20px)) * var(--logo-boost, 1));
+  width: auto;
+  max-width: none;
+  /* logos are artwork: never filtered, recoloured or stretched */
+  object-fit: contain;
+}

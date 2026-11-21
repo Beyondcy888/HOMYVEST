@@ -9,7 +9,10 @@ import path from 'node:path';
 const ROOT = process.cwd();
 const OUT_DIR = path.join(ROOT, 'public', 'media');
 const MANIFEST = path.join(ROOT, 'src', 'content', 'media-manifest.json');
-const EXTRA_GROUPS = { 'padel-clean': path.join(ROOT, '.cache', 'padel-clean') }; // produced by clean-padel.mjs
+const EXTRA_GROUPS = {
+  'padel-clean': path.join(ROOT, '.cache', 'padel-clean'), // produced by clean-padel.mjs
+  photos: path.join(ROOT, 'assets-src', 'photos'),          // company-profile photos (updates/U01/U01_07_ASSETS.md); read only
+};
 const WIDTHS = [480, 800, 1200, 1600, 2000, 2560];
 const IMG = /\.(png|jpe?g|webp|tiff?)$/i;
 

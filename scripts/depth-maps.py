@@ -20,8 +20,9 @@ MANIFEST = ROOT / "src" / "content" / "media-manifest.json"
 OUT_DIR = ROOT / "public" / "media" / "depth"
 STATUS = ROOT / "src" / "content" / "depth-status.json"
 MODEL = "depth-anything/Depth-Anything-V2-Small-hf"
-GROUPS = {"facades", "interiors", "cafe", "office", "others", "maxone"}   # photographic renders only
-EXCLUDE = {"maxone/layout"}                                              # floor plan: no depth effect
+GROUPS = {"facades", "interiors", "cafe", "office", "others", "maxone", "photos"}   # photographic renders + photos
+# maxone/layout: floor plan, no depth effect. Team/training photos and before/after pairs: people at the edges smear.
+EXCLUDE = {"maxone/layout", "photos/behomy-team", "photos/staff-training"} | {f"photos/before-after-{i}-{s}" for i in range(1, 5) for s in ("before", "after")}
 MAX_SIDE = 1280                                                          # depth maps are soft; this is plenty
 
 

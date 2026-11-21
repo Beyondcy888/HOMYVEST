@@ -1,8 +1,8 @@
 {
   "available": true,
   "model": "depth-anything/Depth-Anything-V2-Small-hf",
-  "note": "28 depth maps",
-  "generatedAt": "2026-11-20T01:17:14",
+  "note": "43 depth maps",
+  "generatedAt": "2026-11-21T15:32:43",
   "items": {
     "cafe/cafe": {
       "url": "/media/depth/cafe/cafe.webp",
@@ -143,6 +143,81 @@
       "url": "/media/depth/others/athero-4.webp",
       "width": 1280,
       "height": 719
+    },
+    "photos/behomy-corridor": {
+      "url": "/media/depth/photos/behomy-corridor.webp",
+      "width": 1280,
+      "height": 853
+    },
+    "photos/behomy-facade-1": {
+      "url": "/media/depth/photos/behomy-facade-1.webp",
+      "width": 853,
+      "height": 1280
+    },
+    "photos/behomy-facade-2": {
+      "url": "/media/depth/photos/behomy-facade-2.webp",
+      "width": 908,
+      "height": 1210
+    },
+    "photos/behomy-hero": {
+      "url": "/media/depth/photos/behomy-hero.webp",
+      "width": 1280,
+      "height": 853
+    },
+    "photos/behomy-life": {
+      "url": "/media/depth/photos/behomy-life.webp",
+      "width": 1200,
+      "height": 800
+    },
+    "photos/behomy-room-1": {
+      "url": "/media/depth/photos/behomy-room-1.webp",
+      "width": 1012,
+      "height": 679
+    },
+    "photos/behomy-room-2": {
+      "url": "/media/depth/photos/behomy-room-2.webp",
+      "width": 960,
+      "height": 717
+    },
+    "photos/corvel-lobby": {
+      "url": "/media/depth/photos/corvel-lobby.webp",
+      "width": 1239,
+      "height": 826
+    },
+    "photos/corvel-room": {
+      "url": "/media/depth/photos/corvel-room.webp",
+      "width": 1239,
+      "height": 826
+    },
+    "photos/hoteru-room": {
+      "url": "/media/depth/photos/hoteru-room.webp",
+      "width": 810,
+      "height": 540
+    },
+    "photos/hoteru-stair": {
+      "url": "/media/depth/photos/hoteru-stair.webp",
+      "width": 810,
+      "height": 540
+    },
+    "photos/purnava-pool": {
+      "url": "/media/depth/photos/purnava-pool.webp",
+      "width": 922,
+      "height": 615
+    },
+    "photos/step-build": {
+      "url": "/media/depth/photos/step-build.webp",
+      "width": 854,
+      "height": 388
+    },
+    "photos/step-design": {
+      "url": "/media/depth/photos/step-design.webp",
+      "width": 1280,
+      "height": 720
+    },
+    "photos/step-operate": {
+      "url": "/media/depth/photos/step-operate.webp",
+      "width": 800,
+      "height": 600
     }
   }
 }
