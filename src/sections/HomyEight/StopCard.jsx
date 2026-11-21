@@ -1,3 +1,4 @@
+import { memo, useEffect, useRef } from 'react';
 import DepthImage from '../../components/media/DepthImage.jsx';
 import Caption from '../../components/ui/Caption.jsx';
 
@@ -10,12 +11,24 @@ const SIZES = '(max-width: 767px) and (orientation: portrait) 62vw, (max-height:
  *  - variant "label" (render-led fallback, where the render already fills the stage): name and caption only.
  * Presence is driven from scroll through the CSS variables --in (0..1) and --mix (second render of a pair).
  */
-export default function StopCard({ ref, card, name, variant = 'image' }) {
+function StopCard({ ref, card, name, variant = 'image' }) {
   const [first, second] = card.ids;
+  const media = useRef(null);
+  // A card is fully clipped until its stop, so the browser would decode its picture on the frame it first
+  // shows (on phones, where the picture stays a plain image, that was a 60–100 ms frame). Decode it ahead,
+  // in idle time, once it has loaded.
+  useEffect(() => {
+    const box = media.current;
+    if (!box) return undefined;
+    let id = 0;
+    const decode = () => box.querySelectorAll('img').forEach((img) => img.decode?.().catch(() => undefined));
+    id = window.requestIdleCallback ? window.requestIdleCallback(decode, { timeout: 3000 }) : window.setTimeout(decode, 800);
+    return () => (window.cancelIdleCallback ? window.cancelIdleCallback(id) : window.clearTimeout(id));
+  }, []);
   return (
     <figure ref={ref} className={`scard scard--${variant} scard--${card.side}`} data-stop={card.stop} data-depth-host data-depth-off="true">
       {variant === 'image' ? (
-        <div className="scard__media">
+        <div className="scard__media" ref={media}>
           <DepthImage id={first} sizes={SIZES} strength={0.8} className="scard__img" />
           {second ? <DepthImage id={second} sizes={SIZES} strength={0.8} className="scard__img scard__img--b" /> : null}
         </div>
@@ -30,3 +43,6 @@ export default function StopCard({ ref, card, name, variant = 'image' }) {
     </figure>
   );
 }
+
+// memo: the walkthrough re-renders when the stop changes; the cards themselves do not change.
+export default memo(StopCard);

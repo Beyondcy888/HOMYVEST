@@ -33,6 +33,9 @@
 .walk__scene {
   z-index: 0;
 }
+.walk__scene .scene-mount__poster img.walk__poster {
+  object-fit: cover;
+}
 
 /* ---------- Fallback B: the renders fill the stage and drift in the direction of travel ---------- */
 .walk__shots {

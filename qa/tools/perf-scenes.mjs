@@ -123,9 +123,15 @@ async function runProfile(key) {
   await page.goto(`${BASE}${PAGE}${sep}perf=1`, { waitUntil: 'load' });
   await page.evaluate(() => document.fonts.ready);
   await page.waitForTimeout(3000);
+  // warm-up includes the page's own idle preparation (/portofolio/ builds the scenes' worlds while the
+  // visitor reads the intro); the original page has none, so this returns at once there
+  const prep = Date.now();
+  await page.waitForFunction(() => window.__homyvest?.prepared !== false, null, { timeout: 20000 }).catch(() => undefined);
+  const prepared = await page.evaluate(() => window.__homyvest?.prepared ?? null);
+  const prepMs = Date.now() - prep;
   const vp = page.viewportSize();
   await page.mouse.move(vp.width / 2, vp.height / 2);
-  const out = { profile: prof.name, scenes: {} };
+  const out = { profile: prof.name, prepared, waitedForPrepMs: prepMs, scenes: {} };
 
   for (const [scene, trig] of Object.entries(KEYS)) {
     const has = await page.evaluate((k) => Boolean(window.__homyvest?.triggers?.[k]), trig);

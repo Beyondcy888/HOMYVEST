@@ -103,6 +103,10 @@ export default function Walkthrough() {
   const [failed, setFailed] = useState(false);
   const mode = useMode(failed);
   const progress = useMemo(() => createProgress(0), []);
+  // Stable props: the stop number is React state, and its change must not re-render the canvas or the cards.
+  const sceneProps = useMemo(() => ({ progress }), [progress]);
+  const onFail = useCallback(() => setFailed(true), []);
+  const cardRefFns = useMemo(() => CARDS.map((_, i) => (el) => (cardRefs.current[i] = el)), []);
   const [stop, setStop] = useState(0);
   const blockRef = useRef(null);
   const cardRefs = useRef([]);
@@ -172,7 +176,17 @@ export default function Walkthrough() {
         </a>
 
         {mode === '3d' ? (
-          <SceneMount load={loadScene} sceneProps={{ progress }} label={t('homyeight.walk.sceneAlt')} onFail={() => setFailed(true)} className="walk__scene" />
+          <SceneMount
+            load={loadScene}
+            sceneProps={sceneProps}
+            label={t('homyeight.walk.sceneAlt')}
+            onFail={onFail}
+            className="walk__scene"
+            // Until the room has drawn its first frame (about 0.8 s after it mounts, one screen ahead), a fast
+            // scroller sees the view it opens on instead of an empty stage: the arrival, or the whole floor
+            // when coming back up from below.
+            poster={<img className="walk__poster" src={`/media/posters/maxone-${stop >= 4 ? 6 : 0}.webp`} alt="" decoding="async" />}
+          />
         ) : (
           <div className="walk__shots" role="img" aria-label={t('homyeight.walk.sceneAlt')}>
             {SHOTS.map((shot, i) => (
@@ -190,7 +204,7 @@ export default function Walkthrough() {
         )}
 
         {CARDS.map((card, i) => (
-          <StopCard key={card.stop} ref={(el) => (cardRefs.current[i] = el)} card={card} name={names[card.stop]} variant={mode === '3d' ? 'image' : 'label'} />
+          <StopCard key={card.stop} ref={cardRefFns[i]} card={card} name={names[card.stop]} variant={mode === '3d' ? 'image' : 'label'} />
         ))}
 
         {mode === 'fallback' ? (
