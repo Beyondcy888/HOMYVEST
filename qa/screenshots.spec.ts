@@ -18,7 +18,7 @@ const SCENES: Record<string, number[]> = {
   maxone: [0, 0.07, 0.12, 0.2, 0.29, 0.37, 0.52, 0.67, 0.8, 0.9, 0.95, 1],
   padel: [0.02, 0.15, 0.28, 0.33, 0.38, 0.5, 0.6, 0.65, 0.7, 0.82, 0.9, 0.96, 1],
 };
-const PORTFOLIO_PARTS = ['pf-intro', 'story', 'maxone', 'padel', 'beyond'];
+const PORTFOLIO_PARTS = ['intro', 'story', 'maxone', 'padel', 'beyond', 'closing'];
 
 test.describe.configure({ mode: 'parallel' });
 test.setTimeout(600_000);
@@ -86,7 +86,7 @@ for (const [vp, size] of Object.entries(VIEWPORTS)) {
           await page.waitForSelector('#beyond');
           await page.evaluate(() => document.fonts.ready);
           for (const id of PORTFOLIO_PARTS) {
-            if (id === 'pf-intro') await scrollToY(page, 0);
+            if (id === 'intro') await scrollToY(page, 0);
             else await scrollToSel(page, `#${id}`, 0);
             await settle(page, 1200);
             await page.screenshot({ path: `qa/screenshots/sections/${vp}-${theme}-${lang}-portfolio-${id}.png` });

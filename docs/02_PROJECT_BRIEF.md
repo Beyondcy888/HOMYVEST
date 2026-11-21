@@ -32,6 +32,9 @@ People without land who want to invest. Serve them with one FAQ answer pointing 
 ### What every visitor must leave knowing
 Who we are → what we do → why us (without the word "USP") → what *their* land could become → exactly how to move forward.
 
+### The first step comes first
+Both personas meet the first step before the explanation: the hero asks for a phone number within the first screen (the lead funnel, `04` §1). Everything below the hero (what HOMYVEST is, how it works, Behomy, the projects, the land check) then answers the questions of a visitor who isn't ready yet, and each part leads back to the same two ways in: the number or WhatsApp.
+
 ## 5. The partners
 
 ### HomyEight: builds it
@@ -70,12 +73,16 @@ Who we are → what we do → why us (without the word "USP") → what *their* l
 | Free design and estimate | design concepts and cost estimates are **free** | Behomy profile: "All designs & estimations are free!" |
 | Free trial management | Full Management starts with a **free trial** period and **no upfront management fee** | Behomy profile. Use only in FAQ or Behomy detail, not as a headline. |
 | Marketing reach | official hotel-chain tag on **4 OTAs**; **500+** KOLs and influencers; **10M+** views | Behomy profile |
+| Estimated break-even | **< 3.5 years** estimated break-even on Behomy equity partnership projects | Behomy 2026 profile lists equity projects with estimated break-even "< 3 years" and "< 3.5 years" (10-year terms). Always say "estimated", always footnote, never apply it to a visitor's land. (Added in update U01.) |
+| Brand captions | "Behomy Residence", "Corvel by Behomy · Jakarta Pusat", "Purnava Village by Behomy · Bali", "Hoteru by Behomy" | Brand pages of the Behomy 2026 profile, where these photos come from. (Added in update U01; captions in `src/content/behomy.js`, `08` §5.) |
 
 **Never claim:** guaranteed income, guaranteed occupancy, specific ROI for a visitor's land (except calculator outputs, always labelled as estimates), construction timelines, prices, cities not listed above, or awards. If a section seems to need a number you don't have, rewrite the sentence so it doesn't.
 
 ## 7. Contact
-- **WhatsApp:** +62 821-1010-6088 → `https://wa.me/6282110106088`
-- All CTAs go to WhatsApp, with a prefilled message (templates in `07` §12).
+Two ways in, everywhere on the site:
+- **The lead funnel:** the visitor leaves a phone number in the hero, answers one funding question and a short form (`04` §1). Answers are saved to Supabase (`09` §12). If saving isn't set up or fails, the visitor is handed over to WhatsApp with the answers already written into the message, so no lead is lost.
+- **WhatsApp:** +62 821-1010-6088 → `https://wa.me/6282110106088`. Every WhatsApp link carries a prefilled message (templates in `07` §12). The hero shows it as "Free consultation with the HomyEight team".
+- "Leave your number" links (in `#next` and on `/portofolio/`) lead back to the hero's phone field.
 - No email or address is provided for HOMYVEST yet. Don't invent one.
 
 ## 8. Why us, shown and never labelled
@@ -95,5 +102,5 @@ Calm, warm, plain-spoken and confident. Short sentences. Speak to one owner ("yo
 
 ## 11. Brand status
 - There is no logo yet. Build a **wordmark**: HOMYVEST in Archivo at maximum weight, expanding to **HOMY INVESTASI** on hover (`03` §4).
-- Colours: black and white only. Colour comes from the property renders.
+- Colours: black and white only. Colour comes from the property renders and photos, and from the partners' own logos (`03` §3).
 - No domain yet. Use `https://homyvest.example` in canonical and OG tags and list it in REPORT.md as "replace with the real domain".

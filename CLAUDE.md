@@ -14,6 +14,7 @@ You are building the public marketing website for **HOMYVEST**, end to end, **un
 9. `docs/08_ASSETS.md` — the renders, the asset pipeline, captions
 10. `docs/09_TECH_ARCHITECTURE.md` — stack, structure, performance
 11. `docs/10_QA_AND_LAUNCH.md` — tests, reviews, final report
+12. `updates/` — owner updates since the first build (`updates/Uxx/`, each starting at `Uxx_00_START.md`); `docs/` already describes the site after every applied update
 
 ## Non-negotiables
 - **Never wait for input.** If something is unclear, choose the option that best serves the brief, write it in `docs/DECISIONS.md`, and continue.
@@ -24,3 +25,5 @@ You are building the public marketing website for **HOMYVEST**, end to end, **un
 - **Never upscale an image.** Use the generated responsive variants.
 - Commit to git after every milestone with a clear message.
 - The finished site must work without 3D (reduced motion, no WebGL, slow phones) and be lovely with it.
+- **Updates.** Owner updates live in `updates/Uxx/` and start at `Uxx_00_START.md`. Apply them in number order. An update overrides `docs/` where they conflict. After applying it, edit `docs/` so it describes the current site, log changes in `docs/DECISIONS.md`, and write `docs/REPORT_Uxx.md`.
+- **Secrets.** Never read, print or commit `.env*` (except `*.example`), `supabase/.env*`, or key files. Run `node scripts/check-secrets.mjs --all` before committing.

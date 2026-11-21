@@ -1,4 +1,4 @@
-// English copy. Source of truth: docs/07_CONTENT_AND_COPY.md. Facts: docs/02_PROJECT_BRIEF.md §6.
+// English copy: the shipped source of truth (docs/07_CONTENT_AND_COPY.md mirrors it). Facts: docs/02_PROJECT_BRIEF.md §6.
 // Numbers that need locale formatting are stored as numbers and formatted by src/i18n/format.js.
 export default {
   meta: {
@@ -48,7 +48,6 @@ export default {
     body: "Have an empty plot or an unfinished building? Leave your number and we'll show you what it could become.",
     chip: '82% average occupancy across Behomy properties',
     scrollCue: 'Scroll',
-    skip: 'Skip intro',
     b1: {
       title: 'Your land is waiting.',
       body: 'An empty plot or an unfinished building costs you every month it sits still. It could be earning instead.',
@@ -292,7 +291,6 @@ export default {
   },
 
   beyond: {
-    eyebrow: 'Beyond stays',
     title: 'Some land earns more as something else.',
     body: "A sports hall, a café, an office. If that suits your land and your area better, that's what we'll suggest.",
     padel: {
@@ -302,12 +300,10 @@ export default {
         'Finished: one hall, ready to book.',
       ],
       tag: 'Padel hall · Design by HomyEight',
-      skip: 'Skip the padel hall',
       sceneAlt:
         'Animated model of a padel hall assembling in three stages: the ground floor with its courts, the upper floor and structure, then the finished hall with its vaulted roof.',
     },
     ways: {
-      label: 'Three more ways to earn',
       soccer: {
         title: 'Mini soccer',
         body: 'An open plot can become a busy weekend venue, with a café and stands beside the pitch.',

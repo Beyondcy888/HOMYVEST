@@ -274,3 +274,11 @@ main {
     font-size: 1.75rem;
   }
 }
+
+/* On the portfolio page the "← Home" link sits beside the wordmark. On narrow phones the header's language toggle
+   steps aside to make room; it stays in the menu sheet and the footer. */
+@media (max-width: 420px) {
+  .header[data-page='portfolio'] .header__actions .lang {
+    display: none;
+  }
+}

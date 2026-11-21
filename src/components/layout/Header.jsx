@@ -123,7 +123,7 @@ export default function Header({ wordmarkRef }) {
 
   return (
     <>
-      <header ref={ref} className="header" data-solid="false" data-hidden="false" data-ready={introDone}>
+      <header ref={ref} className="header" data-solid="false" data-hidden="false" data-ready={introDone} data-page={page}>
         <div className="wrap header__in">
           <div className="header__start">
             {page === 'home' ? (

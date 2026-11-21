@@ -53,8 +53,37 @@ function slimManifest(): Plugin {
   };
 }
 
+/**
+ * The same redirects as the hosts (vercel.json, netlify.toml) for `npm run dev` and `vite preview`:
+ * /portofolio, /portfolio and /portfolio/ → /portofolio/ (301). Without them the dev and preview servers fall
+ * back to the main page for the slashless path.
+ */
+function portfolioRedirects(): Plugin {
+  type Req = { url?: string };
+  type Res = { statusCode: number; setHeader: (name: string, value: string) => void; end: () => void };
+  const redirect = (req: Req, res: Res, next: () => void) => {
+    const [path, query] = (req.url ?? '').split('?');
+    if (path === '/portofolio' || path === '/portfolio' || path === '/portfolio/') {
+      res.statusCode = 301;
+      res.setHeader('Location', `/portofolio/${query ? `?${query}` : ''}`);
+      res.end();
+      return;
+    }
+    next();
+  };
+  return {
+    name: 'homyvest-portfolio-redirects',
+    configureServer(server) {
+      server.middlewares.use(redirect);
+    },
+    configurePreviewServer(server) {
+      server.middlewares.use(redirect);
+    },
+  };
+}
+
 export default defineConfig({
-  plugins: [slimManifest(), react(), preloadFont()],
+  plugins: [slimManifest(), portfolioRedirects(), react(), preloadFont()],
   server: { port: 5173, strictPort: true },
   preview: { port: 4173, strictPort: true },
   build: {

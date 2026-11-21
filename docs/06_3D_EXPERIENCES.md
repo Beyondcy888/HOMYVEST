@@ -4,11 +4,13 @@ Four 3D moments plus one image effect:
 
 | # | Experience | Where | Kind |
 |---|---|---|---|
-| §2 | Hero story | `#story` | Pinned, scroll-scrubbed, procedural clay |
-| §3 | Maxone walkthrough | `#homyeight` | Pinned, scroll-driven first-person camera through a procedural room |
-| §4 | Padel assembly | `#beyond` | Pinned, scroll-scrubbed, orthographic clay model → real renders |
-| §5 | Calculator scenes | `#calculator` | Interactive, live-updating clay model |
-| §6 | Depth parallax | photographic renders everywhere | 2.5D shader effect on images |
+| §2 | Hero story | `/portofolio/#story` | Pinned, scroll-scrubbed, procedural clay |
+| §3 | Maxone walkthrough | `/portofolio/#maxone` | Pinned, scroll-driven first-person camera through a procedural room |
+| §4 | Padel assembly | `/portofolio/#padel` | Pinned, scroll-scrubbed, orthographic clay model → real renders |
+| §5 | Calculator scenes | `/#calculator` | Interactive, live-updating clay model |
+| §6 | Depth parallax | photographic renders and photos on both pages | 2.5D shader effect on images |
+
+**Since update U01** the three pinned scenes live on their own page, `/portofolio/` (U01_04), in the order story → Maxone → padel → Beyond stays (landscape image strip, `#beyond`). The main page loads none of their code. Their choreography (beats and progress ranges below) is unchanged; only the scroll length that maps to progress 0 → 1 grew, and the smoothing is softer (§1.5). Trigger ids in `window.__homyvest.triggers`: `story`, `maxone`, `padel`, `beyond`.
 
 The design language is the one from `03` §5: **white clay = planned and being built; full colour = real and alive.**
 
@@ -57,9 +59,16 @@ Decide the tier once at load, then let drei `<PerformanceMonitor>` step **down**
 Expose `?tier=high|medium|low` to force a tier for testing.
 
 ### 1.5 Scroll orchestration (smoothness)
-- **Lenis** drives the page scroll (`lerp: 0.1`, `smoothWheel: true`; leave touch scrolling native). Feed it through GSAP's ticker so ScrollTrigger and Lenis share one clock (`09` §5).
-- Each pinned scene owns **one ScrollTrigger**: `pin: true`, `scrub: true` (Lenis already smooths), `start: 'top top'`, `end: '+=' + lengthInVh + 'vh'`. Its `onUpdate` writes `progress` (0–1) into a **ref**, never into React state, and calls `invalidate()`.
-- Inside `useFrame`, read the ref and **damp towards it** (`maath/easing.damp`, smoothTime ≈ 0.18 s for camera, ≈ 0.12 s for assembly). This removes the "steppy" feel of mouse-wheel notches without lag.
+- **One source of truth:** `src/content/scroll-config.js`. `SCROLL` holds each pinned scene's length in viewport heights × 100 (story 1000 / phones 800, Maxone 1400 / 1100, padel 800 / 640, Beyond 110 per panel on desktop). "Phones" = coarse pointer and narrower than 768 px (`MOBILE_SCROLL_QUERY`). `SMOOTH` holds the Lenis and damping values. Tune there only (U01_04 §3).
+- **Lenis** drives the page scroll (`smoothWheel: true`; touch stays native): `lerp 0.1` on the main page, `lerp 0.075` and `wheelMultiplier 0.85` on `/portofolio/` so each wheel notch moves the long scenes less. It is fed through GSAP's ticker so ScrollTrigger and Lenis share one clock (`09` §5).
+- **Pinning is CSS `position: sticky`** inside a wrapper of height 100 + length vh (`PinnedScene`), with one ScrollTrigger from `top top` to `bottom bottom` reporting progress. There is no pin-spacer, so `anticipatePin` and `pinSpacing` don't apply. Scrubbed text timelines use `scrub: true` (never a number: Lenis plus damping is already enough smoothing), with `invalidateOnRefresh` and `fastScrollEnd`. `onUpdate` writes progress into a ref, never React state, and calls `invalidate()`.
+- Inside `useFrame`, read the ref and **damp towards it** (`maath/easing.damp`, `SMOOTH.cameraSmoothTime` 0.28 s for cameras, `SMOOTH.assemblySmoothTime` 0.2 s for assembly and padel), and keep invalidating until the damped value has settled (≤ 0.0002). This removes the "steppy" feel of mouse-wheel notches without lag. Maxone keeps its far-jump cut.
+- **Smoothness rules on `/portofolio/`** (U01_04 §4, as built):
+  - Shaders compile (`compileAsync`) and every image texture uploads (`gl.initTexture`, one per frame) before the first frame, with the poster up.
+  - The scenes' code is fetched at load, and their heavy worlds (Maxone's merged geometry, the hero and padel kits) are built in idle slices while the visitor reads the intro and the dividers. No slice runs while a pinned scene is being scrolled; a room that mounts mid-build finishes that build instead of starting over.
+  - Instanced meshes upload only the changed index span. No geometry or material is created while scrolling, and there are no per-frame allocations in the scenes' frame loops (padel's DOM style strings excepted).
+  - Off-screen canvases draw no frames (demand rendering; checked per canvas with `?perf=1`), and canvases more than two screens away unmount. The depth engine skips images that are off screen or under 360 px.
+  - The pixel ratio is capped on `/portofolio/` only (1.75 desktop, 1.5 phones). The calculator canvas on `/` is untouched.
 - Text overlays are DOM elements animated by GSAP timelines linked to the same ScrollTrigger (`timeline({ scrollTrigger })`), so text and 3D can't drift apart.
 - Never animate layout properties in pinned scenes. Use only transforms and opacity.
 - When a pinned scene is active, hide the header and the floating WhatsApp button (`04` §0).
@@ -145,7 +154,7 @@ All buildings sit centred in the building band and show their **top floor with n
 - A clubhouse 7 × 8 m on the east side (one floor, glazed front).
 - About 200 pieces.
 
-### 2.4 Choreography (progress 0–1 over ~500 vh)
+### 2.4 Choreography (progress 0–1 over `SCROLL.story`: 1000 vh, phones 800 vh)
 | Range | Beat | What happens | Camera |
 |---|---|---|---|
 | 0.00–0.10 | **1 Idle** | Grass sways almost imperceptibly (vertex wobble ±2° on high tier). Headline B1 rises in. | High 3/4 view of plot 0: target (0, 2, 10), distance 92 m, FOV 22°, azimuth −35°, elevation 32°. Slow push-in to 86 m. |
@@ -163,14 +172,14 @@ Slide labels (beat 3) sit bottom-centre in small caps with a thin progress line 
 Copy in `07` §2. DOM layer above the canvas (`pointer-events: none`, except the CTAs). Desktop: left third, vertically centred. Mobile: top 35% of the viewport, with the scene framed in the lower part. Each headline uses a SplitText line reveal; previous text fades out over 6% of progress before the next comes in.
 
 ### 2.6 Mobile framing
-Portrait camera: distance ×1.35, target lowered so buildings sit in the lower 60% of the screen. Tier rules apply (fewer tufts and people). Scroll length ~420 vh.
+Portrait camera: distance ×1.35, target lowered so buildings sit in the lower 60% of the screen, with the text in the top part. Tier rules apply (fewer tufts and people). Scroll length `SCROLL.story.mobile` (800 vh). Landscape phones: compact type and one-line slide labels.
 
 ### 2.7 Skip link
-"Skip intro" (bottom-left, small) jumps to `#about` via Lenis `scrollTo`.
+"Skip the story" (`pf.skipStory`, bottom-left, small) jumps exactly past the end of the pin. On `/portofolio/` the beat headlines are `<h2>` (the page's `<h1>` is "Our full portfolio"), and beat 5's "See what your land can do" links to `/#calculator`.
 
 ---
 
-## 3. Maxone walkthrough (`#homyeight`, "Step inside")
+## 3. Maxone walkthrough (`/portofolio/#maxone`, "Step inside"; trigger `maxone`, `SCROLL.maxone` 1400 vh / phones 1100 vh)
 
 ### 3.1 Approach
 There's no source 3D file for Maxone. **Build the room procedurally from `maxone/layout` and the seven renders**, making assumptions where the renders don't show something, and walk a camera through it on scroll. At each stop, the matching real render slides in as a framed card. The goal is a **complete, clean, smooth** experience: a calm, beautiful interpretation of the room, not a photoreal copy.
@@ -269,12 +278,12 @@ Eye height 1.55–1.65 m. Position and look-target each follow a `CatmullRomCurv
 - **Interior FOV** 55° (desktop) and 62° (mobile portrait).
 
 ### 3.8 Render cards
-- At each stop, the card slides in with a clip-path reveal (0.6 s) as the dwell begins and leaves as it ends. Cards alternate right and left on desktop (≈ 46vw wide, vertically centred). On mobile they're full-width in the lower 45% of the screen.
+- At each stop, the card slides in with a clip-path reveal (0.6 s) as the dwell begins and leaves as it ends. Cards alternate right and left on desktop (≈ 46vw wide, vertically centred). **Phones (since U01_05 §3):** the card is smaller so the 3D view keeps most of the screen: 62vw wide, the image 4:3 capped at 30svh tall, anchored bottom-left with a 16 px inset plus the safe area, a 12 px caption, the same clip reveal from the left. The stop name shows as a small label top-left, with the skip link under it. The fallback B label card uses the same size. Tablets in portrait keep the full-width sheet; landscape phones get ≈ 35vw cards on the side the camera shift expects. Each stop's dwell range is unchanged, so with the longer scroll every card stays readable for longer.
 - Card = the render (with depth parallax, §6) + a hairline frame + the three-voice caption placeholder + the stop name ("The welcome").
 - At S3, the two renders cross-fade within the dwell.
 
 ### 3.9 Mini-map
-`maxone/layout` in greyscale at 220 px (desktop) or 140 px (mobile), bottom-left, at 90% opacity on `--paper-2`. A dot and a small view cone show the camera's position and heading (metres × 72 / scale), and the walked path is drawn as an ink line. Stop numbers on the map are buttons that scroll to that stop (keyboard accessible). This also serves as the accessible list of stops.
+`maxone/layout` in greyscale at 220 px (desktop), bottom-left, at 90% opacity on `--paper-2`; on phones 96 px wide, top-right, at 85% opacity (its seven stop buttons are visually hidden there but stay focusable, and show as a strip under the map while one has focus). A dot and a small view cone show the camera's position and heading (metres × 72 / scale), and the walked path is drawn as an ink line. Stop numbers on the map are buttons that scroll to that stop (keyboard accessible). This also serves as the accessible list of stops.
 
 ### 3.10 Performance
 Merge static geometry per material (`BufferGeometryUtils.mergeGeometries`) and instance the furniture. Generated textures are ≤ 2048 px. The static shadow map renders once. Respect the §1.7 budgets.
@@ -289,7 +298,7 @@ For each stop, capture a Playwright screenshot and place it next to its render (
 
 ---
 
-## 4. Padel assembly (`#beyond`)
+## 4. Padel assembly (`/portofolio/#padel`; trigger `padel`)
 
 ### 4.1 Approach
 The owner chose a real 3D assembly. **Build a clay model of the Athero padel hall and assemble it in three stages**, matching the three renders. At the end of each stage, the matching **cleaned render** (`padel-clean/padel-1..3`, captions already removed by `scripts/clean-padel.mjs`) is revealed over the model, so the clay becomes colour. Then the scene returns to clay for the next stage. Use **only the building**: never show the original images' text.
@@ -313,7 +322,7 @@ Start with an `OrthographicCamera` at **azimuth 43°, elevation 38°**. Refine w
 - **Stage 3:** the **vaulted roof**: two curved shells (dark accent) built from a `THREE.Shape` arc extruded along the hall's length, a central translucent skylight band (glass kind), glazed gable ends, the full timber-fin front facade, and a sign block.
 - About 600–800 pieces in total, in 4–5 instanced meshes.
 
-### 4.4 Choreography (progress 0–1 over ~360 vh)
+### 4.4 Choreography (progress 0–1 over `SCROLL.padel`: 800 vh, phones 640 vh)
 | Range | What happens |
 |---|---|
 | 0.00–0.05 | Empty site slab fades in. Text: stage 1 headline. |
@@ -335,6 +344,9 @@ For each image, compute the **similarity transform** (uniform scale + translatio
 Reduced motion, no WebGL or low tier: show the three cleaned renders in sequence (stacked on mobile, or as a three-step scrubber on desktop) with the same stage text.
 
 ---
+
+### 4.7 Phones
+On portrait phones the orthographic zoom fits the model to the viewport width with 8% padding (never taller than the canvas), and the stage text sits above the model in at most two lines. Landscape phones put the text in the left third and the model on the right. Layouts of 1024 px and wider are unchanged.
 
 ## 5. Calculator scenes (`#calculator`)
 Requirements are in `05` §9 and are binding. This section covers implementation.
@@ -416,7 +428,7 @@ void main() {
 - Touch devices: scroll offset only. No gyroscope (iOS asks permission).
 
 ### 6.4 Where it's used
-Every photographic render: hero photo (`facades/best`), the HomyEight intro image, the Maxone cards (`maxone/1–7`), the projects gallery, the "beyond" panels (Athero, café, office), and the `#next` background. **Not** on: padel cut-outs, the layout plan, or images smaller than 360 CSS px on screen.
+Every photographic render or photo shown at 360 CSS px or wider: the main page's hero photo (`facades/best`), the Behomy hero (strength 1.0), the large image of the Behomy mosaic, the projects gallery and the `#next` background; on `/portofolio/` the Maxone cards (`maxone/1–7`) and the Beyond lead images (strength 0.8). The team, training and before/after photos have no depth maps (`08`). **Not** on: padel cut-outs, the layout plan, or images smaller than 360 CSS px on screen.
 
 ### 6.5 Fallback
 `depth-status.json` missing or `available: false`, low tier, reduced motion, or a WebGL failure → the plain `<picture>` with the gentle CSS scale-in from `03` §7. No visual errors, no empty boxes.

@@ -232,3 +232,53 @@ Numbered U01-Dn. Where U01 and the older docs disagree, U01 wins (U01_00 §A).
 - **Team photo:** its banner reads "Homy Group", while U01 captions it "The Behomy team".
 - **Captions:** all kept as U01_07 specifies. No unconfirmed project name is displayed.
 - **PDF report:** it uses the standard Helvetica font, so emoji and non-Latin characters in a name print as "?". Indonesian names are unaffected.
+
+### U01-D17. Docs synced to the update
+- **Decision:** `docs/` and `CLAUDE.md` now describe the site after U01 (U01_08 §5), checked against the code. Older entries in this file are left as written; where they mention the doors, the Team section or the story on `/`, they describe the first build.
+  - `CLAUDE.md`: `updates/` added to the read-first list; the **Updates** and **Secrets** rules from U01_00 §B5, verbatim.
+  - `02`: the two new facts (estimated break-even, Behomy brand captions) in §6; "The first step comes first" (the number before the explanation) in §4; contact = the lead funnel plus WhatsApp (§7); partner logos named as a colour source (§11).
+  - `03`: colour exceptions listed (renders and photos, then partner logos, then the zone green); new §3.1 with the logo usage table and the optical-size rule (U01-D7); the hero headline sizes (U01-D6) and the phone type caps; the intro on `/` only and never on a deep link (U01-D3); funnel component styles (phone card, sheet, radio cards, chips, hatch-glyph errors, result screens) and the portfolio card in §8.
+  - `04`: rewritten for two pages. `/` in the order `top, about, how, behomy, projects, calculator, next, faq`, with the funnel under the hero; `/portofolio/` as §10 (structure only; scene details stay in `06`). The doors, Team, the HomyEight intro and Beyond-on-main are gone, and the optional section-progress rail, never built, is no longer described. The flow checklist is now §11.
+  - `05`: only §2 "Entry points" (no doors, no `entry` state; "Land check" and `/#calculator` open Step 1; Step 1's primary button is always "Next: see what this space could earn") and the matching sentence under Step 1's bridge line. Formulas, defaults, rounding and tests untouched.
+  - `07`: states that `src/i18n/*.js` is the shipped source of truth; the U01 copy merged with the real key paths (hero, consultation, about, how, Behomy hero and additions, five stats, footnote 4, Projects without filters, `next.leaveNumber`, the portfolio card, nav, FAQ Q2 replaced and Q12 added, `pfMeta`), new §18 (funnel copy and option labels), §19 (portfolio page) and §20 (removed keys, U01-D12). Section numbers 1–17 are unchanged, because other docs and code comments cite them. The padel line now matches the shipped text (D18).
+  - `08`: `assets-src/` as read-only originals; the half-pixel-width rule and the caps actually used (U01-D10); the optimizer's `photos` group and the depth groups and exclusions (the embedded script lines updated to match `scripts/`); a photo inventory; the two caption files and the Behomy caption table; logo display versions (§8); the slim manifest module (§9). The door drawings are gone, and the unused "Category" column is marked as such.
+  - `09`: multi-page Vite and `SiteShell`; per-page loading (no Story, Maxone or Padel code on `/`; the calculator UI and the funnel panel with the Supabase client as their own chunks; 172.4 KB first load, budget 180); per-page Lenis settings; per-page SEO, one `<h1>` per page, two sitemap URLs, redirects (U01-D13); the skip link to `#main`; the funnel's dialog and error handling; new §12 (backend) and §13 (env vars, `.env.development.local` per U01-D1, the secrets inventory, the scanner and the git hook).
+  - `10`: the spec list as it is now, including `portfolio.spec.ts` from the U3 work; the two web servers (U01-D15); "never script the funnel against `npm run dev`"; the screenshot routine with the portfolio page, the funnel states and the phone matrix; `check-secrets --all` in the commands and the pre-handoff checklist.
+- **Not changed:** `docs/06` (the portfolio scenes are documented by the U3 work), `PROGRESS.md`, the reports, and the entries above.
+
+### U01-D18. The portfolio page as built (U3, branch `u3-portfolio`, merged in `e38b09f`)
+- **Sections:** ids `intro`, `story`, `maxone`, `padel`, `beyond`, `closing`. Each divider is its section's `<h2>` ("02 · Step inside Maxone"). The live walkthrough has no heading block of its own (the divider carries the title); the reduced-motion walk keeps its `h3`.
+- **Index:** links jump to the start of the story, Maxone and padel pins, and to `#beyond`.
+- **Skip links:** "Skip the story" (`pf.skipStory`), "Skip walkthrough", "Skip padel hall". Each lands exactly at the end of its pin.
+- **Beyond stays:**
+  - The Beyond divider shows `pf.index[3]` instead of the old eyebrow. The head keeps `beyond.title` and `beyond.body`; the bridge line is gone.
+  - Desktop (≥ 1024 px, any pointer) pins horizontally. The name and sentence sit on a paper card over the lead image's left edge, drifting ±48 px against it.
+  - The lead image is min(45vw, 75svh, room left above the thumbnails) × 16/9, capped at the source width.
+  - Reduced motion gets the stacked layout at every width.
+- **Phone Maxone:**
+  - The stop name label is top-left with the skip link under it, because at 360 px the skip link overlapped the bottom-left card.
+  - The mini-map is 96 px, top-right. The header hides during pins, so "under the header" means the top of the stage.
+  - The seven stop buttons can't fit in 96 px. They are visually hidden but focusable, and show as a strip under the map while one has focus.
+  - Tablets in portrait keep the full-width sheet.
+- **Landscape phones** (height ≤ 520 px, width ≤ 1023 px): Maxone cards about 35vw; story type compact; padel text in the left third. Padel's portrait phone rule is `(max-width: 820px) and (orientation: portrait)`.
+- **Story:** the photo no longer has `priority`, since it isn't the page's first image.
+- **No Maxone poster in dark theme:** the posters were taken on the light page, and their sky would flash white.
+- **QA hooks:** `window.__homyvest.pinned` and `.prepared`, `?prep=0`, and `?perf=1` per-canvas frame counts.
+- **Frame times:** recorded in `qa/perf-u01.json` and `docs/REPORT_U01.md`.
+
+### U01-D19. "Land check" always opens step 1
+- **Decision:** the header link (and the menu link) sets the calculator to step 1 before scrolling, and so does a `/#calculator` deep link, for example the story's "See what your land can do" (U01_01 §2.6). The calculator otherwise remembers its last step.
+
+### U01-D20. Local servers redirect like the hosts
+- **Decision:** a small middleware in `vite.config.ts` (`portfolioRedirects`) sends `/portofolio`, `/portfolio` and `/portfolio/` to `/portofolio/` (301) in `npm run dev` and `vite preview`. Before, both servers fell back to the main page for the slashless path.
+
+### U01-D21. On narrow phones the portfolio header drops its language toggle
+- **Decision:** at 420 px and below, on `/portofolio/` only, the header's EN|ID toggle is hidden to make room for the "← Home" link, which overlapped it at 360 and 390 px. The toggle stays in the menu sheet and the footer.
+
+### U01-D22. The phone wordmark is about 22 px tall, not 22 px cap height
+- **Decision:** U01_05 §1 asks for "~22 px cap height". A 22 px cap height needs a ~31 px font, and the wordmark would no longer fit beside the language toggle and the menu button at 360 px. The phone wordmark stays at 18 px, about 22 px tall.
+
+### U01-D23. First-load budget
+- **Decision:** the land check's interface is its own chunk, fetched as soon as the sections below the hero mount; an empty `#calculator` placeholder holds its place. The media manifest reaches the browser through `scripts/slim-manifest.mjs`, with identical values and a smaller size.
+- **Result:** the main page's first-load JavaScript went from 184.8 to 172.4 KB gzip (173.5 after the U3 merge); the budget is 180. The portfolio page is 179.3 KB.
+- **Undo:** import `Calculator` statically in `src/pages/Home.jsx`; remove `slimManifest()` from `vite.config.ts`.

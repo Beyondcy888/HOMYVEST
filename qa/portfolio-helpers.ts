@@ -62,8 +62,13 @@ export async function scrollToSel(page: Page, selector: string, offset = 0, sett
   await scrollToY(page, Math.max(0, y), settle);
 }
 
-/** The page has no sideways scroll. */
+/**
+ * The page has no sideways scroll. Measured against the viewport the test set, not innerWidth: in mobile
+ * emulation the layout viewport widens to fit overflowing content, so innerWidth would hide an overflow.
+ */
 export async function expectNoSideScroll(page: Page, where: string) {
+  const width = page.viewportSize()?.width ?? 0;
   const { sw, iw } = await page.evaluate(() => ({ sw: document.documentElement.scrollWidth, iw: window.innerWidth }));
-  expect(sw, `horizontal scroll ${where}: scrollWidth ${sw} > innerWidth ${iw}`).toBeLessThanOrEqual(iw);
+  expect(sw, `horizontal scroll ${where}: scrollWidth ${sw} > viewport ${width}`).toBeLessThanOrEqual(width);
+  expect(iw, `${where}: the layout viewport widened to ${iw} (content wider than ${width})`).toBeLessThanOrEqual(width);
 }

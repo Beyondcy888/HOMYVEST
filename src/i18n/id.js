@@ -1,4 +1,4 @@
-// Bahasa Indonesia. Sumber: docs/07_CONTENT_AND_COPY.md. Fakta: docs/02_PROJECT_BRIEF.md §6.
+// Bahasa Indonesia: sumber teks yang dipakai situs (docs/07_CONTENT_AND_COPY.md mengikutinya). Fakta: docs/02_PROJECT_BRIEF.md §6.
 // Struktur kunci harus sama persis dengan en.js.
 export default {
   meta: {
@@ -46,7 +46,6 @@ export default {
     body: 'Punya lahan kosong atau bangunan mangkrak? Tinggalkan nomor Anda, kami tunjukkan bisa dijadikan apa.',
     chip: 'Rata-rata okupansi 82% di properti Behomy',
     scrollCue: 'Scroll',
-    skip: 'Lewati intro',
     b1: {
       title: 'Lahan Anda sedang menunggu.',
       body: 'Lahan kosong atau bangunan mangkrak tetap memakan biaya setiap bulan. Padahal, keduanya bisa menghasilkan.',
@@ -293,7 +292,6 @@ export default {
   },
 
   beyond: {
-    eyebrow: 'Lebih dari penginapan',
     title: 'Ada lahan yang lebih menguntungkan jika dijadikan hal lain.',
     body: 'Arena olahraga, kafe, atau kantor. Jika itu lebih cocok untuk lahan dan lingkungan Anda, itulah yang kami sarankan.',
     padel: {
@@ -303,12 +301,10 @@ export default {
         'Selesai: satu arena, siap dipesan.',
       ],
       tag: 'Arena padel · Desain oleh HomyEight',
-      skip: 'Lewati arena padel',
       sceneAlt:
         'Model animasi arena padel yang tersusun dalam tiga tahap: lantai dasar dengan lapangannya, lantai atas dan strukturnya, lalu arena yang selesai dengan atap melengkung.',
     },
     ways: {
-      label: 'Tiga cara lain untuk menghasilkan',
       soccer: {
         title: 'Mini soccer',
         body: 'Lahan terbuka bisa menjadi tempat yang ramai setiap akhir pekan, lengkap dengan kafe dan tribun di samping lapangan.',

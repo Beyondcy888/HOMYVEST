@@ -6,31 +6,46 @@
 - **Never upscale.** Every image is served from responsive variants no wider than its source. That's why the originals are used: the zip the owner sent earlier was only for review.
 - **Never show baked-in text** from the padel images ("AKSONOMETRI", "LANTAI 1/2", "BANGUNAN"). Use only the cleaned cut-outs (`padel-clean/*`).
 
+### `assets-src/`: the other originals (update U01)
+`assets-src/` holds originals delivered with update U01. **Treat it exactly like the renders: read only. Never modify, move, rename, re-save or delete anything in it.** Web copies are generated elsewhere.
+- `assets-src/logos/`: the six partner logo PNGs (HomyEight full, compact and on-dark versions; Behomy and Behomy on-dark). Copied unchanged to `src/assets/logos/`, plus display versions (§8).
+- `assets-src/photos/`: 25 photos extracted, at the owner's request, from the HomyEight and Behomy 2026 company profiles. They go through the same optimizer as the renders, as the group `photos` (§3, inventory in §4).
+
 ## 2. Low-resolution files: keep them small on screen
 `optimize-images.mjs` flags any source narrower than 1200 px as `lowRes: true` in the manifest:
 
-| Id | Source size | Max display width |
-|---|---|---|
-| `facades/benhil-1` | 810 × 607 | ≤ 420 CSS px (crisp on 2× screens) or ≤ 600 CSS px if needed |
-| `facades/benhil-2` | 810 × 537 | same |
-| `facades/facade-2` | 1123 × 632 | ≤ 600 CSS px; never full-bleed |
+**The rule since U01:** a small source is never shown wider than **half its pixel width** in CSS px, so it stays crisp on 2× screens and is never upscaled (DECISIONS U01-D10). The caps actually in the CSS:
 
-Enforce this in the gallery layout. Add a dev warning when a `lowRes` image renders wider than 600 CSS px.
+| Id | Source size | Cap on screen | Where it's set |
+|---|---|---|---|
+| `facades/benhil-1` | 810 × 607 | 405 CSS px (the gallery's small size) | `Projects.css` `.pj--s` |
+| `facades/benhil-2` | 810 × 537 | 405 CSS px | same |
+| `facades/facade-2` | 1123 × 632 | 405 CSS px; never full-bleed | same |
+| `photos/step-design`, `step-build` (854 × 388), `step-operate` (800 × 600) | 1280 / 854 / 800 wide | 400 CSS px, every step photo | `How.css` `.how-step__media` |
+| `photos/staff-training` | 1200 × 800 | 600 CSS px | `Behomy.css` `.behomy__training` |
+| Behomy mosaic, `lowRes` ones: `hoteru-room`, `hoteru-stair` (810 × 540), `purnava-pool` (922 × 615), `behomy-room-2` (960 × 717), `behomy-room-1` (1012 × 679), `behomy-facade-2` (908 × 1210, portrait) | 810–1012 wide | one column wide only (single or tall cells): a quarter of the content width on desktop, half of at most 820 px below 1024 px. Only the high-resolution corridor takes the large cell (DECISIONS U01-D9) | `Behomy.css` `.bp__grid`, `src/content/behomy.js` |
+| `photos/before-after-1..4-*` | 470–960 wide | 420 CSS px (U01_01's cap, although some sources are 470 px) | `Behomy.css` `.ba__shot` |
+
+The Projects gallery always shows a `lowRes` image at its small size, whatever its slot (`Projects.jsx`). On phones a small project image takes at most `min(62%, 405px)` of the column, with its caption beside it.
 
 ## 3. Pipeline
-Run in this order during M1, and re-run whenever renders change:
+Run in this order during M1, and re-run whenever renders or `assets-src/` change:
 ```bash
 npm run assets:padel      # 3.1  → .cache/padel-clean/padel-1..3.png (transparent, captions removed)
 npm run assets:images     # 3.2  → public/media/** + src/content/media-manifest.json  (~4 min)
 .venv-depth/bin/python scripts/depth-maps.py    # 3.3 → public/media/depth/** + src/content/depth-status.json
-#   Windows: .venv-depth/Scripts/python.exe scripts/depth-maps.py
+#   Windows: .venv-depth/Scripts/python.exe scripts/depth-maps.py   (or: npm run assets:depth)
+npm run assets:logos      # §8   → src/assets/logos/ (copies + display versions)
 ```
-Run the optimizer with a generous timeout (≥ 10 min). It processes 35 images (32 renders + 3 cleaned padel images) into AVIF and WebP at widths 480/800/1200/1600/2000/2560 (capped at the source width). The output is ~35 MB in total, but each visitor only downloads the sizes they need.
+Run the optimizer with a generous timeout (≥ 10 min). It processes **60 images**: 32 renders, 3 cleaned padel images (extra group `padel-clean`) and 25 company-profile photos (extra group `photos`, read from `assets-src/photos/`), into AVIF and WebP at widths 480/800/1200/1600/2000/2560 (capped at the source width). Each visitor only downloads the sizes they need.
 
-**Verify M1:**
-- `src/content/media-manifest.json` has 35 entries, including `padel-clean/padel-1..3` with `hasAlpha: true`.
+**Depth maps:** the group `photos` is included, except the photos with people at the edges (`photos/behomy-team`, `photos/staff-training`) and the eight before / after photos, whose edges smear. `maxone/layout` (a floor plan) stays excluded. Today that gives 43 maps, 15 of them photos.
+
+**Verify:**
+- `src/content/media-manifest.json` has 60 entries: `padel-clean/padel-1..3` with `hasAlpha: true`, and 25 `photos/*`.
 - Open `public/media/padel-clean/padel-1-1200.webp` and the others **and look at them**: no text anywhere, a transparent background, the building intact.
 - `src/content/depth-status.json` exists. If `available: true`, view two depth maps: white should be near and black far. If not available, the reason is logged.
+- `assets-src/` and the render folder are unchanged (`git status`, timestamps).
 
 The three scripts below are tested and also shipped in `scripts/`. Recreate them from these blocks only if those files are missing.
 
@@ -151,7 +166,10 @@ import path from 'node:path';
 const ROOT = process.cwd();
 const OUT_DIR = path.join(ROOT, 'public', 'media');
 const MANIFEST = path.join(ROOT, 'src', 'content', 'media-manifest.json');
-const EXTRA_GROUPS = { 'padel-clean': path.join(ROOT, '.cache', 'padel-clean') }; // produced by clean-padel.mjs
+const EXTRA_GROUPS = {
+  'padel-clean': path.join(ROOT, '.cache', 'padel-clean'), // produced by clean-padel.mjs
+  photos: path.join(ROOT, 'assets-src', 'photos'),          // company-profile photos (updates/U01/U01_07_ASSETS.md); read only
+};
 const WIDTHS = [480, 800, 1200, 1600, 2000, 2560];
 const IMG = /\.(png|jpe?g|webp|tiff?)$/i;
 
@@ -242,8 +260,9 @@ MANIFEST = ROOT / "src" / "content" / "media-manifest.json"
 OUT_DIR = ROOT / "public" / "media" / "depth"
 STATUS = ROOT / "src" / "content" / "depth-status.json"
 MODEL = "depth-anything/Depth-Anything-V2-Small-hf"
-GROUPS = {"facades", "interiors", "cafe", "office", "others", "maxone"}   # photographic renders only
-EXCLUDE = {"maxone/layout"}                                              # floor plan: no depth effect
+GROUPS = {"facades", "interiors", "cafe", "office", "others", "maxone", "photos"}   # photographic renders + photos
+# maxone/layout: floor plan, no depth effect. Team/training photos and before/after pairs: people at the edges smear.
+EXCLUDE = {"maxone/layout", "photos/behomy-team", "photos/staff-training"} | {f"photos/before-after-{i}-{s}" for i in range(1, 5) for s in ("before", "after")}
 MAX_SIDE = 1280                                                          # depth maps are soft; this is plenty
 
 
@@ -320,56 +339,104 @@ if __name__ == "__main__":
 ```
 
 ## 4. Inventory and where each image goes
-"Category" is the **provisional** projects filter (the owner will confirm). "Suggested caption" lists what's known from the company profiles: **don't display it**. Display the placeholder (§5) until the owner fills in captions.
+"Category" was the **provisional** Projects filter. The filters were removed in update U01, so it's no longer used; it stays here only as a hint for the owner's captions. "Suggested caption" lists what's known from the company profiles: **don't display it**. Display the placeholder (§5) until the owner fills in captions. The walkthrough, padel and Beyond images are used on `/portofolio/`.
 
 | Id | Source | What it shows | Used in | Category (provisional) | Suggested caption (not displayed) |
 |---|---|---|---|---|---|
-| `facades/best` | 1600 × 900 | Corner building at dusk, timber and dark cladding, every window lit | Hero beat 4–5 (colour arrival), `#next` background, OG image | Villa | — |
+| `facades/best` | 1600 × 900 | Corner building at dusk, timber and dark cladding, every window lit | Main hero photo (`#top`, preloaded, the LCP), Projects (first, large), `#next` background, portfolio-card thumbnail, story beats 4–5 on `/portofolio/` (colour arrival), OG image | Villa | — |
 | `facades/facade-1` | 1536 × 1024 | 5-storey kost building on a street corner, orange vertical fin, sign "Kost Kebon Bawang" | Projects (large) | Kost | Kost Kebon Bawang |
 | `facades/facade-2` | 1123 × 632 ⚠ | Low-rise residence with orange panels and a gate, cyclists | Projects (small) | Guesthouse | — |
 | `facades/benhil-1` | 810 × 607 ⚠ | 7-storey kost tower with an orange brick-screen column, street view | Projects (small) | Kost | Benhil (Bendungan Hilir) |
 | `facades/benhil-2` | 810 × 537 ⚠ | Same tower, frontal view | Projects (small, paired with benhil-1) | Kost | Benhil |
 | `interiors/interior-1` | 1920 × 1080 | Long dining space, concrete walls, "HOMY STAY" lettering, arched niches | Projects | Guesthouse | Homy Stay |
 | `interiors/interior-2` | 1483 × 762 | Bedroom with sage headboard, desk by a large window | Projects | Kost | — |
-| `interiors/interior-3` | 1672 × 941 | Lobby with reception counter, glass-block wall, timber stair | HomyEight intro (tall crop) + Projects | Guesthouse | — |
+| `interiors/interior-3` | 1672 × 941 | Lobby with reception counter, glass-block wall, timber stair | Projects | Guesthouse | — |
 | `interiors/interior-4` | 1535 × 1024 | Bedroom with sage slatted headboard, TV, wardrobe | Projects | Kost | — |
 | `interiors/interior-5` | 1920 × 1080 | Double-height living room, chandelier, glass wall | Projects (large) | Homestay | — |
 | `interiors/interior-6` | 1920 × 1080 | Lounge and dining table under a timber ceiling | Projects | Homestay | — |
 | `interiors/interior-7` | 1920 × 1080 | Bedroom with walk-in wardrobe and a garden view | Projects | Villa | — |
 | `interiors/interior-8` | 1920 × 1080 | Kitchen and dining, "WELCOME HOME" and "HOMY" lettering | Projects | Kost | — |
-| `maxone/1` | 1976 × 1274 | Reception with a passport-stamp mural, "maxone" display, yellow stools, red armchairs | Walkthrough stop S1 | — | Maxone Hotel, Jakarta · Lobby · 2026 |
+| `maxone/1` | 1976 × 1274 | Reception with a passport-stamp mural, "maxone" display, yellow stools, red armchairs | Walkthrough stop S1, portfolio-card thumbnail | — | Maxone Hotel, Jakarta · Lobby · 2026 |
 | `maxone/2` | 1976 × 1274 | Dining hall looking toward the buffet, navy chairs | Walkthrough S2 | — | Maxone Hotel · Dining |
 | `maxone/3` | 1976 × 1274 | "BAR" arch shelving, yellow drawer counter, sage cabinets | Walkthrough S3 (second) | — | Maxone Hotel · Buffet and bar |
 | `maxone/4` | 1976 × 1380 | Elevation toward the street glazing with the mezzanine above | Walkthrough S6 | — | Maxone Hotel · Dining floor |
 | `maxone/5` | 1976 × 1274 | Buffet and bar from the dining tables | Walkthrough S3 (first) | — | Maxone Hotel · Buffet and bar |
 | `maxone/6` | 1976 × 1274 | Sage pergola frame over tables by the windows | Walkthrough S5 | — | Maxone Hotel · By the windows |
 | `maxone/7` | 1976 × 1274 | Looking up into the double-height void with hanging plants | Walkthrough S4 | — | Maxone Hotel · The void |
-| `maxone/layout` | 1976 × 1274 | Floor plan (top view) | 3D modelling reference, mini-map, S6 plan dissolve | — | — |
+| `maxone/layout` | 1976 × 1274 | Floor plan (top view) | End-to-end step 01 "Plan" (`#how`, greyscale crop), 3D modelling reference, mini-map, S6 plan dissolve | — | — |
 | `office/office-1` | 2008 × 1133 | Office with red beams, skylights, long desks | Beyond: Office | — | — |
 | `office/office-2` | 2008 × 1133 | Office with herringbone floor, wall shelves, plants | Beyond: Office | — | — |
 | `office/office-3` | 2008 × 1133 | Office lounge corner with a round table | Beyond: Office | — | — |
 | `cafe/cafe` | 1920 × 1080 | Café with red tiles, "CORNER EIGHT" sign, hanging plants | Beyond: Café | — | Corner Eight café, Lippo Karawaci |
-| `others/athero-1` | 2820 × 1585 | Aerial view of a mini soccer site **with baked-in labels** | Beyond: Mini soccer (last, or omit) | — | Athero Arena, Bogor · Design by HomyEight |
+| `others/athero-1` | 2820 × 1585 | Aerial view of a mini soccer site **with baked-in labels** | Beyond: Mini soccer, **lead image** (included at the owner's request in U01; its Indonesian labels read as a site plan) | — | Athero Arena, Bogor · Design by HomyEight |
 | `others/athero-2` | 2820 × 1585 | Container café and stands beside the pitch | Beyond: Mini soccer | — | Athero Arena · Design by HomyEight |
-| `others/athero-3` | 2820 × 1585 | Arena entrance and parking, "ATHERO ARENA" sign | Beyond: Mini soccer (lead image) | — | Athero Arena · Design by HomyEight |
+| `others/athero-3` | 2820 × 1585 | Arena entrance and parking, "ATHERO ARENA" sign | Beyond: Mini soccer (second) | — | Athero Arena · Design by HomyEight |
 | `others/athero-4` | 2820 × 1585 | On the pitch, floodlights, nets | Beyond: Mini soccer | — | Athero Arena · Design by HomyEight |
 | `padel-court/1..3` | originals | **Never display** (they contain captions). Sources for `padel-clean`. | — | — | — |
 | `padel-clean/padel-1` | 1830 × 1119 (alpha) | Padel hall ground floor, axonometric | Padel stage 1 reveal | — | Athero padel hall · Design by HomyEight |
 | `padel-clean/padel-2` | 1342 × 895 (alpha) | Upper floor and structure | Padel stage 2 reveal | — | same |
-| `padel-clean/padel-3` | 1341 × 928 (alpha) | Finished hall with vaulted roof | Padel stage 3 reveal | — | same |
+| `padel-clean/padel-3` | 1341 × 928 (alpha) | Finished hall with vaulted roof | Padel stage 3 reveal, portfolio-card thumbnail | — | same |
 
 ⚠ = low-res (§2).
 
+### Company-profile photos (`photos/*`, from `assets-src/photos/`, update U01)
+All on the main page. Sizes from the manifest; `lowRes` = narrower than 1200 px. "Depth" = has a depth map (§3).
+
+| Id | Source | What it shows | Used in | lowRes | Depth |
+|---|---|---|---|---|---|
+| `photos/behomy-hero` | 3096 × 2064 | Behomy room, beHomy pillow | Behomy hero (full-bleed) | | yes |
+| `photos/step-design` | 1280 × 720 | HomyEight 3D design of a kost building | End-to-end: 02 Design | | yes |
+| `photos/step-build` | 854 × 388 | Construction with scaffolding, B&W | End-to-end: 03 Build | ⚠ | yes |
+| `photos/step-operate` | 800 × 600 | Guest checking in at a Behomy reception | End-to-end: 04 Operate | ⚠ | yes |
+| `photos/behomy-corridor` | 3716 × 2477 | Behomy corridor and stair | Behomy mosaic (the large cell) | | yes |
+| `photos/behomy-facade-1` | 1200 × 1800 | Behomy building, timber fins (portrait) | Behomy mosaic (tall cell) | | yes |
+| `photos/behomy-facade-2` | 908 × 1210 | Behomy building, orange brick screen (portrait) | Behomy mosaic (tall cell) | ⚠ | yes |
+| `photos/behomy-room-1` | 1012 × 679 | Behomy Residence room | Behomy mosaic | ⚠ | yes |
+| `photos/behomy-room-2` | 960 × 717 | Behomy Residence room | Behomy mosaic | ⚠ | yes |
+| `photos/behomy-life` | 1200 × 800 | Residents in a Behomy lounge (guitar) | Behomy mosaic | | yes |
+| `photos/corvel-room` | 1239 × 826 | Corvel room with city view | Behomy mosaic | | yes |
+| `photos/corvel-lobby` | 1239 × 826 | Corvel lobby | Behomy mosaic | | yes |
+| `photos/purnava-pool` | 922 × 615 | Purnava Village pool, Bali | Behomy mosaic | ⚠ | yes |
+| `photos/hoteru-room` | 810 × 540 | Hoteru room (Japandi) | Behomy mosaic | ⚠ | yes |
+| `photos/hoteru-stair` | 810 × 540 | Hoteru corridor and stair | Behomy mosaic | ⚠ | yes |
+| `photos/staff-training` | 1200 × 800 | Front office and housekeeping training | Behomy, under "What Behomy takes off your hands" | | no |
+| `photos/behomy-team` | 2698 × 1800 | The Behomy team | Behomy section close (full-bleed) | | no |
+| `photos/before-after-{1..4}-before` / `-after` | 470–960 wide | Before (greyscale originals) and after | "From idle to running" | ⚠ all | no |
+
+Owner checks noted in the asset review (DECISIONS U01-D16, not changed): before / after pairs 3 and 4 are Google Street View captures; pair 4's "after" shows "Behomy Metropolim"; the training photo shows a "Corner Eight" sign; the team photo's banner reads "Homy Group".
+
 ## 5. Captions: placeholders now, real text later
-Keep all captions in **one editable file**, `src/content/projects.js`, so the owner (or a later agent) can fill them in without touching components:
+Captions live in **two editable files**, so the owner (or a later agent) can fill them in without touching components:
+- `src/content/projects.js`: the Projects gallery, the Maxone cards, padel and Beyond. It also holds `gallery`, the curated order and sizes of the Projects section.
+- `src/content/behomy.js`: the Behomy photos (`photos/*`). `projects.js` merges them into the one `captions` export.
 ```js
 // Fill in name, place, type and status for each image. While `name` is null, the UI shows the placeholder.
-export const captions = {
-  'facades/facade-1':   { name: null, place: null, type: null, status: null, category: 'kost' },
-  'interiors/interior-5': { name: null, place: null, type: null, status: null, category: 'homestay' },
-  // … one entry per displayed image, categories from §4
+// Any value may also be written per language: { en: 'Lobby', id: 'Lobi' }.
+const projectCaptions = {
+  'facades/facade-1':     { name: null, place: null, type: null, status: null },
+  'interiors/interior-5': { name: null, place: null, type: null, status: null },
+  // … one entry per displayed image
 };
+export const captions = { ...projectCaptions, ...behomyCaptions };
 ```
+
+**Behomy photo captions** (`src/content/behomy.js`). The brand captions are facts (`02` §6), not placeholders. Three voices: **name** · place · *type*.
+
+| Photo | Caption EN | Type in ID |
+|---|---|---|
+| `behomy-room-1`, `behomy-room-2` | **Behomy Residence** · *Co-living room* | Kamar co-living |
+| `behomy-life` | **Behomy Residence** · *Life at Behomy* | Kehidupan di Behomy |
+| `corvel-room` | **Corvel by Behomy** · Jakarta Pusat · *Business stay* | Penginapan bisnis |
+| `corvel-lobby` | **Corvel by Behomy** · Jakarta Pusat · *Lobby* | Lobi |
+| `purnava-pool` | **Purnava Village by Behomy** · Bali · *Villa* | Vila |
+| `hoteru-room`, `hoteru-stair` | **Hoteru by Behomy** · *Shophouse stay* | Penginapan ruko |
+| `behomy-facade-1`, `behomy-facade-2`, `behomy-corridor` | placeholder **Project Name** · City, Province · *Behomy property* (project not known yet) | Properti Behomy |
+| `behomy-team` | **The Behomy team** (name only) | Tim Behomy |
+| `staff-training` | *Front office and housekeeping training* (type only) | Pelatihan front office dan housekeeping |
+| `before-after-1..4` | one caption per pair, keyed by the "after" photo: placeholder **Project Name** · City, Province · *Before / after* | Sebelum / sesudah |
+| `step-*`, `behomy-hero` | no caption (the text around them explains them) | — |
+
+A comment at the top of `behomy.js` lists the **unconfirmed** project names seen in the Behomy profile (Build-Operate-Share: Behomy Inn Malang, Corner Eight, Cibinong Suite, Suhat Malang; Equity: Metropolim, Urban Connect, Cempaka Putih, Hoteru Bandung). **Don't display them** until the owner confirms which photo is which. Alt text describes what's visible and never names a project (`alt.photos/*` in the i18n files).
 **Placeholder rendering** (three voices, `03` §2), identical in EN and ID:
 > **Project Name**
 > City, Province
@@ -400,6 +467,22 @@ Style it deliberately (bold / regular / italic muted) so it looks designed, not 
 |---|---|---|
 | Favicon | Bold "H" (Archivo 900) in `--paper` on an `--ink` square. SVG plus 32 px and 180 px PNG (render with sharp from the SVG). | `public/favicon.svg`, `favicon-32.png`, `apple-touch-icon.png` |
 | OG image 1200 × 630 | `facades/best` darkened 35% with the wordmark centred in `--paper` and the tagline below. Composite with sharp; render text as SVG with outlined Archivo (or a system-font SVG if outlining fails, logged). | `public/og.jpg` |
-| 3D posters | Playwright captures at key progress points (`06` §1.8) | `public/media/posters/*.webp` |
-| Door line drawings | Hand-built SVGs: an empty plot outline; a half-built frame | `src/assets/doors/*.svg` |
+| 3D posters | Playwright captures at key progress points (`06` §1.8). Used on `/portofolio/` only; the main page's portfolio card uses library images instead (DECISIONS U01-D8). | `public/media/posters/*.webp` |
+| Partner logo display versions | `npm run assets:logos` (§8) | `src/assets/logos/*@96.*`, `*@120.*` |
 | Mural texture (Maxone) | Generated at runtime on a canvas (`06` §3.5) | — |
+
+The door line drawings of the first build were removed with the doors in update U01.
+
+## 8. Partner logos
+`scripts/make-logos.mjs` (`npm run assets:logos`):
+1. Copies the six PNGs from `assets-src/logos/` to `src/assets/logos/`, unchanged.
+2. Builds display versions at 3× their largest on-screen height, as PNG and lossless WebP with alpha, never upscaled: `homyeight-compact` and `homyeight-compact-on-dark` at **96 px** tall, `behomy` and `behomy-on-dark` at **120 px** tall.
+
+`PartnerLogo.jsx` imports the WebP display versions through Vite (hashed URLs). The full `homyeight` logos (with tagline) are copied but not used today. Where each logo goes, its size and the rules: `03` §3.1.
+
+## 9. The manifest in the browser
+The page imports `src/content/media-manifest.json`, but the browser never receives the JSON as written. A small Vite plugin in `vite.config.ts` (`slimManifest`) resolves that import to a virtual module built by `scripts/slim-manifest.mjs`:
+- It keeps only the fields the site reads (`width`, `height`, `hasAlpha`, `lowRes`, `dominant`, `lqip`, `largestUrl`, `srcset.avif`, `srcset.webp`) and drops build-only fields (source path, group, aspect, `generatedAt`…).
+- The srcset strings follow one pattern (`/media/<group>/<slug>-<w>.<ext> <w>w`), so each is stored as a URL base plus a list of widths and rebuilt once at load, giving exactly the same strings. Any entry that doesn't fit the pattern is kept as it was.
+
+Nothing changes for components or scripts: they read the same manifest, and `depth-maps.py` still reads the JSON file. It was part of bringing the main page's first load under budget (`09` §7).

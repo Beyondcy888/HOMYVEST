@@ -38,9 +38,10 @@ Copy and UX intent at every step:
 **The land is entered once (step 1) and reused by steps 2 and 3.** Steps 2 and 3 show a short summary of the land in use, with a way to go back and change it. All results update **live as the user types. There is no "Calculate" button.**
 
 ### Entry points
-- **Door A** ("I have empty land", `04` §2) → scroll to `#calculator`, Step 1 active, focus the front-width input.
-- **Door B** ("I have an idle or unfinished building") → scroll to `#calculator`, Step 1 active, and show a one-line note: "First, tell us about the land, then about your building." When Step 1 has valid land (`A > 0`), the Step 1 "Next" button reads **"Check my building"** and goes straight to Step 3. Step 2 stays one tab away. Remember the entry intent in state (`entry: 'land' | 'building'`, not persisted).
-- **Header "Calculator" link and hero CTA** → Step 1.
+Update U01 removed the two "doors" and, with them, door-based entry: there is no `entry` state, no door-B note and no "Check my building" variant.
+- **Header "Land check" link** (`/#calculator`, from either page) → scroll to `#calculator` with **Step 1** active. A link to `/#calculator` from elsewhere (the story's "See what your land can do" on `/portofolio/`) lands the same way.
+- **Step 1's primary button is always "Next: see what this space could earn"** (→ Step 2). A secondary link, "Already built? See if a floor fits", goes to Step 3.
+- **"Try the land check"** on the funnel's thank-you screen closes the panel and scrolls to `#calculator`, keeping whatever step is open.
 - Restored state from `localStorage` (§4) → open the step the visitor was last on.
 
 ## 3. Glossary (use these terms in both languages)
@@ -201,7 +202,7 @@ function potential(land) {
 
 Provide a **"How this is calculated"** disclosure listing the formulas in plain language, in both languages (`07` §11).
 
-**Bridge line** under the results (new): "Next: see what this space could earn →" (button to Step 2). For entry B, the primary button is "Check my building" (→ Step 3), with Step 2 as a secondary link.
+**Bridge line** under the results (new): "Next: see what this space could earn →" (button to Step 2).
 
 ---
 
