@@ -186,7 +186,22 @@ function createWorld(debug) {
 
 // A world built ahead of time in idle slices (U01_04 §4.8), handed to the first room that mounts.
 let prebuilt = null;
+let pending = null; // the steps of a build in progress
 let building = null;
+
+/** Runs steps of the build in progress for one slice; true once the world is complete (then in `prebuilt`). */
+function step(deadline) {
+  // at least one step per slice; more while the browser says there is time left in this frame
+  do {
+    const r = pending.next();
+    if (r.done) {
+      prebuilt = r.value;
+      pending = null;
+      return true;
+    }
+  } while (deadline?.timeRemaining?.() > 6);
+  return false;
+}
 
 /**
  * Builds the room during idle time, a slice at a time, so nothing heavy is left for the moment the scene
@@ -194,19 +209,15 @@ let building = null;
  */
 export function prebuild(idle) {
   if (prebuilt || building || query('debug') === 'maxone') return building ?? Promise.resolve();
-  const steps = worldSteps(false);
+  pending = worldSteps(false);
   building = new Promise((resolve) => {
     const slice = (deadline) => {
-      // at least one step per slice; more while the browser says there is time left in this frame
-      do {
-        const r = steps.next();
-        if (r.done) {
-          prebuilt = r.value;
-          building = null;
-          resolve();
-          return;
-        }
-      } while (deadline?.timeRemaining?.() > 6);
+      // the room may have mounted meanwhile and finished the build itself (takeWorld)
+      if (!pending || step(deadline)) {
+        building = null;
+        resolve();
+        return;
+      }
       idle(slice);
     };
     idle(slice);
@@ -214,7 +225,9 @@ export function prebuild(idle) {
   return building;
 }
 
+/** The prebuilt world, or the rest of a build in progress finished now, or (no prebuild) a fresh one. */
 function takeWorld(debug) {
+  if (!debug && pending) while (!step()); // finish it here rather than start over
   if (!debug && prebuilt) {
     const world = prebuilt;
     prebuilt = null;

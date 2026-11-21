@@ -154,7 +154,7 @@
     }
   },
   "after": {
-    "generatedAt": "2026-11-21T09:38:07.821Z",
+    "generatedAt": "2026-11-21T09:53:21.257Z",
     "base": "http://localhost:4273",
     "page": "/portofolio/",
     "keys": {
@@ -166,14 +166,14 @@
     "desktop": {
       "profile": "desktop 1440×900, no throttle",
       "prepared": true,
-      "waitedForPrepMs": 22,
+      "waitedForPrepMs": 25,
       "scenes": {
         "story": {
           "lengthPx": 9000,
           "seconds": 5.9,
-          "frames": 376,
+          "frames": 375,
           "p50": 16.7,
-          "p95": 16.8,
+          "p95": 16.7,
           "max": 16.8,
           "over50ms": 0,
           "hitches": [],
@@ -182,9 +182,9 @@
         "maxone": {
           "lengthPx": 12600,
           "seconds": 8.1,
-          "frames": 509,
+          "frames": 507,
           "p50": 16.7,
-          "p95": 16.7,
+          "p95": 16.8,
           "max": 16.8,
           "over50ms": 0,
           "hitches": [],
@@ -192,8 +192,8 @@
         },
         "padel": {
           "lengthPx": 7200,
-          "seconds": 4.8,
-          "frames": 311,
+          "seconds": 4.9,
+          "frames": 312,
           "p50": 16.7,
           "p95": 16.7,
           "max": 16.8,
@@ -204,7 +204,7 @@
       },
       "walk": {
         "seconds": 19.4,
-        "frames": 1161,
+        "frames": 1160,
         "p50": 16.7,
         "p95": 16.7,
         "max": 16.8,
@@ -236,14 +236,14 @@
     "mobile": {
       "profile": "Pixel 7, CPU ×4",
       "prepared": true,
-      "waitedForPrepMs": 54,
+      "waitedForPrepMs": 60,
       "scenes": {
         "story": {
           "lengthPx": 6712,
           "seconds": 12.7,
-          "frames": 745,
+          "frames": 776,
           "p50": 16.7,
-          "p95": 33.2,
+          "p95": 16.8,
           "max": 33.4,
           "over50ms": 0,
           "hitches": [],
@@ -251,40 +251,40 @@
         },
         "maxone": {
           "lengthPx": 9229,
-          "seconds": 17.8,
-          "frames": 987,
+          "seconds": 17.6,
+          "frames": 1050,
           "p50": 16.7,
-          "p95": 33.3,
-          "max": 50,
-          "over50ms": 0,
-          "hitches": [],
+          "p95": 16.8,
+          "max": 50.1,
+          "over50ms": 1,
+          "hitches": [
+            {
+              "p": 0.161,
+              "ms": 50
+            }
+          ],
           "mode": "3d"
         },
         "padel": {
           "lengthPx": 5370,
           "seconds": 10,
-          "frames": 619,
+          "frames": 621,
           "p50": 16.7,
           "p95": 16.8,
-          "max": 33.3,
+          "max": 16.8,
           "over50ms": 0,
           "hitches": [],
           "mode": "live"
         }
       },
       "walk": {
-        "seconds": 40.5,
-        "frames": 2398,
+        "seconds": 40.4,
+        "frames": 2401,
         "p50": 16.7,
         "p95": 16.8,
-        "max": 66.6,
-        "over50ms": 1,
-        "hitches": [
-          {
-            "at": "maxone @ 0.396",
-            "ms": 67
-          }
-        ]
+        "max": 50,
+        "over50ms": 0,
+        "hitches": []
       },
       "drawCalls": {
         "hero": {
@@ -304,6 +304,129 @@
           "triangles": 42130,
           "textures": 5,
           "geometries": 10
+        }
+      },
+      "errors": []
+    }
+  },
+  "after-cold": {
+    "generatedAt": "2026-11-21T09:46:17.945Z",
+    "base": "http://localhost:4273",
+    "page": "/portofolio/",
+    "keys": {
+      "story": "story",
+      "maxone": "maxone",
+      "padel": "padel"
+    },
+    "input": "120 px wheel every 50 ms",
+    "desktop": {
+      "profile": "desktop 1440×900, no throttle",
+      "prepared": true,
+      "waitedForPrepMs": 1,
+      "scenes": {},
+      "walk": {
+        "seconds": 19.3,
+        "frames": 1156,
+        "p50": 16.7,
+        "p95": 16.7,
+        "max": 16.8,
+        "over50ms": 0,
+        "hitches": []
+      },
+      "drawCalls": {
+        "hero": {
+          "calls": 0,
+          "triangles": 0,
+          "textures": 5,
+          "geometries": 9
+        }
+      },
+      "errors": []
+    },
+    "mobile": {
+      "profile": "Pixel 7, CPU ×4",
+      "prepared": false,
+      "waitedForPrepMs": 26,
+      "scenes": {},
+      "walk": {
+        "seconds": 40.5,
+        "frames": 2407,
+        "p50": 16.7,
+        "p95": 16.8,
+        "max": 33.4,
+        "over50ms": 0,
+        "hitches": []
+      },
+      "drawCalls": {
+        "hero": {
+          "calls": 0,
+          "triangles": 0,
+          "textures": 5,
+          "geometries": 9
+        }
+      },
+      "errors": []
+    }
+  },
+  "before-cold": {
+    "generatedAt": "2026-11-21T09:47:21.980Z",
+    "base": "http://localhost:4275",
+    "page": "/?nointro=1",
+    "keys": {
+      "story": "story",
+      "maxone": "homyeight",
+      "padel": "beyond"
+    },
+    "input": "120 px wheel every 50 ms",
+    "desktop": {
+      "profile": "desktop 1440×900, no throttle",
+      "prepared": null,
+      "waitedForPrepMs": 2,
+      "scenes": {},
+      "walk": {
+        "seconds": 14.4,
+        "frames": 857,
+        "p50": 16.7,
+        "p95": 16.7,
+        "max": 16.8,
+        "over50ms": 0,
+        "hitches": []
+      },
+      "drawCalls": {
+        "hero": {
+          "calls": 0,
+          "triangles": 0,
+          "textures": 5,
+          "geometries": 9
+        }
+      },
+      "errors": []
+    },
+    "mobile": {
+      "profile": "Pixel 7, CPU ×4",
+      "prepared": null,
+      "waitedForPrepMs": 2,
+      "scenes": {},
+      "walk": {
+        "seconds": 38.6,
+        "frames": 2180,
+        "p50": 16.7,
+        "p95": 33.3,
+        "max": 50.1,
+        "over50ms": 1,
+        "hitches": [
+          {
+            "at": "story @ 1.740",
+            "ms": 50
+          }
+        ]
+      },
+      "drawCalls": {
+        "hero": {
+          "calls": 0,
+          "triangles": 0,
+          "textures": 5,
+          "geometries": 9
         }
       },
       "errors": []

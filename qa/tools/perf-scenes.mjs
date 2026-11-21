@@ -4,7 +4,8 @@
 //
 //   node qa/tools/perf-scenes.mjs --label after  --base http://localhost:4273 --page /portofolio/
 //   node qa/tools/perf-scenes.mjs --label before --base http://localhost:4275 --page "/?nointro=1" --keys story=story,maxone=homyeight,padel=beyond
-//        [--profiles desktop,mobile] [--walk] [--out qa/perf-u01.json]
+//        [--profiles desktop,mobile] [--walk | --walkonly] [--noprepwait] [--out qa/perf-u01.json]
+// --walkonly --noprepwait is the cold path: one wheel from the top, starting a second after load.
 //
 // For each scene: jump to 200 px before its pin, wait until its canvas has drawn (warm-up), then wheel through
 // the pin to 200 px past it while recording every frame. Frames over 50 ms are logged with the scene progress
@@ -122,18 +123,19 @@ async function runProfile(key) {
   const sep = PAGE.includes('?') ? '&' : '?';
   await page.goto(`${BASE}${PAGE}${sep}perf=1`, { waitUntil: 'load' });
   await page.evaluate(() => document.fonts.ready);
-  await page.waitForTimeout(3000);
+  await page.waitForTimeout(flag('noprepwait') ? 1000 : 3000);
   // warm-up includes the page's own idle preparation (/portofolio/ builds the scenes' worlds while the
   // visitor reads the intro); the original page has none, so this returns at once there
   const prep = Date.now();
-  await page.waitForFunction(() => window.__homyvest?.prepared !== false, null, { timeout: 20000 }).catch(() => undefined);
+  // --noprepwait: the cold path, a visitor who starts scrolling right away and never pauses
+  if (!flag('noprepwait')) await page.waitForFunction(() => window.__homyvest?.prepared !== false, null, { timeout: 20000 }).catch(() => undefined);
   const prepared = await page.evaluate(() => window.__homyvest?.prepared ?? null);
   const prepMs = Date.now() - prep;
   const vp = page.viewportSize();
   await page.mouse.move(vp.width / 2, vp.height / 2);
   const out = { profile: prof.name, prepared, waitedForPrepMs: prepMs, scenes: {} };
 
-  for (const [scene, trig] of Object.entries(KEYS)) {
+  for (const [scene, trig] of Object.entries(flag('walkonly') ? {} : KEYS)) {
     const has = await page.evaluate((k) => Boolean(window.__homyvest?.triggers?.[k]), trig);
     if (!has) {
       out.scenes[scene] = { skipped: `no trigger "${trig}" (not pinned in this profile)`, mode: await sceneMode(page) };
@@ -160,10 +162,12 @@ async function runProfile(key) {
     console.log(`${LABEL} · ${key} · ${scene}: p95 ${out.scenes[scene].p95} ms, max ${out.scenes[scene].max} ms, >50 ms ${out.scenes[scene].over50ms} (${out.scenes[scene].mode})`);
   }
 
-  if (flag('walk')) {
+  if (flag('walk') || flag('walkonly')) {
     // one continuous wheel from the top of the page to the end of the last scene
-    await jump(page, 0);
-    await page.waitForTimeout(1500);
+    if (!flag('walkonly')) {
+      await jump(page, 0);
+      await page.waitForTimeout(1500);
+    }
     const ends = await page.evaluate((keys) => keys.map((k) => window.__homyvest?.triggers?.[k]).filter(Boolean).map((t) => ({ start: t.start, end: t.end })), Object.values(KEYS));
     const to = Math.max(...ends.map((e) => e.end)) + 200;
     await startRecorder(page);

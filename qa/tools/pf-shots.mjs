@@ -100,7 +100,7 @@ for (const [name, points] of Object.entries(POINTS)) {
     const y = await page.evaluate(
       ({ id, p }) => {
         const t = window.__homyvest.triggers[id];
-        return t.start + (t.end - t.start) * p;
+        return Math.round(t.start + (t.end - t.start) * p); // whole pixels: no sub-pixel offsets between builds
       },
       { id: key, p },
     );
