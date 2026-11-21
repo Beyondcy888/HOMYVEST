@@ -1,7 +1,8 @@
-// #story: the hero. A pinned, scroll-driven clay model in five beats (docs/04 §1, docs/06 §2):
+// #story on /portofolio/: the old hero story. A pinned, scroll-driven clay model in five beats (docs/06 §2):
 // idle land → built → it could be an office, a café, a court → the street comes alive → colour.
-// Live mode pins the stage and scrubs everything from one scroll range; static mode (reduced motion,
-// no WebGL, or a failed scene) is a calm vertical sequence with the same copy.
+// Live mode pins the stage and scrubs everything from one scroll range (its length: SCROLL.story in
+// src/content/scroll-config.js); static mode (reduced motion, no WebGL, or a failed scene) is a calm
+// vertical sequence with the same copy. The page's only <h1> is the portfolio intro, so the beats are <h2>.
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { SplitText } from 'gsap/SplitText';
@@ -34,6 +35,8 @@ const T = {
   b4Out: 0.77,
   earnIn: BEATS.dissolve[1],
 };
+/** Where the slide labels collapse to one line (keep in step with Story.css). */
+const ONE_LINE_LABELS = '(max-aspect-ratio: 9/10), (orientation: landscape) and (max-height: 520px) and (max-width: 1023px)';
 const phaseOf = (p) => (p < BEATS.dissolve[0] - 0.012 ? 'clay' : p < T.earnIn + 0.014 ? 'wipe' : 'earn');
 
 /** Builds the scrubbed timeline. Positions and durations are in scroll progress (0..1). */
@@ -66,9 +69,10 @@ function buildTimeline(tl, ui, photo, split) {
   leave('b4', T.b4Out);
 
   // Slide labels: the thumb travels with each camera swipe. Landscape lists the four options down the
-  // column; portrait has room for one line, so it shows the current option over a four-step line.
+  // column; portrait (and a phone on its side, which is short) has room for one line, so it shows the
+  // current option over a four-step line.
   const labels = q('.story__label');
-  const portrait = window.matchMedia('(max-aspect-ratio: 9/10)').matches;
+  const portrait = window.matchMedia(ONE_LINE_LABELS).matches;
   const step = portrait ? 'xPercent' : 'yPercent';
   tl.fromTo(q('.story__labels'), { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.03, ease: 'power2.out' }, T.b3In + 0.022);
   BEATS.swipes.forEach(([a, b], i) => {
@@ -192,10 +196,10 @@ function StoryLive({ onFail }) {
 
   const timeline = (tl) => buildTimeline(tl, ui.current, photo.current, layout.fonts);
 
-  const goTo = (e, target) => {
+  // "Skip the story": straight past the pin, to the next scene's title.
+  const skip = (e) => {
     e.preventDefault();
-    scrollToTarget(target);
-    window.history.replaceState(null, '', target);
+    scrollToTarget('#story-end', { offset: 0, focus: '#story-end' });
   };
   // Keyboard focus landing on the closing CTAs brings their beat on screen.
   const reveal = () => {
@@ -206,7 +210,7 @@ function StoryLive({ onFail }) {
 
   return (
     <section ref={section} id="story" className="story story--live" aria-labelledby="story-title">
-      <PinnedScene id="story" lengthVh={500} mobileLengthVh={420} progress={progress} timeline={timeline} deps={[lang, layout.n]}>
+      <PinnedScene id="story" progress={progress} timeline={timeline} deps={[lang, layout.n]}>
         <SceneMount
           className="story__scene"
           load={loadHero}
@@ -217,7 +221,7 @@ function StoryLive({ onFail }) {
         />
         <div ref={photo} className="story__photo">
           <div className="story__zoom">
-            <DepthImage id="facades/best" priority strength={1.2} sizes="100vw" />
+            <DepthImage id="facades/best" strength={1.2} sizes="100vw" />
           </div>
           <div className="story__scrim" />
         </div>
@@ -226,11 +230,11 @@ function StoryLive({ onFail }) {
           ref={ui}
           progress={progress}
           earnAt={T.earnIn + 0.014}
-          onSkip={(e) => goTo(e, '#about')}
-          onCalculator={(e) => goTo(e, '#calculator')}
+          onSkip={skip}
           onReveal={reveal}
         />
       </PinnedScene>
+      <div id="story-end" className="story__end" tabIndex={-1} />
     </section>
   );
 }
@@ -239,22 +243,16 @@ function StoryLive({ onFail }) {
 function StoryStatic() {
   const { t } = useT();
   const alts = t('hero.posterAlt');
-  const goTo = (e, target) => {
-    e.preventDefault();
-    scrollToTarget(target);
-    window.history.replaceState(null, '', target);
-  };
   return (
     <section id="story" className="story story--static" aria-labelledby="story-title">
       <div className="wrap story-static__beats">
         {['b1', 'b2', 'b3', 'b4'].map((key, i) => {
-          const Title = i === 0 ? 'h1' : 'h2';
           return (
             <div key={key} className="story-static__beat">
               <div className="story-static__text">
-                <Title id={i === 0 ? 'story-title' : undefined} className="story__title">
+                <h2 id={i === 0 ? 'story-title' : undefined} className="story__title">
                   {t(`hero.${key}.title`)}
-                </Title>
+                </h2>
                 <p className="story__body">{t(`hero.${key}.body`)}</p>
               </div>
               <img
@@ -280,7 +278,8 @@ function StoryStatic() {
             <Stat stat={t('hero.b5.stat2')} />
           </div>
           <div className="story__ctas">
-            <Button variant="on-photo" href="#calculator" onClick={(e) => goTo(e, '#calculator')}>
+            {/* the calculator lives on the main page: a plain link there */}
+            <Button variant="on-photo" href="/#calculator">
               {t('hero.b5.cta1')}
             </Button>
             <WhatsAppButton variant="ghost-on-photo" label={t('hero.b5.cta2')} />
@@ -291,6 +290,7 @@ function StoryStatic() {
           </p>
         </div>
       </div>
+      <div id="story-end" className="story__end" tabIndex={-1} />
     </section>
   );
 }

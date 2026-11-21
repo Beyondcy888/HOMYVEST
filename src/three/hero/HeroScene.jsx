@@ -15,6 +15,7 @@ import { prepare } from '../assembly/pieces.js';
 import { cssVar, useTheme } from '../../lib/theme.js';
 import { useTier } from '../../lib/device/tier.js';
 import { span } from '../../lib/scroll/progress.js';
+import { SMOOTH } from '../../content/scroll-config.js';
 import { buildStay } from '../kits/stay.js';
 import { buildOffice } from '../kits/office.js';
 import { buildCafe } from '../kits/cafe.js';
@@ -70,6 +71,24 @@ function buildKits() {
   };
 }
 
+// The kits are pure data (typed arrays), so they are built once per page and kept: a remount (scrolling back
+// up to the story) reuses them. `prebuild` lets the portfolio page do it in idle time.
+let kitsCache = null;
+let streetCache = null;
+const getKits = () => (kitsCache ??= buildKits());
+const getStreet = () => (streetCache ??= prepare(buildStreet(), { seed: 1 }));
+export function prebuild(idle) {
+  return new Promise((resolve) => {
+    idle(() => {
+      getKits();
+      idle(() => {
+        getStreet();
+        resolve();
+      });
+    });
+  });
+}
+
 function Scene({ progress, onAnchor }) {
   const theme = useTheme();
   const tier = useTier();
@@ -118,8 +137,8 @@ function Scene({ progress, onAnchor }) {
     };
   }, [scene]);
 
-  const kits = useMemo(() => buildKits(), []);
-  const street = useMemo(() => prepare(buildStreet(), { seed: 1 }), []);
+  const kits = useMemo(getKits, []);
+  const street = useMemo(getStreet, []);
   const stakes = useMemo(() => prepare(buildStakes({ stage: 0, line: size.width / size.height < 0.9 ? 0.09 : 0.055 }), { seed: 2 }), [size.width, size.height]);
 
   const stages = useRef(new Float32Array(4));
@@ -137,8 +156,8 @@ function Scene({ progress, onAnchor }) {
   useFrame((state, delta) => {
     const a = anim.current;
     const dt = Math.min(delta, 0.1);
-    const moving1 = easing.damp(a, 'p', progress.current, 0.12, dt, Infinity, undefined, 0.00005);
-    const moving2 = easing.damp(a, 'pc', progress.current, 0.18, dt, Infinity, undefined, 0.00005);
+    const moving1 = easing.damp(a, 'p', progress.current, SMOOTH.assemblySmoothTime, dt, Infinity, undefined, 0.00005);
+    const moving2 = easing.damp(a, 'pc', progress.current, SMOOTH.cameraSmoothTime, dt, Infinity, undefined, 0.00005);
     const p = a.p;
 
     // assembly

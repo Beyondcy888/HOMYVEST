@@ -1,6 +1,9 @@
 import DepthImage from '../../components/media/DepthImage.jsx';
 import Caption from '../../components/ui/Caption.jsx';
 
+// phones: 62vw (U01_05 §3) · landscape phones: about 35vw · tablets in portrait: the full width · desktop: 46vw
+const SIZES = '(max-width: 767px) and (orientation: portrait) 62vw, (max-height: 520px) and (max-width: 1023px) 36vw, (max-aspect-ratio: 85/100) 100vw, 46vw';
+
 /**
  * What appears at a stop of the walkthrough.
  *  - variant "image" (over the 3D room): the real render in a hairline frame, the stop's name and the caption.
@@ -13,8 +16,8 @@ export default function StopCard({ ref, card, name, variant = 'image' }) {
     <figure ref={ref} className={`scard scard--${variant} scard--${card.side}`} data-stop={card.stop} data-depth-host data-depth-off="true">
       {variant === 'image' ? (
         <div className="scard__media">
-          <DepthImage id={first} sizes="(max-aspect-ratio: 85/100) 100vw, 46vw" strength={0.8} className="scard__img" />
-          {second ? <DepthImage id={second} sizes="(max-aspect-ratio: 85/100) 100vw, 46vw" strength={0.8} className="scard__img scard__img--b" /> : null}
+          <DepthImage id={first} sizes={SIZES} strength={0.8} className="scard__img" />
+          {second ? <DepthImage id={second} sizes={SIZES} strength={0.8} className="scard__img scard__img--b" /> : null}
         </div>
       ) : null}
       <figcaption className="scard__cap">

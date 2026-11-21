@@ -1,0 +1,224 @@
+/* /portofolio/: the intro and its index, the dividers between scenes, the closing CTA (U01_04 §1). */
+
+/* ---------- §0 Intro (at most 70svh) ---------- */
+.pf-intro {
+  padding-top: calc(var(--header-h) + clamp(24px, 6svh, 64px));
+  padding-bottom: clamp(24px, 5svh, 56px);
+}
+.pf-intro__inner {
+  display: grid;
+  gap: clamp(22px, 3.8svh, 44px);
+}
+.pf-intro__head {
+  display: grid;
+  gap: clamp(14px, 2.4svh, 24px);
+  max-width: 62rem;
+}
+.pf-intro__title {
+  font-size: clamp(2.6rem, min(6.4vw, 11svh), 7rem);
+  font-weight: 800;
+  font-stretch: 106%;
+  letter-spacing: -0.035em;
+  line-height: 0.95;
+  text-wrap: balance;
+}
+.pf-intro__lead {
+  color: var(--ink-2);
+  max-width: 40ch;
+}
+
+/* the index: four small poster cards on one line, under a hairline */
+.pf-index__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--col-gap);
+}
+.pf-index__item {
+  display: grid;
+  gap: 10px;
+  padding-top: 12px;
+  border-top: 1px solid var(--ink);
+  min-height: 44px;
+}
+.pf-index__thumb {
+  display: block;
+  width: 100%;
+  height: clamp(72px, 12svh, 128px);
+  overflow: hidden;
+  background: var(--paper-2);
+}
+.pf-index__thumb img,
+.pf-index__thumb picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.pf-index__text {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.pf-index__n {
+  font-size: var(--t-small);
+  font-weight: 600;
+  color: var(--muted);
+}
+.pf-index__name {
+  font-weight: 650;
+  font-size: clamp(0.9375rem, 1.1vw, 1.0625rem);
+  line-height: 1.25;
+}
+@media (hover: hover) {
+  .pf-index__thumb img {
+    transition: transform var(--dur-3) var(--ease-out);
+  }
+  .pf-index__item:hover .pf-index__thumb img {
+    transform: scale(1.04);
+  }
+  .pf-index__item:hover .pf-index__name {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+}
+.pf-intro__cue {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+}
+.pf-intro__cue svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ---------- Between scenes: a rest of about 30svh ---------- */
+.pf-divider {
+  min-height: calc(var(--vh) * 30);
+  display: grid;
+  align-items: center;
+  background: var(--paper);
+}
+.pf-divider__inner {
+  display: grid;
+  gap: 14px;
+  padding-block: clamp(28px, 5svh, 56px);
+}
+.pf-divider__title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 0.28em;
+  padding-top: clamp(16px, 2.4svh, 24px);
+  border-top: 1px solid var(--ink);
+  font-size: clamp(2.2rem, min(6vw, 10svh), 6.5rem);
+  font-weight: 800;
+  font-stretch: 106%;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+}
+.pf-divider__num,
+.pf-divider__dot {
+  color: var(--muted);
+  font-weight: 600;
+}
+.pf-divider__name {
+  text-wrap: balance;
+}
+
+/* ---------- §5 Closing ---------- */
+.pf-close {
+  padding-block: var(--section);
+  border-top: 1px solid var(--line);
+}
+.pf-close__inner {
+  display: grid;
+  gap: clamp(28px, 5vh, 48px);
+  justify-items: start;
+}
+.pf-close__title {
+  font-size: var(--t-h1);
+  font-weight: 800;
+  font-stretch: 104%;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+  max-width: 16ch;
+  text-wrap: balance;
+}
+.pf-close__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.pf-close__back {
+  min-height: 44px;
+  color: var(--ink-2);
+}
+
+/* ---------- Phones ---------- */
+@media (max-width: 767px) {
+  .pf-intro {
+    padding-top: calc(var(--header-h) + 20px);
+  }
+  .pf-intro__inner {
+    gap: 22px;
+  }
+  .pf-intro__title {
+    font-size: clamp(2.2rem, 10.5vw, 3.2rem);
+  }
+  .pf-intro__lead {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  /* the index as a 2 × 2 grid of small poster cards: a thumbnail beside the name */
+  .pf-index__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 12px;
+  }
+  .pf-index__item {
+    grid-template-columns: 64px minmax(0, 1fr);
+    align-items: center;
+    gap: 10px;
+    padding-top: 10px;
+  }
+  .pf-index__thumb {
+    width: 64px;
+    height: 44px;
+    aspect-ratio: auto;
+  }
+  .pf-index__text {
+    display: grid;
+    gap: 2px;
+  }
+  .pf-index__name {
+    font-size: 0.875rem;
+  }
+  .pf-index__n {
+    font-size: 0.75rem;
+  }
+  /* the number sits on its own line above the name, smaller */
+  .pf-divider__title {
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 6px;
+    font-size: clamp(2rem, 9.6vw, 3rem);
+  }
+  .pf-divider__num {
+    font-size: 0.5em;
+    letter-spacing: -0.01em;
+  }
+  .pf-divider__dot {
+    display: none;
+  }
+  .pf-close__actions {
+    display: grid;
+    width: 100%;
+  }
+  .pf-close__actions .btn {
+    width: 100%;
+  }
+}

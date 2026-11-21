@@ -175,6 +175,9 @@ export function PerfProbe({ label = 'scene' }) {
   const enabled = useMemo(() => query('perf') === '1', []);
   useFrame((state) => {
     if (!enabled) return;
+    // frames drawn per canvas, for QA: proves which canvases render while another scene is pinned
+    const frames = (window.__homyvestFrames ??= {});
+    frames[label] = (frames[label] ?? 0) + 1;
     const now = state.clock.elapsedTime;
     if (now - last.current < 1) return;
     last.current = now;

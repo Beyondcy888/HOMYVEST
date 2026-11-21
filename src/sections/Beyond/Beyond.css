@@ -1,16 +1,13 @@
-.beyond__intro {
-  padding-top: calc(var(--section) * 0.7);
-  padding-bottom: calc(var(--section) * 0.5);
-}
+/* Beyond stays on /portofolio/ (U01_04 §5). Landscape boxes only: 16:9 leads, 3:2 thumbnails, object-fit: cover. */
 .beyond__head {
-  row-gap: clamp(24px, 4vh, 44px);
+  row-gap: clamp(20px, 3vh, 36px);
   align-items: end;
-}
-.beyond__headline {
-  grid-column: 1 / span 8;
+  padding-bottom: clamp(40px, 7vh, 88px);
 }
 .beyond__title {
+  grid-column: 1 / span 7;
   max-width: 15ch;
+  text-wrap: balance;
 }
 .beyond__body {
   grid-column: 8 / -1;
@@ -18,162 +15,229 @@
   max-width: 30em;
 }
 
-/* ---------- Three more ways to earn ---------- */
-.ways__track {
-  --p: 0;
-  display: flex;
-  align-items: stretch;
-  gap: clamp(32px, 6vw, 110px);
-  width: max-content;
+/* ---------- One group ---------- */
+.bpanel {
+  position: relative;
+  margin: 0;
+}
+.bpanel__lead {
+  position: relative;
+  margin: 0;
+}
+.bpanel__open {
+  display: block;
+  width: 100%;
   height: 100%;
-  padding-inline: var(--gutter);
+  padding: 0;
+  cursor: zoom-in;
 }
-.ways--pinned .ways__track {
-  /* travels from its start to its end as --p goes 0 → 1; resize-proof because it is pure CSS */
-  transform: translate3d(calc((100vw - 100%) * var(--p)), 0, 0);
-  will-change: transform;
-  padding-block: clamp(56px, 9vh, 96px) clamp(40px, 7vh, 72px);
+.bpanel__open:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
 }
-.ways__intro {
-  width: clamp(200px, 20vw, 320px);
-  display: flex;
-  align-items: flex-end;
-  flex: none;
-  padding-bottom: 8px;
-}
-.ways__intro h3 {
-  max-width: 9ch;
-}
-
-.way {
-  flex: none;
-  width: min(88vw, 1320px);
-  display: grid;
-  grid-template-columns: minmax(240px, 0.8fr) minmax(0, 1.7fr) minmax(0, 0.62fr);
-  grid-template-rows: minmax(0, 1fr);
-  column-gap: var(--col-gap);
-  align-items: end;
-  border-top: 1px solid var(--ink);
-  padding-top: clamp(20px, 3vh, 32px);
-}
-.way--single {
-  grid-template-columns: minmax(240px, 0.8fr) minmax(0, 2.3fr);
-  width: min(78vw, 1180px);
-}
-.way__text {
-  display: grid;
-  gap: 16px;
-  align-content: space-between;
+.bpanel__img {
+  width: 100%;
   height: 100%;
-  padding-right: clamp(8px, 2vw, 32px);
 }
-.way__title {
-  font-size: clamp(2.6rem, 5.6vw, 6.25rem);
+.bpanel__lead .bpanel__open {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--paper-2);
+}
+.bpanel__thumbs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+.bpanel__thumb {
+  flex: none;
+}
+.bpanel__thumb .bpanel__open {
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: var(--paper-2);
+}
+.bpanel__pic {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.bpanel__pic img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+@media (hover: hover) {
+  .bpanel__pic img {
+    transition: transform var(--dur-3) var(--ease-out);
+  }
+  .bpanel__thumb .bpanel__open:hover img {
+    transform: scale(1.04);
+  }
+}
+.bpanel__name {
   font-weight: 800;
   font-stretch: 104%;
   letter-spacing: -0.035em;
   line-height: 0.94;
-  align-self: start;
-  margin-top: 0.1em;
-}
-.way__body {
-  color: var(--ink-2);
-  max-width: 22ch;
   text-wrap: balance;
 }
-.way__lead {
-  margin: 0;
-  display: grid;
-  grid-template-rows: minmax(0, 1fr) auto;
-  gap: 12px;
-  height: 100%;
-  min-height: 0;
-}
-.way__lead-img {
-  min-height: 0;
-}
-.way__more {
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-  gap: var(--col-gap);
-  height: 100%;
-  min-height: 0;
-  padding-bottom: 62px; /* lines up with the lead image, above its caption */
-}
-.way__small {
-  margin: 0;
-  min-height: 0;
+.bpanel__body {
+  color: var(--ink-2);
+  text-wrap: pretty;
 }
 
-/* ---------- Touch and reduced motion: native swipe ---------- */
-.ways--swipe {
+/* ---------- ≥ 1024 px: the pinned strip ---------- */
+.bstrip {
+  --pad-y: clamp(32px, 6svh, 72px);
+  --gap: clamp(12px, 1.6svh, 20px);
+  --row-h: clamp(96px, 15svh, 160px);
+  /* 16:9 lead: about 80vw × 45vw, never taller than 75svh, and the thumbnail row always fits under it */
+  --lead-h: min(45vw, 75svh, calc(100svh - 2 * var(--pad-y) - var(--gap) - var(--row-h)));
+  --lead-w: calc(var(--lead-h) * 16 / 9);
+}
+.bstrip__view {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.bstrip__track {
+  display: flex;
+  align-items: center;
+  gap: clamp(40px, 5vw, 96px);
+  width: max-content;
+  height: 100%;
+  padding-inline: var(--gutter);
+  will-change: transform;
+}
+.bstrip .bpanel {
+  flex: none;
+  width: min(var(--lead-w), var(--lead-max));
+  display: grid;
+  grid-template-rows: auto var(--row-h);
+  row-gap: var(--gap);
+}
+/* the paper card at the panel's left edge, over the picture; it drifts a little against it (Beyond.jsx) */
+.bstrip .bpanel__text {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  bottom: calc(var(--row-h) + var(--gap));
+  width: min(40%, 30rem);
+  display: grid;
+  gap: clamp(10px, 1.6svh, 16px);
+  padding: clamp(18px, 2.6svh, 28px) clamp(20px, 2vw, 32px) clamp(20px, 3svh, 32px);
+  background: var(--paper);
+  border-top: 1px solid var(--ink);
+  pointer-events: none;
+  will-change: transform;
+}
+.bstrip .bpanel__name {
+  font-size: clamp(2.4rem, min(4.4vw, 8svh), 5rem);
+}
+.bstrip .bpanel__body {
+  font-size: clamp(0.9375rem, 1.05vw, 1.125rem);
+  line-height: 1.45;
+  max-width: 30ch;
+}
+.bstrip .bpanel__lead {
+  grid-row: 1;
+}
+/* the caption sits on the paper under the picture, opposite the thumbnails */
+.bstrip .bpanel__caption {
+  position: absolute;
+  left: 0;
+  top: calc(100% + var(--gap));
+}
+.bstrip .bpanel__thumbs {
+  grid-row: 2;
+  justify-content: flex-end;
+  gap: var(--gap);
+  height: var(--row-h);
+}
+.bstrip .bpanel__thumb {
+  height: 100%;
+  width: min(calc(var(--row-h) * 1.5), var(--thumb-max));
+}
+
+/* ---------- Stacked: tablets, phones, and reduced motion at any width ---------- */
+.bstack {
+  display: grid;
+  gap: clamp(56px, 10vh, 112px);
+  padding-bottom: var(--section);
+}
+.bstack .bpanel {
+  display: grid;
+  gap: 16px;
+  /* never wider than the picture's own pixels, nor taller than 75svh */
+  max-width: min(100%, var(--lead-max), calc(75svh * 16 / 9));
+  padding-top: clamp(18px, 3vh, 28px);
+  border-top: 1px solid var(--ink);
+}
+.bstack .bpanel__text {
+  display: grid;
+  gap: 12px;
+}
+.bstack .bpanel__name {
+  font-size: clamp(2.4rem, 7vw, 4.5rem);
+}
+.bstack .bpanel__body {
+  font-size: var(--t-lead);
+  line-height: 1.45;
+  max-width: 34ch;
+}
+.bstack .bpanel__lead {
+  display: grid;
+  gap: 12px;
+}
+/* a sideways row of thumbnails that scrolls on its own, edge to edge */
+.bstack .bpanel__thumbs {
+  gap: 12px;
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-  padding-block: 8px 28px;
+  margin-inline: calc(-1 * var(--gutter));
+  padding-inline: var(--gutter);
+  scroll-padding-inline: var(--gutter);
 }
-.ways--swipe::-webkit-scrollbar {
+.bstack .bpanel__thumbs::-webkit-scrollbar {
   display: none;
 }
-.ways--swipe .ways__track {
-  gap: 20px;
-}
-.ways--swipe .ways__intro {
-  display: none;
-}
-.ways--swipe .way,
-.ways--swipe .way--single {
-  width: min(86vw, 620px);
-  scroll-snap-align: center;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto;
-  row-gap: 18px;
-  align-items: start;
-}
-.ways--swipe .way__text {
-  height: auto;
-  padding-right: 0;
-}
-.ways--swipe .way__lead {
-  height: auto;
-}
-.ways--swipe .way__lead-img {
-  aspect-ratio: 16 / 10;
-}
-.ways--swipe .way__more {
-  grid-template-rows: none;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  height: auto;
-  padding-bottom: 0;
-}
-.ways--swipe .way__small-img {
-  aspect-ratio: 4 / 3;
+.bstack .bpanel__thumb {
+  width: min(36%, var(--thumb-max));
+  scroll-snap-align: start;
 }
 
-/* ---------- The line that hands over to the calculator ---------- */
-.beyond__bridge {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: var(--col-gap);
-  padding-block: var(--section) calc(var(--section) * 0.4);
-}
-.beyond__bridge-line {
-  max-width: 12ch;
-}
-.beyond__bridge svg {
-  width: clamp(40px, 5vw, 72px);
-  height: clamp(40px, 5vw, 72px);
-  flex: none;
-  stroke-width: 1;
-}
-
-@media (max-width: 820px) {
-  .beyond__headline,
+@media (max-width: 1023px) {
+  .beyond__title,
   .beyond__body {
     grid-column: 1 / -1;
+  }
+}
+/* phones: cards; each thumbnail 70vw, so the next one shows at the edge */
+@media (max-width: 767px) {
+  .bstack {
+    gap: clamp(48px, 9svh, 72px);
+  }
+  .bstack .bpanel {
+    gap: 14px;
+  }
+  .bstack .bpanel__name {
+    font-size: clamp(2rem, 9vw, 2.75rem);
+  }
+  .bstack .bpanel__body {
+    font-size: 1rem;
+  }
+  .bstack .bpanel__lead {
+    margin-inline: calc(-1 * var(--gutter));
+  }
+  .bstack .bpanel__caption {
+    padding-inline: var(--gutter);
+  }
+  .bstack .bpanel__thumb {
+    width: min(70vw, var(--thumb-max));
   }
 }

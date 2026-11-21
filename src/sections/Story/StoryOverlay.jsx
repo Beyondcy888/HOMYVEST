@@ -1,12 +1,13 @@
-// The hero story's text layer: five beats of copy, the slide labels, the closing stats and CTAs.
+// The story's text layer: five beats of copy, the slide labels, the closing stats and CTAs.
 // Everything is real DOM text from the first paint; Story.jsx animates it on the pinned timeline.
+// On /portofolio/ the page title is the <h1>, so every beat headline is an <h2>.
 import { useEffect, useState } from 'react';
 import { useT } from '../../i18n/useT.js';
 import { Button, WhatsAppButton } from '../../components/ui/Button.jsx';
 import Stat from '../../components/ui/Stat.jsx';
 import { ArrowDown } from '../../components/ui/Icons.jsx';
 
-export default function StoryOverlay({ ref, progress, earnAt, onSkip, onCalculator, onReveal }) {
+export default function StoryOverlay({ ref, progress, earnAt, onSkip, onReveal }) {
   const { t } = useT();
   const labels = t('hero.b3.labels');
   // The stats roll up when their beat starts. This is the only state scrolling changes, and it lives
@@ -21,9 +22,9 @@ export default function StoryOverlay({ ref, progress, earnAt, onSkip, onCalculat
     <div ref={ref} className="story__ui">
       <div className="story__col">
         <div className="story__beat story__b1">
-          <h1 id="story-title" className="story__title">
+          <h2 id="story-title" className="story__title">
             {t('hero.b1.title')}
-          </h1>
+          </h2>
           <p className="story__body">{t('hero.b1.body')}</p>
           <p className="story__cue t-eyebrow" aria-hidden="true">
             <span>{t('hero.scrollCue')}</span>
@@ -54,8 +55,8 @@ export default function StoryOverlay({ ref, progress, earnAt, onSkip, onCalculat
         ))}
       </div>
 
-      <a className="scene-skip story__skip" href="#about" onClick={onSkip}>
-        {t('hero.skip')}
+      <a className="scene-skip story__skip" href="#story-end" onClick={onSkip}>
+        {t('pf.skipStory')}
         <ArrowDown />
       </a>
 
@@ -70,7 +71,8 @@ export default function StoryOverlay({ ref, progress, earnAt, onSkip, onCalculat
           0123456789
         </span>
         <div className="story__ctas">
-          <Button variant="on-photo" href="#calculator" onClick={onCalculator}>
+          {/* the calculator lives on the main page: a plain link there */}
+          <Button variant="on-photo" href="/#calculator">
             {t('hero.b5.cta1')}
           </Button>
           <WhatsAppButton variant="ghost-on-photo" label={t('hero.b5.cta2')} />

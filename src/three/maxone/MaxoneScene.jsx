@@ -13,6 +13,7 @@ import { Environment } from '../shared/Stage.jsx';
 import { useTier } from '../../lib/device/tier.js';
 import { cssVar, useTheme } from '../../lib/theme.js';
 import { query } from '../../lib/storage.js';
+import { SMOOTH } from '../../content/scroll-config.js';
 import { variantUrl } from '../../components/media/Img.jsx';
 import { COLOURS as C, PLAN } from './plan.js';
 import { pathPolyline, routeAt, stopPositions } from './route.js';
@@ -25,22 +26,30 @@ const GLASS_OPACITY = 0.13;
 const SUN = new THREE.Vector3(0.55, 0.62, 0.56).normalize();
 const SUN_TARGET = [14.5, 0, 9.5];
 
-/** Everything three.js: geometry, materials, meshes. Built once; nothing here depends on React. */
-function createWorld(debug) {
+/**
+ * Everything three.js: geometry, materials, meshes. Built once; nothing here depends on React.
+ * Written as steps (a generator) so the portfolio page can build it ahead of time in idle slices (prebuild);
+ * createWorld() simply runs every step at once.
+ */
+function* worldSteps(debug) {
   const bin = [];
   const track = (x) => {
     bin.push(x);
     return x;
   };
-  const tex = {
-    tiles: track(tileTexture()),
-    herring: track(herringboneTexture()),
-    deck: track(deckTexture()),
-    mural: track(muralTexture()),
-    lineart: track(lineArtTexture()),
-    signs: track(signTexture()),
-    blob: track(blobTexture()),
-  };
+  const tex = {};
+  for (const [name, make] of [
+    ['tiles', tileTexture],
+    ['herring', herringboneTexture],
+    ['deck', deckTexture],
+    ['mural', muralTexture],
+    ['lineart', lineArtTexture],
+    ['signs', signTexture],
+    ['blob', blobTexture],
+  ]) {
+    tex[name] = track(make());
+    yield;
+  }
   const std = (o) => track(new THREE.MeshStandardMaterial({ roughness: 0.9, metalness: 0, ...o }));
   // glass is an unlit tint: a lit pane turns milky in the sun and hides the room behind it
   const glass = () => track(new THREE.MeshBasicMaterial({ color: C.glass, transparent: true, opacity: GLASS_OPACITY, depthWrite: false, side: THREE.DoubleSide, toneMapped: false }));
@@ -65,10 +74,13 @@ function createWorld(debug) {
   const lists = {};
   const place = (type, item) => (lists[type] ||= []).push(item);
   const kit = buildRoom(place);
+  yield;
   placeFurniture(place);
+  yield;
 
   for (const name of kit.names()) {
     const mesh = new THREE.Mesh(track(kit.merged(name)), mats[name]);
+    yield;
     const up = name === 'upper' || name === 'glassUp' || name === 'glowUp';
     mesh.name = name;
     mesh.castShadow = name === 'lower' || name === 'upper';
@@ -79,6 +91,7 @@ function createWorld(debug) {
   }
 
   const units = buildUnits();
+  yield;
   for (const [type, geometry] of Object.entries(units)) {
     const list = lists[type];
     if (!list?.length) {
@@ -163,13 +176,60 @@ function createWorld(debug) {
   };
 }
 
+function createWorld(debug) {
+  const steps = worldSteps(debug);
+  for (;;) {
+    const r = steps.next();
+    if (r.done) return r.value;
+  }
+}
+
+// A world built ahead of time in idle slices (U01_04 §4.8), handed to the first room that mounts.
+let prebuilt = null;
+let building = null;
+
+/**
+ * Builds the room during idle time, a slice at a time, so nothing heavy is left for the moment the scene
+ * mounts (one viewport before its pin, inside the previous scene). `idle(fn)` is requestIdleCallback-like.
+ */
+export function prebuild(idle) {
+  if (prebuilt || building || query('debug') === 'maxone') return building ?? Promise.resolve();
+  const steps = worldSteps(false);
+  building = new Promise((resolve) => {
+    const slice = (deadline) => {
+      // at least one step per slice; more while the browser says there is time left in this frame
+      do {
+        const r = steps.next();
+        if (r.done) {
+          prebuilt = r.value;
+          building = null;
+          resolve();
+          return;
+        }
+      } while (deadline?.timeRemaining?.() > 6);
+      idle(slice);
+    };
+    idle(slice);
+  });
+  return building;
+}
+
+function takeWorld(debug) {
+  if (!debug && prebuilt) {
+    const world = prebuilt;
+    prebuilt = null;
+    return world;
+  }
+  return createWorld(debug);
+}
+
 function Room({ progress }) {
   const tier = useTier();
   const theme = useTheme();
   const gl = useThree((s) => s.gl);
   const invalidate = useThree((s) => s.invalidate);
   const debug = useMemo(() => query('debug') === 'maxone', []);
-  const world = useMemo(() => createWorld(debug), [debug]);
+  const world = useMemo(() => takeWorld(debug), [debug]);
   const sun = useRef(null);
   const state = useRef({ p: null, frames: 0, route: {} });
   // &shift=0 keeps the picture centred (dev aid for comparing a stop with its render)
@@ -194,13 +254,30 @@ function Room({ progress }) {
         invalidate();
       })
       .catch(() => {});
-    const planTex = new THREE.TextureLoader().load(variantUrl('maxone/layout', 1600), () => alive && invalidate());
+    // The plan only shows at the end of the walk. Uploaded in idle time once it arrives, so its first frame
+    // there (a 1600 px texture and its mipmaps) costs nothing (it was a 130–150 ms frame on a throttled phone).
+    let idleId = 0;
+    const upload = () => {
+      if (!alive) return;
+      try {
+        gl.initTexture(planTex);
+      } catch {
+        /* uploads on first use instead */
+      }
+      invalidate();
+    };
+    const planTex = new THREE.TextureLoader().load(variantUrl('maxone/layout', 1600), () => {
+      if (!alive) return;
+      idleId = window.requestIdleCallback ? window.requestIdleCallback(upload, { timeout: 1500 }) : window.setTimeout(upload, 300);
+    });
     planTex.colorSpace = THREE.SRGBColorSpace;
     planTex.anisotropy = aniso;
     world.planMat.map = planTex;
     world.planMat.needsUpdate = true;
     return () => {
       alive = false;
+      if (window.cancelIdleCallback) window.cancelIdleCallback(idleId);
+      else window.clearTimeout(idleId);
       world.planMat.map = null;
       planTex.dispose();
     };
@@ -241,7 +318,7 @@ function Room({ progress }) {
     // A far jump (a stop button on the mini-map, the skip link, an anchor link) cuts straight to the new place
     // instead of sweeping the camera through walls on the way there.
     if (Math.abs(target - s.p) > 0.12) s.p = target;
-    const moving = easing.damp(s, 'p', target, 0.18, Math.min(delta, 0.05), Infinity, undefined, 1e-5);
+    const moving = easing.damp(s, 'p', target, SMOOTH.cameraSmoothTime, Math.min(delta, 0.05), Infinity, undefined, 1e-5);
     const { camera, size } = three;
     view.aspect = size.width / size.height;
     const r = routeAt(s.p, view, s.route);

@@ -1,5 +1,6 @@
 // Checks the depth parallax: does it go live, does the canvas match the picture, does it move with the pointer?
-//   node qa/tools/depth-check.mjs
+//   node qa/tools/depth-check.mjs   (dev server on :5173; BASE=http://localhost:4273 for a preview build)
+// It looks at the mini soccer lead on /portofolio/ (#beyond), a large depth image outside any pinned scene.
 import { chromium } from '@playwright/test';
 import sharp from 'sharp';
 
@@ -8,14 +9,16 @@ const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 const logs = [];
 page.on('console', (m) => ['error', 'warning'].includes(m.type()) && logs.push(`[${m.type()}] ${m.text()}`));
 page.on('pageerror', (e) => logs.push(`[pageerror] ${e.message}`));
-await page.goto('http://localhost:5173/?nointro=1', { waitUntil: 'load' });
+const BASE = process.env.BASE || 'http://localhost:5173';
+await page.goto(`${BASE}/portofolio/`, { waitUntil: 'load' });
 await page.evaluate(() => {
-  const el = document.querySelector('#homyeight');
-  window.__homyvest.lenis?.scrollTo(el.offsetTop, { immediate: true, force: true });
+  const el = document.querySelector('#beyond .bpanel__lead');
+  const y = el.getBoundingClientRect().top + window.scrollY - 120;
+  window.__homyvest.lenis?.scrollTo(y, { immediate: true, force: true });
 });
 await page.mouse.move(720, 450);
 await page.waitForTimeout(4500);
-const box = await page.locator('.homyeight__img').boundingBox();
+const box = await page.locator('#beyond [data-depth-id="others/athero-1"]').boundingBox();
 const state = await page.evaluate(() => [...document.querySelectorAll('.depth')].map((d) => `${d.dataset.depthId}:${d.dataset.depthLive ?? '-'}`).join('  '));
 console.log('depth states:', state);
 const clip = { x: box.x, y: Math.max(0, box.y), width: box.width, height: Math.min(box.height, 900 - Math.max(0, box.y)) };

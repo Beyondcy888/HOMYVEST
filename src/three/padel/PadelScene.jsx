@@ -25,6 +25,7 @@ import { media } from '../../components/media/Img.jsx';
 import { useTheme, cssVar } from '../../lib/theme.js';
 import { query } from '../../lib/storage.js';
 import { span, easeInOut, easeOutQuart } from '../../lib/scroll/progress.js';
+import { SMOOTH } from '../../content/scroll-config.js';
 import './PadelScene.css';
 
 const IDS = ['padel-clean/padel-1', 'padel-clean/padel-2', 'padel-clean/padel-3'];
@@ -35,6 +36,8 @@ const BOUNDS = unionBounds(IMAGES.map((t) => imageBounds(t, t.size)));
 const CENTRE = [(BOUNDS.x0 + BOUNDS.x1) / 2, (BOUNDS.y0 + BOUNDS.y1) / 2];
 const SPAN = [BOUNDS.x1 - BOUNDS.x0, BOUNDS.y1 - BOUNDS.y0];
 const PAD = 1.1;
+const PAD_PHONE = 1.08;
+const PHONE = 768; // CSS px: narrower portrait canvases fit the model to their width
 const TARGET = unproject(CENTRE);
 const CAMERA_POSITION = TARGET.map((v, i) => v + VIEW[i] * 220);
 // Each image's top-left corner on the camera plane (metres).
@@ -66,10 +69,15 @@ function Driver({ progress, stages, layers, model, onProject }) {
     camera.updateMatrixWorld();
   }, [camera]);
 
-  // Layout: the renders get their size from the canvas (recomputed on every resize).
+  // Layout: the renders get their size from the canvas (recomputed on every resize). This one number feeds the
+  // camera zoom, the renders' size and position, and the wipe, so the picture always lands on the model.
   useLayoutEffect(() => {
     const s = state.current;
-    s.fit = Math.min(size.width / (SPAN[0] * PAD), size.height / (SPAN[1] * PAD));
+    s.fit =
+      size.width < PHONE && size.width < size.height
+        ? // phones in portrait: fitted to the width with 8% padding (U01_05 §3), never taller than the canvas
+          Math.min(size.width / (SPAN[0] * PAD_PHONE), size.height / (SPAN[1] * 1.02))
+        : Math.min(size.width / (SPAN[0] * PAD), size.height / (SPAN[1] * PAD));
     layers.current.forEach((layer, i) => {
       if (!layer?.img) return;
       const k = s.fit / IMAGES[i].scale; // CSS px per image px at full zoom
@@ -93,8 +101,9 @@ function Driver({ progress, stages, layers, model, onProject }) {
 
   useFrame((three, delta) => {
     const s = state.current;
-    // demand-driven frames can be far apart: never let one long gap swallow the glide
-    const moving = easing.damp(s, 'p', progress.current, 0.14, Math.min(delta, 1 / 30));
+    // demand-driven frames can be far apart: never let one long gap swallow the glide. Frames keep coming
+    // until the damped value is within 0.0002 of the scroll (maath's default stops at 0.001, a visible snap).
+    const moving = easing.damp(s, 'p', progress.current, SMOOTH.assemblySmoothTime, Math.min(delta, 1 / 30), Infinity, undefined, 0.0002);
     const p = s.p;
     const st = stages.current;
     st[0] = stageProgress(p, 0);
@@ -185,6 +194,15 @@ function place(geometry, p0) {
   return geometry;
 }
 
+/** Places one roof part for its own progress t (0 = above the frame, 1 = settled). Module-level: no per-frame closure. */
+function dropPart(refs, name, t) {
+  const mesh = refs[name];
+  if (!mesh) return;
+  mesh.frustumCulled = true;
+  mesh.visible = t > 0;
+  mesh.position.y = (1 - easeOutQuart(t)) * DROP;
+}
+
 /** The vault comes down from above the frame as rigid bodies and settles. */
 function Roof({ stages, materials, extra }) {
   const refs = useRef({});
@@ -218,18 +236,12 @@ function Roof({ stages, materials, extra }) {
       return;
     }
     const st = stages.current;
-    const set = (name, t) => {
-      const mesh = refs.current[name];
-      if (!mesh) return;
-      mesh.frustumCulled = true;
-      mesh.visible = t > 0;
-      mesh.position.y = (1 - easeOutQuart(t)) * DROP;
-    };
-    set('strip', span(st[1], 0.5, 0.94));
-    set('back', span(st[2], 0, 0.44));
-    set('front', span(st[2], 0.08, 0.52));
-    set('glass', span(st[2], 0.26, 0.68));
-    set('gable', span(st[2], 0.38, 0.78));
+    const r = refs.current;
+    dropPart(r, 'strip', span(st[1], 0.5, 0.94));
+    dropPart(r, 'back', span(st[2], 0, 0.44));
+    dropPart(r, 'front', span(st[2], 0.08, 0.52));
+    dropPart(r, 'glass', span(st[2], 0.26, 0.68));
+    dropPart(r, 'gable', span(st[2], 0.38, 0.78));
   });
 
   const hold = (name) => (node) => {
@@ -244,6 +256,18 @@ function Roof({ stages, materials, extra }) {
       <mesh ref={hold('gable')} geometry={geo.gable} material={extra.glass} visible={false} />
     </group>
   );
+}
+
+// The hall's pieces are pure data, built once per page (in idle time by `prebuild`, or at first mount).
+let kitCache = null;
+const getKit = () => (kitCache ??= prepare(buildPadel(), { seed: 31, spread: 0.8 }));
+export function prebuild(idle) {
+  return new Promise((resolve) => {
+    idle(() => {
+      getKit();
+      resolve();
+    });
+  });
 }
 
 function Model({ stages }) {
@@ -267,7 +291,7 @@ function Model({ stages }) {
     return { turf, glass, roof, dark };
   }, [materials, theme]);
   useEffect(() => () => Object.values(extra).forEach((m) => m?.dispose()), [extra]);
-  const kit = useMemo(() => prepare(buildPadel(), { seed: 31, spread: 0.8 }), []);
+  const kit = useMemo(getKit, []);
   const materialFor = useMemo(() => (kind) => (kind === 'turf' ? extra.turf : kind === 'glass' ? extra.glass : kind === 'dark' ? extra.dark : null), [extra]);
   return (
     <>

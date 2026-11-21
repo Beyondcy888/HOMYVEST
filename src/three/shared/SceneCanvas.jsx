@@ -1,9 +1,53 @@
 // The <Canvas> every big scene uses: tier-aware quality, render-on-demand, transparent background.
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import * as THREE from 'three';
 import { Canvas, useThree } from '@react-three/fiber';
-import { useTier } from '../../lib/device/tier.js';
+import { useTier, isCoarsePointer } from '../../lib/device/tier.js';
+import { usePage } from '../../lib/page.js';
 import { FrameWatch, PerfProbe } from './Stage.jsx';
+
+// On /portofolio/ the long scenes cap the pixel ratio (U01_04 §4.7): 1.75 on desktop, 1.5 on phones.
+// The main page's calculator canvas keeps its tier's ratio.
+const PORTFOLIO_DPR = { desktop: 1.75, mobile: 1.5 };
+function dprFor(tier, page) {
+  if (page !== 'portfolio') return tier.dpr;
+  const mobile = isCoarsePointer() || (typeof window !== 'undefined' && window.innerWidth < 768);
+  const cap = mobile ? PORTFOLIO_DPR.mobile : PORTFOLIO_DPR.desktop;
+  const [min, max] = tier.dpr;
+  return [Math.min(min, cap), Math.min(max, cap)];
+}
+
+const TEXTURE_SLOTS = ['map', 'alphaMap', 'aoMap', 'bumpMap', 'emissiveMap', 'lightMap', 'metalnessMap', 'normalMap', 'roughnessMap'];
+
+/**
+ * Uploads the scene's image textures to the GPU before its first frame, one per animation frame, so no single
+ * frame pays for all of them (U01_04 §4.1). Textures that are still loading upload when they arrive.
+ */
+function uploadTextures(gl, scene, alive) {
+  const found = new Set();
+  scene.traverse((obj) => {
+    const list = Array.isArray(obj.material) ? obj.material : obj.material ? [obj.material] : [];
+    for (const m of list) {
+      for (const slot of TEXTURE_SLOTS) {
+        const tex = m[slot];
+        if (tex?.isTexture && !tex.isRenderTargetTexture && tex.image && (tex.image.width || tex.image.videoWidth)) found.add(tex);
+      }
+    }
+  });
+  const queue = [...found];
+  return new Promise((resolve) => {
+    const next = () => {
+      if (!alive() || queue.length === 0) return resolve();
+      try {
+        gl.initTexture(queue.shift());
+      } catch {
+        /* a texture that cannot upload now uploads on first use, as before */
+      }
+      requestAnimationFrame(next);
+    };
+    requestAnimationFrame(next);
+  });
+}
 
 // React Three Fiber 9.8 still creates a THREE.Clock internally, which three r187 reports as deprecated
 // on every canvas. It is not ours to fix, so that one message is filtered; everything else passes through.
@@ -46,7 +90,9 @@ function Warm({ live, onLive, onReady }) {
     const id = requestAnimationFrame(() => {
       try {
         const { gl, scene, camera } = get();
-        (typeof gl.compileAsync === 'function' ? gl.compileAsync(scene, camera) : Promise.resolve()).then(go, go);
+        (typeof gl.compileAsync === 'function' ? gl.compileAsync(scene, camera) : Promise.resolve())
+          .then(() => uploadTextures(gl, scene, () => alive))
+          .then(go, go);
       } catch {
         go();
       }
@@ -104,13 +150,15 @@ export default function SceneCanvas({
   ...rest
 }) {
   const tier = useTier();
+  const page = usePage();
+  const dpr = useMemo(() => dprFor(tier, page), [tier, page]);
   const [live, setLive] = useState(false);
   const onLive = useCallback(() => setLive(true), []);
   return (
     <Canvas
       className={className}
       style={{ position: 'absolute', inset: 0, ...style }}
-      dpr={tier.dpr}
+      dpr={dpr}
       frameloop={live ? frameloop : 'never'}
       orthographic={orthographic}
       camera={camera}

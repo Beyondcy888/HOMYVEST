@@ -402,6 +402,250 @@
   }
 }
 
+/* The stop's name as a small label: phones only (on larger screens the mini-map and the card carry it). */
+.walk__stopname {
+  display: none;
+}
+
+/* ---------- Phones (< 768 px, portrait): small cards, the 3D view keeps most of the screen (U01_05 §3) ---------- */
+@media (max-width: 767px) and (max-aspect-ratio: 85/100) {
+  .walk {
+    --inset: 16px;
+  }
+  /* top-left: the stop's name, then the skip link under it; top-right: the mini-map */
+  .walk__stopname {
+    display: block;
+    position: absolute;
+    z-index: 4;
+    left: calc(12px + env(safe-area-inset-left));
+    top: calc(12px + env(safe-area-inset-top));
+    max-width: calc(100% - 96px - 48px);
+    padding: 5px 10px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    font-size: 0.8125rem;
+    font-weight: 650;
+    line-height: 1.25;
+  }
+  .walk__skip {
+    top: calc(52px + env(safe-area-inset-top));
+    bottom: auto;
+    left: calc(12px + env(safe-area-inset-left));
+    right: auto;
+  }
+  .mmap {
+    left: auto;
+    right: calc(12px + env(safe-area-inset-right));
+    top: calc(12px + env(safe-area-inset-top));
+    bottom: auto;
+    width: 96px;
+    display: block;
+    padding: 4px;
+    opacity: 0.85;
+  }
+  /* The seven stop buttons cannot fit 96 px at 44 px each. They stay in the page for keyboards and screen
+     readers, and show as a strip under the map while one of them has focus. */
+  .mmap__stops,
+  .mmap__name {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+  .mmap:focus-within {
+    opacity: 1;
+  }
+  .mmap:focus-within .mmap__stops {
+    top: calc(100% + 4px);
+    right: -1px;
+    width: min(308px, calc(100vw - 24px));
+    height: auto;
+    overflow: visible;
+    clip: auto;
+    background: var(--paper);
+    border: 1px solid var(--line);
+  }
+  /* the card: 62vw, a 4:3 picture no taller than 30svh, bottom-left, sliding in from the left */
+  .scard--image,
+  .scard--label,
+  .scard--image.scard--left,
+  .scard--image.scard--right {
+    left: calc(var(--inset) + env(safe-area-inset-left));
+    right: auto;
+    top: auto;
+    bottom: calc(var(--inset) + env(safe-area-inset-bottom));
+    width: min(62vw, calc(30svh * 4 / 3 + 14px));
+    gap: 6px;
+    padding: 6px 6px 8px;
+    border-width: 1px;
+    clip-path: inset(0 calc((1 - var(--in)) * 100%) 0 0);
+    transform: translate3d(calc((1 - var(--in)) * -28px), 0, 0);
+  }
+  .scard__media {
+    aspect-ratio: 4 / 3;
+  }
+  .scard__cap {
+    display: grid;
+    gap: 2px;
+  }
+  .scard--image .scard__name {
+    display: none;
+  }
+  .scard--label {
+    padding: 10px 12px 12px;
+  }
+  .scard--label .scard__name {
+    font-size: 1.0625rem;
+    letter-spacing: -0.01em;
+  }
+  .scard__caps {
+    text-align: left;
+    flex: auto;
+    min-width: 0;
+  }
+  .scard__caption {
+    justify-items: start;
+  }
+  /* 12 px caption: the name in bold, the rest on one line */
+  .scard .caption {
+    display: block;
+    font-size: 0.75rem;
+    line-height: 1.35;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .scard .caption__name {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .scard .caption__place + .caption__type::before {
+    content: ' · ';
+    font-style: normal;
+  }
+  .walk__plan {
+    top: calc(104px + env(safe-area-inset-top));
+  }
+}
+
+/* ---------- Landscape phones (e.g. 844 × 390): cards on their side at about 35%, the scene beside them ---------- */
+@media (orientation: landscape) and (max-height: 520px) and (max-width: 1023px) {
+  .walk {
+    --hud-h: 0px;
+  }
+  .walk__stopname {
+    display: block;
+    position: absolute;
+    z-index: 4;
+    left: calc(12px + env(safe-area-inset-left));
+    top: 12px;
+    padding: 4px 10px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    font-size: 0.8125rem;
+    font-weight: 650;
+    line-height: 1.25;
+  }
+  .walk__skip {
+    top: 48px;
+    right: auto;
+    left: calc(12px + env(safe-area-inset-left));
+  }
+  .mmap {
+    left: auto;
+    right: calc(12px + env(safe-area-inset-right));
+    top: 12px;
+    bottom: auto;
+    width: 96px;
+    display: block;
+    padding: 4px;
+    opacity: 0.85;
+  }
+  .mmap__stops,
+  .mmap__name {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+  .mmap:focus-within {
+    opacity: 1;
+  }
+  .mmap:focus-within .mmap__stops {
+    top: calc(100% + 4px);
+    right: -1px;
+    width: 308px;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+    background: var(--paper);
+    border: 1px solid var(--line);
+  }
+  .scard--image {
+    top: auto;
+    bottom: 12px;
+    width: min(35vw, calc((var(--stage-h) - 150px) * 4 / 3 + 14px));
+    gap: 6px;
+    padding: 6px 6px 8px;
+    transform: translate3d(calc((1 - var(--in)) * var(--from, 28px)), 0, 0);
+  }
+  .scard--image.scard--right {
+    right: calc(12px + env(safe-area-inset-right));
+  }
+  .scard--image.scard--left {
+    left: calc(12px + env(safe-area-inset-left));
+  }
+  .scard__media {
+    aspect-ratio: 4 / 3;
+  }
+  .scard--image .scard__name {
+    display: none;
+  }
+  .scard__caps {
+    text-align: left;
+    flex: auto;
+    min-width: 0;
+  }
+  .scard__caption {
+    justify-items: start;
+  }
+  .scard .caption {
+    display: block;
+    font-size: 0.75rem;
+    line-height: 1.35;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .scard .caption__name {
+    display: block;
+  }
+  .scard .caption__place + .caption__type::before {
+    content: ' · ';
+    font-style: normal;
+  }
+  .scard--label {
+    bottom: 12px;
+    width: min(360px, 40vw);
+    padding: 12px 14px 14px;
+  }
+  .scard--label .scard__name {
+    font-size: var(--t-h2);
+  }
+  .walk__plan {
+    top: 50%;
+    width: min(40vw, calc((var(--stage-h) - 40px) * 1.551));
+  }
+  .walk__hint {
+    bottom: 12px;
+  }
+}
+
 /* ---------- Reduced motion: the stops as a sequence ---------- */
 .walk--static .walk__list {
   display: grid;
