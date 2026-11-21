@@ -245,8 +245,10 @@ export default function FunnelPanel() {
         <header className="funnel__head">
           <div className="funnel__brand">
             <Wordmark as="span" interactive={false} aria-label="HOMYVEST" className="funnel__mark" />
-            <span className="funnel__powered">{t('funnel.panel.poweredBy')}</span>
-            <PartnerLogo brand="homyeight" height={17} className="funnel__logo" />
+            <span className="funnel__partner">
+              <span className="funnel__powered">{t('funnel.panel.poweredBy')}</span>
+              <PartnerLogo brand="homyeight" height={17} className="funnel__logo" />
+            </span>
           </div>
           <button type="button" className="funnel__close" onClick={close}>
             <span className="sr-only">{t('funnel.panel.close')}</span>

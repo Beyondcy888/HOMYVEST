@@ -22,7 +22,7 @@ Visitors read in English (default) or Bahasa Indonesia, mostly on phones, and co
 
 ## Product Purpose
 
-HOMYVEST is a permanent campaign: an always-open invitation to owners of idle land and property. The site is a single, story-driven marketing page. After a few minutes a visitor must know who HOMYVEST is, what it does, why this team, what their own land could become (through the land-check calculator with live 3D), and exactly how to move forward (WhatsApp, with their results prefilled).
+HOMYVEST is a permanent campaign: an always-open invitation to owners of idle land and property. The site is two pages: a short main page that gets a visitor to leave their number within seconds and then explains who we are, how it works and who runs it, and `/portofolio/`, where the 3D showpieces tell the story in motion. After a few minutes a visitor must know who HOMYVEST is, what it does, why this team, what their own land could become (through the land-check calculator with live 3D), and exactly how to move forward (leave a number in the form, or WhatsApp with their answers and results prefilled).
 
 Success is an owner sending a WhatsApp message that carries their land-check results.
 
@@ -45,7 +45,8 @@ HOMYVEST is not a developer and does not sell buildings, units or land.
 
 ## Capabilities and Constraints
 
-- Sections, in order: hero story, what is HOMYVEST and two doors, the team, HomyEight and the Maxone walkthrough, Behomy, projects, beyond stays, calculator, what happens next, FAQ, footer.
+- Main page, in order: hero with the lead funnel (phone number → funding → details), what is HOMYVEST, end-to-end (plan · design · build · operate), Behomy (hero, hybrid model, stats, places it runs, before and after, the team), projects, land check, what happens next with the portfolio card, FAQ, footer.
+- Portfolio page, in order: intro and index, the 3D story, the Maxone walkthrough, the padel hall, beyond stays, closing.
 - Calculator formulas, defaults and rounding are locked (`docs/05_CALCULATOR_SPEC.md`); its tests must pass. 3D in the calculator must match the numbers exactly.
 - Facts and numbers come only from the facts sheet in `docs/02_PROJECT_BRIEF.md` §6. Never claim guaranteed income, guaranteed occupancy, timelines, prices, awards, or cities not listed. Never use "90%".
 - Project captions stay as styled placeholders until the owner fills them in (`src/content/projects.js`).

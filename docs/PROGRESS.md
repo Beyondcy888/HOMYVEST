@@ -157,3 +157,20 @@ Task list: `tasklist-update2.md`. Decisions: `docs/DECISIONS.md` (U01-D1 …). R
 
 ## U3 Portfolio page
 - Being built by a helper agent in the worktree `../HOMYVEST-u3` (branch `u3-portfolio`), to be merged here.
+
+## U3 Portfolio page (merged e38b09f)
+- **Built by a helper agent** on branch `u3-portfolio`: intro and index, story, Maxone, padel, Beyond (landscape), closing, dividers.
+- **Scroll and smoothness:** lengths from `scroll-config.js`, the smoothness pass, and phone layouts.
+- **Frame-time targets met** (`qa/perf-u01.json`). On a throttled phone, Maxone went from 6 frames over 50 ms to 1 frame of exactly 50.1 ms.
+- **Fixed after the merge:** the "← Home" link overlapped the language toggle at 360/390 px; `/portofolio` without the slash now redirects in dev and preview too; the last unused copy keys and the HomyEight intro files are deleted.
+
+## U8 QA
+- **Tests:** 116 unit and 146 e2e (10 by-design device skips); typecheck, build and `check-secrets --all` are clean.
+- **Screenshots:** `npm run shots`, 64 runs (both pages, four viewports, both themes, both languages, every funnel state), reviewed.
+- **Fixed from the shots:** the funnel panel's header overlapped its close button on phones; "Powered by" now goes under the wordmark.
+- **Load:** main page LCP 1.2–1.7 s on mobile 4G ×4, CLS ≤ 0.003, first-load JS 173.5 KB gzip (budget 180).
+- **Originals untouched:** `renders/` 32/32, `assets-src/` 31/31.
+
+## U9 Docs and report
+- **Docs:** `CLAUDE.md`, `docs/02–10`, `DESIGN.md` and `PRODUCT.md` describe the new site. DECISIONS U01-D1 … D23. `docs/REPORT_U01.md` written.
+- **What's left is the owner's:** the Supabase and Google Drive setup, host environment variables, captions, photo rights and the domain (REPORT_U01 "Needs you").

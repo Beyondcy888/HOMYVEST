@@ -34,7 +34,23 @@
 **Removed:** the doors ("Which one sounds like you?" and "Here's who does the work."), Team, and the HomyEight intro ("Built by HomyEight / Drawn with care…"). Their components, styles, copy keys and tests are deleted.
 
 ### Portfolio page (`/portofolio/`)
-PORTFOLIO-SECTION
+- **Intro:** "Our full portfolio", one line, and an index of the four parts with small thumbnails, then "Scroll to begin".
+- **01 The story:** the 3D building story that used to open the main page. Same choreography; "See what your land can do" now leads to the land check on the main page.
+- **02 · Step inside Maxone:** the walkthrough, same route and stops.
+- **03 · The padel hall:** the assembly, same stages.
+- **04 · Beyond stays:** mini soccer (now with the site overview, `athero-1`), café, office. Landscape images only: a sideways strip on desktop, stacked panels on tablets, cards with swipeable thumbnails on phones.
+- **Closing:** "Like what you see? Let's look at your land." → Leave your number (back to the main page's phone field), WhatsApp, "← Back to home".
+- **Between scenes:** a short divider with the next scene's number and name. It's a rest for the eye, and time for the next scene to get ready.
+- **Header:** "Portfolio" is marked as the current page; phones get a "← Home" link.
+- **Skip links:** for the story, the walkthrough and the padel hall.
+
+**Your request "it scrolls too fast and lags":**
+- Every scene now takes about twice the scrolling: the story 5 → 10 screens of scrolling, Maxone 7 → 14, padel 3.6 → 8 (phones: 8, 11 and 6.4).
+- On this page each wheel notch moves less, and the motion is smoothed more.
+- What used to cause hitches is now prepared ahead, while you read the intro and the dividers: building the 3D worlds, uploading textures, decoding images.
+- The animations themselves are unchanged.
+
+All lengths and smoothing values live in one file, `src/content/scroll-config.js`.
 
 ### Lead funnel
 1. **Phone (step 1 of 3).** Accepts 0812…, 812… or a pasted +62…. A valid number opens the panel and records the number in `lead_starts` (fire and forget).
@@ -62,7 +78,7 @@ The 34 lead tests pass. The sample reports in English and Indonesian were render
 - **Phones (< 768 px):**
   - 56 px header, tighter section spacing, capped headline sizes, and a menu that fits all six links
   - no horizontal scroll at 360 px
-  - the phone field and funnel checked at 360, 390, 414, 768 and 844 × 390, in light and dark, English and Indonesian
+  - both pages checked at 360, 390, 768 and 844 × 390 (and for overflow at 414), in light and dark, English and Indonesian
 - **Desktop (1440 px):** screenshots before and after the pass are identical.
 
 ## How to try it
@@ -74,7 +90,19 @@ npm run dev   →  http://localhost:5173/  and  http://localhost:5173/portofolio
 - A normal `npm run build` has no Supabase settings, so it hands visitors over to WhatsApp.
 
 ## Smoothness (portfolio page)
-SMOOTHNESS-SECTION
+Wheel scrolling at a steady 120 px every 50 ms. Before = the original site, after = `/portofolio/`. Phone = Pixel 7 emulation with the CPU slowed 4×. Frame times in ms on a 60 Hz screen (16.7 = every frame on time). Full data: `qa/perf-u01.json`.
+
+| Scene | Scroll length, desktop (old → new) | Desktop p95 / max (before → after) | Phone ×4 p95 / max (before → after) | Phone frames over 50 ms (before → after) |
+|---|---|---|---|---|
+| Story | 4,500 → 9,000 px | 16.7 / 33.3 → 16.7 / 16.8 | 33.3 / 33.4 → 16.8 / 33.4 | 0 → 0 |
+| Maxone | 6,300 → 12,600 px | 16.8 / 33.3 → 16.8 / 16.8 | 50 / 150 → 16.8 / 50.1 | 6 → 1 (exactly 50.1) |
+| Padel | 3,240 → 7,200 px | 16.7 / 16.8 → 16.7 / 16.8 | 33.3 / 33.4 → 16.8 / 16.8 | 0 → 0 |
+
+- **Targets:** p95 ≤ 20 ms on desktop and ≤ 34 ms on a throttled phone; met in every scene.
+- **"No frame over 50 ms after warm-up":** met everywhere except one Maxone frame on the throttled phone, at exactly 50.1 ms (three refresh periods).
+- **A continuous wheel through the whole page:** desktop 16.7 / 16.8; phone 16.8 / 50.
+- **Run-to-run variation:** earlier runs each had one 67 ms frame (once 100 ms) at a different point in Maxone.
+- **Not checked:** emulation only; nothing was measured on real phones.
 
 ## Load (main page)
 | Measure | Result | Budget |
@@ -120,7 +148,18 @@ The Supabase client and the funnel panel load only when someone starts the form.
 | Need to re-send a report | Any | In the Supabase table editor, set `report_status` to `pending` and `report_attempts` to `0`. The cron picks it up |
 
 ## Tests
-TESTS-SECTION
+- **Unit tests:** `npm run test`, 116 passing. They include the kit's 34 lead tests (phone numbers, validation, the database row, the WhatsApp message, the PDF in both languages, the Drive helpers) and the scroll-length check. The calculator's formulas are untouched and its tests still pass.
+- **Browser tests:** `npm run e2e` (desktop and phone), 146 passing; the 10 skips are by design (desktop-only or phone-only checks). New specs:
+  - **`main-flow`:** the new section order, the removed sections gone, every project image revealed, the logos in both themes, the portfolio card, no 3D code loaded on `/`, deep links.
+  - **`funnel`:** both paths against a fake Supabase whose every request is intercepted: the saved rows, the thank-you, the server error, the rate limit, reload persistence, the calculator snapshot, keyboard, and Indonesian.
+  - **`funnel-handoff`:** with no Supabase settings, the WhatsApp handoff.
+  - **`mobile`:** no sideways scroll at 360 px, the button above the keyboard, the WhatsApp button hidden while the panel is open.
+  - **`portfolio`:** order, scroll lengths, skip links, landscape images, the phone card size.
+  - **`secrets`.**
+  - **`a11y`:** now also covers the portfolio page and the funnel's steps 2 and 3.
+- **Typecheck, build, and `node scripts/check-secrets.mjs --all`:** clean.
+- **Screenshots** of both pages at 360, 390, 768, 844 × 390, 1440 and 1920 px, in light and dark and in English and Indonesian, plus every funnel state, were reviewed (`npm run shots`: 64 runs). At 414 px both pages were checked for sideways overflow in both languages. Desktop (1440 px) before and after the phone pass: identical.
+- **Originals:** `renders/` and `assets-src/` are untouched (hash-checked).
 
 ## Decisions worth knowing
 - **Your keys (U01-D1):** they are used by `npm run dev` only. Production builds take them from the host settings. Tests never use them: they run on two builds, one with no settings and one with a fake project whose every request is intercepted.

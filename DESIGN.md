@@ -105,7 +105,7 @@ The reference for the 3D storytelling is a white clay model on a white ground wi
 
 ## Colors
 
-Black and white with warm neutrals. There is no brand colour, no gradient and no tinted UI.
+Black and white with warm neutrals. There is no brand colour, no gradient and no tinted UI. Colour comes only from the renders and photos, then from the partner logos (HomyEight, Behomy), then from the one zone green.
 
 ### Neutral
 - **Paper** `#FAFAF7`: the page.
@@ -122,7 +122,8 @@ Dark theme swaps paper and ink (`#0C0C0B` / `#F3F2EE`). The clay stays light in 
 - **The one functional colour.** The calculator's "must stay green" zone uses zone green `#8C9C7A` in the split bar, the legend and the 3D. Nowhere else.
 - **Warnings are never red.** Over-limit and warning states use ink, an icon and a diagonal hatch.
 - **The lone accent in clay scenes** is a single near-black element (`#1C1B19`), such as a stair core.
-- **Warm light, once.** Window glass warms to `#FFD9A8` only in the hero's "alive" beat.
+- **Warm light, once.** Window glass warms to `#FFD9A8` only in the story's "alive" beat.
+- **Partner logos keep their own colours** (the second colour exception, after photos): colour versions on light, on-dark versions on dark and over photos, never recoloured, outlined or stretched. Beside HomyEight's wide wordmark the compact Behomy mark is drawn 1.35× taller so the two read as the same size (`src/components/brand/PartnerLogo.jsx`).
 
 ## Typography
 
@@ -172,7 +173,17 @@ Square corners everywhere (0–2px). No pills, no rounded cards. The one round e
 Large, quiet fields with a hairline bottom border, the label above and help text below in muted. Units sit inside the field on the right (`m`, `%`, `×`, `Rp`).
 
 ### Navigation
-A sticky, minimal header: wordmark left, four text links, the EN | ID toggle and a compact WhatsApp button. Transparent over the hero, paper with a hairline afterwards. It hides on scroll down, shows on scroll up, and stays hidden while a pinned scene is active.
+A sticky, minimal header: wordmark left, six text links (How it works · Behomy · Projects · Land check · FAQ · Portfolio), the EN | ID toggle and a compact WhatsApp button. On `/portofolio/` "Portfolio" is marked current and phones get a "← Home" link. Paper with a hairline once scrolled; 56 px tall on phones. It hides on scroll down, shows on scroll up, and stays hidden while a pinned scene is active.
+
+### Lead funnel
+- **Phone card (hero):** a large field with a fixed `+62` in front, a solid "Continue" beside it (stacked below 1024 px), privacy line below. Errors are ink with a small hatch glyph, never red.
+- **Panel:** a right-hand sheet 520 px wide on desktop over a 45% ink dim; a full-screen sheet from below on phones with a sticky footer that stays above the keyboard; a 70% right sheet on landscape phones. Header: the static wordmark, "Powered by" and the HomyEight logo, a close button, then a three-segment step line.
+- **Radio cards:** full-width rows with a custom circle; the chosen one gets an ink outline.
+- **Chips:** hairline boxes at least 44 px tall, two columns on phones; a chosen chip is solid ink with paper text and a small check.
+- **Steps** slide sideways (forward from the right) over 0.35 s; reduced motion fades. The thank-you check mark draws itself.
+
+### Portfolio card
+One large link card at the end of the main page (about 200 px tall, 150 on phones): the title in heavy type, one line, and three thumbnails fanned on the right. On hover or focus the thumbnails spread and lift, the arrow slides, and the card inverts from paper 2 to ink.
 
 ### Tabs and steppers
 Typographic (numbers and words) with an underline indicator that slides.

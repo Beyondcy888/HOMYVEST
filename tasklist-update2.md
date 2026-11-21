@@ -31,18 +31,18 @@ Instructions: `updates/U01/U01_00_START.md` (delivered in `update2/`). Detailed 
 - [x] Logos crisp in both themes (checked on light and dark backgrounds; in-page check in U7)
 - [x] Commit `U2`
 
-## U3 — Portfolio page (`/portofolio/`) — being built by a helper agent on branch `u3-portfolio` (worktree ../HOMYVEST-u3)
+## U3 — Portfolio page (`/portofolio/`) — built by a helper agent on branch `u3-portfolio`, merged in e38b09f
 - [x] `src/content/scroll-config.js` (SCROLL + SMOOTH) + test (done in U1)
-- [ ] Portfolio page: intro + index, Story, dividers, Maxone, Padel, Beyond (landscape), closing CTA
-- [ ] Story beat-5 CTA → `/#calculator`; headings h2; skip links incl. "Skip padel hall"
-- [ ] Pins read SCROLL; ScrollTrigger settings; Lenis lerp/wheel for portfolio
-- [ ] Smoothness: damp times from SMOOTH, warm-up, pause off-screen canvases, DPR caps
-- [ ] Beyond: landscape panels (desktop pin, tablet stack, mobile cards), athero-1, lightbox
-- [ ] Measure frame times (before/after)
-- [ ] Commit `U3`
+- [x] Portfolio page: intro + index, Story, dividers, Maxone, Padel, Beyond (landscape), closing CTA
+- [x] Story beat-5 CTA → `/#calculator`; headings h2; skip links incl. "Skip padel hall"
+- [x] Pins read SCROLL; ScrollTrigger settings; Lenis lerp/wheel for portfolio
+- [x] Smoothness: damp times from SMOOTH, warm-up, pause off-screen canvases, DPR caps
+- [x] Beyond: landscape panels (desktop pin, tablet stack, mobile cards), athero-1, lightbox
+- [x] Measure frame times (before/after) — all targets met; qa/perf-u01.json
+- [x] Commit `U3`
 
 ## U4 — Main page restructure
-- [x] Delete doors, Team, HomyEight intro, Story/Maxone/Padel/Beyond from `/` (components, styles, keys, tests) — HomyEight intro files deleted after the U3 merge
+- [x] Delete doors, Team, HomyEight intro, Story/Maxone/Padel/Beyond from `/` (components, styles, keys, tests) — HomyEight intro files deleted after the U3 merge (0dc9f78)
 - [x] Hero + lead funnel shell (`#top`)
 - [x] `#about` short; `#how` End-to-end (4 steps + closing line)
 - [x] `#behomy`: Behomy hero, 5 stats, staff training, portfolio mosaic, before/after, team photo
@@ -69,22 +69,22 @@ Instructions: `updates/U01/U01_00_START.md` (delivered in `update2/`). Detailed 
 
 ## U7 — Mobile pass
 - [x] Desktop 1440 screenshots before/after (identical)
-- [~] 360 / 390 / 414 / 768 / 844×390, light + dark, EN + ID; funnel states; Maxone S1/S3/S5 — main page and funnel done; portfolio after the U3 merge
-- [~] Fixes + re-shoot (main page done: 940685b)
-- [ ] Commit `U7`
+- [x] 360 / 390 / 414 / 768 / 844×390, light + dark, EN + ID; funnel states; Maxone S1/S3/S5 (portfolio phone header fixed after the merge)
+- [x] Fixes + re-shoot (940685b, 0dc9f78)
+- [x] Commit `U7` (940685b + 0dc9f78)
 
 ## U8 — QA
 - [x] Playwright: second web server (fake Supabase env), specs removed/updated/added (5e42c49; portfolio.spec comes with U3)
-- [ ] `npm run test`, `typecheck`, `build`, `e2e` all pass
-- [ ] Screenshots reviewed; performance (LCP, CLS, initial JS, frame times)
-- [ ] Originals in `renders/` and `assets-src/` untouched
-- [ ] Commit `U8`
+- [x] `npm run test` (116), `typecheck`, `build`, `e2e` (146 passed, 10 device-class skips) all pass
+- [x] Screenshots reviewed (npm run shots: 64 runs; funnel panel header fixed on phones); performance (LCP 1.2–1.7 s, CLS ≤ 0.003, initial JS 173.5 KB, frame times met)
+- [x] Originals in `renders/` (32/32) and `assets-src/` (31/31) untouched
+- [x] Commit `U8`
 
 ## U9 — Docs sync + report
-- [ ] `CLAUDE.md` (Updates + Secrets rules), `docs/02…10` synced, DECISIONS logged
-- [ ] `docs/REPORT_U01.md`
-- [ ] Commit `U9`
+- [x] `CLAUDE.md` (Updates + Secrets rules), `docs/02…10` synced, DECISIONS logged (U01-D1 … D23)
+- [x] `docs/REPORT_U01.md`
+- [x] Commit `U9`
 
 ---
 ## Session log
-- Session 1: 2026-11-21 — U1, U2, U4, U5, U6 done; U7 main page done; U8 specs written (112/112 green). Waiting on the U3 portfolio branch, then: merge, portfolio mobile check, full QA, docs sync and report.
+- Session 1: 2026-11-21 — all milestones U1–U9 done. Remaining steps are the owner's (see docs/REPORT_U01.md "Needs you").
