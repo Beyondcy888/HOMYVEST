@@ -33,11 +33,23 @@ export default function FloatingWhatsApp() {
     };
   }, []);
 
+  // A pinned scene's stage fills the screen from the first pixel of its pin to the last. The pinned count above
+  // only flips once ScrollTrigger calls the scene active, which misses those two edge positions, so the stage's
+  // own position is checked too and the button never flashes over a scene.
+  const [overScene, setOverScene] = useState(false);
+
   useEffect(() => {
     const onScroll = () => {
       const hero = document.querySelector('[data-hero]');
       const end = hero ? hero.offsetTop + hero.offsetHeight - window.innerHeight * 0.5 : 400;
       setPastHero(window.scrollY > end);
+      const h = window.innerHeight;
+      setOverScene(
+        [...document.querySelectorAll('[data-pinned]')].some((el) => {
+          const r = el.getBoundingClientRect();
+          return r.top <= 1 && r.bottom >= h - 1;
+        }),
+      );
     };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -50,7 +62,7 @@ export default function FloatingWhatsApp() {
     };
   }, []);
 
-  const show = pastHero && !pinned && !inputFocused && !fieldFocused && !footerVisible && !menuOpen && !funnelOpen;
+  const show = pastHero && !pinned && !overScene && !inputFocused && !fieldFocused && !footerVisible && !menuOpen && !funnelOpen;
   return (
     <a
       className="fab"

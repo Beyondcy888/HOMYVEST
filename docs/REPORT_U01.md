@@ -158,7 +158,12 @@ The Supabase client and the funnel panel load only when someone starts the form.
   - **`secrets`.**
   - **`a11y`:** now also covers the portfolio page and the funnel's steps 2 and 3.
 - **Typecheck, build, and `node scripts/check-secrets.mjs --all`:** clean.
-- **Screenshots** of both pages at 360, 390, 768, 844 × 390, 1440 and 1920 px, in light and dark and in English and Indonesian, plus every funnel state, were reviewed (`npm run shots`: 64 runs). At 414 px both pages were checked for sideways overflow in both languages. Desktop (1440 px) before and after the phone pass: identical.
+- **Screenshots:** `npm run shots` (64 runs) captured both pages at 390, 768, 1440 and 1920 px in light and dark, English and Indonesian, every funnel state, and the 3D scenes at their key moments. Contact sheets are in `qa/screenshots/sheets/`.
+  - **I reviewed:** every funnel state; the main page at 360 (Indonesian), 390 (light and dark), 768, 844 × 390, 1440 (light and dark) and 1920 px; the phone sections in dark Indonesian for both pages; the Maxone walkthrough (desktop, dark) and the story (phone, dark) frame by frame; and the portfolio page on phones.
+  - **The portfolio agent also reviewed** its page at 360, 390, 768 and 844 × 390, in dark and in Indonesian.
+  - **414 px:** checked on both pages for sideways overflow, in both languages.
+- **Fallbacks:** both pages with no WebGL and on the low tier load with a clean console. The portfolio shows its static or render-led versions.
+- **Dev server:** `npm run dev` serves both pages with a clean console and no broken images. Its redirects work, and nothing is sent to Supabase while the pages are only viewed. Desktop (1440 px) before and after the phone pass: identical.
 - **Originals:** `renders/` and `assets-src/` are untouched (hash-checked).
 
 ## Decisions worth knowing
