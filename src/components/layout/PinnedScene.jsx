@@ -1,4 +1,4 @@
-import { createContext, useContext, useRef } from 'react';
+import { useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -9,10 +9,6 @@ import { MOBILE_SCROLL_QUERY, SCROLL, scrollLength } from '../../content/scroll-
 import './PinnedScene.css';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
-
-/** The id of the pinned scene a component sits in (null outside one). SceneCanvas uses it. */
-const PinContext = createContext(null);
-export const usePinnedScene = () => useContext(PinContext);
 
 /**
  * A pinned, scroll-driven scene.
@@ -98,15 +94,13 @@ export default function PinnedScene({
   );
 
   return (
-    <PinContext.Provider value={id}>
-      <div
-        ref={wrapRef}
-        className={`pinned ${className}`}
-        data-pinned={id}
-        style={{ height: `calc(var(--vh) * ${100 + len})` }}
-      >
-        <div className="pinned__stage">{children}</div>
-      </div>
-    </PinContext.Provider>
+    <div
+      ref={wrapRef}
+      className={`pinned ${className}`}
+      data-pinned={id}
+      style={{ height: `calc(var(--vh) * ${100 + len})` }}
+    >
+      <div className="pinned__stage">{children}</div>
+    </div>
   );
 }
