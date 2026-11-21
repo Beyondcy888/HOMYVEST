@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { PORTFOLIO_URL, homeHref, usePage } from '../../lib/page.js';
+import { useCalc } from '../../lib/calc/store.ts';
 import { useT } from '../../i18n/useT.js';
 import { useUi } from '../../lib/ui/store.js';
 import { scrollToTarget } from '../../lib/scroll/lenis.js';
@@ -58,7 +59,14 @@ export function navLinkProps(item, page, onFollow) {
     };
   }
   if (page !== 'home') return { href: homeHref(page, item.hash) };
-  return { href: item.hash, onClick: (e) => (onFollow ? onFollow(e, item.hash) : goTo(e, item.hash)) };
+  return {
+    href: item.hash,
+    onClick: (e) => {
+      // "Land check" always opens the calculator at step 1 (U01_01 §2.6), wherever the visitor left it
+      if (item.hash === '#calculator') useCalc.getState().setStep(1, { silent: true });
+      return onFollow ? onFollow(e, item.hash) : goTo(e, item.hash);
+    },
+  };
 }
 
 export default function Header({ wordmarkRef }) {

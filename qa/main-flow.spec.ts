@@ -94,3 +94,19 @@ test('deep links land: /#calculator and /?focus=phone', async ({ page }) => {
   await page.goto('/?focus=phone');
   await expect(page.locator('#hero-phone')).toBeFocused();
 });
+
+test('the Land check link opens step 1, and Leave your number focuses the field', async ({ page }, info) => {
+  await open(page);
+  await page.evaluate(() => (window as any).__homyvest.calc.getState().setStep(2));
+  await expect(page.locator('#calculator')).toHaveAttribute('data-step', '2');
+  if (info.project.name === 'desktop') {
+    await page.locator('.header__nav a[href="#calculator"]').click();
+  } else {
+    await page.locator('.header__menu').click();
+    await page.locator('#mobile-menu a[href="#calculator"]').click();
+  }
+  await expect(page.locator('#calculator')).toHaveAttribute('data-step', '1');
+  await page.locator('.closing__leave').scrollIntoViewIfNeeded();
+  await page.locator('.closing__leave').click();
+  await expect(page.locator('#hero-phone')).toBeFocused();
+});

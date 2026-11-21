@@ -8,6 +8,7 @@ import { getLenis, refreshTriggers, scrollToTarget } from '../lib/scroll/lenis.j
 import { session, query } from '../lib/storage.js';
 import { prefersReducedMotion } from '../lib/device/useReducedMotion.js';
 import { deepLinkOnLoad, hasDeepLink } from '../lib/page.js';
+import { useCalc } from '../lib/calc/store.ts';
 import Hero from '../sections/Hero/Hero.jsx';
 import About from '../sections/About/About.jsx';
 import How from '../sections/How/How.jsx';
@@ -47,6 +48,8 @@ function landDeepLink() {
     }
     return;
   }
+  // a link to the land check opens it at step 1, like the header link
+  if (hash === '#calculator') useCalc.getState().setStep(1, { silent: true });
   scrollToTarget(hash, { immediate: true });
 }
 
